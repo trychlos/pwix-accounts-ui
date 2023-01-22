@@ -144,7 +144,7 @@ Template.ac_modal_buttons.helpers({
 
     // returns the ordered list of buttons to be displayed depending of the currently displayed template
     buttons(){
-        const panel = pwiAccounts.panel.asked();
+        const panel = pwiAccounts.client.Panel.asked();
         const ac = Template.instance().AC;
         return Object.keys( ac.btns ).includes( panel ) ? ac.btns[panel].buttons : [];
     },
@@ -167,7 +167,7 @@ Template.ac_modal_buttons.helpers({
     },
 
     links(){
-        const panel = pwiAccounts.panel.asked();
+        const panel = pwiAccounts.client.Panel.asked();
         const ac = Template.instance().AC;
         return Object.keys( ac.btns ).includes( panel ) ? ac.btns[panel].links : [];
     }
@@ -177,7 +177,7 @@ Template.ac_modal_buttons.events({
 
     'click .ac-link'( event, instance ){
         //console.log( event );
-        pwiAccounts.panel.asked( instance.$( event.currentTarget ).find( 'a' ).attr( 'data-ac-target' ));
+        pwiAccounts.client.Panel.asked( instance.$( event.currentTarget ).find( 'a' ).attr( 'data-ac-target' ));
     },
 
     'click .ac-cancel'( event, instance ){

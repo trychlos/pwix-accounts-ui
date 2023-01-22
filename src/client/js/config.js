@@ -1,5 +1,8 @@
 /*
  * pwi:accounts/src/client/js/conf.js
+ *
+ * - attach the acPanel singleton as Panel to pwiAccounts.client
+ * - attach the acUser singleton as User to pwiAccounts.client
  */
 
 import { acPanel } from '../classes/ac_panel.class.js';

@@ -2,14 +2,12 @@
  * pwi:accounts/src/common/js/index.js
  */
 
+// these do not depend of anything else than themselves
 import './config.js';
-
-// declare the constants first
 import './constants.js';
 
-// and just after the globally exported object
-
-// and then the rest
+// setup main data
+import './strings.js';
+import './setup.js';
 import './defaults.js';
 import './functions.js';
-import './strings.js';

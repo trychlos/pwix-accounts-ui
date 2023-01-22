@@ -13,10 +13,3 @@ pwiAccounts.isEmailVerified = function( id ){
     const verified = u ? u.emails[0].verified : '';
     return verified;
 }
-
-/**
- * @returns {AC_DISP_ constant} the preferred button content when a user is logged-in
- */
-pwiAccounts.preferredButtonId = function(){
-    // yes or no ?
-}

@@ -35,10 +35,10 @@ Template.ac_dropdown.onCreated( function(){
         // whether this template has to manage a dropdown menu
         hasDropdown(){
             const dialog = Template.currentData().dialog;
-            const state = pwiAccounts.user.state();
+            const state = pwiAccounts.client.User.state();
             //console.log( 'state='+state, 'loggedButtonShown='+dialog.loggedButtonShown(), 'loggedButtonAction='+dialog.loggedButtonAction(), 'unloggedButtonShown='+dialog.unloggedButtonShown(), 'unloggedButtonAction='+dialog.unloggedButtonAction());
-            return ( state === acUser.s.LOGGED && dialog.loggedButtonShown() && dialog.loggedButtonAction() === acDialog.a.DROPDOWN )
-                || ( state === acUser.s.UNLOGGED && dialog.unloggedButtonShown() && dialog.unloggedButtonAction() === acDialog.a.DROPDOWN );
+            return ( state === AC_LOGGED && dialog.loggedButtonShown() && dialog.loggedButtonAction() === acDialog.a.DROPDOWN )
+                || ( state === AC_UNLOGGED && dialog.unloggedButtonShown() && dialog.unloggedButtonAction() === acDialog.a.DROPDOWN );
         }
     };
 });

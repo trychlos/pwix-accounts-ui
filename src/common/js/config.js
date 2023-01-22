@@ -1,10 +1,11 @@
 /*
- * pwi:accounts/src/common/js/config.js
+ * pwi:accounts/src/common/js/define.js
+ * Just define the object here.
  */
 
 import { Tracker } from 'meteor/tracker';
 
-console.log( 'pwi:accounts/src/common/js/config.js declaring globally exported pwiAccounts object' );
+console.log( 'pwi:accounts/src/common/js/define.js defining globally exported pwiAccounts object' );
 
 _ready = {
     dep: new Tracker.Dependency(),
@@ -16,29 +17,7 @@ pwiAccounts = {
     // client-specific data and functions
     client: {},
 
-    conf: defaults.conf,
-    /*
-        reset_ask: {
-            // textBefore (resp. textAfter) may be an object { group, key } in strings.js, or just a (localized) string
-            textBefore: {
-                group: 'reset_ask',
-                key: 'textBefore'
-            }
-        },
-        signout: {
-            textBefore: {
-                group: 'signout',
-                key: 'textBefore'
-            }
-        },
-        verify_ask: {
-            textBefore: {
-                group: 'verify_ask',
-                key: 'text'
-            }
-        },
-    },
-    */
+    conf: {},
 
     // should be *in same terms* called both by the client and the server
     configure: function( o ){

@@ -20,14 +20,14 @@ import './ac_user_login.html';
 Template.ac_user_login.helpers({
 
     changePwd(){
-        return this.dialog.allowed() && pwiAccounts.panel.asked() === AC_PANEL_CHANGEPWD;
+        return this.dialog.allowed() && pwiAccounts.client.Panel.asked() === AC_PANEL_CHANGEPWD;
     },
 
     // display the buttons in 'DIV' mode unless the 'DIV' is empty
     hasButtons(){
         const dialog = this.dialog;
         let show = false;
-        switch( pwiAccounts.panel.asked()){
+        switch( pwiAccounts.client.Panel.asked()){
             case AC_PANEL_SIGNIN:
             case AC_PANEL_SIGNUP:
             case AC_PANEL_RESETASK:
@@ -46,22 +46,22 @@ Template.ac_user_login.helpers({
     },
 
     resetAsked(){
-        return this.dialog.allowed() && pwiAccounts.panel.asked() === AC_PANEL_RESETASK;
+        return this.dialog.allowed() && pwiAccounts.client.Panel.asked() === AC_PANEL_RESETASK;
     },
 
     signin(){
-        return this.dialog.allowed() && pwiAccounts.panel.asked() === AC_PANEL_SIGNIN;
+        return this.dialog.allowed() && pwiAccounts.client.Panel.asked() === AC_PANEL_SIGNIN;
     },
 
     signout(){
-        return this.dialog.allowed() && pwiAccounts.panel.asked() === AC_PANEL_SIGNOUT;
+        return this.dialog.allowed() && pwiAccounts.client.Panel.asked() === AC_PANEL_SIGNOUT;
     },
 
     signup(){
-        return this.dialog.allowed() && pwiAccounts.panel.asked() === AC_PANEL_SIGNUP;
+        return this.dialog.allowed() && pwiAccounts.client.Panel.asked() === AC_PANEL_SIGNUP;
     },
 
     verifyAsked(){
-        return this.dialog.allowed() && pwiAccounts.panel.asked() === AC_PANEL_VERIFYASK;
+        return this.dialog.allowed() && pwiAccounts.client.Panel.asked() === AC_PANEL_VERIFYASK;
     },
 });

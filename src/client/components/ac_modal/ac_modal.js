@@ -184,7 +184,7 @@ Template.ac_modal.events({
 
         // because the template has been created 'on the fly'
         Blaze.remove( instance.view );
-        pwiAccounts.panel.view( null );
+        pwiAccounts.client.Panel.view( null );
     },
 
     'shown.bs.modal .ac-modal'( event, instance ){

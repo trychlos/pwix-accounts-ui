@@ -58,7 +58,7 @@ export class acDialog {
     _loggedButtonShown = new ReactiveVar( true );
     _loggedButtonClass = new ReactiveVar( 'dropdown-toggle' );
     _loggedButtonContent = new ReactiveVar(() => {
-        return( '<p>'+pwiAccounts.user.mailAddress()+'</p>' );
+        return( '<p>'+pwiAccounts.client.User.mailAddress()+'</p>' );
     });
     _loggedButtonAction = new ReactiveVar( acDialog.a.DROPDOWN );
     _loggedItemsAfter = new ReactiveVar( null );
@@ -237,15 +237,15 @@ export class acDialog {
 
         this.verifyAskTextBefore( f_setDescription( 'verifyAskTextBefore', 'verify_ask', 'textBefore' ));
 
-        pwiAccounts.panel.asked( this.initialPanel());
+        pwiAccounts.client.Panel.asked( this.initialPanel());
 
         // manage the panel transition
         // show/hide the dialog depending of the currently requested template and the options of this dialog
         Tracker.autorun(() => {
             if( self.ready()){
                 let show = false;
-                const panel = pwiAccounts.panel.asked();
-                const prev = pwiAccounts.panel.previous();
+                const panel = pwiAccounts.client.Panel.asked();
+                const prev = pwiAccounts.client.Panel.previous();
                 switch( panel ){
                     case AC_PANEL_NONE:
                         if( self.singlePanel() && prev && prev !== AC_PANEL_NONE ){
@@ -278,7 +278,7 @@ export class acDialog {
         // set the modal title depending of the current displayed template
         Tracker.autorun(() => {
             if( self.ready()){
-                const panel = pwiAccounts.panel.asked();
+                const panel = pwiAccounts.client.Panel.asked();
                 if( Object.keys( acDialog.c ).includes( panel ) && acDialog.c[panel].modal_title ){
                     this.modalTitle( pwiI18n.label( pwiAccounts.strings, acDialog.c[panel].modal_title.group, acDialog.c[panel].modal_title.key ));
                 }
@@ -298,7 +298,7 @@ export class acDialog {
      * @returns {Boolean} true if *this* dialog is allowed to be shown at the moment
      */
     allowed(){
-        const panel = pwiAccounts.panel.asked();
+        const panel = pwiAccounts.client.Panel.asked();
         const show = this.showPanels()
             && this.renderMode() !== AC_PANEL_NONE
             && (( this.singlePanel() && this.initialPanel() === panel ) || acDialog.SinglePanelReqs.length === 0 );
@@ -348,13 +348,13 @@ export class acDialog {
      *  considering the current user state and the configured options
      */
     dynButtonClass(){
-        const state = pwiAccounts.user.state();
+        const state = pwiAccounts.client.User.state();
         let res = null;
         switch( state ){
-            case acUser.s.LOGGED:
+            case AC_LOGGED:
                 res = this.loggedButtonClass();
                 break;
-            case acUser.s.UNLOGGED:
+            case AC_UNLOGGED:
                 res = this.unloggedButtonClass();
                 break;
         }
@@ -366,13 +366,13 @@ export class acDialog {
      *  considering the current user state and the configured options
      */
     dynButtonContent(){
-        const state = pwiAccounts.user.state();
+        const state = pwiAccounts.client.User.state();
         let res = null;
         switch( state ){
-            case acUser.s.LOGGED:
+            case AC_LOGGED:
                 res = this.loggedButtonContent();
                 break;
-            case acUser.s.UNLOGGED:
+            case AC_UNLOGGED:
                 res = this.unloggedButtonContent();
                 break;
         }
@@ -383,13 +383,13 @@ export class acDialog {
      * @returns {Array} an array of items as the <li>...</li> inner HTML strings
      */
     dynItemsAfter(){
-        const state = pwiAccounts.user.state();
+        const state = pwiAccounts.client.User.state();
         let items = null;
         switch( state ){
-            case acUser.s.LOGGED:
+            case AC_LOGGED:
                 items = this.loggedItemsAfter();
                 break;
-            case acUser.s.UNLOGGED:
+            case AC_UNLOGGED:
                 items = this.unloggedItemsAfter();
                 break;
         }
@@ -419,13 +419,13 @@ export class acDialog {
      * @returns {Array} an array of items as the <li>...</li> inner HTML strings
      */
     dynItemsBefore(){
-        const state = pwiAccounts.user.state();
+        const state = pwiAccounts.client.User.state();
         let items = null;
         switch( state ){
-            case acUser.s.LOGGED:
+            case AC_LOGGED:
                 items = this.loggedItemsBefore();
                 break;
-            case acUser.s.UNLOGGED:
+            case AC_UNLOGGED:
                 items = this.unloggedItemsBefore();
                 break;
         }
