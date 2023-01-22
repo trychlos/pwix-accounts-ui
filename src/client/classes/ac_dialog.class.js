@@ -456,6 +456,19 @@ export class acDialog {
      */
     dynItemsStandard(){
         let res = [];
+        pwiAccounts.dropdownItems().every(( it ) => {
+            let html = '<a class="dropdown-item d-flex align-items-center justify-content-start ac-dropdown-item '+it.aclass;
+            if( it.enablefn && !it.enablefn()){
+                html += ' disabled';
+            }
+            html += '" href="#" data-ac-msg="'+it.msgaction+'"';
+            html += '>';
+            html += '<span class="fa-solid fa-fw '+it.faicon+'"></span>';
+            html += '<p>'+pwiI18n.label( pwiAccounts.strings, 'features', it.labelkey )+'</p>';
+            html += '</a>'
+            res.push( html );
+            return true;
+        });
         return res;
     }
 

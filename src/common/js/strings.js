@@ -94,7 +94,7 @@ pwiAccounts.strings = {
         },
         verify_ask: {
             modal_title: 'Re-send verification mail',
-            text: 'While your mail address has not been verified, you are not able to participate to discussions forums.<br />'
+            textBefore: 'While your mail address has not been verified, you are not able to participate to discussions forums.<br />'
                 +'By clicking on the below "Send" button, we will send a mail to your declared mail address. '
                 +'This mail will include a link which you have to click on so that your email becomes "verified". '
                 +'<br /><p>&nbsp;</p>'

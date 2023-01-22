@@ -2,7 +2,9 @@
  * pwi:accounts/src/common/js/defaults.js
  */
 
-stdMenuItems = {
+import { pwiI18n } from 'meteor/pwi:i18n';
+
+_stdMenuItems = {
     AC_LOGGED: [
         {
             id: 'ac-signout-item',
@@ -63,6 +65,28 @@ stdMenuItems = {
     ]
 };
 
+/*
+ * @param {Array} the stdMenuItems[AC_LOGGED] (resp AC_UNLOGGED) source array
+ * @returns {Array} an array of items as the <li>...</li> inner HTML strings
+ */
+function _buildStandardItems( source ){
+    let result = [];
+    source.every(( it ) => {
+        let html = '<a class="dropdown-item d-flex align-items-center justify-content-start ac-dropdown-item '+it.aclass;
+        if( it.enablefn && !it.enablefn()){
+            html += ' disabled';
+        }
+        html += '" href="#" data-ac-msg="'+it.msgaction+'"';
+        html += '>';
+        html += '<span class="fa-solid fa-fw '+it.faicon+'"></span>';
+        html += '<p>'+pwiI18n.label( pwiAccounts.strings, 'features', it.labelkey )+'</p>';
+        html += '</a>'
+        result.push( html );
+        return true;
+    });
+    return result;
+}
+
 defaults = {
     conf: {
         haveEmailAddress: AC_FIELD_MANDATORY,
@@ -81,8 +105,8 @@ defaults = {
         unloggedButtonClass: 'dropdown-toggle',
         loggedButtonContent: AC_DISP_EMAIL,
         unloggedButtonContent: '<span class="fa-regular fa-fw fa-user"></span>',
-        loggedItems: pwiAccounts.client.loggedItems( false ),
-        unloggedItems: pwiAccounts.client.unloggedItems( false ),
+        loggedItems: _buildStandardItems( _stdMenuItems[ AC_LOGGED ]),
+        unloggedItems: _buildStandardItems( _stdMenuItems[ AC_UNLOGGED ]),
         loggedItemsAfter: [],
         unloggedItemsAfter: [],
         loggedItemsBefore: [],
@@ -90,10 +114,22 @@ defaults = {
         renderMode: AC_RENDER_MODAL,
         initialPanel: AC_PANEL_NONE,
         singlePanel: false,
-        changePwdText: '',
-        resetPwdText: fn(),
-        signinText: '',
-        signoutText: '',
-        signupText: '',
+        changePwdTextBefore: '',
+        changePwdTextAfter: '',
+        resetPwdTextBefore: pwiI18n.label( pwiAccounts.strings, 'reset_ask', 'textBefore' ),
+        resetPwdTextAfter: '',
+        signinTextBefore: '',
+        signinTextAfter: '',
+        signoutTextBefore: pwiI18n.label( pwiAccounts.strings, 'signout', 'textBefore' ),
+        signoutTextAfter: '',
+        signupTextBefore: '',
+        signupTextAfter: '',
+        verifyAskBefore: pwiI18n.label( pwiAccounts.strings, 'verify_ask', 'textBefore' ),
+        verifyAskAfter: '',
+        signinLink: true,
+        signupLink: true,
+        resetLink: true,
+        signupAutoConnect: true,
+        name: ''
     }
 };

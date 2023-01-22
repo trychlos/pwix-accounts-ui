@@ -9,6 +9,7 @@ import { pwiI18n } from 'meteor/pwi:i18n';
 import { acPanel } from '../classes/ac_panel.class.js';
 import { acUser } from '../classes/ac_user.class.js';
 
+
 // if not already done, instanciates 'acUser' and 'acPanel' singletons
 if( !pwiAccounts.user ){
     pwiAccounts.user = new acUser();

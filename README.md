@@ -368,19 +368,6 @@ Values: true|false, defaulting to false.
 </td></tr>
 
 <tr><td style="vertical-align:top;">
-changePwdText<br />
-resetPwdText<br />
-signinText<br />
-signoutText<br />
-signupText
-</td><td style="vertical-align:top;">
-Panels personalizaton<br/>
-These options let the application replaces the standard content of the corresponding panel.<br />
-Value is expected to be a string which contains HTML code, or a function which returns such a string.<br />
-Set to an empty string to erase the standard content.
-</td></tr>
-
-<tr><td style="vertical-align:top;">
 changePwdTextBefore<br />
 changePwdTextAfter<br />
 resetPwdTextBefore<br />
@@ -388,13 +375,15 @@ resetPwdTextAfter<br />
 signinTextBefore<br />
 signinTextAfter<br />
 signoutTextBefore<br />
+signoutTextAfter<br />
 signupTextBefore<br />
 signupTextAfter<br />
-verifyAskTextBefore
+verifyAskTextBefore<br />
+verifyAskTextAfter
 </td><td style="vertical-align:top;">
 Panels personalizaton<br/>
 These options let the application provides its own content before (TextBefore) or after (TextAfter) the input fields of the corresponding panel.<br />
-Value is expected to be a string which contains HTML code, or a function which returns such string.
+Value is expected to be a string which contains HTML code, or a function which returns such a string.
 </td></tr>
 
 <tr><td style="vertical-align:top;">
