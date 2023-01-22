@@ -1,0 +1,22 @@
+<template name="ac_signin">
+    <div class="ac-signin">
+
+        <form>
+            {{#if hasTextBefore }}
+                <div class="ac-text-before">{{{ textBefore }}}</div>
+            {{/if}}
+
+            {{> ac_input_mail }}
+            {{> ac_input_password }}
+
+            {{#if hasTextAfter }}
+                <div class="ac-text-after">{{{ textAfter }}}</div>
+            {{/if}}
+
+            <div class="ac-error">
+                <p class="ac-error-p">{{ errorMsg }}</p>
+            </div>
+        </form>
+
+    </div>
+</template>

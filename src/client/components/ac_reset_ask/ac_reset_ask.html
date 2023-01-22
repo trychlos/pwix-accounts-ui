@@ -1,0 +1,17 @@
+<template name="ac_reset_ask">
+    <div class="ac-reset-ask">
+
+        <form>
+            <div class="ac-text-before">{{{ textBefore }}}</div>
+
+            {{> ac_input_mail }}
+
+            <div class="ac-text-after">{{{ textAfter }}}</div>
+
+            <div class="ac-error">
+                <p class="ac-error-p">{{ errorMsg }}</p>
+            </div>
+        </form>
+
+    </div>
+</template>

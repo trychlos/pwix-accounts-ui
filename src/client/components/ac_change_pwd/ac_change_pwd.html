@@ -1,0 +1,29 @@
+<template name="ac_change_pwd">
+    <div class="ac-change-pwd">
+
+        <form>
+            {{#if hasTextBefore }}
+                <div class="ac-text-before ac-mb2">{{{ textBefore }}}</div>
+            {{/if}}
+
+            <div class="ac-old ac-mb2">
+                {{> ac_input_password (labelOld) }}
+            </div>
+            <div class="ac-newone ac-mb2">
+                {{> ac_input_password (labelNewOne) }}
+            </div>
+            <div class="ac-newtwo ac-mb2">
+                {{> ac_input_password (labelNewTwo) }}
+            </div>
+
+            {{#if hasTextAfter }}
+                <div class="ac-text-after ac-mb2">{{{ textAfter }}}</div>
+            {{/if}}
+
+            <div class="ac-error ac-mb2">
+                <p class="ac-error-p">{{ errorMsg }}</p>
+            </div>
+        </form>
+
+    </div>
+</template>

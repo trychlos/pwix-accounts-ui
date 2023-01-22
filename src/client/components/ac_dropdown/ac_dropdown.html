@@ -1,0 +1,15 @@
+<template name="ac_dropdown">
+    <div class="ac-dropdown {{ dropdown }}">
+
+        <button class="btn ac-btn {{ buttonClass }} d-flex align-items-center" type="button">
+            <!-- content is dynamically applied from a onRendered().autorun() -->
+        </button>
+
+        {{#if hasDropdown }}
+            <ul class="dropdown-menu">
+                {{> acMenuItems dialog=(dialog) }}
+            </ul>
+        {{/if}}
+
+    </div>
+</template>

@@ -1,0 +1,35 @@
+<template name="ac_user_login">
+    <div class="ac-user-login">
+
+        {{#if signin }}
+            {{> ac_signin }}
+        {{/if}}
+
+        {{#if signup }}
+            {{> ac_signup }}
+        {{/if}}
+
+        {{#if resetAsked }}
+            {{> ac_reset_ask }}
+        {{/if}}
+
+        {{#if signout }}
+            {{> ac_signout }}
+        {{/if}}
+
+        {{#if changePwd }}
+            {{> ac_change_pwd }}
+        {{/if}}
+
+        {{#if verifyAsked }}
+            {{> ac_verify_ask }}
+        {{/if}}
+
+        {{#unless modal }}
+            {{#if hasButtons }}
+                {{> ac_modal_buttons }}
+            {{/if}}
+        {{/unless}}
+
+    </div>
+</template>

@@ -1,0 +1,15 @@
+<template name="acUserLogin">
+    <div class="acUserLogin">
+
+        <div class="display">
+            {{#if hasButton }}
+                {{> ac_dropdown dialog=(dialog) }}
+            {{/if}}
+
+            {{#unless modal }}
+                {{> ac_user_login dialog=(dialog) }}
+            {{/unless}}
+        </div>
+
+    </div>
+</template>

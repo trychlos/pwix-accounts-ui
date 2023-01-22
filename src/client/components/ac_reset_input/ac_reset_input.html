@@ -1,0 +1,37 @@
+<template name="ac_reset_input">
+    <div class="ac-reset-input">
+
+        <div class="modal fade" tabindex="-1" aria-labelledby="Reset password" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">{{ i18n label="title" }}</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="ac-modal-content">
+
+                                    <div class="ac-description">
+                                        {{{ i18n label="description" }}}
+                                    </div>
+
+                                    {{> ac_input_password (passwordData) }}
+                            
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary ac-cancel">{{ i18n label="btn_cancel" }}</button>
+                            <button type="button" class="btn btn-primary ac-submit">{{ i18n label="btn_ok" }}</button>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</template>
