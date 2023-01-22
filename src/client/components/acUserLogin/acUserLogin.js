@@ -92,7 +92,7 @@ Template.acUserLogin.helpers({
 Template.acUserLogin.events({
     // cancel the current dialog
     'ac-button-cancel'( event, instance ){
-        pwiAccounts.panel.asked( acPanel.c.NONE );
+        pwiAccounts.panel.asked( AC_PANEL_NONE );
         return false;
     },
 
@@ -102,25 +102,25 @@ Template.acUserLogin.events({
         let mail = null;
         let password = null;
         switch( pwiAccounts.panel.asked()){
-            case acPanel.c.CHANGEPWD:
+            case AC_PANEL_CHANGEPWD:
                 const pwd1 = instance.$( '.ac-change-pwd .ac-old .ac-input' ).val().trim();
                 const pwd2 = instance.$( '.ac-change-pwd .ac-newone .ac-input' ).val().trim();
                 pwiAccounts.user.changePwd( pwd1, pwd2, $( event.currentTarget ));
                 break;
-            case acPanel.c.RESETASK:
+            case AC_PANEL_RESETASK:
                 mail = instance.$( '.ac-reset-ask .ac-input-mail .ac-input' ).val().trim();
                 pwiAccounts.user.resetPwd( mail, $( event.currentTarget ));
                 break;
-            case acPanel.c.SIGNIN:
+            case AC_PANEL_SIGNIN:
                 mail = instance.$( '.ac-signin .ac-input-mail .ac-input' ).val().trim();
                 password = instance.$( '.ac-signin .ac-input-password .ac-input' ).val().trim();
                 //console.log( 'mail',mail,'password', pwd );
                 pwiAccounts.user.loginWithPassword( mail, password, $( event.currentTarget ));
                 break;
-            case acPanel.c.SIGNOUT:
+            case AC_PANEL_SIGNOUT:
                 pwiAccounts.user.logout();
                 break;
-            case acPanel.c.SIGNUP:
+            case AC_PANEL_SIGNUP:
                 mail = instance.$( '.ac-signup .ac-input-mail .ac-input' ).val().trim();
                 password = instance.$( '.ac-signup .ac-input-password .ac-input' ).val().trim();
                 const autoConnect = instance.AC.dialog.signupAutoConnect();
@@ -129,7 +129,7 @@ Template.acUserLogin.events({
                     $( event.currentTarget ).find( '.ac-signup' ).trigger( 'ac-clear' );
                 }
                 break;
-            case acPanel.c.VERIFYASK:
+            case AC_PANEL_VERIFYASK:
                 pwiAccounts.user.verifyMail();
                 break;
         }
@@ -149,35 +149,35 @@ Template.acUserLogin.events({
 
     // be specific on the requested displayed template
     'ac-panel-none'( event, instance ){
-        pwiAccounts.panel.asked( acPanel.c.NONE );
+        pwiAccounts.panel.asked( AC_PANEL_NONE );
         return false;
     },
     'ac-panel-changepwd'( event, instance ){
-        pwiAccounts.panel.asked( acPanel.c.CHANGEPWD );
+        pwiAccounts.panel.asked( AC_PANEL_CHANGEPWD );
         return false;
     },
     'ac-panel-resetask'( event, instance ){
-        pwiAccounts.panel.asked( acPanel.c.RESETASK );
+        pwiAccounts.panel.asked( AC_PANEL_RESETASK );
         return false;
     },
     'ac-panel-resetpwd'( event, instance ){
-        pwiAccounts.panel.asked( acPanel.c.RESETPWD );
+        pwiAccounts.panel.asked( AC_PANEL_RESETPWD );
         return false;
     },
     'ac-panel-signin'( event, instance ){
-        pwiAccounts.panel.asked( acPanel.c.SIGNIN );
+        pwiAccounts.panel.asked( AC_PANEL_SIGNIN );
         return false;
     },
     'ac-panel-signout'( event, instance ){
-        pwiAccounts.panel.asked( acPanel.c.SIGNOUT );
+        pwiAccounts.panel.asked( AC_PANEL_SIGNOUT );
         return false;
     },
     'ac-panel-signup'( event, instance ){
-        pwiAccounts.panel.asked( acPanel.c.SIGNUP );
+        pwiAccounts.panel.asked( AC_PANEL_SIGNUP );
         return false;
     },
     'ac-panel-verifyask'( event, instance ){
-        pwiAccounts.panel.asked( acPanel.c.VERIFYASK );
+        pwiAccounts.panel.asked( AC_PANEL_VERIFYASK );
         return false;
     },
 
@@ -185,7 +185,7 @@ Template.acUserLogin.events({
     //  let the message bubble up
     'ac-panel-transition'( event, instance, data ){
         //console.log( 'ac-panel-transition', 'previous='+data.previous, 'next='+data.next );
-        if( data.next !== acPanel.c.NONE && instance.AC.dialog.renderMode() === acDialog.r.MODAL ){
+        if( data.next !== AC_PANEL_NONE && instance.AC.dialog.renderMode() === acDialog.r.MODAL ){
             if( !pwiAccounts.panel.view()){
                 view = Blaze.renderWithData( Template.ac_modal, { template: 'ac_user_login', dialog: instance.AC.dialog }, $( '.acUserLogin' )[0] );
                 //view = Blaze.renderWithData( Template.ac_modal, { template: 'ac_user_login', dialog: instance.AC.dialog }, $( 'body' )[0] );

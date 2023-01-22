@@ -4,6 +4,6 @@
 import '../../common/js/index.js';
 
 import './accounts.js';
-import './features.js';
+import './conf.js';
 import './functions.js';
 import './startup.js';

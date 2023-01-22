@@ -37,12 +37,12 @@ Template.ac_modal_buttons.onCreated( function(){
                 links: [
                     {
                         key: 'signin_link',
-                        target: acPanel.c.SIGNIN,
+                        target: AC_PANEL_SIGNIN,
                         have: 'signinLink'
                     },
                     {
                         key: 'signup_link',
-                        target: acPanel.c.SIGNUP,
+                        target: AC_PANEL_SIGNUP,
                         have: 'signupLink'
                     }
                 ],
@@ -61,12 +61,12 @@ Template.ac_modal_buttons.onCreated( function(){
                 links: [
                     {
                         key: 'reset_link',
-                        target: acPanel.c.RESETASK,
+                        target: AC_PANEL_RESETASK,
                         have: 'resetLink'
                     },
                     {
                         key: 'signup_link',
-                        target: acPanel.c.SIGNUP,
+                        target: AC_PANEL_SIGNUP,
                         have: 'signupLink'
                     }
                 ],
@@ -97,7 +97,7 @@ Template.ac_modal_buttons.onCreated( function(){
                 links: [
                     {
                         key: 'signin_link',
-                        target: acPanel.c.SIGNIN,
+                        target: AC_PANEL_SIGNIN,
                         have: 'signinLink'
                     }
                 ],

@@ -26,6 +26,13 @@ if( !pwiAccounts.c ){
     };
 }
 
+function enableAlways(){
+    return true;
+}
+function enableMailVerified(){
+    return !pwiAccounts.user.mailVerified()
+}
+
 pwiAccounts.client.fn = {
 
     // validate an inputed mail address

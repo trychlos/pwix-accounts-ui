@@ -102,7 +102,7 @@ export class acDialog {
     _staticBackdrop = new ReactiveVar( false );
 
     // the initial panel to be displayed
-    _initialPanel = new ReactiveVar( acPanel.c.NONE );
+    _initialPanel = new ReactiveVar( AC_PANEL_NONE );
     _singlePanel = new ReactiveVar( false );
 
     // private functions
@@ -247,8 +247,8 @@ export class acDialog {
                 const panel = pwiAccounts.panel.asked();
                 const prev = pwiAccounts.panel.previous();
                 switch( panel ){
-                    case acPanel.c.NONE:
-                        if( self.singlePanel() && prev && prev !== acPanel.c.NONE ){
+                    case AC_PANEL_NONE:
+                        if( self.singlePanel() && prev && prev !== AC_PANEL_NONE ){
                             // transition to NONE ends up with singlePanel feature
                             //self.renderMode( acDialog.r.NONE );
                             const idx = acDialog.SinglePanelReqs.indexOf( self.uuid());
@@ -257,12 +257,12 @@ export class acDialog {
                             }
                         }
                         break;
-                    case acPanel.c.SIGNIN:
-                    case acPanel.c.SIGNUP:
-                    case acPanel.c.RESETASK:
-                    case acPanel.c.SIGNOUT:
-                    case acPanel.c.CHANGEPWD:
-                    case acPanel.c.VERIFYASK:
+                    case AC_PANEL_SIGNIN:
+                    case AC_PANEL_SIGNUP:
+                    case AC_PANEL_RESETASK:
+                    case AC_PANEL_SIGNOUT:
+                    case AC_PANEL_CHANGEPWD:
+                    case AC_PANEL_VERIFYASK:
                         // to be displayed, must allow panels, have a no-NONE rendering mode, and not be inside of a singlePanel run
                         show = self.allowed();
                         break;
@@ -300,7 +300,7 @@ export class acDialog {
     allowed(){
         const panel = pwiAccounts.panel.asked();
         const show = this.showPanels()
-            && this.renderMode() !== acPanel.c.NONE
+            && this.renderMode() !== AC_PANEL_NONE
             && (( this.singlePanel() && this.initialPanel() === panel ) || acDialog.SinglePanelReqs.length === 0 );
         //console.log( this, acDialog.SinglePanelReqs, 'show', show );
         return show;

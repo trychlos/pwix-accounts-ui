@@ -62,7 +62,7 @@ export class acUser {
                 console.error( err );
                 target.trigger( 'ac-dialog-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_change_pwd' ));
             } else {
-                pwiAccounts.panel.asked( acPanel.c.NONE );
+                pwiAccounts.panel.asked( AC_PANEL_NONE );
                 pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'success_change_pwd' ));
                 $( '.acUserLogin' ).trigger( 'ac-user-changepwd', self.mailAddress());
             }
@@ -90,7 +90,7 @@ export class acUser {
                     target.trigger( 'ac-dialog-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_signup' ));
                 } else {
                     self.state( acUser.s.LOGGED );
-                    pwiAccounts.panel.asked( acPanel.c.NONE );
+                    pwiAccounts.panel.asked( AC_PANEL_NONE );
                     $( '.acUserLogin' ).trigger( 'ac-user-create', mail );
                 }
             });
@@ -122,7 +122,7 @@ export class acUser {
                 target.trigger( 'ac-dialog-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_login' ));
             } else {
                 self.state( acUser.s.LOGGED );
-                pwiAccounts.panel.asked( acPanel.c.NONE );
+                pwiAccounts.panel.asked( AC_PANEL_NONE );
                 $( '.acUserLogin' ).trigger( 'ac-user-login', mail );
             }
         });
@@ -135,7 +135,7 @@ export class acUser {
         const email = this.mailAddress();
         Meteor.logout();
         this.state( acUser.s.UNLOGGED );
-        pwiAccounts.panel.asked( acPanel.c.NONE );
+        pwiAccounts.panel.asked( AC_PANEL_NONE );
         $( '.acUserLogin' ).trigger( 'ac-user-logout', email );
     }
 
@@ -165,7 +165,7 @@ export class acUser {
                 console.error( err );
                 target.trigger( 'ac-dialog-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_reset_send' ));
             } else {
-                pwiAccounts.panel.asked( acPanel.c.NONE );
+                pwiAccounts.panel.asked( AC_PANEL_NONE );
                 $( '.acUserLogin' ).trigger( 'ac-user-resetasked', mail );
             }
         });
@@ -190,7 +190,7 @@ export class acUser {
         const self = this;
         Meteor.call( 'pwiAccounts.sendVerificationEmail', Meteor.userId());
         pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'verify_success' ));
-        pwiAccounts.panel.asked( acPanel.c.NONE );
+        pwiAccounts.panel.asked( AC_PANEL_NONE );
         $( '.acUserLogin' ).trigger( 'ac-user-verifyreasked', self.mailAddress());
     }
 }

@@ -20,7 +20,7 @@ import './ac_user_login.html';
 Template.ac_user_login.helpers({
 
     changePwd(){
-        return this.dialog.allowed() && pwiAccounts.panel.asked() === acPanel.c.CHANGEPWD;
+        return this.dialog.allowed() && pwiAccounts.panel.asked() === AC_PANEL_CHANGEPWD;
     },
 
     // display the buttons in 'DIV' mode unless the 'DIV' is empty
@@ -28,12 +28,12 @@ Template.ac_user_login.helpers({
         const dialog = this.dialog;
         let show = false;
         switch( pwiAccounts.panel.asked()){
-            case acPanel.c.SIGNIN:
-            case acPanel.c.SIGNUP:
-            case acPanel.c.RESETASK:
-            case acPanel.c.SIGNOUT:
-            case acPanel.c.CHANGEPWD:
-            case acPanel.c.VERIFYASK:
+            case AC_PANEL_SIGNIN:
+            case AC_PANEL_SIGNUP:
+            case AC_PANEL_RESETASK:
+            case AC_PANEL_SIGNOUT:
+            case AC_PANEL_CHANGEPWD:
+            case AC_PANEL_VERIFYASK:
                 show = dialog.showPanels();
                 break;
         }
@@ -46,22 +46,22 @@ Template.ac_user_login.helpers({
     },
 
     resetAsked(){
-        return this.dialog.allowed() && pwiAccounts.panel.asked() === acPanel.c.RESETASK;
+        return this.dialog.allowed() && pwiAccounts.panel.asked() === AC_PANEL_RESETASK;
     },
 
     signin(){
-        return this.dialog.allowed() && pwiAccounts.panel.asked() === acPanel.c.SIGNIN;
+        return this.dialog.allowed() && pwiAccounts.panel.asked() === AC_PANEL_SIGNIN;
     },
 
     signout(){
-        return this.dialog.allowed() && pwiAccounts.panel.asked() === acPanel.c.SIGNOUT;
+        return this.dialog.allowed() && pwiAccounts.panel.asked() === AC_PANEL_SIGNOUT;
     },
 
     signup(){
-        return this.dialog.allowed() && pwiAccounts.panel.asked() === acPanel.c.SIGNUP;
+        return this.dialog.allowed() && pwiAccounts.panel.asked() === AC_PANEL_SIGNUP;
     },
 
     verifyAsked(){
-        return this.dialog.allowed() && pwiAccounts.panel.asked() === acPanel.c.VERIFYASK;
+        return this.dialog.allowed() && pwiAccounts.panel.asked() === AC_PANEL_VERIFYASK;
     },
 });

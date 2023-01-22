@@ -1,9 +1,9 @@
 /*
  * /src/client/classes/ac_panel.class.js
  *
- * This class manages the requested panel as a singleton, as all 'acUserLogin' template's hierarchies share the same display request.
+ * This class manages the requested panel as a singleton, as all 'acUserLogin' instanciated templates share the same display request.
  */
-import { Tracker } from 'meteor/tracker';
+
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import '../../common/js/index.js';
@@ -11,7 +11,18 @@ import '../../common/js/index.js';
 export class acPanel {
 
     // private data
-    static _singleton = null;
+    static Singleton = null;
+
+    // the known panels
+    static Knowns = [
+        AC_PANEL_NONE,
+        AC_PANEL_SIGNIN,
+        AC_PANEL_SIGNUP,
+        AC_PANEL_RESETASK,
+        AC_PANEL_SIGNOUT,
+        AC_PANEL_CHANGEPWD,
+        AC_PANEL_VERIFYASK
+    ];
 
     // what is the current displayed template ?
     _panel = new ReactiveVar( null );
@@ -22,48 +33,36 @@ export class acPanel {
 
     // public data
 
-    // the current displayable templates
-    static c = {
-        NONE: 'NONE',               // nothing is displayed
-        SIGNIN: 'SIGNIN',           // currently signing in
-        SIGNUP: 'SIGNUP',           // currently signing up / creating a new account
-        RESETASK: 'RESETASK',       // ask for resetting a password
-        RESETPWD: 'RESETPWD',       // input the password on reset
-        CHANGEPWD: 'CHANGEPWD',     // when logged, change the password
-        VERIFYASK: 'VERIFYASK',     // ask for resend the verification mail
-        SIGNOUT: 'SIGNOUT'          // logout
-    };
-
     /**
      * Constructor
-     * @param {String} panel the panel to initialize with, defaulting to 'NONE'
+     * @param {String} panel the panel to initialize with, defaulting to 'AC_PANEL_NONE'
      * @returns {acPanel}
      */
-    constructor( panel ){
-        if( acPanel._singleton ){
+    constructor( panel=AC_PANEL_NONE ){
+        if( acPanel.Singleton ){
             console.log( 'pwi:accounts returning already instanciated acPanel' );
-            return acPanel._singleton;
+            return acPanel.Singleton;
         }
 
-        console.log( 'pwi:accounts instanciating acPanel' );
+        console.log( 'pwi:accounts instanciating new acPanel' );
 
-        this.asked( panel ? panel : acPanel.c.NONE );
+        this.asked( panel );
 
-        acPanel._singleton = this;
+        acPanel.Singleton = this;
         return this;
     }
 
     /**
      * Getter/Setter
-     * @param {String} template the requested template (may be null)
-     * @returns {String} the currently requested template
+     * @param {String} panel the requested panel (may be null)
+     * @returns {String} the currently requested panel
      */
-    asked( template ){
+    asked( panel ){
         const previous = this._panel.get();
-        if( Object.keys( acPanel.c ).includes( template ) && previous !== template ){
-            console.log( 'pwi:accounts triggering transition from '+previous+' to '+template );
-            $( '.acUserLogin' ).trigger( 'ac-panel-transition', { previous:previous, next:template });
-            this._panel.set( template );
+        if( Object.keys( acPanel.Knowns ).includes( panel ) && panel !== previous ){
+            console.log( 'pwi:accounts triggering transition from '+previous+' to '+panel );
+            $( '.acUserLogin' ).trigger( 'ac-panel-transition', { previous:previous, next:panel });
+            this._panel.set( panel );
             this._previous.set( previous );
         }
         return this._panel.get();
