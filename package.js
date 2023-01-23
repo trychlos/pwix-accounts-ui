@@ -1,15 +1,43 @@
 Package.describe({
-    name: 'pwi:accounts',
+    name: 'pwix:accounts',
     version: '0.90.1',
-    summary: 'A bootstrap-based user interface for Meteor:accounts-password (or Meteor:accounts-ui reinvented)',
-    git: '',
+    summary: 'A Bootstrap-based user interface for Meteor:accounts-password (or Meteor:accounts-ui reinvented)',
+    git: 'https://github.com/trychlos/pwix-accounts',
     documentation: 'README.md'
 });
 
 Package.onUse( function( api ){
     configure( api );
     api.export([
-        'pwiAccounts'
+        'pwiAccounts',
+        'AC_LOGGED',
+        'AC_UNLOGGED',
+        'AC_ACT_HIDDEN',
+        'AC_ACT_NONE',
+        'AC_ACT_DROPDOWN',
+        'AC_ACT_BUBBLE',
+        'AC_DISP_ID',
+        'AC_DISP_EMAIL',
+        'AC_DISP_USERNAME',
+        'AC_FIELD_NONE',
+        'AC_FIELD_OPTIONAL',
+        'AC_FIELD_MANDATORY',
+        'AC_PANEL_NONE',
+        'AC_PANEL_SIGNIN',
+        'AC_PANEL_SIGNUP',
+        'AC_PANEL_RESETASK',
+        'AC_PANEL_SIGNOUT',
+        'AC_PANEL_CHANGEPWD',
+        'AC_PANEL_VERIFYASK',
+        'AC_PWD_VERYWEAK',
+        'AC_PWD_WEAK',
+        'AC_PWD_MEDIUM',
+        'AC_PWD_STRONG',
+        'AC_PWD_VERYSTRONG',
+        'AC_RENDER_MODAL',
+        'AC_RENDER_DIV',
+        'AC_UI_BOOTSTRAP',
+        'AC_UI_JQUERY'
     ]);
     api.mainModule( 'src/client/js/index.js', 'client' );
     api.mainModule( 'src/server/js/index.js', 'server' );
