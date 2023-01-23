@@ -23,7 +23,7 @@ Template.ac_reset_input.onCreated( function(){
         enableSubmit: function(){
             const pwd = self.$( '.ac-input-password .ac-input' ).val();
             const btn = self.$( '.ac-submit' );
-            btn.prop( 'disabled', !pwiAccounts.client.fn.validatePassword( pwd ));
+            btn.prop( 'disabled', !pwiAccounts.fn.validatePassword( pwd ));
         }
     };
 });

@@ -39,6 +39,7 @@ function configure( api ){
 
 Npm.depends({
     'bootstrap': '5.2.1',
+    'email-validator': '2.0.4',
     'uuid': '9.0.0',
     'zxcvbn': '4.4.2'
 });

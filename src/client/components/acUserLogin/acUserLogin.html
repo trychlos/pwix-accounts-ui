@@ -3,11 +3,11 @@
 
         <div class="display">
             {{#if hasButton }}
-                {{> ac_dropdown dialog=(dialog) }}
+                {{> ac_dropdown display=(display) }}
             {{/if}}
 
             {{#unless modal }}
-                {{> ac_user_login dialog=(dialog) }}
+                {{> ac_user_login display=(display) }}
             {{/unless}}
         </div>
 

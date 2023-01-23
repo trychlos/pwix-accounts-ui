@@ -7,6 +7,7 @@
  *  - label: String, defaulting to 'Password'
  *  - placeholder: String, defaulting to 'Enter your password'
  *  - new: Boolean, true for entering a new password (so to be checked for its strength)
+ *  - trigger: Boolean, whether to trigger the 'ac-password' message
  */
 import zxcvbn from 'zxcvbn';
 
@@ -22,23 +23,29 @@ Template.ac_input_password.onCreated( function(){
 
     self.AC = {
         score: [
-            { backgroundColor: '#ff0000' },
-            { backgroundColor: '#cc3300' },
-            { backgroundColor: '#669900' },
-            { backgroundColor: '#33cc00' },
-            { backgroundColor: '#00ff00' },
+            { k:AC_PWD_VERYWEAK,   css: { backgroundColor: '#ff0000' }}, // red
+            { k:AC_PWD_WEAK,       css: { backgroundColor: '#cc3300' }},
+            { k:AC_PWD_MEDIUM,     css: { backgroundColor: '#669900' }},
+            { k:AC_PWD_STRONG,     css: { backgroundColor: '#33cc00' }},
+            { k:AC_PWD_VERYSTRONG, css: { backgroundColor: '#00ff00' }}, // green
         ],
+
         // check the strength of the password with https://www.npmjs.com/package/zxcvbn
         //  is only called for a new password
         check( element ){
             const val = element.val();
             const res = zxcvbn( val );
-            self.$( '.ac-strength-bar' ).css( self.AC.score[res.score] );
+            self.$( '.ac-strength-bar' ).css( self.AC.score[res.score].css );
             let width = val.trim().length ? 1+parseInt( res.score ) : 0;
             self.$( '.ac-strength-bar' ).css({ width: width+'em' });
             width = 5-width;
             self.$( '.ac-strength-other' ).css({ width: width+'em' });
+            // advertises of the current password characteristics
+            if( Template.currentData().trigger ){
+                self.$( '.ac-input-password' ).trigger( 'ac-password', { strength: self.AC.score[res.score].k, length: val.length });
+            }
         },
+
         // provides a translated label
         i18n( key ){
             const data = Template.currentData();

@@ -66,7 +66,7 @@ pwiAccounts.strings = {
         },
         signout: {
             modal_title: 'Sign out',
-            textBefore: 'You are about to log out from the site.<br />Are you sure ?<p>&nbsp;</p>',
+            textOne: 'You are about to log out from the site.<br />Are you sure ?',
         },
         signup: {
             modal_title: 'Sign up for a new account'
@@ -90,14 +90,17 @@ pwiAccounts.strings = {
             success_change_pwd: 'Password successfully changed',
             verify_error: 'Sorry, it happens that I am unable to send a verification mail. Be kind enough to try later.',
             verify_success: 'Mail successfully sent',
-            success_signup: 'New account {0} successfully created'
+            success_signup: 'New account {0} successfully created',
+            password_too_weak: 'Too weak password',
+            password_too_short: 'Too short password',
+            password_different: 'Passwords are different',
+            email_invalid: 'Invalid email address'
         },
         verify_ask: {
             modal_title: 'Re-send verification mail',
-            textBefore: 'While your mail address has not been verified, you are not able to participate to discussions forums.<br />'
-                +'By clicking on the below "Send" button, we will send a mail to your declared mail address. '
-                +'This mail will include a link which you have to click on so that your email becomes "verified". '
-                +'<br /><p>&nbsp;</p>'
+            textOne: 'While your mail address has not been verified, you are not able to participate to discussions forums.<br />'
+                +'By clicking on the below "Send" button, we will send a mail to your declared mail address.<br />'
+                +'This mail will include a link which you have to click on so that your email becomes "verified".'
         },
         select: {
             close_btn: 'Cancel',
@@ -170,7 +173,7 @@ pwiAccounts.strings = {
         },
         signout: {
             modal_title: 'Se déconnecter',
-            textBefore: 'Vous êtes sur le point de vous déconnecter du site.<br />Etes-vous sûr ?<p>&nbsp;</p>',
+            textOne: 'Vous êtes sur le point de vous déconnecter du site.<br />Etes-vous sûr ?',
         },
         signup: {
             modal_title: 'Créer un nouveau compte'
@@ -195,13 +198,17 @@ pwiAccounts.strings = {
             success_change_pwd: 'Mot de passe mis à jour avec succès',
             verify_error: 'Humm... Désolé, mais il semble que je ne sois pas dans la possibilité de vous envoyer un message. Merci de bien vouloir ré-essayer un peu plus tard.',
             verify_success: 'Message envoyé avec succès',
-            success_signup: 'Nouveau compte {0} créé'
+            success_signup: 'Nouveau compte {0} créé',
+            password_too_weak: 'Le mot de passe est trop faible',
+            password_too_short: 'Le mot de passe est trop court',
+            password_different: 'Les mots de passe sont différents',
+            email_invalid: 'L\'adresse de messagerie est invalide'
         },
         verify_ask: {
             modal_title: 'Vérifier l\'adresse de messagerie',
-            text: 'Tant que votre adresse de messagerie n\'est pas considérée comme vérifiée, il vous est impossible de participer aux forums de discussion.<br />'
-                +'Lorsque vous aurez pressé le bouton "Envoyer" ci-dessous, nous enverrons un message vers votre adresse de messagerie. '
-                +'Ce message contiendra un lien sur lequel vous devrez cliquer, et qui vous permettra de confirmer votre addresse.'
+            textOne: 'Tant que votre adresse de messagerie n\'est pas considérée comme vérifiée, il vous est impossible de participer aux forums de discussion.<br />'
+                +'Lorsque vous aurez pressé le bouton "Envoyer" ci-dessous, nous enverrons un message vers votre adresse de messagerie.<br />'
+                +'Ce message contiendra un lien sur lequel vous devrez cliquer, et qui vous permettra de nous confirmer votre addresse.'
         }
     }
 };

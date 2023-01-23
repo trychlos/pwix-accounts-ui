@@ -3,8 +3,8 @@
  */
 
 // connection status
-AC_LOGGED = 'AC_USER_LOGGED';
-AC_UNLOGGED = 'AC_USER_UNLOGGED';
+AC_LOGGED = 'AC_LOGGED';
+AC_UNLOGGED = 'AC_UNLOGGED';
 
 // action of the button
 AC_ACT_HIDDEN = 'AC_ACT_HIDDEN';

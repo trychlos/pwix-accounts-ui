@@ -2,29 +2,14 @@
  * pwi:accounts/src/client/components/ac_dropdown/ac_dropdown.js
  * 
  * The 'acUserLogin' template make sure that this template is only rendered when needed, i.e.:
- * - either a user is logged-in, and the 'loggedButtonShown' is true,
- * - or (not exclusive) when no user is logged, and the 'unloggedButtonShown' is true.
+ * - either a user is logged-in, and the 'loggedButtonAction' is not hidden,
+ * - or (not exclusive) when no user is logged, and the 'unloggedButtonAction' is not hidden.
  * 
  * Parms:
- *  - dialog: the acDialog which manages this 'acUserLogin' template's hierarchy
- * 
- * pwi 2022-10-22 seems that the dropdown menu keeps somewhere a trace of previous options between itemsStandard() reloads.
- * Reproducing:
- *  - refresh the browser page (F5):
- *  - say the first displayed item is (for example) Signin, so activating it triggers a Signin transition: fine
- *  - after signin, the items are automagically reloaded, and the dropdown menu now displays signout, changepwd, verifymail options: fine
- *  - checking the DOM now actually shows these exactly same options
- *  - but activating the first one (here signout) actually triggers a signin transition, i.e. the first one of the previous load !!
- * This bug is referenced in TODO as #74.
- * Work-around: keep a copy of loaded items, referencing them by their index.
+ *  - display: the acDisplay instance
  */
 
-import '../acMenuItems/acMenuItems.js';
-
 import '../../../common/js/index.js';
-
-import { acDialog } from '../../classes/ac_dialog.class.js';
-import { acUser } from '../../classes/ac_user.class.js';
 
 import './ac_dropdown.html';
 
@@ -32,13 +17,46 @@ Template.ac_dropdown.onCreated( function(){
     const self = this;
 
     self.AC = {
+        display: Template.currentData().display,
+
+        // compute the class of the button
+        btnClass(){
+            const state = pwiAccounts.User.state();
+            let result = '';
+            switch( state ){
+                case AC_LOGGED:
+                    result = self.AC.display.loggedButtonClass();
+                    break;
+                case AC_UNLOGGED:
+                    result = self.AC.display.unloggedButtonClass();
+                    break;
+            }
+            return result;
+        },
+
+        // compute the content of the button
+        btnContent(){
+            const state = pwiAccounts.User.state();
+            let result = '';
+            switch( state ){
+                case AC_LOGGED:
+                    result = self.AC.display.loggedButtonContent();
+                    break;
+                case AC_UNLOGGED:
+                    result = self.AC.display.unloggedButtonContent();
+                    break;
+            }
+            if( result.startsWith( 'AC_DISP_' )){
+                result = pwiAccounts.User.display( result );
+            }
+            return result;
+        },
+
         // whether this template has to manage a dropdown menu
         hasDropdown(){
-            const dialog = Template.currentData().dialog;
-            const state = pwiAccounts.client.User.state();
-            //console.log( 'state='+state, 'loggedButtonShown='+dialog.loggedButtonShown(), 'loggedButtonAction='+dialog.loggedButtonAction(), 'unloggedButtonShown='+dialog.unloggedButtonShown(), 'unloggedButtonAction='+dialog.unloggedButtonAction());
-            return ( state === AC_LOGGED && dialog.loggedButtonShown() && dialog.loggedButtonAction() === acDialog.a.DROPDOWN )
-                || ( state === AC_UNLOGGED && dialog.unloggedButtonShown() && dialog.unloggedButtonAction() === acDialog.a.DROPDOWN );
+            const state = pwiAccounts.User.state();
+            return ( state === AC_LOGGED && self.AC.display.loggedButtonAction() === AC_ACT_DROPDOWN )
+                || ( state === AC_UNLOGGED && self.AC.display.unloggedButtonAction() === AC_ACT_DROPDOWN );
         }
     };
 });
@@ -56,7 +74,6 @@ Template.ac_dropdown.onRendered( function(){
     });
 
     // a small note for the maintainer!
-    //  the acDialog dynButtonContent() returns the button content as a HTML string
     //  first try has been to use a triple-braces helper '{{{ buttonContent }}}' to feed the data into the DOM
     //  it happens that this doesn't work as each content update seems to be added to the previous content
     //  visual effect is for example to have several user icons :(
@@ -67,7 +84,7 @@ Template.ac_dropdown.onRendered( function(){
     //  when dealing with HTML content and more generally with triple-braces helpers
     //  This solution, as a one-line jQuery which doesn't use Blaze helpers, works well.
     self.autorun(() => {
-        btn.html( Template.currentData().dialog.dynButtonContent());
+        btn.html( self.AC.btnContent());
     });
 });
 
@@ -76,13 +93,12 @@ Template.ac_dropdown.helpers({
     // the classes to be added to the button
     //  note that the 'dropdown-toggle' bootstrap class displays the down-arrow ':after' the label
     buttonClass(){
-        return this.dialog.dynButtonClass();
+        return Template.instance().AC.btnClass();
     },
 
-    // provides the acDialog instance to the child template (will be available as 'dataContext.dialog' object)
-    // without this helper, the passed-in acDialog would have been available as 'dataContext' (without any other subkey)
-    dialog(){
-        return this.dialog;
+    // pass the acDisplay instance to child template
+    display(){
+        return this.display;
     },
 
     // whether we have to manage a dropdown menu

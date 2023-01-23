@@ -1,5 +1,8 @@
 /*
  * pwi:accounts/src/client/components/ac_signin/ac_signin.js
+ * 
+ * Parms:
+ *  - display: the acDisplay instance
  */
 import '../../../common/js/index.js';
 
@@ -16,40 +19,36 @@ Template.ac_signin.onCreated( function(){
             const mail = self.$( '.ac-input-mail .ac-input' ).val();
             const pwd = self.$( '.ac-input-password .ac-input' ).val();
             const btn = self.$( '.ac-signin' ).closest( '.acUserLogin' ).find( '.ac-submit' );
-            btn.prop( 'disabled', !( pwiAccounts.client.fn.validateEmail( mail ) && pwiAccounts.client.fn.validatePassword( pwd )));
-        }
+            btn.prop( 'disabled', !( pwiAccounts.validateEmail( mail ) && pwiAccounts.validatePasswordLength( pwd )));
+        },
+        errors: []
     };
 });
 
 Template.ac_signin.onRendered( function(){
     this.AC.enableSubmit();
-    console.log( 'pwi:accounts:ac_signin', this.data.dialog.uuid());
 });
 
 Template.ac_signin.helpers({
     // error message
+    //  here, the only error is when server doesn't validate the credentials
     errorMsg(){
-        return this.dialog.errorMsg();
+        return this.display.errorMsg();
     },
 
-    // have a text after ?
-    //  if no, prevent inclusion of a superfluous margin-bottom
-    hasTextAfter(){
-        return this.dialog.signinTextAfter();
+    // a description before the section
+    textOne(){
+        return this.display.signinTextOne();
     },
 
-    hasTextBefore(){
-        return this.dialog.signinTextBefore();
+    // a description in the middle of the section
+    textTwo(){
+        return this.display.signinTextTwo();
     },
 
-    // a description as a sufix of the section
-    textAfter(){
-        return this.dialog.signinTextAfter();
-    },
-
-    // a description as a prefix of the section
-    textBefore(){
-        return this.dialog.signinTextBefore();
+    // a description at the endof the section
+    textThree(){
+        return this.display.signinTextThree();
     }
 });
 

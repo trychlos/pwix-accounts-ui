@@ -167,7 +167,7 @@ The minimal required password length when setting a new password, either when cr
 The package doesn't hardcodes by itself a minimal 'minimal length', and so will accept even a minimal length of, say, 4 characters!<br />
 Default is eight (8) characters.<br/>
 A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.<br />
-<b>Please note that, for security reasons, you shouldn't set the minimal password length less than this default, unless you are absolutely sure of what you are doing.**</b>
+<b>Please note that, for security reasons, you shouldn't set the minimal password length less than this default, unless you are absolutely sure of what you are doing.</b>
 </td></tr>
 
 <tr><td style="vertical-align:top;">
@@ -186,11 +186,11 @@ The estimated strength can take folloging values:
 The package doesn't hardcodes by itself a minimal 'required strength', and so will accept even a minimal length of, say, AC_PWD_VERYWEAK!<br />
 A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.<br />
 Default is AC_PWD_MEDIUM, which corresponds to somewhat guessable, i.e. can be a protection from unthrottled online attacks.<br />
-<b>Please note that, for security reasons, you shouldn't set the password required strength less than this default, unless you are absolutely sure of what you are doing.**</b>
+<b>Please note that, for security reasons, you shouldn't set the password required strength less than this default, unless you are absolutely sure of what you are doing.</b>
 </td></tr>
 
 <tr><td style="vertical-align:top;">
-preferredButtonId
+preferredButton
 </td><td>
 Indicates which is the preferred user identifier to be displayed in the dropdown button when both are set.<br/>
 Accepted values are:
@@ -202,7 +202,7 @@ Defaults to AC_DISP_EMAIL.
 </td></tr>
 
 <tr><td style="vertical-align:top;">
-preferredLabelId
+preferredLabel
 </td><td>
 Indicates which is the preferred user label to be displayed as an application label when both are set.<br/>
 Accepted values are:
@@ -275,14 +275,14 @@ loggedButtonContent<br />
 unloggedButtonContent
 </td><td>
 The content to be displayed in the shown button.<br />
-Only applies if the button is shown (cf. loggedButtonShown, unloggedButtonShown parms).<br />
+Only applies if the button is visible (cf. loggedButtonAction, unloggedButtonAction parms).<br />
 The content is expected to be a HTML string to be inserted in place of the default value;
 this HTML string may (should ?) also embeds needed class names and other styles.
 The provided value is expected to be this content, either as a string or a function which takes no argument and returns the content string.<br />
 Defaults to:<br/>
 <ul><li>
 a '<code>&lt;span class="fa-regular fa-fw fa-user"&gt;&lt;/span&gt;</code>' HTML string when unlogged</li><li>
-the 'preferredButtonId' value when logged.</li></ul>
+the 'preferredButton' value when logged.</li></ul>
 </td></tr>
 
 <tr><td style="vertical-align:top;">
@@ -368,20 +368,21 @@ Values: true|false, defaulting to false.
 </td></tr>
 
 <tr><td style="vertical-align:top;">
-changePwdTextBefore<br />
-changePwdTextAfter<br />
-resetPwdTextBefore<br />
-resetPwdTextAfter<br />
-signinTextBefore<br />
-signinTextAfter<br />
-signoutTextBefore<br />
-signoutTextAfter<br />
-signupTextBefore<br />
-signupTextAfter<br />
-verifyAskTextBefore<br />
-verifyAskTextAfter
+changePwdTextOne<br />
+changePwdTextTwo<br />
+changePwdTextThree<br />
+resetPwdTextOne<br />
+resetPwdTextTwo<br />
+signinTextOne<br />
+signinTextTwo<br />
+signinTextThree<br />
+signoutTextOne<br />
+signupTextOne<br />
+signupTextTwo<br />
+signupTextThree<br />
+verifyAskTextOne
 </td><td style="vertical-align:top;">
-Panels personalizaton<br/>
+Panels personalization<br/>
 These options let the application provides its own content before (TextBefore) or after (TextAfter) the input fields of the corresponding panel.<br />
 Value is expected to be a string which contains HTML code, or a function which returns such a string.
 </td></tr>
@@ -469,6 +470,11 @@ In the same time, the 'acUserLogin' template advertises of its contexts:
     When a modal has been hidden (resp. shown).<br />
     The `.ac-modal` element is provided as a data on these two messages.
 
+- ac-password
+
+    Provides the current characteristics of the new password being inputed by the user.<br />
+    Provides { length, strength } data (but not the password itself by the matter).
+
 ## Advanced use cases
 
 ## What does the package provide ?
@@ -479,23 +485,41 @@ In the same time, the 'acUserLogin' template advertises of its contexts:
 
 ### Exported constants
 
-- AC_UI_BOOTSTRAP
-- AC_UI_JQUERY
-- AC_PWD_VERYWEAK
-- AC_PWD_WEAK
-- AC_PWD_STRONG
-- AC_PWD_VERYSTRONG
-- AC_FLD_NO
-- AC_FLD_OPTIONAL
-- AC_FLD_MANDATORY
-- AC_DISP_EMAIL
-- AC_DISP_USERNAME
+- AC_LOGGED
+- AC_UNLOGGED
+
 - AC_ACT_HIDDEN
 - AC_ACT_NONE
 - AC_ACT_DROPDOWN
 - AC_ACT_BUBBLE
+
+- AC_DISP_ID
+- AC_DISP_EMAIL
+- AC_DISP_USERNAME
+
+- AC_FIELD_NONE
+- AC_FIELD_OPTIONAL
+- AC_FIELD_MANDATORY
+
+- AC_PANEL_NONE
+- AC_PANEL_SIGNIN
+- AC_PANEL_SIGNUP
+- AC_PANEL_RESETASK
+- AC_PANEL_SIGNOUT
+- AC_PANEL_CHANGEPWD
+- AC_PANEL_VERIFYASK
+
+- AC_PWD_VERYWEAK
+- AC_PWD_WEAK
+- AC_PWD_MEDIUM
+- AC_PWD_STRONG
+- AC_PWD_VERYSTRONG
+
 - AC_RENDER_MODAL
 - AC_RENDER_DIV
+
+- AC_UI_BOOTSTRAP
+- AC_UI_JQUERY
 
 ### Exported templates
 
@@ -507,7 +531,7 @@ This template displays the list of `<li>...</li>` items of the menu to be displa
 
 The template expects to be called with one of these two parameters:
 
-- either a 'dialog' one, which must address an acDialog instance, and is the way it is internally called by the package itself
+- either a 'dialog' one, which must address an acDisplay instance, and is the way it is internally called by the package itself
 
 - or with a 'name' key which must address the name of a 'acUserLogin' instance.
 
@@ -543,7 +567,7 @@ The packages defines and makes use of these standard items.
 | ac-signup-item | triggers the message 'ac-panel-signup' |
 | ac-resetask-item | triggers the message 'ac-panel-resetask' |
 
-This same full list of the standard dropdown items may be obtained by the application via the `pwiAccounts.dropdownItems()` method.
+The full list of the dropdown items may be obtained by the application via the `pwiAccounts.dropdownItems()` reactive method.
 
 The activation of one of these standard items triggers the display of a panel which let the user enter
 the required informations.

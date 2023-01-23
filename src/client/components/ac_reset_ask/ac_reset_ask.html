@@ -2,14 +2,20 @@
     <div class="ac-reset-ask">
 
         <form>
-            <div class="ac-text-before">{{{ textBefore }}}</div>
+            {{#if textOne }}
+                <div class="ac-text ac-text-one">{{{ textOne }}}</div>
+                <div class="ac-mt1"></div>
+            {{/if}}
 
             {{> ac_input_mail }}
 
-            <div class="ac-text-after">{{{ textAfter }}}</div>
+            {{#if textTwo }}
+                <div class="ac-mt1"></div>
+                <div class="ac-text ac-text-two">{{{ textTwo }}}</div>
+            {{/if}}
 
             <div class="ac-error">
-                <p class="ac-error-p">{{ errorMsg }}</p>
+                <p>{{ errorMsg }}</p>
             </div>
         </form>
 

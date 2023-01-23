@@ -54,9 +54,9 @@ export class acUser {
                 console.error( err );
                 target.trigger( 'ac-dialog-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_change_pwd' ));
             } else {
-                pwiAccounts.client.Panel.asked( AC_PANEL_NONE );
+                pwiAccounts.Panel.asked( AC_PANEL_NONE );
                 pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'success_change_pwd' ));
-                $( '.acUserLogin' ).trigger( 'ac-user-changepwd', self.mailAddress());
+                $( '.acUserLogin' ).trigger( 'ac-user-changepwd', self.emailAddress());
             }
         });
     }
@@ -66,7 +66,7 @@ export class acUser {
      * Change the connection state to 'LOGGED' if OK, or send an 'ac-error' message to the target
      * We try to verify emails, so send simultaneouly (in the background) an email to check that.
      * Note that the 'Accounts.createUser()' method doesn't force any security rule on the password.
-     * We have to rely on pwiAccounts.client.fn.validatePassword() for that.
+     * We have to rely on pwiAccounts.fn.validatePassword() for that.
      * @param {String} mail the entered mail address
      * @param {String} password the entered password
      * @param {Object} target the target of the sent events
@@ -82,7 +82,7 @@ export class acUser {
                     target.trigger( 'ac-dialog-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_signup' ));
                 } else {
                     self.state( AC_LOGGED );
-                    pwiAccounts.client.Panel.asked( AC_PANEL_NONE );
+                    pwiAccounts.Panel.asked( AC_PANEL_NONE );
                     $( '.acUserLogin' ).trigger( 'ac-user-create', mail );
                 }
             });
@@ -100,6 +100,38 @@ export class acUser {
     }
 
     /**
+     * Honor AC_DISP_xxx constants
+     * @param {String} display
+     * @returns {String} the actual display depending of the connected user
+     */
+    display( display ){
+        let result = '';
+        if( Meteor.userId()){
+            switch( display ){
+                case AC_DISP_ID:
+                    result = Meteor.userId();
+                    break;
+                case AC_DISP_EMAIL:
+                    result = this.emailAddress();
+                    break;
+                    result = this.username();
+                    break;
+                case AC_DISP_USERNAME:
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @returns {String} the (first) mail address of the currently logged-in user
+     */
+    emailAddress(){
+        const user = Meteor.user({ fields: { 'username': 1, 'emails': 1 }});
+        const email = user ? user.emails[0].address : '';
+        return email;
+    }
+
+    /**
      * Login with a (mail,password) couple
      * Change the connection state to 'LOGGED' if OK, or send an 'ac-error' message to the target
      * @param {String} mail the entered mail address
@@ -114,7 +146,7 @@ export class acUser {
                 target.trigger( 'ac-dialog-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_login' ));
             } else {
                 self.state( AC_LOGGED );
-                pwiAccounts.client.Panel.asked( AC_PANEL_NONE );
+                pwiAccounts.Panel.asked( AC_PANEL_NONE );
                 $( '.acUserLogin' ).trigger( 'ac-user-login', mail );
             }
         });
@@ -124,18 +156,11 @@ export class acUser {
      * Logout
      */
     logout(){
-        const email = this.mailAddress();
+        const email = this.emailAddress();
         Meteor.logout();
         this.state( AC_UNLOGGED );
-        pwiAccounts.client.Panel.asked( AC_PANEL_NONE );
+        pwiAccounts.Panel.asked( AC_PANEL_NONE );
         $( '.acUserLogin' ).trigger( 'ac-user-logout', email );
-    }
-
-    /**
-     * @returns {String} the (first) mail address of the currently logged-in user
-     */
-    mailAddress(){
-        return pwiAccounts.email( Meteor.userId());
     }
 
     /**
@@ -157,7 +182,7 @@ export class acUser {
                 console.error( err );
                 target.trigger( 'ac-dialog-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_reset_send' ));
             } else {
-                pwiAccounts.client.Panel.asked( AC_PANEL_NONE );
+                pwiAccounts.Panel.asked( AC_PANEL_NONE );
                 $( '.acUserLogin' ).trigger( 'ac-user-resetasked', mail );
             }
         });
@@ -176,13 +201,21 @@ export class acUser {
     }
 
     /**
+     * @returns {String} the username of the currently logged-in user
+     */
+    username(){
+        const user = Meteor.user({ fields: { 'username': 1, 'emails': 1 }});
+        return user ? user.username : '';
+    }
+
+    /**
      * Re-send a mail to let us verify the user's email
      */
     verifyMail(){
         const self = this;
         Meteor.call( 'pwiAccounts.sendVerificationEmail', Meteor.userId());
         pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'verify_success' ));
-        pwiAccounts.client.Panel.asked( AC_PANEL_NONE );
-        $( '.acUserLogin' ).trigger( 'ac-user-verifyreasked', self.mailAddress());
+        pwiAccounts.Panel.asked( AC_PANEL_NONE );
+        $( '.acUserLogin' ).trigger( 'ac-user-verifyreasked', self.emailAddress());
     }
 }

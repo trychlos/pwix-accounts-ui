@@ -5,7 +5,7 @@
  * 
  * Parms:
  *  - template: the name of the template to embed
- *  - dialog: the acDialog which manages this 'acUserLogin' template's hierarchy
+ *  - display: the acDisplay instance (needed here as we must not be tied to where the modal is rendered in the HTML page)
  */
 import { pwiI18n } from 'meteor/pwi:i18n';
 
@@ -26,6 +26,8 @@ Template.ac_modal.onCreated( function(){
     //console.log( self );
 
     self.AC = {
+        display: Template.currentData().display,
+
         // whether this modal exhibits a cancel button in the footer ?
         haveCancelButton(){
             return true;
@@ -47,13 +49,13 @@ Template.ac_modal.onCreated( function(){
         },
 
         uiBootstrap(){
-            //console.log( 'uiBootstrap', pwiAccounts.conf.ui === pwiAccounts.client.ui.Bootstrap );
-            return pwiAccounts.conf.ui === pwiAccounts.client.ui.Bootstrap;
+            //console.log( 'uiBootstrap', pwiAccounts.conf.ui === pwiAccounts.ui.Bootstrap );
+            return pwiAccounts.conf.ui === AC_UI_BOOTSTRAP;
         },
 
         uiJQuery(){
-            //console.log( 'uiJQuery', pwiAccounts.conf.ui === pwiAccounts.client.ui.jQueryUI );
-            return pwiAccounts.conf.ui === pwiAccounts.client.ui.jQueryUI;
+            //console.log( 'uiJQuery', pwiAccounts.conf.ui === pwiAccounts.ui.jQueryUI );
+            return pwiAccounts.conf.ui === AC_UI_JQUERY;
         },
 
         // the id set on the top div of this template (div.ac-modal)
@@ -63,10 +65,9 @@ Template.ac_modal.onCreated( function(){
 
 Template.ac_modal.onRendered( function(){
     const self = this;
-    const dialog = Template.currentData().dialog;
 
     // set a unique id on the top div of the template
-    const uuid = dialog.uuid();
+    const uuid = self.AC.display.uuid();
     const modalAc = self.$( '.ac-modal' );
     self.AC.topId = uuid+'-ac';
     modalAc.attr( 'id', self.AC.topId );
@@ -76,9 +77,9 @@ Template.ac_modal.onRendered( function(){
     //  set an ID to the splitted div to be sure to be able to uniquely find it, and changes the
     //  modalSelector accordingly
     if( self.AC.uiJQuery()){
-        const modalJq = self.$( dialog.modalSelector());
+        const modalJq = self.$( self.AC.display.modalSelector());
         modalJq.attr( 'id', uuid+'-jq' );
-        dialog.modalSelector( '#'+uuid+'-jq' );
+        self.AC.display.modalSelector( '#'+uuid+'-jq' );
 
         modalJq.dialog({
             autoOpen: false,
@@ -97,7 +98,7 @@ Template.ac_modal.onRendered( function(){
     }
 
     // initialize Bootstrap
-    if( self.AC.uiBootstrap ){
+    if( self.AC.uiBootstrap()){
         this.$( '.ac-modal .bs-modal' ).draggable({
             handle: '.modal-header',
             cursor: 'grab'
@@ -111,9 +112,10 @@ Template.ac_modal.helpers({
 
     // whether to use a static backdrop
     backdrop(){
-        const dialog = this.dialog;
-        if( dialog.staticBackdrop() && dialog.ready()){
-            Template.instance().$( dialog.modalSelector()).prop( 'data-bs-backdrop', 'static' );
+        const self = Template.instance();
+        const display = self.AC.display;
+        if( display.staticBackdrop() && display.ready()){
+            self.$( display.modalSelector()).prop( 'data-bs-backdrop', 'static' );
         }
     },
 
@@ -123,11 +125,9 @@ Template.ac_modal.helpers({
         return true;
     },
 
-    // provides the acDialog instance to the child template
-    //  note: passing data=dialog set the whole child template data context as the acDialog object itself.
-    //      instead, we want the data context be an object with a 'dialog' key
-    dialog(){
-        return { dialog: this.dialog };
+    // pass the acDisplay instance to child template
+    display(){
+        return { display: Template.instance().AC.display };
     },
 
     // whether this modal exhibits a footer ?
@@ -139,8 +139,9 @@ Template.ac_modal.helpers({
     // whether this modal exhibits a header ?
     //  true if have a title (only for a modal rendering, which is the case here) or a close button
     header(){
-        const title = this.dialog.modalTitle();
-        const staticBackdrop = this.dialog.staticBackdrop();
+        const display = Template.instance().AC.display;
+        const title = display.modalTitle();
+        const staticBackdrop = display.staticBackdrop();
         return title.length || !staticBackdrop;
     },
 
@@ -156,7 +157,7 @@ Template.ac_modal.helpers({
 
     // modal title
     title(){
-        return this.dialog.modalTitle();
+        return Template.instance().AC.display.modalTitle();
     },
 
     // are we configured for a Bootstrap ui ?
@@ -184,7 +185,7 @@ Template.ac_modal.events({
 
         // because the template has been created 'on the fly'
         Blaze.remove( instance.view );
-        pwiAccounts.client.Panel.view( null );
+        pwiAccounts.Panel.view( null );
     },
 
     'shown.bs.modal .ac-modal'( event, instance ){

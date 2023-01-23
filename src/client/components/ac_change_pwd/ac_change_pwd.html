@@ -2,26 +2,41 @@
     <div class="ac-change-pwd">
 
         <form>
-            {{#if hasTextBefore }}
-                <div class="ac-text-before ac-mb2">{{{ textBefore }}}</div>
+            {{#if textOne }}
+                <div class="ac-text ac-text-one">{{{ textOne }}}</div>
+                <div class="ac-mt1"></div>
             {{/if}}
 
-            <div class="ac-old ac-mb2">
+            <div class="ac-old">
                 {{> ac_input_password (labelOld) }}
             </div>
-            <div class="ac-newone ac-mb2">
+
+            {{#if textTwo }}
+                <div class="ac-mt1"></div>
+                <div class="ac-border"></div>
+                <div class="ac-mt1"></div>
+                <div class="ac-text ac-text-two">{{{ textTwo }}}</div>
+                <div class="ac-mt1">{{{ textTwo }}}</div>
+            {{/if}}
+
+            <div class="ac-mt1"></div>
+            <div class="ac-border"></div>
+            <div class="ac-mt1"></div>
+
+            <div class="ac-newone">
                 {{> ac_input_password (labelNewOne) }}
             </div>
-            <div class="ac-newtwo ac-mb2">
+            <div class="ac-newtwo ac-mt1">
                 {{> ac_input_password (labelNewTwo) }}
             </div>
 
-            {{#if hasTextAfter }}
-                <div class="ac-text-after ac-mb2">{{{ textAfter }}}</div>
+            {{#if textThree }}
+            <div class="ac-mt1"></div>
+            <div class="ac-text ac-text-three">{{{ textThree }}}</div>
             {{/if}}
 
-            <div class="ac-error ac-mb2">
-                <p class="ac-error-p">{{ errorMsg }}</p>
+            <div class="ac-error">
+                {{{ errorMsg }}}
             </div>
         </form>
 

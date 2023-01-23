@@ -11,13 +11,13 @@ defaults = {
         loginNonVerified: true,
         passwordLength: 8,
         passwordStrength: AC_PWD_MEDIUM,
-        preferredButtonId: AC_DISP_EMAIL,
-        preferredLabelId: AC_DISP_EMAIL,
+        preferredButton: AC_DISP_EMAIL,
+        preferredLabel: AC_DISP_EMAIL,
         ui: AC_UI_BOOTSTRAP
     }
 };
 
 pwiAccounts.conf = {
     ...pwiAccounts.conf,
-    ...defaults
+    ...defaults.common
 };

@@ -11,3 +11,4 @@ import './strings.js';
 import './setup.js';
 import './defaults.js';
 import './functions.js';
+import './startup.js';

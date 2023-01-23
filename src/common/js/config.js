@@ -1,5 +1,6 @@
 /*
  * pwi:accounts/src/common/js/define.js
+ *
  * Just define the object here.
  */
 
@@ -13,10 +14,6 @@ _ready = {
 };
 
 pwiAccounts = {
-
-    // client-specific data and functions
-    client: {},
-
     conf: {},
 
     // should be *in same terms* called both by the client and the server
@@ -26,15 +23,12 @@ pwiAccounts = {
     },
 
     /**
-     * A reactive data source, only relevant on the client.
+     * A reactive data source.
      * Returned value is updated at package client startup.
      * @returns {Boolean} true when the package is ready
      */
     ready: function(){
         _ready.dep.depend();
         return _ready.val;
-    },
-
-    // server-specific data and functions
-    server: {}
+    }
 };

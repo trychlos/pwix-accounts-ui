@@ -2,19 +2,28 @@
     <div class="ac-signin">
 
         <form>
-            {{#if hasTextBefore }}
-                <div class="ac-text-before">{{{ textBefore }}}</div>
+            {{#if textOne }}
+                <div class="ac-text ac-text-one">{{{ textOne }}}</div>
+                <div class="ac-mt1"></div>
             {{/if}}
 
             {{> ac_input_mail }}
+
+            {{#if textTwo }}
+                <div class="ac-mt1"></div>
+                <div class="ac-text ac-text-two">{{{ textTwo }}}</div>
+                <div class="ac-mt1"></div>
+            {{/if}}
+
             {{> ac_input_password }}
 
-            {{#if hasTextAfter }}
-                <div class="ac-text-after">{{{ textAfter }}}</div>
+            {{#if textThree }}
+                <div class="ac-mt1"></div>
+                <div class="ac-text ac-text-three">{{{ textThree }}}</div>
             {{/if}}
 
             <div class="ac-error">
-                <p class="ac-error-p">{{ errorMsg }}</p>
+                <p>{{ errorMsg }}</p>
             </div>
         </form>
 

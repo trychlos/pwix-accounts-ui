@@ -2,11 +2,10 @@
  * pwi:accounts/src/client/components/ac_user_login/ac_user_login.js
  * 
  * Parms:
- *  - dialog: the acDialog which manages this 'acUserLogin' template's hierarchy
+ *  - display: the acDisplay instance passed through the acUserLogin (if div) or ac_modal (if modal)
+ *
  */
 import '../../../common/js/index.js';
-
-import { acPanel } from '../../classes/ac_panel.class.js';
 
 import '../ac_change_pwd/ac_change_pwd.js';
 import '../ac_reset_ask/ac_reset_ask.js';
@@ -20,21 +19,26 @@ import './ac_user_login.html';
 Template.ac_user_login.helpers({
 
     changePwd(){
-        return this.dialog.allowed() && pwiAccounts.client.Panel.asked() === AC_PANEL_CHANGEPWD;
+        return this.display.allowed() && pwiAccounts.Panel.asked() === AC_PANEL_CHANGEPWD;
+    },
+
+    // pass the acDisplay instance to child template
+    display(){
+        return this.display;
     },
 
     // display the buttons in 'DIV' mode unless the 'DIV' is empty
     hasButtons(){
-        const dialog = this.dialog;
+        const display = this.display;
         let show = false;
-        switch( pwiAccounts.client.Panel.asked()){
+        switch( pwiAccounts.Panel.asked()){
             case AC_PANEL_SIGNIN:
             case AC_PANEL_SIGNUP:
             case AC_PANEL_RESETASK:
             case AC_PANEL_SIGNOUT:
             case AC_PANEL_CHANGEPWD:
             case AC_PANEL_VERIFYASK:
-                show = dialog.showPanels();
+                show = display.showPanels();
                 break;
         }
         return show;
@@ -42,26 +46,26 @@ Template.ac_user_login.helpers({
 
     // whether to display as a modal dialog ?
     modal(){
-        return this.dialog.modal();
+        return this.display.modal();
     },
 
     resetAsked(){
-        return this.dialog.allowed() && pwiAccounts.client.Panel.asked() === AC_PANEL_RESETASK;
+        return this.display.allowed() && pwiAccounts.Panel.asked() === AC_PANEL_RESETASK;
     },
 
     signin(){
-        return this.dialog.allowed() && pwiAccounts.client.Panel.asked() === AC_PANEL_SIGNIN;
+        return this.display.allowed() && pwiAccounts.Panel.asked() === AC_PANEL_SIGNIN;
     },
 
     signout(){
-        return this.dialog.allowed() && pwiAccounts.client.Panel.asked() === AC_PANEL_SIGNOUT;
+        return this.display.allowed() && pwiAccounts.Panel.asked() === AC_PANEL_SIGNOUT;
     },
 
     signup(){
-        return this.dialog.allowed() && pwiAccounts.client.Panel.asked() === AC_PANEL_SIGNUP;
+        return this.display.allowed() && pwiAccounts.Panel.asked() === AC_PANEL_SIGNUP;
     },
 
     verifyAsked(){
-        return this.dialog.allowed() && pwiAccounts.client.Panel.asked() === AC_PANEL_VERIFYASK;
+        return this.display.allowed() && pwiAccounts.Panel.asked() === AC_PANEL_VERIFYASK;
     },
 });

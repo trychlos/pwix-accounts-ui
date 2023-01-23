@@ -5,4 +5,3 @@ import '../../common/js/index.js';
 
 import './methods.js';
 import './publish.js';
-import './startup.js';

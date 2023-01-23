@@ -59,7 +59,7 @@ export class acPanel {
      */
     asked( panel ){
         const previous = this._panel.get();
-        if( Object.keys( acPanel.Knowns ).includes( panel ) && panel !== previous ){
+        if( acPanel.Knowns.includes( panel ) && panel !== previous ){
             console.log( 'pwi:accounts triggering transition from '+previous+' to '+panel );
             $( '.acUserLogin' ).trigger( 'ac-panel-transition', { previous:previous, next:panel });
             this._panel.set( panel );

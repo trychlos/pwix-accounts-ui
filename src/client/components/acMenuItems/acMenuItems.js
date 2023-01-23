@@ -4,16 +4,16 @@
  * This template is responsible to provide the dropdown menu items.
  * 
  * Parms:
- *  - dialog: the acDialog which manages this 'acUserLogin' template's hierarchy
- *  - name: the name attributed by the application to this 'acUserLogin' instance
+ *  - name (opt.) the name attributed by the application to this 'acUserLogin' instance
+ *  - or display the acDisplay instance
  * 
  * When called from an application, the name is at the time the only way to identify a specific
- * 'acUserLogin' instance, and thus to get the managing acDialog.
+ * 'acUserLogin' instance, and thus to get the managing acDisplay.
  */
 
 import '../../../common/js/index.js';
 
-import { acDialog } from '../../classes/ac_dialog.class.js';
+import { acDisplay } from '../../classes/ac_display.class.js';
 
 import './acMenuItems.html';
 
@@ -21,18 +21,14 @@ Template.acMenuItems.onCreated( function(){
     const self = this;
 
     self.AC = {
-        dialog: new ReactiveVar( null )
+        display: new ReactiveVar( null )
     };
 
     self.autorun(() => {
-        if( Object.keys( Template.currentData()).includes( 'dialog' )){
-            self.AC.dialog.set( Template.currentData().dialog );
-
-        } else if( Object.keys( Template.currentData()).includes( 'name' )){
-            self.AC.dialog.set( acDialog.byName( Template.currentData().name ));
-
+        if( Object.keys( Template.currentData()).includes( 'name' )){
+            self.AC.display.set( acDisplay.byName( Template.currentData().name ));
         } else {
-            console.error( 'unable to get the managing acDialog' );
+            self.AC.display.set( Template.currentData().display );
         }
     });
 });
@@ -41,7 +37,7 @@ Template.acMenuItems.onRendered( function(){
     const self = this;
 
     // a small note for the maintainer!
-    //  the acDialog dynButtonContent() returns the button content as a HTML string
+    //  the acDisplay dynItemsBefore/Standard/After() returns the button content as a HTML string
     //  first try has been to use a triple-braces helper '{{{ buttonContent }}}' to feed the data into the DOM
     //  it happens that this doesn't work as each content update seems to be added to the previous content
     //  visual effect is for example to have several user icons :(
@@ -53,20 +49,20 @@ Template.acMenuItems.onRendered( function(){
     //  This solution, as a one-line jQuery which doesn't use Blaze helpers, works well.
     self.autorun(() => {
         const menu = self.$( '.acMenuItems' );
-        const dialog = self.AC.dialog.get();
-        if( dialog && menu ){
+        const display = self.AC.display.get();
+        if( display && menu ){
             let result = [];
-            const before = dialog.dynItemsBefore();
+            const before = display.dynItemsBefore();
             before.every(( it ) => {
                 result.push( it );
                 return true;
             });
-            const std = dialog.dynItemsStandard();
+            const std = display.dynItemsStandard();
             std.every(( it ) => {
                 result.push( it );
                 return true;
             });
-            const after = dialog.dynItemsAfter();
+            const after = display.dynItemsAfter();
             after.every(( it ) => {
                 result.push( it );
                 return true;

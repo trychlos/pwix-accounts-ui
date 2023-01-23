@@ -4,14 +4,11 @@
  * Provides various buttons, to be displayed either in a modal footer, or in the bottom of a div.
  * 
  * Parms:
- *  - dialog: the acDialog which manages this 'acUserLogin' template's hierarchy
+ *  - display: the acDisplay instance
  */
-import { pwiI18n as pI } from 'meteor/pwi:i18n';
+import { pwiI18n } from 'meteor/pwi:i18n';
 
 import '../../../common/js/index.js';
-
-import { acDialog } from '../../classes/ac_dialog.class.js';
-import { acPanel } from '../../classes/ac_panel.class.js';
 
 import './ac_modal_buttons.html';
 
@@ -21,7 +18,7 @@ Template.ac_modal_buttons.onCreated( function(){
     // some configurations depending of the currently displayed template
     self.AC = {
         btns: {
-            CHANGEPWD: {
+            AC_PANEL_CHANGEPWD: {
                 buttons: [
                     {
                         class: 'btn-secondary ac-cancel',
@@ -33,7 +30,7 @@ Template.ac_modal_buttons.onCreated( function(){
                     }
                 ]
             },
-            RESETASK: {
+            AC_PANEL_RESETASK: {
                 links: [
                     {
                         key: 'signin_link',
@@ -57,7 +54,7 @@ Template.ac_modal_buttons.onCreated( function(){
                     }
                 ]
             },
-            SIGNIN: {
+            AC_PANEL_SIGNIN: {
                 links: [
                     {
                         key: 'reset_link',
@@ -81,7 +78,7 @@ Template.ac_modal_buttons.onCreated( function(){
                     }
                 ]
             },
-            SIGNOUT: {
+            AC_PANEL_SIGNOUT: {
                 buttons: [
                     {
                         class: 'btn-secondary ac-cancel',
@@ -93,7 +90,7 @@ Template.ac_modal_buttons.onCreated( function(){
                     }
                 ]
             },
-            SIGNUP: {
+            AC_PANEL_SIGNUP: {
                 links: [
                     {
                         key: 'signin_link',
@@ -112,7 +109,7 @@ Template.ac_modal_buttons.onCreated( function(){
                     }
                 ]
             },
-            VERIFYASK: {
+            AC_PANEL_VERIFYASK: {
                 buttons: [
                     {
                         class: 'btn-secondary ac-cancel',
@@ -139,27 +136,26 @@ Template.ac_modal_buttons.helpers({
     },
 
     btnLabel( btn ){
-        return btn.key && btn.key.length ? pI.label( pwiAccounts.strings, 'buttons', btn.key ) : '';
+        return btn.key && btn.key.length ? pwiI18n.label( pwiAccounts.strings, 'buttons', btn.key ) : '';
     },
 
     // returns the ordered list of buttons to be displayed depending of the currently displayed template
     buttons(){
-        const panel = pwiAccounts.client.Panel.asked();
+        const panel = pwiAccounts.Panel.asked();
         const ac = Template.instance().AC;
         return Object.keys( ac.btns ).includes( panel ) ? ac.btns[panel].buttons : [];
     },
 
     // whether to display this link
     haveLink( link ){
-        const dialog = this.dialog;
-        const ret = link.have ? dialog[link.have]() : true;
-        //console.log( 'haveLink', dialog, link, dialog[link.have](), ret );
+        const ret = link.have ? this.display[link.have]() : true;
+        //console.log( 'haveLink', display, link, display[link.have](), ret );
         return ret;
     },
 
     // returns the ordered list of links to be displayed depending of the current state
     linkLabel( link ){
-        return link.key && link.key.length ? pI.label( pwiAccounts.strings, 'buttons', link.key ) : '';
+        return link.key && link.key.length ? pwiI18n.label( pwiAccounts.strings, 'buttons', link.key ) : '';
     },
 
     linkTarget( link ){
@@ -167,7 +163,7 @@ Template.ac_modal_buttons.helpers({
     },
 
     links(){
-        const panel = pwiAccounts.client.Panel.asked();
+        const panel = pwiAccounts.Panel.asked();
         const ac = Template.instance().AC;
         return Object.keys( ac.btns ).includes( panel ) ? ac.btns[panel].links : [];
     }
@@ -177,7 +173,7 @@ Template.ac_modal_buttons.events({
 
     'click .ac-link'( event, instance ){
         //console.log( event );
-        pwiAccounts.client.Panel.asked( instance.$( event.currentTarget ).find( 'a' ).attr( 'data-ac-target' ));
+        pwiAccounts.Panel.asked( instance.$( event.currentTarget ).find( 'a' ).attr( 'data-ac-target' ));
     },
 
     'click .ac-cancel'( event, instance ){

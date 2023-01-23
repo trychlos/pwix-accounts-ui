@@ -1,6 +1,9 @@
 /*
  * pwi:accounts/src/client/components/ac_reset_ask/ac_reset_ask.js
- */
+ * 
+ * Parms:
+ *  - display: the acDisplay instance
+*/
 import '../../../common/js/index.js';
 
 import '../ac_input_mail/ac_input_mail.js';
@@ -14,30 +17,29 @@ Template.ac_reset_ask.onCreated( function(){
         enableSubmit: function(){
             const mail = self.$( '.ac-input-mail .ac-input' ).val();
             const btn = self.$( '.ac-reset-ask' ).closest( '.acUserLogin' ).find( '.ac-submit' );
-            btn.prop( 'disabled', !( pwiAccounts.client.fn.validateEmail( mail )));
+            btn.prop( 'disabled', !( pwiAccounts.validateEmail( mail )));
         }
     };
 });
 
 Template.ac_reset_ask.onRendered( function(){
     this.AC.enableSubmit();
-    console.log( 'pwi:accounts:ac_reset_ask', this.data.dialog.uuid());
 });
 
 Template.ac_reset_ask.helpers({
     // error message
     errorMsg(){
-        return this.dialog.errorMsg();
+        return this.display.errorMsg();
     },
 
-    // a description as a sufix of the section
-    textAfter(){
-        return this.dialog.resetPwdTextAfter();
+    // the text at the first place of the section
+    textOne(){
+        return this.display.resetPwdTextOne();
     },
 
-    // a description as a prefix of the section
-    textBefore(){
-        return this.dialog.resetPwdTextBefore();
+    // the text at the second place of the section
+    textTwo(){
+        return this.display.resetPwdTextTwo();
     }
 });
 
