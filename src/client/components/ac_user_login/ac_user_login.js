@@ -1,5 +1,5 @@
 /*
- * pwi:accounts/src/client/components/ac_user_login/ac_user_login.js
+ * pwix:accounts/src/client/components/ac_user_login/ac_user_login.js
  * 
  * Parms:
  *  - display: the acDisplay instance passed through the acUserLogin (if div) or ac_modal (if modal)

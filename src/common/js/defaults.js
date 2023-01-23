@@ -1,5 +1,5 @@
 /*
- * pwi:accounts/src/common/js/defaults.js
+ * pwix:accounts/src/common/js/defaults.js
  *
  * Setup the common defaults
  */

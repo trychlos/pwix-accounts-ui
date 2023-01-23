@@ -40,11 +40,11 @@ export class acPanel {
      */
     constructor( panel=AC_PANEL_NONE ){
         if( acPanel.Singleton ){
-            console.log( 'pwi:accounts returning already instanciated acPanel' );
+            console.log( 'pwix:accounts returning already instanciated acPanel' );
             return acPanel.Singleton;
         }
 
-        console.log( 'pwi:accounts instanciating new acPanel' );
+        console.log( 'pwix:accounts instanciating new acPanel' );
 
         this.asked( panel );
 
@@ -60,7 +60,7 @@ export class acPanel {
     asked( panel ){
         const previous = this._panel.get();
         if( acPanel.Knowns.includes( panel ) && panel !== previous ){
-            console.log( 'pwi:accounts triggering transition from '+previous+' to '+panel );
+            console.log( 'pwix:accounts triggering transition from '+previous+' to '+panel );
             $( '.acUserLogin' ).trigger( 'ac-panel-transition', { previous:previous, next:panel });
             this._panel.set( panel );
             this._previous.set( previous );

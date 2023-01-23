@@ -1,5 +1,5 @@
 /*
- * pwi:accounts/src/client/components/acUserLogin/acUserLogin.js
+ * pwix:accounts/src/client/components/acUserLogin/acUserLogin.js
  *
  * Main user login template
  *

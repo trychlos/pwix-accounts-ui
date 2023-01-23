@@ -1,5 +1,5 @@
 /*
- * pwi:accounts/src/client/js/config.js
+ * pwix:accounts/src/client/js/config.js
  *
  * - attach the acPanel singleton as Panel to pwiAccounts
  * - attach the acUser singleton as User to pwiAccounts

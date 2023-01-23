@@ -29,11 +29,11 @@ export class acUser {
      */
     constructor(){
         if( acUser.Singleton ){
-            console.log( 'pwi:accounts returning already instanciated acUser' );
+            console.log( 'pwix:accounts returning already instanciated acUser' );
             return acUser.Singleton;
         }
 
-        console.log( 'pwi:accounts instanciating new acUser' );
+        console.log( 'pwix:accounts instanciating new acUser' );
 
         this.state( Meteor.userId() ? AC_LOGGED : AC_UNLOGGED );
 

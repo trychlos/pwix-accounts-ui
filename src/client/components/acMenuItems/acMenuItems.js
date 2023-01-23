@@ -1,5 +1,5 @@
 /*
- * pwi:accounts/src/client/components/acMenuItems/acMenuItems.js
+ * pwix:accounts/src/client/components/acMenuItems/acMenuItems.js
  *
  * This template is responsible to provide the dropdown menu items.
  * 

@@ -1,5 +1,5 @@
 /*
- * pwi:accounts/src/client/components/ac_signout/ac_signout.js
+ * pwix:accounts/src/client/components/ac_signout/ac_signout.js
  * 
  * Parms:
  *  - display: the acDisplay instance

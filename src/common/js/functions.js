@@ -1,5 +1,5 @@
 /*
- * pwi:accounts/src/common/js/functions.js
+ * pwix:accounts/src/common/js/functions.js
  */
 
 pwiAccounts.emailAddress = function( id ){

@@ -1,5 +1,5 @@
 /*
- * pwi:accounts/src/client/components/acSelect/acSelect.js
+ * pwix:accounts/src/client/components/acSelect/acSelect.js
  *
  * Let some users to be selected
  * 

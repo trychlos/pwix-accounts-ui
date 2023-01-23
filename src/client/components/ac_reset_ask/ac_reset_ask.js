@@ -1,5 +1,5 @@
 /*
- * pwi:accounts/src/client/components/ac_reset_ask/ac_reset_ask.js
+ * pwix:accounts/src/client/components/ac_reset_ask/ac_reset_ask.js
  * 
  * Parms:
  *  - display: the acDisplay instance

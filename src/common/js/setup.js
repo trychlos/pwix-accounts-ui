@@ -1,3 +1,3 @@
 /*
- * pwi:accounts/src/common/js/setup.js
+ * pwix:accounts/src/common/js/setup.js
  */

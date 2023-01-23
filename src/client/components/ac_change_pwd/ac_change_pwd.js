@@ -1,5 +1,5 @@
 /*
- * pwi:accounts/src/client/components/ac_change_pwd/ac_change_pwd.js
+ * pwix:accounts/src/client/components/ac_change_pwd/ac_change_pwd.js
  * 
  * Parms:
  *  - display: the acDisplay instance

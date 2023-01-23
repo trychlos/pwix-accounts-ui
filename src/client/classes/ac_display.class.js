@@ -1,5 +1,5 @@
 /*
- * pwi:accounts/src/client/classes/ac_display.class.js
+ * pwix:accounts/src/client/classes/ac_display.class.js
  *
  * This class manages the display of all login/logout dialogs.
  * The instance is first attached to the 'acUserLogin' template, thus available to each and every child template.
@@ -193,7 +193,7 @@ export class acDisplay {
         this._uuid = uuidv4();
         this._instance = instance;
 
-        console.log( 'pwi:accounts instanciating acDisplay', opts, 'uuid', this._uuid );
+        console.log( 'pwix:accounts instanciating acDisplay', opts, 'uuid', this._uuid );
 
         // by merging defaults and provided options, we get an object which contains all known configuration options
         // allocate a new reactive var for the option and set it

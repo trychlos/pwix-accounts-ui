@@ -1,5 +1,5 @@
 /*
- * pwi:accounts/src/common/js/strings.js
+ * pwix:accounts/src/common/js/strings.js
  */
 
 pwiAccounts.strings = {

@@ -1,5 +1,5 @@
 /*
- * pwi:accounts/src/common/js/constants.js
+ * pwix:accounts/src/common/js/constants.js
  */
 
 // connection status

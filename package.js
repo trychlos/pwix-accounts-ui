@@ -46,7 +46,7 @@ Package.onUse( function( api ){
 Package.onTest( function( api ){
     configure( api );
     api.use( 'tinytest' );
-    api.use( 'pwi:accounts' );
+    api.use( 'pwix:accounts' );
     api.mainModule( 'test/js/index.js' );
 });
 

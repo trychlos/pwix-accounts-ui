@@ -1,5 +1,5 @@
 /*
- * pwi:accounts/src/client/components/ac_modal/ac_modal.js
+ * pwix:accounts/src/client/components/ac_modal/ac_modal.js
  *
  * Creates a modal dialog which embeds the specified '<div>....</div>'.
  * 

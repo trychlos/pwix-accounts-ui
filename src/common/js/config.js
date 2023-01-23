@@ -1,12 +1,12 @@
 /*
- * pwi:accounts/src/common/js/define.js
+ * pwix:accounts/src/common/js/define.js
  *
  * Just define the object here.
  */
 
 import { Tracker } from 'meteor/tracker';
 
-console.log( 'pwi:accounts/src/common/js/define.js defining globally exported pwiAccounts object' );
+console.log( 'pwix:accounts/src/common/js/define.js defining globally exported pwiAccounts object' );
 
 _ready = {
     dep: new Tracker.Dependency(),
@@ -18,7 +18,7 @@ pwiAccounts = {
 
     // should be *in same terms* called both by the client and the server
     configure: function( o ){
-        console.log( 'pwi:accounts configure() with', o );
+        console.log( 'pwix:accounts configure() with', o );
         pwiAccounts.conf = { ...pwiAccounts.conf, ...o };
     },
 

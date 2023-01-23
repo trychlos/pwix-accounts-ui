@@ -1,5 +1,5 @@
 /*
- * pwi:accounts/src/client/components/ac_verify_ask/ac_verify_ask.js
+ * pwix:accounts/src/client/components/ac_verify_ask/ac_verify_ask.js
  * 
  * Parms:
  *  - display: the acDisplay instance

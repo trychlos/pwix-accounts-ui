@@ -1,5 +1,5 @@
 /*
- * pwi:accounts/src/client/components/ac_reset_input/ac_reset_input.js
+ * pwix:accounts/src/client/components/ac_reset_input/ac_reset_input.js
  *
  * Runs a modal dialog to let the user enter a new password.
  * Doesn't change the connection state.

@@ -1,5 +1,5 @@
 /*
- * pwi:accounts/src/common/js/index.js
+ * pwix:accounts/src/common/js/index.js
  */
 
 // these do not depend of anything else than themselves

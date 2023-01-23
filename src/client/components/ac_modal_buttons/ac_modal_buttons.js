@@ -1,5 +1,5 @@
 /*
- * pwi:accounts/src/client/components/ac_modal_buttons/ac_modal_buttons.js
+ * pwix:accounts/src/client/components/ac_modal_buttons/ac_modal_buttons.js
  *
  * Provides various buttons, to be displayed either in a modal footer, or in the bottom of a div.
  * 

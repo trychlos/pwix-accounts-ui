@@ -1,5 +1,5 @@
 /*
- * pwi:accounts/src/client/components/ac_signup/ac_signup.js
+ * pwix:accounts/src/client/components/ac_signup/ac_signup.js
  * 
  * Parms:
  *  - display: the acDisplay instance
