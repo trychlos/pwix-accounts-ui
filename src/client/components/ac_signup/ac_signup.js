@@ -85,7 +85,7 @@ Template.ac_signup.helpers({
 });
 
 Template.ac_signup.events({
-    'keyup .ac-mail-input'( event, instance ){
+    'keyup .ac-input-mail'( event, instance ){
         instance.AC.enableSubmit();
     },
     'keyup .ac-input-password'( event, instance ){
