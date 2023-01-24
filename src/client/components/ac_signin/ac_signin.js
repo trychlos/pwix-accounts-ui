@@ -19,7 +19,7 @@ Template.ac_signin.onCreated( function(){
             const mail = self.$( '.ac-input-mail .ac-input' ).val();
             const pwd = self.$( '.ac-input-password .ac-input' ).val();
             const btn = self.$( '.ac-signin' ).closest( '.acUserLogin' ).find( '.ac-submit' );
-            btn.prop( 'disabled', !( pwiAccounts.validateEmail( mail ) && pwiAccounts.validatePasswordLength( pwd )));
+            btn.prop( 'disabled', !( pwiAccounts.checkEmail( mail ) && pwiAccounts.checkPasswordLength( pwd )));
         },
         errors: []
     };

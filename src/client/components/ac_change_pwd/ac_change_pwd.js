@@ -26,11 +26,11 @@ Template.ac_change_pwd.onCreated( function(){
             // we have to check that:
             //  - new password 'pwd2' is long and string enough
             //  - the two occurences 'pwd2' and 'pwd3' are the same
-            const lengthOk = pwiAccounts.validatePasswordLength( pwd2 );
+            const lengthOk = pwiAccounts.checkPasswordLength( pwd2 );
             if( !lengthOk ){
                 errs.push( '<p>'+pwiI18n.label( pwiAccounts.strings, 'user', 'password_too_short' )+'</p>' );
             }
-            const strengthOk = pwiAccounts.validatePasswordStrength( pwd2, self.AC.strength );
+            const strengthOk = pwiAccounts.checkPasswordStrength( pwd2, self.AC.strength );
             if( !strengthOk ){
                 errs.push( '<p>'+pwiI18n.label( pwiAccounts.strings, 'user', 'password_too_weak' )+'</p>' );
             }
@@ -38,7 +38,7 @@ Template.ac_change_pwd.onCreated( function(){
             if( !equalsOk ){
                 errs.push( '<p>'+pwiI18n.label( pwiAccounts.strings, 'user', 'password_different' )+'</p>' );
             }
-            btn.prop( 'disabled', !( pwiAccounts.validatePasswordLength( pwd1 ) && lengthOk && strengthOk && equalsOk ));
+            btn.prop( 'disabled', !( pwiAccounts.checkPasswordLength( pwd1 ) && lengthOk && strengthOk && equalsOk ));
             self.AC.errors.set( errs );
         },
         strength: '',

@@ -20,15 +20,15 @@ Template.ac_signup.onCreated( function(){
             const pwd = self.$( '.ac-input-password .ac-input' ).val();
             const btn = self.$( '.ac-signup' ).closest( '.acUserLogin' ).find( '.ac-submit' );
             let errs = [];
-            const emailOk =  pwiAccounts.validateEmail( mail );
+            const emailOk =  pwiAccounts.checkEmail( mail );
             if( !emailOk ){
                 errs.push( '<p>'+pwiI18n.label( pwiAccounts.strings, 'user', 'email_invalid' )+'</p>' );
             }
-            const lengthOk = pwiAccounts.validatePasswordLength( pwd );
+            const lengthOk = pwiAccounts.checkPasswordLength( pwd );
             if( !lengthOk ){
                 errs.push( '<p>'+pwiI18n.label( pwiAccounts.strings, 'user', 'password_too_short' )+'</p>' );
             }
-            const strengthOk = pwiAccounts.validatePasswordStrength( pwd, self.AC.strength );
+            const strengthOk = pwiAccounts.checkPasswordStrength( pwd, self.AC.strength );
             if( !strengthOk ){
                 errs.push( '<p>'+pwiI18n.label( pwiAccounts.strings, 'user', 'password_too_weak' )+'</p>' );
             }

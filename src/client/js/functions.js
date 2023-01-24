@@ -38,18 +38,18 @@ pwiAccounts = {
         },
         
         // validate an inputed email address
-        validateEmail( email ){
+        checkEmail( email ){
             //console.log( 'email='+email, 'emailValidator.validate='+emailValidator.validate( email ));
             return emailValidator.validate( email );
         },
 
         // validate the length of an inputed password
-        validatePasswordLength( passwd ){
+        checkPasswordLength( passwd ){
             return passwd && passwd.trim().length >= pwiAccounts.conf.passwordLength;
         },
 
         // validate the strength of an inputed password
-        validatePasswordStrength( passwd, strength ){
+        checkPasswordStrength( passwd, strength ){
             //console.log( 'strength=', strength, 'conf.passwordStrength', pwiAccounts.conf.passwordStrength );
             return strength >= pwiAccounts.conf.passwordStrength;
         }

@@ -25,7 +25,8 @@
 |   20 | 2023- 1-21 | when a name is set, set a data-ac-name attribute on the acUserLogin div |
 |   21 | 2023- 1-24 | CSS: when unlogged, the dropdown  button doesn't consider the padding set by the application (height is too small) |
 |   22 | 2023- 1-24 | configure a username minimal length |
-|   23 | | |
+|   23 | 2023- 1-24 | configure whether the signup has two password fields (+ prevent copy/paste in these fields) |
+|   24 | | |
 
 ---
 ## Done

@@ -17,7 +17,7 @@ Template.ac_reset_ask.onCreated( function(){
         enableSubmit: function(){
             const mail = self.$( '.ac-input-mail .ac-input' ).val();
             const btn = self.$( '.ac-reset-ask' ).closest( '.acUserLogin' ).find( '.ac-submit' );
-            btn.prop( 'disabled', !( pwiAccounts.validateEmail( mail )));
+            btn.prop( 'disabled', !( pwiAccounts.checkEmail( mail )));
         }
     };
 });
