@@ -46,9 +46,6 @@ Template.ac_dropdown.onCreated( function(){
                     result = self.AC.display.unloggedButtonContent();
                     break;
             }
-            if( result.startsWith( 'AC_DISP_' )){
-                result = pwiAccounts.User.display( result );
-            }
             return result;
         },
 

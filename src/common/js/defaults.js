@@ -11,8 +11,6 @@ defaults = {
         loginNonVerified: true,
         passwordLength: 8,
         passwordStrength: AC_PWD_MEDIUM,
-        preferredButton: AC_DISP_EMAIL,
-        preferredLabel: AC_DISP_EMAIL,
         ui: AC_UI_BOOTSTRAP
     }
 };

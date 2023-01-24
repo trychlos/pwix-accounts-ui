@@ -116,6 +116,13 @@ _buildStandardItems = function( source ){
     return result;
 }
 
+/*
+ * a function to return the email address of the logged-in user
+ */
+function _emailAddress(){
+    return pwiAccounts.User.emailAddress();
+}
+
 defaults = {
     ...defaults,
     ...{
@@ -124,7 +131,7 @@ defaults = {
             unloggedButtonAction: AC_ACT_DROPDOWN,
             loggedButtonClass: 'dropdown-toggle',
             unloggedButtonClass: '',
-            loggedButtonContent: AC_DISP_EMAIL,
+            loggedButtonContent: _emailAddress,
             unloggedButtonContent: '<span class="fa-regular fa-fw fa-user"></span>',
             loggedItems: _buildStandardItems( _stdMenuItems.AC_LOGGED ),
             unloggedItems: _buildStandardItems( _stdMenuItems.AC_UNLOGGED ),

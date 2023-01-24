@@ -12,11 +12,6 @@ AC_ACT_NONE = 'AC_ACT_NONE';
 AC_ACT_DROPDOWN = 'AC_ACT_DROPDOWN';
 AC_ACT_BUBBLE = 'AC_ACT_BUBBLE';
 
-// whether to display an identifier, a username or an email address
-AC_DISP_ID = 'AC_DISP_ID';
-AC_DISP_EMAIL = 'AC_DISP_EMAIL';
-AC_DISP_USERNAME = 'AC_DISP_USERNAME';
-
 // username / email address input rule
 AC_FIELD_NONE = 'AC_FIELD_NONE';
 AC_FIELD_OPTIONAL = 'AC_FIELD_OPTIONAL';

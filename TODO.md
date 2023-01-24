@@ -21,10 +21,11 @@
 |    9 | 2023- 1-21 | do not autopublish the list of users |
 |   13 | 2023- 1-21 | be able to handle all Meteor Accounts configuration |
 |   14 | 2023- 1-21 | make sure we provide a full replacement for accounts-ui (see enrollment ?) |
-|   16 | 2023- 1-21 | honor preferredLabel |
 |   18 | 2023- 1-21 | honor loginNonVerified |
 |   20 | 2023- 1-21 | when a name is set, set a data-ac-name attribute on the acUserLogin div |
-|   21 |  |  |
+|   21 | 2023- 1-24 | CSS: when unlogged, the dropdown  button doesn't consider the padding set by the application (height is too small) |
+|   22 | 2023- 1-24 | configure a username minimal length |
+|   23 | | |
 
 ---
 ## Done
@@ -49,6 +50,8 @@
 |      | 2023- 1-23 | done in v0.90.1 |
 |   15 | 2023- 1-21 | make sure we provide a full replacement for accounts-ui (see enrollment ?) |
 |      | 2023- 1-23 | cancelled as duplicate of #14 |
+|   16 | 2023- 1-21 | honor preferredLabel |
+|      | 2023- 1-24 | cancelled as parm is removed |
 |   19 | 2023- 1-21 | honor loggedButtonAction (resp. unlogged) in replacement of loggedButtonShown |
 |      | 2023- 1-23 | done in v0.90.1 |
 

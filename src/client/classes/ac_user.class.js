@@ -100,29 +100,6 @@ export class acUser {
     }
 
     /**
-     * Honor AC_DISP_xxx constants
-     * @param {String} display
-     * @returns {String} the actual display depending of the connected user
-     */
-    display( display ){
-        let result = '';
-        if( Meteor.userId()){
-            switch( display ){
-                case AC_DISP_ID:
-                    result = Meteor.userId();
-                    break;
-                case AC_DISP_EMAIL:
-                    result = this.emailAddress();
-                    break;
-                    result = this.username();
-                    break;
-                case AC_DISP_USERNAME:
-            }
-        }
-        return result;
-    }
-
-    /**
      * @returns {String} the (first) mail address of the currently logged-in user
      */
     emailAddress(){

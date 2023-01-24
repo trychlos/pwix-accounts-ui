@@ -190,30 +190,6 @@ Default is AC_PWD_MEDIUM, which corresponds to somewhat guessable, i.e. can be a
 </td></tr>
 
 <tr><td style="vertical-align:top;">
-preferredButton
-</td><td>
-Indicates which is the preferred user identifier to be displayed in the dropdown button when both are set.<br/>
-Accepted values are:
-<ul><li>AC_DISP_ID: preferably display the mongo user identifier</li><li>
-<li>AC_DISP_EMAIL: preferably display the email address when set</li><li>
-AC_DISP_USERNAME: preferably display the username when set</li></ul>
-A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.<br />
-Defaults to AC_DISP_EMAIL.
-</td></tr>
-
-<tr><td style="vertical-align:top;">
-preferredLabel
-</td><td>
-Indicates which is the preferred user label to be displayed as an application label when both are set.<br/>
-Accepted values are:
-<ul><li>AC_DISP_ID: preferably display the mongo user identifier</li><li>
-<li>AC_DISP_EMAIL: preferably display the email address when set</li><li>
-AC_DISP_USERNAME: preferably display the username when set</li></ul>
-A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.<br />
-Defaults to AC_DISP_EMAIL.
-</td></tr>
-
-<tr><td style="vertical-align:top;">
 ui
 </td><td>
 Indicates if dialogs are to be managed via the Bootstrap frontend toolkit or the jQuery UI ad-hoc widget.<br/>
@@ -492,10 +468,6 @@ In the same time, the 'acUserLogin' template advertises of its contexts:
 - AC_ACT_NONE
 - AC_ACT_DROPDOWN
 - AC_ACT_BUBBLE
-
-- AC_DISP_ID
-- AC_DISP_EMAIL
-- AC_DISP_USERNAME
 
 - AC_FIELD_NONE
 - AC_FIELD_OPTIONAL
