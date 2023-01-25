@@ -123,6 +123,13 @@ function _emailAddress(){
     return pwiAccounts.User.emailAddress();
 }
 
+/*
+ * a function to return the 'passwordTwice' package default value
+ */
+function _passwordTwice(){
+    return pwiAccounts.conf.passwordTwice;
+}
+
 defaults = {
     ...defaults,
     ...{
@@ -140,6 +147,9 @@ defaults = {
             loggedItemsBefore: [],
             unloggedItemsBefore: [],
             renderMode: AC_RENDER_MODAL,
+            signupPasswordTwice: _passwordTwice,
+            changePasswordTwice: _passwordTwice,
+            resetPasswordTwice: _passwordTwice,
             initialPanel: AC_PANEL_NONE,
             singlePanel: false,
             changePwdTextOne: '',

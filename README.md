@@ -152,15 +152,6 @@ If this is the case, note that it would be a string security hole to let the app
 </td></tr>
 
 <tr><td style="vertical-align:top;">
-loginNonVerified
-</td><td>
-Whether the application authorizes a user whose email address is not verified to log in.<br />
-This does only apply to a configuration where haveEmailAddress is AC_FIELD_MANDATORY.<br />
-Possible values: true|false, defaulting to true: the user is able to connect event when his email address is not verified.<br/>
-A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.<br />
-</td></tr>
-
-<tr><td style="vertical-align:top;">
 passwordLength
 </td><td>
 The minimal required password length when setting a new password, either when creating a new account of when changing the password of an existing account.<br />
@@ -177,7 +168,7 @@ The minimal required password strength when setting a new password, either when 
 <i>accounts</i> makes use of <a href="https://www.npmjs.com/package/zxcvbn">zxcvbn</a> package to estimate the strength of entered passwords.
 The estimated strength can take folloging values:
 <ul>
-<li>AC_PWD_VERYWEAK: too guessable, risky password (guesses < 10^3) </li>
+<li>AC_PWD_VERYWEAK: too guessable, risky password (guesses < 10^3)</li>
 <li>AC_PWD_WEAK: very guessable, protection from throttled online attacks (guesses < 10^6)</li>
 <li>AC_PWD_MEDIUM: somewhat guessable, protection from unthrottled online attacks (guesses < 10^8)</li>
 <li>AC_PWD_STRONG: safely unguessable, moderate protection from offline slow-hash scenario (guesses < 10^10)</li>
@@ -187,6 +178,20 @@ The package doesn't hardcodes by itself a minimal 'required strength', and so wi
 A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.<br />
 Default is AC_PWD_MEDIUM, which corresponds to somewhat guessable, i.e. can be a protection from unthrottled online attacks.<br />
 <b>Please note that, for security reasons, you shouldn't set the password required strength less than this default, unless you are absolutely sure of what you are doing.</b>
+</td></tr>
+
+<tr><td style="vertical-align:top;">
+passwordTwice
+</td><td>
+Whether a new password has to be entered twice.<br />
+Unless otherwise specified, this option applies to both:
+<ul>
+<li>defining a new account</li>
+<li>changing the user's password</li>
+<li>defining a new password after a reset</li>
+ </ul>
+A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.<br />
+Possible values are true or false, defaulting to true.</b>
 </td></tr>
 
 <tr><td style="vertical-align:top;">
@@ -318,6 +323,16 @@ Default is AC_RENDER_MODAL: when visible, the template is rendered as a modal di
 Whatever be the initial choice, the application may still change the rendering mode via the messages:
 <ul><li><code>ac-render-modal</code>
 </li><li><code>ac-render-div</code>.</li></ul>
+</td></tr>
+
+<tr><td style="vertical-align:top;">
+signupPasswordTwice<br />
+changePasswordTwice<br />
+resetPasswordTwice
+</td><td>
+Whether to request the user to enter twice the password of a newly created account, or the new password of an existing account.<br />
+A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
+The possible values are true or false, defaulting to the value of the <code>passwordTwice</code> package configuration.
 </td></tr>
 
 <tr><td style="vertical-align:top;">

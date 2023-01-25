@@ -16,9 +16,6 @@
 |      | 2023- 1-25 | or not !?? |
 |    2 | 2023- 1-20 | provides a button with a configurable label 'login with Zimbra' |
 |    3 | 2023- 1-20 | provides a button to connect to the future chosen identity manager |
-|    4 | 2023- 1-20 | honor haveEmailAddress, haveUsername |
-|      | 2023- 1-25 | signup: done |
-|      | 2023- 1-25 | signin: done |
 |    8 | 2023- 1-21 | develop a small SPA application to provide tests for the package |
 |    9 | 2023- 1-21 | do not autopublish the list of users |
 |   13 | 2023- 1-21 | be able to handle all Meteor Accounts configuration |
@@ -32,13 +29,21 @@
 |      | 2023- 1-25 | if this option is confirmed, should apply both to signup and change_pwd and reset_pwd |
 |   24 | 2023- 1-25 | BUG data associated to ac-password-data message is received as undefined when length=0 |
 |   25 | 2023- 1-25 | reset_ask make sure we take an email address |
-|   26 | | |
+|   26 | 2023- 1-25 | let the user change his email address |
+|   27 | 2023- 1-25 | let the user change his username |
+|   28 | 2023- 1-25 | have a profile dialog with all change options |
+|   29 | | |
 
 ---
 ## Done
 
 |   Id | Date       | Description and comment(s) |
 | ---: | :---       | :---                       |
+|    4 | 2023- 1-20 | honor haveEmailAddress, haveUsername |
+|      | 2023- 1-25 | signup: done |
+|      | 2023- 1-25 | signin: done |
+|      | 2023- 1-25 | change_pwd: done |
+|      | 2023- 1-25 | done with v0.9.1 |
 |    5 | 2023- 1-20 | configure whether username (resp. email address) may be used for login when accepted |
 |      | 2023- 1-25 | cancelled: when an identifier is enteredn test against both username and email address |
 |    6 | 2023- 1-20 | honor preferredButton |
