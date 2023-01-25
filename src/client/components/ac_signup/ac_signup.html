@@ -2,29 +2,40 @@
     <div class="ac-signup">
 
         <form>
-            {{#if textOne }}
-                <div class="ac-text ac-text-one">{{{ textOne }}}</div>
-                <div class="ac-mt1"></div>
+            {{#if haveUsername }}
+                {{#if textOne }}
+                    <div class="ac-text ac-text-one">{{{ textOne }}}</div>
+                    <div class="ac-mt1"></div>
+                {{/if}}
+                {{> ac_input_username new=true }}
             {{/if}}
 
-            {{> ac_input_mail }}
-
-            {{#if textTwo }}
-                <div class="ac-mt1"></div>
-                <div class="ac-text ac-text-two">{{{ textTwo }}}</div>
-                <div class="ac-mt1"></div>
+            {{#if haveEmailAddress }}
+                {{#if textTwo }}
+                    <div class="ac-text ac-text-two">{{{ textTwo }}}</div>
+                    <div class="ac-mt1"></div>
+                {{/if}}
+                {{> ac_input_email new=true }}
             {{/if}}
-
-            {{> ac_input_password (passwordData) }}
 
             {{#if textThree }}
                 <div class="ac-mt1"></div>
                 <div class="ac-text ac-text-three">{{{ textThree }}}</div>
+                <div class="ac-mt1"></div>
+            {{/if}}
+
+            {{> ac_input_password new=true }}
+
+            {{#if textFour }}
+                <div class="ac-mt1"></div>
+                <div class="ac-text ac-text-four">{{{ textFour }}}</div>
             {{/if}}
 
             <div class="ac-error">
                 {{{ errorMsg }}}
             </div>
+
+            {{> ac_mandatory_footer }}
         </form>
 
     </div>

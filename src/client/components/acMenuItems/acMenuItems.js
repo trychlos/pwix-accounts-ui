@@ -84,7 +84,6 @@ Template.acMenuItems.events({
         if( msg ){
             console.log( 'triggering', msg );
             $( event.currentTarget ).trigger( msg );
-            //return false;
         }
     }
 });

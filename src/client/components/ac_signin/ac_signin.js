@@ -6,7 +6,7 @@
  */
 import '../../../common/js/index.js';
 
-import '../ac_input_mail/ac_input_mail.js';
+import '../ac_input_email/ac_input_email.js';
 import '../ac_input_password/ac_input_password.js';
 
 import './ac_signin.html';
@@ -16,7 +16,7 @@ Template.ac_signin.onCreated( function(){
 
     self.AC = {
         enableSubmit: function(){
-            const mail = self.$( '.ac-input-mail .ac-input' ).val();
+            const mail = self.$( '.ac-input-email .ac-input' ).val();
             const pwd = self.$( '.ac-input-password .ac-input' ).val();
             const btn = self.$( '.ac-signin' ).closest( '.acUserLogin' ).find( '.ac-submit' );
             btn.prop( 'disabled', !( pwiAccounts.checkEmail( mail ) && pwiAccounts.checkPasswordLength( pwd )));

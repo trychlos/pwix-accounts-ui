@@ -11,6 +11,7 @@ defaults = {
         loginNonVerified: true,
         passwordLength: 8,
         passwordStrength: AC_PWD_MEDIUM,
+        usernameLength: 4,
         ui: AC_UI_BOOTSTRAP
     }
 };

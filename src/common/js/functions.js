@@ -2,12 +2,39 @@
  * pwix:accounts/src/common/js/functions.js
  */
 
-pwiAccounts.emailAddress = function( id ){
-    return pwiAccounts.User.emailAddress();
-}
+pwiAccounts = {
+    ...pwiAccounts,
+    ...{
+        /*
+         * @returns {Promise} which resolves to the main identity if the specified user
+         *  {
+         *      exists: true|false
+         *      emails: [] array of objects { address, verified }, may be empty
+         *      username: <string>
+         *  }
+         */
+        identity( id ){
+            return Meteor.callPromise( 'pwiAccounts.getIdentity', id );
+        },
 
-pwiAccounts.isEmailVerified = function( id ){
-    const u = Meteor.users.findOne({ _id: id });
-    const verified = u ? u.emails[0].verified : '';
-    return verified;
-}
+        /*
+         * @returns {Promise} which resolves to the first email address of the user
+         */
+        emailAddress( id ){
+            return pwiAccounts.identity( id )
+                .then(( result ) => {
+                        return result.exists ? ( result.emails[0].address ) : null;
+                });
+        },
+
+        /*
+         * @returns {Promise} which resolves to true if user exists and at least hist first email address has been verified
+         */
+        isEmailVerified( id ){
+            return pwiAccounts.identity( id )
+                .then(( result ) => {
+                        return result.exists ? ( result.emails[0].verified ) : false;
+                });
+        }
+    }
+};

@@ -6,7 +6,7 @@
 */
 import '../../../common/js/index.js';
 
-import '../ac_input_mail/ac_input_mail.js';
+import '../ac_input_email/ac_input_email.js';
 
 import './ac_reset_ask.html';
 
@@ -15,7 +15,7 @@ Template.ac_reset_ask.onCreated( function(){
 
     self.AC = {
         enableSubmit: function(){
-            const mail = self.$( '.ac-input-mail .ac-input' ).val();
+            const mail = self.$( '.ac-input-email .ac-input' ).val();
             const btn = self.$( '.ac-reset-ask' ).closest( '.acUserLogin' ).find( '.ac-submit' );
             btn.prop( 'disabled', !( pwiAccounts.checkEmail( mail )));
         }

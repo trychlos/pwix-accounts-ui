@@ -28,35 +28,46 @@
         }
     }
     .ac-error {
-        font-size: 90%;
+        font-size: 85%;
+        font-style: italic;
         color: red;
         p:first-child {
             margin-top: 0.5em;
         }
     }
     .ac-input-password {
-        .ac-strength {
-            align-items: center;
-
-            .ac-strength-label {
-                margin-right: 0.5em;
-                font-size: 75%;
-                color: black;
-            }
-            .ac-strength-bar {
-                height: 0.25em;
-            }
-            .ac-strength-other {
-                height: 0.25em;
-                background-color: #f0f0f0;
-                border: 1px solid #e0e0e0;
-            }
+        .ac-eye {
+            margin-left: -30px;
+            color: var( --bs-gray );
+            position: relative;
+            bottom: -2px;
+        }
+        .ac-strength-label {
+            margin-right: 0.5em;
+            font-size: 75%;
+            color: black;
+        }
+        .ac-strength-bar {
+            height: 0.25em;
+        }
+        .ac-strength-other {
+            height: 0.25em;
+            background-color: #f0f0f0;
+            border: 1px solid #e0e0e0;
         }
     }
-    .ac-label {
-        margin-bottom: 0.5em;
+    form {
         .form-label {
-            margin-bottom: 0;
+            margin: 0;
+        }
+        div:not( :first-child ) .ac-label {
+            margin-top: 0.5em;
+        }
+        input {
+            margin-top: 0.25em;
+        }
+        input.form-control.ac-erroneous {
+            border-color: var( --bs-danger );
         }
     }
     .ac-link a {
@@ -68,6 +79,25 @@
     }
     .ac-link a:hover {
         text-decoration: underline;
+    }
+    .ac-mandatory-footer {
+        position: relative;
+        bottom: -0.5em;
+        margin-top: 1em;
+    }
+    .ac-mandatory-field:not( :first-child ) {
+        margin-left: 0.25em;
+    }
+    .ac-mandatory-label {
+        margin-left: 0.5em;
+    }
+    .ac-mandatory-field,
+    .ac-mandatory-label {
+        font-size: 85%;
+        color: var( --bs-orange );
+    }
+    .ac-mandatory-field sup {
+        top: -0.4em;
     }
     .ac-modal {
         color :black;

@@ -154,6 +154,7 @@ defaults = {
             signupTextOne: '',
             signupTextTwo: '',
             signupTextThree: '',
+            signupTextFour: '',
             verifyAskTextOne: { group:'verify_ask', label:'textOne' },
             signinLink: true,
             signupLink: true,

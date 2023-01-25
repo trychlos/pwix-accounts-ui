@@ -33,14 +33,24 @@ pwiAccounts.strings = {
             signup: 'Sign up for a new account',
             resetask: 'Reset my password'
         },
-        input_mail: {
+        input_email: {
             label: 'Mail address',
-            placeholder: 'Enter your email address, e.g. name@example.com'
+            placeholder: 'Enter your email address, e.g. name@example.com',
+            already_exists: 'Email address already known',
+            invalid: 'Invalid email address'
         },
         input_password: {
             label: 'Password',
             placeholder: 'Enter your password',
-            strength: 'Strength'
+            strength: 'Strength',
+            too_short: 'Too short password',
+            too_weak: 'Too weak password'
+        },
+        input_username: {
+            label: 'Username',
+            placeholder: 'Enter your username',
+            too_short: 'Too short username',
+            already_exists: 'Username already in use'
         },
         logged: {
             signout: 'Sign out',
@@ -91,10 +101,8 @@ pwiAccounts.strings = {
             verify_error: 'Sorry, it happens that I am unable to send a verification mail. Be kind enough to try later.',
             verify_success: 'Mail successfully sent',
             success_signup: 'New account {0} successfully created',
-            password_too_weak: 'Too weak password',
-            password_too_short: 'Too short password',
             password_different: 'Passwords are different',
-            email_invalid: 'Invalid email address'
+            mandatory_fields: 'Mandatory fields'
         },
         verify_ask: {
             modal_title: 'Re-send verification mail',
@@ -139,14 +147,24 @@ pwiAccounts.strings = {
             signup: 'Créer un nouveau compte',
             resetask: 'Réinitialiser mon mot de passe'
         },
-        input_mail: {
+        input_email: {
             label: 'Adresse de messagerie',
-            placeholder: 'Saisissez votre adresse de messagerie (ex.: nom@example.com)'
+            placeholder: 'Saisissez votre adresse de messagerie (ex.: nom@example.com)',
+            already_exists: 'L\'adresse de messagerie existe déjà',
+            invalid: 'L\'adresse de messagerie est invalide'
         },
         input_password: {
             label: 'Mot de passe',
             placeholder: 'Saisissez votre mot de passe',
-            strength: 'Sécurité'
+            strength: 'Sécurité',
+            too_short: 'Le mot de passe est trop court',
+            too_weak: 'Le mot de passe est trop faible'
+        },
+        input_username: {
+            label: 'Nom d\'utilisateur',
+            placeholder: 'Saisissez votre nom d\'utilisateur',
+            already_exists: 'Le nom d\'utilisateur est déjà utilisé',
+            too_short: 'Le nom d\'utilisateur est trop court'
         },
         logged: {
             signout: 'Me déconnecter',
@@ -199,10 +217,8 @@ pwiAccounts.strings = {
             verify_error: 'Humm... Désolé, mais il semble que je ne sois pas dans la possibilité de vous envoyer un message. Merci de bien vouloir ré-essayer un peu plus tard.',
             verify_success: 'Message envoyé avec succès',
             success_signup: 'Nouveau compte {0} créé',
-            password_too_weak: 'Le mot de passe est trop faible',
-            password_too_short: 'Le mot de passe est trop court',
             password_different: 'Les mots de passe sont différents',
-            email_invalid: 'L\'adresse de messagerie est invalide'
+            mandatory_fields: 'Champs obligatoires'
         },
         verify_ask: {
             modal_title: 'Vérifier l\'adresse de messagerie',

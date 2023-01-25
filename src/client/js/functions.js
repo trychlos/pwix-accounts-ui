@@ -4,8 +4,6 @@
 
 import { Tracker } from 'meteor/tracker';
 
-import emailValidator from 'email-validator';
-
 _dropdownItems = {
     dep: null,
     state: null,
@@ -35,23 +33,6 @@ pwiAccounts = {
             }
             //console.log( _dropdownItems );
             return _dropdownItems.items;
-        },
-        
-        // validate an inputed email address
-        checkEmail( email ){
-            //console.log( 'email='+email, 'emailValidator.validate='+emailValidator.validate( email ));
-            return emailValidator.validate( email );
-        },
-
-        // validate the length of an inputed password
-        checkPasswordLength( passwd ){
-            return passwd && passwd.trim().length >= pwiAccounts.conf.passwordLength;
-        },
-
-        // validate the strength of an inputed password
-        checkPasswordStrength( passwd, strength ){
-            //console.log( 'strength=', strength, 'conf.passwordStrength', pwiAccounts.conf.passwordStrength );
-            return strength >= pwiAccounts.conf.passwordStrength;
         }
     }
 };

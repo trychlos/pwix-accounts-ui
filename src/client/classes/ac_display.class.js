@@ -717,7 +717,8 @@ export class acDisplay {
 
     /**
      * Getter/Setter
-     * Returns the HTML content to be put in the first place of the 'signup' section, before the mail
+     * Returns the HTML content to be put in the first place of the 'signup' section, before the username
+     * Not considered if username is not permitted.
      * @param {String|Function} label a string or a function which returns a string
      * @returns {String}
      */
@@ -727,7 +728,8 @@ export class acDisplay {
 
     /**
      * Getter/Setter
-     * Returns the HTML content to be put in the second place of the 'signup' section, between the mail and the password
+     * Returns the HTML content to be put in the second place of the 'signup' section, before the mail
+     * Not considered if email address is not considered
      * @param {String|Function} label a string or a function which returns a string
      * @returns {String}
      */
@@ -737,12 +739,22 @@ export class acDisplay {
 
     /**
      * Getter/Setter
-     * Returns the HTML content to be put in the last place of the 'signup' section, after the password
+     * Returns the HTML content to be put in the third place of the 'signup' section, before the password
      * @param {String|Function} label a string or a function which returns a string
      * @returns {String}
      */
     signupTextThree( label ){
         return this._get_set_string_fn( 'signupTextThree', label );
+    }
+
+    /**
+     * Getter/Setter
+     * Returns the HTML content to be put in the last place of the 'signup' section, after the password
+     * @param {String|Function} label a string or a function which returns a string
+     * @returns {String}
+     */
+    signupTextFour( label ){
+        return this._get_set_string_fn( 'signupTextFour', label );
     }
 
     /**

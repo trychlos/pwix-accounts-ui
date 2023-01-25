@@ -108,11 +108,11 @@ Template.acUserLogin.events({
                 pwiAccounts.User.changePwd( pwd1, pwd2, $( event.currentTarget ));
                 break;
             case AC_PANEL_RESETASK:
-                mail = instance.$( '.ac-reset-ask .ac-input-mail .ac-input' ).val().trim();
+                mail = instance.$( '.ac-reset-ask .ac-input-email .ac-input' ).val().trim();
                 pwiAccounts.User.resetPwd( mail, $( event.currentTarget ));
                 break;
             case AC_PANEL_SIGNIN:
-                mail = instance.$( '.ac-signin .ac-input-mail .ac-input' ).val().trim();
+                mail = instance.$( '.ac-signin .ac-input-email .ac-input' ).val().trim();
                 password = instance.$( '.ac-signin .ac-input-password .ac-input' ).val().trim();
                 //console.log( 'mail',mail,'password', pwd );
                 pwiAccounts.User.loginWithPassword( mail, password, $( event.currentTarget ));
@@ -121,7 +121,7 @@ Template.acUserLogin.events({
                 pwiAccounts.User.logout();
                 break;
             case AC_PANEL_SIGNUP:
-                mail = instance.$( '.ac-signup .ac-input-mail .ac-input' ).val().trim();
+                mail = instance.$( '.ac-signup .ac-input-email .ac-input' ).val().trim();
                 password = instance.$( '.ac-signup .ac-input-password .ac-input' ).val().trim();
                 const autoConnect = instance.AC.display.signupAutoConnect();
                 pwiAccounts.User.createUser( mail, password, $( event.currentTarget ), autoConnect );

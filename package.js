@@ -50,6 +50,7 @@ Package.onTest( function( api ){
 function configure( api ){
     api.versionsFrom( '2.9.1' );
     api.use( 'blaze-html-templates', 'client' );
+    api.use( 'deanius:promise', 'client' );
     api.use( 'ecmascript' );
     api.use( 'less', 'client' );
     api.use( 'pwi:bootbox', 'client' );

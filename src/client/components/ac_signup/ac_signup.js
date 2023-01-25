@@ -6,8 +6,10 @@
  */
 import '../../../common/js/index.js';
 
-import '../ac_input_mail/ac_input_mail.js';
+import '../ac_input_email/ac_input_email.js';
 import '../ac_input_password/ac_input_password.js';
+import '../ac_input_username/ac_input_username.js';
+import '../ac_mandatory_footer/ac_mandatory_footer.js';
 
 import './ac_signup.html';
 
@@ -15,65 +17,67 @@ Template.ac_signup.onCreated( function(){
     const self = this;
 
     self.AC = {
-        enableSubmit: function(){
-            const mail = self.$( '.ac-input-mail .ac-input' ).val();
-            const pwd = self.$( '.ac-input-password .ac-input' ).val();
-            const btn = self.$( '.ac-signup' ).closest( '.acUserLogin' ).find( '.ac-submit' );
-            let errs = [];
-            const emailOk =  pwiAccounts.checkEmail( mail );
-            if( !emailOk ){
-                errs.push( '<p>'+pwiI18n.label( pwiAccounts.strings, 'user', 'email_invalid' )+'</p>' );
-            }
-            const lengthOk = pwiAccounts.checkPasswordLength( pwd );
-            if( !lengthOk ){
-                errs.push( '<p>'+pwiI18n.label( pwiAccounts.strings, 'user', 'password_too_short' )+'</p>' );
-            }
-            const strengthOk = pwiAccounts.checkPasswordStrength( pwd, self.AC.strength );
-            if( !strengthOk ){
-                errs.push( '<p>'+pwiI18n.label( pwiAccounts.strings, 'user', 'password_too_weak' )+'</p>' );
-            }
-            btn.prop( 'disabled', !( emailOk && lengthOk && strengthOk ));
-            self.AC.errors.set( errs );
+        emailOk: new ReactiveVar( true ),
+        passwordOk: new ReactiveVar( true ),
+        usernameOk: new ReactiveVar( true ),
+
+        // submit button
+        submitBtn: null,
+
+        haveEmailAddress(){
+            return pwiAccounts.conf.haveEmailAddress !== AC_FIELD_NONE;
         },
+        haveUsername(){
+            return pwiAccounts.conf.haveUsername !== AC_FIELD_NONE;
+        },
+
         resetInput(){
-            self.$( '.ac-input-mail input' ).val( '' );
-            self.$( '.ac-input-password input' ).val( '' );
+            self.$( '.ac-input-password' ).trigger( 'ac-reset-input' );
+            if( self.AC.haveEmailAddress()){
+                self.$( '.ac-input-email' ).trigger( 'ac-reset-input' );
+            }
+            if( self.AC.haveUsername()){
+                self.$( '.ac-input-username' ).trigger( 'ac-reset-input' );
+            }
             self.$( 'input' ).first().focus();
-        },
-        strength: '',
-        length: 0,
-        errors: new ReactiveVar( [] )
+        }
     };
 });
 
 Template.ac_signup.onRendered( function(){
-    this.AC.enableSubmit();
+    const self = this;
+
+    self.AC.submitBtn = self.$( '.ac-signup' ).closest( '.acUserLogin' ).find( '.ac-submit' );
+    this.AC.resetInput();
+
+    self.autorun(() => {
+        self.AC.submitBtn.prop( 'disabled', !self.AC.emailOk.get() || !self.AC.usernameOk.get() || !self.AC.passwordOk.get());
+    });
 });
 
 Template.ac_signup.helpers({
     // error message
     errorMsg(){
-        let html = Template.instance().AC.errors.get().join( '\n' );
-        const errmsg = this.display.errorMsg();
-        if( errmsg ){
-            html += '\n<p>'+errmsg+'</p>';
-        }
-        return html;
+        // even if we have no message at all, we keep at least one blank line
+        return '<p>'+this.display.errorMsg()+'</p>';
     },
 
-    // provides data to ac_input_password template
-    passwordData(){
-        return {
-            new: true
-        };
+    // whether email address is permitted
+    haveEmailAddress(){
+        return Template.instance().AC.haveEmailAddress();
     },
 
-    // the text at the first place of the section
+    // whether username is permitted
+    haveUsername(){
+        return Template.instance().AC.haveUsername();
+    },
+
+    // the text at the first place of the section (if username)
     textOne(){
         return this.display.signupTextOne();
     },
 
-    // the text at the second place of the section
+    // the text at the second place of the section (if email)
     textTwo(){
         return this.display.signupTextTwo();
     },
@@ -81,22 +85,32 @@ Template.ac_signup.helpers({
     // the text at the third place of the section
     textThree(){
         return this.display.signupTextThree();
+    },
+
+    // the text at the fourth place of the section
+    textFour(){
+        return this.display.signupTextFour();
     }
 });
 
 Template.ac_signup.events({
-    'keyup .ac-input-mail'( event, instance ){
-        instance.AC.enableSubmit();
+    // message sent by the input email component
+    'ac-email-data .ac-signup'( event, instance, data ){
+        //console.log( 'ac-email-data', data );
+        instance.AC.emailOk.set( data.ok );
     },
-    'keyup .ac-input-password'( event, instance ){
-        instance.AC.enableSubmit();
+
+    // message sent by the input password component
+    //  NB: happens that data arrives undefined :( see #24
+    'ac-password-data .ac-signup'( event, instance, data ){
+        //console.log( 'ac-password-data', data );
+        instance.AC.passwordOk.set( data ? data.ok : false );
     },
-    'ac-password .ac-change-pwd'( event, instance, data ){
-        // may happen that data be undefined !
-        if( data ){
-            instance.AC.strength = data.strength;
-            instance.AC.length = data.length;
-        }
+
+    // message sent by the input username component
+    'ac-username-data .ac-signup'( event, instance, data ){
+        //console.log( 'ac-username-data', data );
+        instance.AC.usernameOk.set( data.ok );
     },
 
     // message sent from acUserLogin after having successfully created a new user

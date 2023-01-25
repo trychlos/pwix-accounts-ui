@@ -190,6 +190,15 @@ Default is AC_PWD_MEDIUM, which corresponds to somewhat guessable, i.e. can be a
 </td></tr>
 
 <tr><td style="vertical-align:top;">
+usernameLength
+</td><td>
+The minimal required username length.<br />
+The package doesn't hardcodes by itself a minimal 'minimal length'.<br />
+Default is four (4) characters.<br/>
+A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.<br />
+</td></tr>
+
+<tr><td style="vertical-align:top;">
 ui
 </td><td>
 Indicates if dialogs are to be managed via the Bootstrap frontend toolkit or the jQuery UI ad-hoc widget.<br/>
@@ -356,10 +365,11 @@ signoutTextOne<br />
 signupTextOne<br />
 signupTextTwo<br />
 signupTextThree<br />
+signupTextFour<br />
 verifyAskTextOne
 </td><td style="vertical-align:top;">
 Panels personalization<br/>
-These options let the application provides its own content before (TextBefore) or after (TextAfter) the input fields of the corresponding panel.<br />
+These options let the application provides its own content before the input fields of the corresponding panel.<br />
 Value is expected to be a string which contains HTML code, or a function which returns such a string.
 </td></tr>
 
@@ -446,10 +456,11 @@ In the same time, the 'acUserLogin' template advertises of its contexts:
     When a modal has been hidden (resp. shown).<br />
     The `.ac-modal` element is provided as a data on these two messages.
 
-- ac-password
+- ac-password-data
+- ac-username-data
+- ac-email-data
 
-    Provides the current characteristics of the new password being inputed by the user.<br />
-    Provides { length, strength } data (but not the password itself by the matter).
+    Provides the current characteristics of the new password (resp. username, resp. email address) being inputed by the user.
 
 ## Advanced use cases
 
