@@ -52,7 +52,7 @@ export class acUser {
         Accounts.changePassword( oldpwd, newpwd, ( err ) => {
             if( err ){
                 console.error( err );
-                target.trigger( 'ac-dialog-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_change_pwd' ));
+                target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_change_pwd' ));
             } else {
                 pwiAccounts.Panel.asked( AC_PANEL_NONE );
                 pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'success_change_pwd' ));
@@ -79,7 +79,7 @@ export class acUser {
             Accounts.createUser({ email:mail, password:password }, ( err ) => {
                 if( err ){
                     console.error( err );
-                    target.trigger( 'ac-dialog-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_signup' ));
+                    target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_signup' ));
                 } else {
                     self.state( AC_LOGGED );
                     pwiAccounts.Panel.asked( AC_PANEL_NONE );
@@ -90,7 +90,7 @@ export class acUser {
             Meteor.call( 'pwiAccounts.createUser', mail, password, ( err, res ) => {
                 if( err ){
                     console.error( err );
-                    target.trigger( 'ac-dialog-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_signup' ));
+                    target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_signup' ));
                 } else {
                     pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'success_signup' ).format( mail ));
                     $( '.acUserLogin' ).trigger( 'ac-user-create', mail );
@@ -111,20 +111,20 @@ export class acUser {
     /**
      * Login with a (mail,password) couple
      * Change the connection state to 'LOGGED' if OK, or send an 'ac-error' message to the target
-     * @param {String} mail the entered mail address
+     * @param {String} userid the entered username or mail address
      * @param {String} password the entered password
      * @param {Object} target the target of the sent events
      */
-    loginWithPassword( mail, password, target ){
+    loginWithPassword( userid, password, target ){
         const self = this;
-        Meteor.loginWithPassword( mail, password, ( err ) => {
+        Meteor.loginWithPassword( userid, password, ( err ) => {
             if( err ){
                 console.error( err );
-                target.trigger( 'ac-dialog-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_login' ));
+                target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_login' ));
             } else {
                 self.state( AC_LOGGED );
                 pwiAccounts.Panel.asked( AC_PANEL_NONE );
-                $( '.acUserLogin' ).trigger( 'ac-user-login', mail );
+                $( '.acUserLogin' ).trigger( 'ac-user-login', userid );
             }
         });
     }
@@ -157,7 +157,7 @@ export class acUser {
         Accounts.forgotPassword({ email: mail }, ( err ) => {
             if( err ){
                 console.error( err );
-                target.trigger( 'ac-dialog-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_reset_send' ));
+                target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_reset_send' ));
             } else {
                 pwiAccounts.Panel.asked( AC_PANEL_NONE );
                 $( '.acUserLogin' ).trigger( 'ac-user-resetasked', mail );

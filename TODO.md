@@ -13,27 +13,34 @@
 |    1 | 2023- 1-20 | be able to define a specific format for a form in some situations |
 |      |            | use case: have a specific form when defining the first account of an application |
 |      | 2023- 1-21 | rather build each panel dynamically from configuration options |
+|      | 2023- 1-25 | or not !?? |
 |    2 | 2023- 1-20 | provides a button with a configurable label 'login with Zimbra' |
 |    3 | 2023- 1-20 | provides a button to connect to the future chosen identity manager |
 |    4 | 2023- 1-20 | honor haveEmailAddress, haveUsername |
-|    5 | 2023- 1-20 | configure whether username (resp. email address) may be used for login when accepted |
+|      | 2023- 1-25 | signup: done |
+|      | 2023- 1-25 | signin: done |
 |    8 | 2023- 1-21 | develop a small SPA application to provide tests for the package |
 |    9 | 2023- 1-21 | do not autopublish the list of users |
 |   13 | 2023- 1-21 | be able to handle all Meteor Accounts configuration |
 |   14 | 2023- 1-21 | make sure we provide a full replacement for accounts-ui (see enrollment ?) |
 |   18 | 2023- 1-21 | honor loginNonVerified |
 |   20 | 2023- 1-21 | when a name is set, set a data-ac-name attribute on the acUserLogin div |
-|   21 | 2023- 1-24 | CSS: when unlogged, the dropdown  button doesn't consider the padding set by the application (height is too small) |
+|   21 | 2023- 1-24 | BUG CSS: when unlogged, the dropdown  button doesn't consider the padding set by the application (height is too small) |
 |   23 | 2023- 1-24 | configure whether the signup has two password fields (+ prevent copy/paste in these fields) |
 |      | 2023- 1-24 | having an eye on the right of the password input field would make two password fields useless |
-|   24 | 2023- 1-25 | data associated to ac-password-data message is received as undefined when length=0 |
-|   25 | | |
+|      | 2023- 1-25 | eye is ok, but should not prevent these two input fields |
+|      | 2023- 1-25 | if this option is confirmed, should apply both to signup and change_pwd and reset_pwd |
+|   24 | 2023- 1-25 | BUG data associated to ac-password-data message is received as undefined when length=0 |
+|   25 | 2023- 1-25 | reset_ask make sure we take an email address |
+|   26 | | |
 
 ---
 ## Done
 
 |   Id | Date       | Description and comment(s) |
 | ---: | :---       | :---                       |
+|    5 | 2023- 1-20 | configure whether username (resp. email address) may be used for login when accepted |
+|      | 2023- 1-25 | cancelled: when an identifier is enteredn test against both username and email address |
 |    6 | 2023- 1-20 | honor preferredButton |
 |      | 2023- 1-23 | done in v0.90.1 |
 |    7 | 2023- 1-21 | have a hardcoded min password length |

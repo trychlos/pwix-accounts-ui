@@ -112,7 +112,8 @@ Template.acUserLogin.events({
                 pwiAccounts.User.resetPwd( mail, $( event.currentTarget ));
                 break;
             case AC_PANEL_SIGNIN:
-                mail = instance.$( '.ac-signin .ac-input-email .ac-input' ).val().trim();
+                // 'mail' here may be either an email address or a username
+                mail = instance.$( '.ac-signin .ac-input-userid .ac-input' ).val().trim();
                 password = instance.$( '.ac-signin .ac-input-password .ac-input' ).val().trim();
                 //console.log( 'mail',mail,'password', pwd );
                 pwiAccounts.User.loginWithPassword( mail, password, $( event.currentTarget ));

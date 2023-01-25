@@ -16,34 +16,23 @@ Template.ac_change_pwd.onCreated( function(){
     const self = this;
 
     self.AC = {
+        error: new ReactiveVar( '' ),
+
         enableSubmit: function(){
-            const pwd1 = self.$( '.ac-old .ac-input' ).val();
             const pwd2 = self.$( '.ac-newone .ac-input' ).val();
             const pwd3 = self.$( '.ac-newtwo .ac-input' ).val();
             const btn = self.$( '.ac-change-pwd' ).closest( '.acUserLogin' ).find( '.ac-submit' );
-            let errs = [];
+            self.AC.error.set( '' );
             // whether the old password 'pwd1' is ok will be validated by the Meteor.Accounts package
-            // we have to check that:
-            //  - new password 'pwd2' is long and string enough
-            //  - the two occurences 'pwd2' and 'pwd3' are the same
-            const lengthOk = pwiAccounts.checkPasswordLength( pwd2 );
-            if( !lengthOk ){
-                errs.push( '<p>'+pwiI18n.label( pwiAccounts.strings, 'user', 'password_too_short' )+'</p>' );
-            }
-            const strengthOk = pwiAccounts.checkPasswordStrength( pwd2, self.AC.strength );
-            if( !strengthOk ){
-                errs.push( '<p>'+pwiI18n.label( pwiAccounts.strings, 'user', 'password_too_weak' )+'</p>' );
-            }
+            // whether the new password 'pwd2' is ok is checked by the input password component
+            // we have to check that the two occurences 'pwd2' and 'pwd3' are the same
             const equalsOk = pwd2 === pwd3;
+            //console.log( 'pwd2='+pwd2, 'pwd3='+pwd3, 'equalsOk='+equalsOk );
             if( !equalsOk ){
-                errs.push( '<p>'+pwiI18n.label( pwiAccounts.strings, 'user', 'password_different' )+'</p>' );
+                self.AC.error.set( '<p>'+pwiI18n.label( pwiAccounts.strings, 'user', 'password_different' )+'</p>' );
             }
-            btn.prop( 'disabled', !( pwiAccounts.checkPasswordLength( pwd1 ) && lengthOk && strengthOk && equalsOk ));
-            self.AC.errors.set( errs );
+            btn.prop( 'disabled', !( pwd2.length && pwd3.length && equalsOk ));
         },
-        strength: '',
-        length: 0,
-        errors: new ReactiveVar( [] )
     };
 });
 
@@ -54,27 +43,21 @@ Template.ac_change_pwd.onRendered( function(){
 Template.ac_change_pwd.helpers({
     // error message
     errorMsg(){
-        let html = Template.instance().AC.errors.get().join( '\n' );
-        const errmsg = this.display.errorMsg();
-        if( errmsg ){
-            html += '\n<p>'+errmsg+'</p>';
-        }
-        return html;
+        return Template.instance().AC.error.get() || this.display.errorMsg();
     },
 
     // params to first occurrence of new password
-    labelNewOne(){
+    parmNewOne(){
         return {
             label: pwiI18n.label( pwiAccounts.strings, 'change_pwd', 'new_label' ),
             placeholder: pwiI18n.label( pwiAccounts.strings, 'change_pwd', 'newone_placeholder' ),
-            new: true,
-            trigger: true
+            new: true
         }
     },
 
     // params to second occurrence of new password
     //  do not set as 'new' to not have the 'strength' display
-    labelNewTwo(){
+    parmNewTwo(){
         return {
             label: '',
             placeholder: pwiI18n.label( pwiAccounts.strings, 'change_pwd', 'newtwo_placeholder' )
@@ -108,8 +91,9 @@ Template.ac_change_pwd.events({
     'keyup .ac-change-pwd'( event, instance ){
         instance.AC.enableSubmit();
     },
-    'ac-password .ac-change-pwd'( event, instance, data ){
+    'ac-password-data .ac-change-pwd'( event, instance, data ){
         // may happen that data be undefined !
+        console.log( 'ac-password-data', data );
         if( data ){
             instance.AC.strength = data.strength;
             instance.AC.length = data.length;

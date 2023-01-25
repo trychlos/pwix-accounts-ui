@@ -5,9 +5,9 @@
 pwiAccounts.strings = {
     'en-US': {
         buttons: {
-            reset_link: 'Lost password ?',
-            signin_link: 'Sign in with my account',
-            signup_link: 'Sign up for a new account',
+            reset_link: '[ Lost password ? ]',
+            signin_link: '[ Sign in with my account ]',
+            signup_link: '[ Sign up for a new account ]',
             cancel_label: 'Cancel',
             send_label: 'Send',
             signin_label: 'Sign in',
@@ -45,6 +45,10 @@ pwiAccounts.strings = {
             strength: 'Strength',
             too_short: 'Too short password',
             too_weak: 'Too weak password'
+        },
+        input_userid: {
+            label: 'Identifier',
+            placeholder: 'Enter your username or your email address'
         },
         input_username: {
             label: 'Username',
@@ -88,7 +92,7 @@ pwiAccounts.strings = {
             resetask: 'Reset my password'
         },
         user: {
-            error_login: 'Invalid mail address and/or password. Please check your credentials.',
+            error_login: 'Invalid mail address and/or password. Please check your credentials. In case of doubt, please contact our administrator.',
             error_signup: 'Unable to create this new account',
             mail_verified_title: 'Mail verification',
             mail_verified_text: 'Hi.<br />Your mail is now verified.<br />You can participate (and enjoy).',
@@ -119,9 +123,9 @@ pwiAccounts.strings = {
 
     'fr-FR': {
         buttons: {
-            reset_link: 'Mot de passe oublié',
-            signin_link: 'M\'identifier',
-            signup_link: 'Nouveau compte',
+            reset_link: '[ Mot de passe oublié ]',
+            signin_link: '[ M\'identifier ]',
+            signup_link: '[ Nouveau compte ]',
             cancel_label: 'Annuler',
             send_label: 'Envoyer',
             signin_label: 'M\'identifier',
@@ -159,6 +163,10 @@ pwiAccounts.strings = {
             strength: 'Sécurité',
             too_short: 'Le mot de passe est trop court',
             too_weak: 'Le mot de passe est trop faible'
+        },
+        input_userid: {
+            label: 'Identifiant',
+            placeholder: 'Saisissez votre nom d\'utilisateur ou votre adresse de messagerie'
         },
         input_username: {
             label: 'Nom d\'utilisateur',
@@ -203,7 +211,7 @@ pwiAccounts.strings = {
             resetask: 'Réinitialisation du mot de passe'
         },
         user: {
-            error_login: 'L\'adresse de messagerie et/ou le mot de passe sont invalides. Merci de bien vouloir les vérifier.',
+            error_login: 'L\'adresse de messagerie et/ou le mot de passe sont invalides. Merci de bien vouloir les vérifier.\nEn cas de doute, vous pouvez vous rapprocher de notre administrateur.',
             error_signup: 'Impossible de créer ce nouveau compte.',
             mail_verified_title: 'Vérification de l\'adresse de messagerie',
             mail_verified_text: 'Bonjour,<br />Votre adresse de messagerie est maintenant considérée comme vérifiée.<br />'

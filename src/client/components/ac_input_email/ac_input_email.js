@@ -5,7 +5,7 @@
  * 
  * Parms:
  *  - label: String, defaulting to 'Mail address'
- *  - placeholder: String, defaulting to 'Enter your password'
+ *  - placeholder: String, defaulting to 'Enter your email address'
  */
 
 import emailValidator from 'email-validator';
@@ -106,9 +106,10 @@ Template.ac_input_email.helpers({
         return this.new || false;
     },
 
-    // whether the username is mandatory ?
+    // whether the username is marked as mandatory ?
+    //  true if field is required and new account
     mandatory(){
-        return pwiAccounts.conf.haveUsername === AC_FIELD_MANDATORY;
+        return this.new && pwiAccounts.conf.haveUsername === AC_FIELD_MANDATORY;
     },
 
     // returns the translated string

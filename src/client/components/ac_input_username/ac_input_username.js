@@ -104,9 +104,10 @@ Template.ac_input_username.helpers({
         return this.new || false;
     },
 
-    // whether the username is mandatory ?
+    // whether the username is marked as mandatory ?
+    //  true if field is required and new account
     mandatory(){
-        return pwiAccounts.conf.haveUsername === AC_FIELD_MANDATORY;
+        return this.new && pwiAccounts.conf.haveUsername === AC_FIELD_MANDATORY;
     },
 
     // returns the keyed translated string
