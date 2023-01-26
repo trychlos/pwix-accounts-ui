@@ -130,47 +130,6 @@ export class acDisplay {
 
     // public data
 
-    // the title of the modal dialogs is configured here
-    //  buttons are configured in 'ac_footer_buttons' component
-    static c = {
-        AC_PANEL_CHANGEPWD: {
-            modal_title: {
-                group: 'change_pwd',
-                key: 'modal_title'
-            }
-        },
-        AC_PANEL_RESETASK: {
-            modal_title: {
-                group: 'reset_ask',
-                key: 'modal_title'
-            }
-        },
-        AC_PANEL_SIGNIN: {
-            modal_title: {
-                group: 'signin',
-                key: 'modal_title'
-            }
-        },
-        AC_PANEL_SIGNOUT: {
-            modal_title: {
-                group: 'signout',
-                key: 'modal_title'
-            }
-        },
-        AC_PANEL_SIGNUP: {
-            modal_title: {
-                group: 'signup',
-                key: 'modal_title'
-            }
-        },
-        AC_PANEL_VERIFYASK: {
-            modal_title: {
-                group: 'verify_ask',
-                key: 'modal_title'
-            }
-        }
-    }
-
     /**
      * Constructor
      * @param {Object} instance an 'acUserLogin' template instance
@@ -240,10 +199,7 @@ export class acDisplay {
         // set the modal title depending of the current displayed panel
         Tracker.autorun(() => {
             if( self.ready()){
-                const panel = pwiAccounts.Panel.asked();
-                if( Object.keys( acDisplay.c ).includes( panel ) && acDisplay.c[panel].modal_title ){
-                    this.modalTitle( pwiI18n.label( pwiAccounts.strings, acDisplay.c[panel].modal_title.group, acDisplay.c[panel].modal_title.key ));
-                }
+                this.modalTitle( pwiAccounts.Panel.modalTitle( pwiAccounts.Panel.asked()));
             }
         });
 
@@ -421,7 +377,7 @@ export class acDisplay {
      * @returns {String} the initial panel
      */
     initialPanel( panel ){
-        return this._get_set_string_fn( 'initialPanel', panel, acPanel.Knowns );
+        return this._get_set_string_fn( 'initialPanel', panel, Object.keys( acPanel.Knowns ));
     }
 
     /**

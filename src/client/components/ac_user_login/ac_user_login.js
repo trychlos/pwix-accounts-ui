@@ -16,21 +16,6 @@ import '../ac_verify_ask/ac_verify_ask.js';
 
 import './ac_user_login.html';
 
-Template.ac_user_login.onCreated( function(){
-    const self = this;
-
-    self.AC = {
-        templates: {
-            AC_PANEL_SIGNIN: 'ac_signin',
-            AC_PANEL_SIGNUP: 'ac_signup',
-            AC_PANEL_RESETASK: 'ac_reset_ask',
-            AC_PANEL_SIGNOUT: 'ac_signout',
-            AC_PANEL_CHANGEPWD: 'ac_change_pwd',
-            AC_PANEL_VERIFYASK: 'ac_verify_ask'
-        }
-    };
-});
-
 Template.ac_user_login.helpers({
 
     // pass the acDisplay instance to child template
@@ -44,6 +29,6 @@ Template.ac_user_login.helpers({
     },
 
     template(){
-        return Template.instance().AC.templates[pwiAccounts.Panel.asked()];
+        return pwiAccounts.Panel.template( pwiAccounts.Panel.asked());
     }
 });

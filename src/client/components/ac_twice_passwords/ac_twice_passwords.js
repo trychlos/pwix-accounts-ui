@@ -2,7 +2,9 @@
  * pwix:accounts/src/client/components/ac_twice_passwords/ac_twice_passwords.js
  *
  * New password entering with one or two input fields.
- * his
+ * 
+ * In order to correctly manage the UI reactivity, the parent should implement handlers for
+ * 'ac-password-data' and 'ac-twice-data' messages.
  * 
  * Parms:
  *  - display: the acDisplay instance

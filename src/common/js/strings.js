@@ -111,7 +111,8 @@ pwiAccounts.strings = {
             verify_error: 'Sorry, it happens that I am unable to send a verification mail. Be kind enough to try later.',
             verify_success: 'Mail successfully sent',
             success_signup: 'New account {0} successfully created',
-            mandatory_fields: 'Mandatory fields'
+            mandatory_fields: 'Mandatory fields',
+            reset_asked_success: 'Reset mail successfully sent'
         },
         verify_ask: {
             modal_title: 'Re-send verification mail',
@@ -236,7 +237,8 @@ pwiAccounts.strings = {
             verify_error: 'Humm... Désolé, mais il semble que je ne sois pas dans la possibilité de vous envoyer un message. Merci de bien vouloir ré-essayer un peu plus tard.',
             verify_success: 'Message envoyé avec succès',
             success_signup: 'Nouveau compte {0} créé',
-            mandatory_fields: 'Champs obligatoires'
+            mandatory_fields: 'Champs obligatoires',
+            reset_asked_success: 'Message envoyé avec succès'
         },
         verify_ask: {
             modal_title: 'Vérifier l\'adresse de messagerie',

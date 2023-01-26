@@ -14,16 +14,17 @@ Template.ac_reset_ask.onCreated( function(){
     const self = this;
 
     self.AC = {
-        enableSubmit: function(){
-            const mail = self.$( '.ac-input-email .ac-input' ).val();
-            const btn = self.$( '.ac-reset-ask' ).closest( '.acUserLogin' ).find( '.ac-submit' );
-            btn.prop( 'disabled', !( pwiAccounts.checkEmail( mail )));
-        }
+        emailOk: new ReactiveVar( true ) 
     };
 });
 
 Template.ac_reset_ask.onRendered( function(){
-    this.AC.enableSubmit();
+    const self = this;
+
+    self.autorun(() => {
+        const btn = self.$( '.ac-reset-ask' ).closest( '.acUserLogin' ).find( '.ac-submit' );
+        btn.prop( 'disabled', !self.AC.emailOk.get());
+    });
 });
 
 Template.ac_reset_ask.helpers({
@@ -44,7 +45,7 @@ Template.ac_reset_ask.helpers({
 });
 
 Template.ac_reset_ask.events({
-    'keyup .ac-mail-input'( event, instance ){
-        instance.AC.enableSubmit();
+    'ac-email-data'( event, instance, data ){
+        instance.AC.emailOk.set( data.ok );
     }
 });

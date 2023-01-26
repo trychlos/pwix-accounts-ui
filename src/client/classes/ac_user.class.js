@@ -159,6 +159,7 @@ export class acUser {
                 target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_reset_send' ));
             } else {
                 pwiAccounts.Panel.asked( AC_PANEL_NONE );
+                pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'reset_asked_success' ));
                 $( '.acUserLogin' ).trigger( 'ac-user-resetasked', mail );
             }
         });

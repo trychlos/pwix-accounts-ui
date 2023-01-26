@@ -12,122 +12,6 @@ import '../../../common/js/index.js';
 
 import './ac_footer_buttons.html';
 
-Template.ac_footer_buttons.onCreated( function(){
-    const self = this;
-
-    // some configurations depending of the currently displayed template
-    self.AC = {
-        btns: {
-            AC_PANEL_CHANGEPWD: {
-                buttons: [
-                    {
-                        class: 'btn-secondary ac-cancel',
-                        key: 'cancel_label'
-                    },
-                    {
-                        class: 'btn-primary ac-submit',
-                        key: 'ok_label'
-                    }
-                ]
-            },
-            AC_PANEL_RESETASK: {
-                links: [
-                    {
-                        key: 'signin_link',
-                        target: AC_PANEL_SIGNIN,
-                        have: 'signinLink'
-                    },
-                    {
-                        key: 'signup_link',
-                        target: AC_PANEL_SIGNUP,
-                        have: 'signupLink'
-                    }
-                ],
-                buttons: [
-                    {
-                        class: 'btn-secondary ac-cancel',
-                        key: 'cancel_label'
-                    },
-                    {
-                        class: 'btn-primary ac-submit',
-                        key: 'send_label'
-                    }
-                ]
-            },
-            AC_PANEL_SIGNIN: {
-                links: [
-                    {
-                        key: 'reset_link',
-                        target: AC_PANEL_RESETASK,
-                        have: 'resetLink'
-                    },
-                    {
-                        key: 'signup_link',
-                        target: AC_PANEL_SIGNUP,
-                        have: 'signupLink'
-                    }
-                ],
-                buttons: [
-                    {
-                        class: 'btn-secondary ac-cancel',
-                        key: 'cancel_label'
-                    },
-                    {
-                        class: 'btn-primary ac-submit',
-                        key: 'signin_label'
-                    }
-                ]
-            },
-            AC_PANEL_SIGNOUT: {
-                buttons: [
-                    {
-                        class: 'btn-secondary ac-cancel',
-                        key: 'cancel_label'
-                    },
-                    {
-                        class: 'btn-primary ac-submit',
-                        key: 'signout_label'
-                    }
-                ]
-            },
-            AC_PANEL_SIGNUP: {
-                links: [
-                    {
-                        key: 'signin_link',
-                        target: AC_PANEL_SIGNIN,
-                        have: 'signinLink'
-                    }
-                ],
-                buttons: [
-                    {
-                        class: 'btn-secondary ac-cancel',
-                        key: 'cancel_label'
-                    },
-                    {
-                        class: 'btn-primary ac-submit',
-                        key: 'signup_label'
-                    }
-                ]
-            },
-            AC_PANEL_VERIFYASK: {
-                buttons: [
-                    {
-                        class: 'btn-secondary ac-cancel',
-                        key: 'cancel_label'
-                    },
-                    {
-                        class: 'btn-primary ac-submit',
-                        key: 'send_label'
-                    }
-                ]
-            }
-        }
-    };
-});
-
-Template.ac_footer_buttons.onRendered( function(){
-});
-
 Template.ac_footer_buttons.helpers({
 
     // buttons helpers
@@ -141,19 +25,15 @@ Template.ac_footer_buttons.helpers({
 
     // returns the ordered list of buttons to be displayed depending of the currently displayed template
     buttons(){
-        const panel = pwiAccounts.Panel.asked();
-        const ac = Template.instance().AC;
-        return Object.keys( ac.btns ).includes( panel ) ? ac.btns[panel].buttons : [];
+        return pwiAccounts.Panel.buttons( pwiAccounts.Panel.asked());
     },
 
     // whether to display this link
     haveLink( link ){
         const ret = link.have ? this.display[link.have]() : true;
-        //console.log( 'haveLink', display, link, display[link.have](), ret );
         return ret;
     },
 
-    // returns the ordered list of links to be displayed depending of the current state
     linkLabel( link ){
         return link.key && link.key.length ? pwiI18n.label( pwiAccounts.strings, 'buttons', link.key ) : '';
     },
@@ -162,10 +42,9 @@ Template.ac_footer_buttons.helpers({
         return link.target;
     },
 
+    // returns the ordered list of links to be displayed depending of the current state
     links(){
-        const panel = pwiAccounts.Panel.asked();
-        const ac = Template.instance().AC;
-        return Object.keys( ac.btns ).includes( panel ) ? ac.btns[panel].links : [];
+        return pwiAccounts.Panel.links( pwiAccounts.Panel.asked());
     }
 });
 
