@@ -225,7 +225,7 @@ Template.acUserLogin.events({
     'ac-user-resetasked'( event, instance, email ){
         console.log( 'ac-user-resetasked', email );
     },
-    'ac-user-verifyreasked'( event, instance, email ){
-        console.log( 'ac-user-verifyreasked', email );
+    'ac-user-verifyasked'( event, instance, email ){
+        console.log( 'ac-user-verifyasked', email );
     }
 });
