@@ -193,6 +193,6 @@ export class acUser {
         Meteor.call( 'pwiAccounts.sendVerificationEmail', Meteor.userId());
         pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'verify_success' ));
         pwiAccounts.Panel.asked( AC_PANEL_NONE );
-        $( '.acUserLogin' ).trigger( 'ac-user-verifyreasked', self.emailAddress());
+        $( '.acUserLogin' ).trigger( 'ac-user-verifyasked', self.emailAddress());
     }
 }
