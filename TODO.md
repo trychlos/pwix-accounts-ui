@@ -28,7 +28,8 @@
 |   27 | 2023- 1-25 | let the user change his username |
 |   28 | 2023- 1-25 | have a profile dialog with all change options |
 |   29 | 2023- 1-26 | manage several email addresses per user |
-|   30 | | |
+|   30 | 2023- 1-26 | send ac-user-resetpwd message from Accounts.onResetPasswordLink() function |
+|   31 | | |
 
 ---
 ## Done

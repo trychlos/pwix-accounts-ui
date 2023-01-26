@@ -195,6 +195,15 @@ Possible values are true or false, defaulting to true.</b>
 </td></tr>
 
 <tr><td style="vertical-align:top;">
+resetPwdTextOne<br />
+resetPwdTextTwo
+</td><td style="vertical-align:top;">
+Panels personalization<br/>
+These options let the application provides its own content before the input fields of the corresponding panel.<br />
+Value is expected to be a string which contains HTML code, or a function which returns such a string.
+</td></tr>
+
+<tr><td style="vertical-align:top;">
 usernameLength
 </td><td>
 The minimal required username length.<br />
@@ -361,8 +370,8 @@ Default: AC_PANEL_NONE
 changePwdTextOne<br />
 changePwdTextTwo<br />
 changePwdTextThree<br />
-resetPwdTextOne<br />
-resetPwdTextTwo<br />
+resetAskTextOne<br />
+resetAskTextTwo<br />
 signinTextOne<br />
 signinTextTwo<br />
 signinTextThree<br />
@@ -426,7 +435,6 @@ via messages sent to the `<div class="acUserLogin">...</div>`.
 - ac-panel-signin
 - ac-panel-signup
 - ac-panel-resetask
-- ac-panel-resetpwd
 - ac-panel-signout
 - ac-panel-changepwd
 - ac-panel-verifyask
@@ -451,9 +459,10 @@ In the same time, the 'acUserLogin' template advertises of its contexts:
 - ac-user-login + `userId`
 - ac-user-logout + `userId`
 - ac-user-resetasked + `userId`
-- ac-user-verifyreasked + `userId`
+- ac-user-resetpwd + `userId`
+- ac-user-verifyasked + `userId`
 
-    Advertises of a realized action of the user account
+    Advertises of a realized action on the user account
 
 - ac-hidden-modal
 - ac-shown-modal
@@ -491,11 +500,11 @@ In the same time, the 'acUserLogin' template advertises of its contexts:
 - AC_FIELD_MANDATORY
 
 - AC_PANEL_NONE
-- AC_PANEL_SIGNIN
-- AC_PANEL_SIGNUP
-- AC_PANEL_RESETASK
-- AC_PANEL_SIGNOUT
 - AC_PANEL_CHANGEPWD
+- AC_PANEL_RESETASK
+- AC_PANEL_SIGNIN
+- AC_PANEL_SIGNOUT
+- AC_PANEL_SIGNUP
 - AC_PANEL_VERIFYASK
 
 - AC_PWD_VERYWEAK

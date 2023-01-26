@@ -20,11 +20,11 @@ Package.onUse( function( api ){
         'AC_FIELD_OPTIONAL',
         'AC_FIELD_MANDATORY',
         'AC_PANEL_NONE',
-        'AC_PANEL_SIGNIN',
-        'AC_PANEL_SIGNUP',
-        'AC_PANEL_RESETASK',
-        'AC_PANEL_SIGNOUT',
         'AC_PANEL_CHANGEPWD',
+        'AC_PANEL_RESETASK',
+        'AC_PANEL_SIGNIN',
+        'AC_PANEL_SIGNOUT',
+        'AC_PANEL_SIGNUP',
         'AC_PANEL_VERIFYASK',
         'AC_PWD_VERYWEAK',
         'AC_PWD_WEAK',
@@ -48,7 +48,7 @@ Package.onTest( function( api ){
 });
 
 function configure( api ){
-    api.versionsFrom( '2.9.1' );
+    api.versionsFrom( '2.9.0' );
     api.use( 'blaze-html-templates', 'client' );
     api.use( 'deanius:promise', 'client' );
     api.use( 'ecmascript' );
