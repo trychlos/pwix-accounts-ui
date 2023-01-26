@@ -28,26 +28,6 @@ Template.ac_modal.onCreated( function(){
     self.AC = {
         display: Template.currentData().display,
 
-        // whether this modal exhibits a cancel button in the footer ?
-        haveCancelButton(){
-            return true;
-        },
-
-        // whether this modal exhibits a close button in the header ?
-        haveCloseButton(){
-            return true;
-        },
-
-        // whether this modal exhibits a submit button in the footer ?
-        haveSubmitButton(){
-            return true;
-        },
-
-        // whether this modal exhibits a non-empty title ?
-        haveTitle(){
-            return true;
-        },
-
         uiBootstrap(){
             //console.log( 'uiBootstrap', pwiAccounts.conf.ui === pwiAccounts.ui.Bootstrap );
             return pwiAccounts.conf.ui === AC_UI_BOOTSTRAP;
@@ -110,14 +90,14 @@ Template.ac_modal.onRendered( function(){
 
 Template.ac_modal.helpers({
 
-    // pass the acDisplay instance to child template
-    display(){
-        return { display: Template.instance().AC.display };
-    },
-
     // label translation
     i18n( opts ){
         return pwiI18n.label( pwiAccounts.strings, 'modal', opts.hash.label, opts.hash.language );
+    },
+
+    // pass the the input parameters to child template
+    parms(){
+        return Template.currentData();
     },
 
     // provides the template name
