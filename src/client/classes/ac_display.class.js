@@ -532,22 +532,22 @@ export class acDisplay {
 
     /**
      * Getter/Setter
-     * Returns the HTML content to be put in the first place of the 'reset_pwd' section, before the mail
+     * Returns the HTML content to be put in the first place of the 'reset_ask' section, before the mail
      * @param {String|Function} label a string or a function which returns a string
      * @returns {String}
      */
-    resetPwdTextOne( label ){
-        return this._get_set_string_fn( 'resetPwdTextOne', label );
+    resetAskTextOne( label ){
+        return this._get_set_string_fn( 'resetAskTextOne', label );
     }
 
     /**
      * Getter/Setter
-     * Returns the HTML content to be put in the second place of the 'reset_pwd' section, after the mail
+     * Returns the HTML content to be put in the second place of the 'reset_ask section, after the mail
      * @param {String|Function} label a string or a function which returns a string
      * @returns {String}
      */
-    resetPwdTextTwo( label ){
-        return this._get_set_string_fn( 'resetPwdTextTwo', label );
+    resetAskTextTwo( label ){
+        return this._get_set_string_fn( 'resetAskTextTwo', label );
     }
 
     /**
