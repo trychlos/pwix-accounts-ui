@@ -40,6 +40,14 @@ export class acPanel {
             modal_title: { group: 'reset_ask', key: 'modal_title' },
             template: 'ac_reset_ask'
         },
+        AC_PANEL_RESETPWD: {
+            buttons: [
+                { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
+                { class: 'btn-primary ac-submit',   key: 'ok_label' }
+            ],
+            modal_title: { group: 'reset_pwd', key: 'modal_title' },
+            template: 'ac_reset_pwd'
+        },
         AC_PANEL_SIGNIN: {
             buttons: [
                 { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
@@ -111,16 +119,18 @@ export class acPanel {
 
     /**
      * Getter/Setter
-     * @param {String} panel the requested panel (may be null)
-     * @returns {String} the currently requested panel
+     * @param {String} panel the requested panel
+     * @returns {String} the currently (maybe newly ?) requested panel
      */
     asked( panel ){
-        const previous = this._panel.get();
-        if( Object.keys( acPanel.Knowns ).includes( panel ) && panel !== previous ){
-            console.log( 'pwix:accounts triggering transition from '+previous+' to '+panel );
-            $( '.acUserLogin' ).trigger( 'ac-panel-transition', { previous:previous, next:panel });
-            this._panel.set( panel );
-            this._previous.set( previous );
+        if( panel ){
+            const previous = this._panel.get();
+            if( Object.keys( acPanel.Knowns ).includes( panel ) && panel !== previous ){
+                console.log( 'pwix:accounts triggering transition from '+previous+' to '+panel );
+                $( '.acUserLogin' ).trigger( 'ac-panel-transition', { previous: previous, next: panel });
+                this._panel.set( panel );
+                this._previous.set( previous );
+            }
         }
         return this._panel.get();
     }
