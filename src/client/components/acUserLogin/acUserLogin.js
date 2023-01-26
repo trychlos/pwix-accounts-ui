@@ -13,18 +13,10 @@
  * Even if the logged (resp. unlogged) buttons are not displayed, the underlying panels can still be activated when
  * a transition requires that. This is because all acUserLogin instances share the same required panel, which is
  * a design decision.
- * You can prevent panels to be displayed with the 'singlePanel' option which defaults to false.
  * 
- ***   Note that you should only let the panels be displayed for one acUserLogin instance. Else, panels would be
- ***   displayed twice, or three or more times, and this would be a waste of resources...
- *** Parms:
- ***  - staticBackdrop    A modal display may usually be cancelled (closed) by just clicking outside of it.
- ***                      When backdrop is set to static, the modal will not close when clicking outside of it, and so will
- ***                      actually block the whole application. This is a very specific behavior which should not be
- ***                      usually recommanded.
- ***                      Values: true|false, defaulting to false (clicking outside of the modal will close this modal).
- ***                      No message is planned to modify this configuration.
- ***                      As a side effect, having a static backdrop also removes the 'close' button displayed in the modal title.
+ * Note that you should only let the panels be displayed for one acUserLogin instance. Else, panels would be
+ * displayed twice, or three or more times, and this would be a waste of resources, besides of the obviously
+ * weird display.
  */
 import '../../../common/js/index.js';
 
@@ -44,7 +36,7 @@ Template.acUserLogin.onCreated( function(){
     self.AC = {
         display: new acDisplay( self, Template.currentData()),
 
-        hasButton(){
+        hasDropdown(){
             const display = self.AC.display;
             const state = pwiAccounts.User.state();
             return ( state === AC_LOGGED && display.loggedButtonAction() !== AC_ACT_HIDDEN )
@@ -78,8 +70,8 @@ Template.acUserLogin.helpers({
     },
 
     // whether this template controls a logged/unlogged user button
-    hasButton(){
-        return Template.instance().AC.hasButton();
+    hasDropdown(){
+        return Template.instance().AC.hasDropdown();
     },
 
     // whether the display must be rendered as a modal one ?
@@ -122,10 +114,16 @@ Template.acUserLogin.events({
                 pwiAccounts.User.logout();
                 break;
             case AC_PANEL_SIGNUP:
-                mail = instance.$( '.ac-signup .ac-input-email .ac-input' ).val().trim();
-                password = instance.$( '.ac-signup .ac-input-password .ac-input' ).val().trim();
+                let options = {};
+                if( pwiAccounts.conf.haveUsername ){
+                    options.username = instance.$( '.ac-signup .ac-input-username .ac-input' ).val().trim();
+                }
+                if( pwiAccounts.conf.haveEmailAddress ){
+                    options.email = instance.$( '.ac-signup .ac-input-email .ac-input' ).val().trim();
+                }
+                options.password = instance.$( '.ac-signup .ac-newone .ac-input' ).val().trim();
                 const autoConnect = instance.AC.display.signupAutoConnect();
-                pwiAccounts.User.createUser( mail, password, $( event.currentTarget ), autoConnect );
+                pwiAccounts.User.createUser( options, $( event.currentTarget ), autoConnect );
                 if( !autoConnect ){
                     $( event.currentTarget ).find( '.ac-signup' ).trigger( 'ac-clear' );
                 }

@@ -16,32 +16,26 @@ import '../ac_verify_ask/ac_verify_ask.js';
 
 import './ac_user_login.html';
 
-Template.ac_user_login.helpers({
+Template.ac_user_login.onCreated( function(){
+    const self = this;
 
-    changePwd(){
-        return this.display.allowed() && pwiAccounts.Panel.asked() === AC_PANEL_CHANGEPWD;
-    },
+    self.AC = {
+        templates: {
+            AC_PANEL_SIGNIN: 'ac_signin',
+            AC_PANEL_SIGNUP: 'ac_signup',
+            AC_PANEL_RESETASK: 'ac_reset_ask',
+            AC_PANEL_SIGNOUT: 'ac_signout',
+            AC_PANEL_CHANGEPWD: 'ac_change_pwd',
+            AC_PANEL_VERIFYASK: 'ac_verify_ask'
+        }
+    };
+});
+
+Template.ac_user_login.helpers({
 
     // pass the acDisplay instance to child template
     display(){
         return this.display;
-    },
-
-    // display the buttons in 'DIV' mode unless the 'DIV' is empty
-    hasButtons(){
-        const display = this.display;
-        let show = false;
-        switch( pwiAccounts.Panel.asked()){
-            case AC_PANEL_SIGNIN:
-            case AC_PANEL_SIGNUP:
-            case AC_PANEL_RESETASK:
-            case AC_PANEL_SIGNOUT:
-            case AC_PANEL_CHANGEPWD:
-            case AC_PANEL_VERIFYASK:
-                show = display.showPanels();
-                break;
-        }
-        return show;
     },
 
     // whether to display as a modal dialog ?
@@ -49,23 +43,7 @@ Template.ac_user_login.helpers({
         return this.display.modal();
     },
 
-    resetAsked(){
-        return this.display.allowed() && pwiAccounts.Panel.asked() === AC_PANEL_RESETASK;
-    },
-
-    signin(){
-        return this.display.allowed() && pwiAccounts.Panel.asked() === AC_PANEL_SIGNIN;
-    },
-
-    signout(){
-        return this.display.allowed() && pwiAccounts.Panel.asked() === AC_PANEL_SIGNOUT;
-    },
-
-    signup(){
-        return this.display.allowed() && pwiAccounts.Panel.asked() === AC_PANEL_SIGNUP;
-    },
-
-    verifyAsked(){
-        return this.display.allowed() && pwiAccounts.Panel.asked() === AC_PANEL_VERIFYASK;
-    },
+    template(){
+        return Template.instance().AC.templates[pwiAccounts.Panel.asked()];
+    }
 });

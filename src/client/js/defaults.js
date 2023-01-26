@@ -151,7 +151,6 @@ defaults = {
             changePasswordTwice: _passwordTwice,
             resetPasswordTwice: _passwordTwice,
             initialPanel: AC_PANEL_NONE,
-            singlePanel: false,
             changePwdTextOne: '',
             changePwdTextTwo: '',
             changePwdTextThree: '',

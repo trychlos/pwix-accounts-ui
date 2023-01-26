@@ -67,16 +67,15 @@ export class acUser {
      * We try to verify emails, so send simultaneouly (in the background) an email to check that.
      * Note that the 'Accounts.createUser()' method doesn't force any security rule on the password.
      * We have to rely on pwiAccounts.fn.validatePassword() for that.
-     * @param {String} mail the entered mail address
-     * @param {String} password the entered password
+     * @param {Object} options as expected by Accounts.createUser
      * @param {Object} target the target of the sent events
      * @param {Boolean} autoConnect whether to automatically login the newly created user
      */
-    createUser( mail, password, target, autoConnect=true ){
+    createUser( options, target, autoConnect=true ){
         const self = this;
-        console.log( 'mail='+mail, 'password='+password, 'autoConnect='+autoConnect );
+        console.log( options, 'autoConnect='+autoConnect );
         if( autoConnect ){
-            Accounts.createUser({ email:mail, password:password }, ( err ) => {
+            Accounts.createUser( options, ( err ) => {
                 if( err ){
                     console.error( err );
                     target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_signup' ));
@@ -87,13 +86,13 @@ export class acUser {
                 }
             });
         } else {
-            Meteor.call( 'pwiAccounts.createUser', mail, password, ( err, res ) => {
+            Meteor.call( 'pwiAccounts.createUser', options, ( err, res ) => {
                 if( err ){
                     console.error( err );
                     target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_signup' ));
                 } else {
-                    pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'success_signup' ).format( mail ));
-                    $( '.acUserLogin' ).trigger( 'ac-user-create', mail );
+                    pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'success_signup' ).format( options.email || options.username ));
+                    $( '.acUserLogin' ).trigger( 'ac-user-create', options );
                 }
             });
         }

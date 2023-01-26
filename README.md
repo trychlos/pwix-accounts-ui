@@ -345,7 +345,6 @@ the normal login/logout workflow. This is accomplished by configuring for displa
 initialPanel
 </td><td>
 Designates the panel to be initially displayed when this 'acUserLogin' template is instanciated.<br />
-Only applies when 'singlePanel' is true.<br/>
 Possible values are:
 <ul><li>AC_PANEL_NONE</li>
 <li>AC_PANEL_SIGNIN</li>
@@ -356,15 +355,6 @@ Possible values are:
 <li>AC_PANEL_VERIFYASK</li></ul>
 A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
 Default: AC_PANEL_NONE
-</td></tr>
-
-<tr><td style="vertical-align:top;">
-singlePanel
-</td><td>
-The presence of this key is enough to say that this 'acUserLogin' instance is only used to display a single panel, outside of the standard connection workflow.
-In other words, this 'acUserLogin' instance is entirely driven by the application, which is free, and responsible, to choose which panel is to be displayed.<br />
-A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
-Values: true|false, defaulting to false.
 </td></tr>
 
 <tr><td style="vertical-align:top;">
@@ -474,8 +464,9 @@ In the same time, the 'acUserLogin' template advertises of its contexts:
 - ac-password-data
 - ac-username-data
 - ac-email-data
+- ac-twice-data
 
-    Provides the current characteristics of the new password (resp. username, resp. email address) being inputed by the user.
+    Provides the current characteristics of the new password (resp. username, resp. email address, resp. double password fields) being inputed by the user.
 
 ## Advanced use cases
 

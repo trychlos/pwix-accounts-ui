@@ -62,9 +62,7 @@ Template.ac_input_password.onCreated( function(){
                 self.AC.errorMsg.set( '' );
             }
             // advertises of the current password characteristics
-            const o = { ok: ok, score: res.score, strength: self.AC.score[res.score].k, length: val.length };
-            console.log( 'sending', o );
-            self.$( '.ac-input-password' ).trigger( 'ac-password-data', o );
+            self.$( '.ac-input-password' ).trigger( 'ac-password-data', { ok: ok, score: res.score, strength: self.AC.score[res.score].k, length: val.length });
         },
 
         // provides a translated label

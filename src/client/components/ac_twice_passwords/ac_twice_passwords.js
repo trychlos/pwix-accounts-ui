@@ -2,11 +2,16 @@
  * pwix:accounts/src/client/components/ac_twice_passwords/ac_twice_passwords.js
  *
  * New password entering with one or two input fields.
+ * his
  * 
  * Parms:
+ *  - display: the acDisplay instance
+ *  - role: 'signup|change|reset'
+ *      This happens to also be the prefix of the to-be-called acDisplay methods
+ *      Do not change!
  *  - label: String, defaulting to 'Password'
- *  - placeholder: String, defaulting to 'Enter your password'
- *  - new: Boolean, true for entering a new password (so to be checked for its strength)
+ *  - placeholder1: String, defaulting to 'Enter your password'
+ *  - placeholder2: String, defaulting to 'Renter your password'
  */
 
 import { pwiI18n } from 'meteor/pwi:i18n';
@@ -22,8 +27,26 @@ Template.ac_twice_passwords.onCreated( function(){
     //console.log( self );
 
     self.AC = {
-        error: new ReactiveVar( '' )
+        twice: new ReactiveVar( false ),
+        error: new ReactiveVar( '' ),
+
+        check(){
+            const pwd1 = self.$( '.ac-twice-passwords .ac-newone .ac-input' ).val();
+            const pwd2 = self.AC.twice.get() ? self.$( '.ac-twice-passwords .ac-newtwo .ac-input' ).val() : pwd1;
+            self.AC.error.set( '' );
+            // whether the new password 'pwd1' is ok is checked by the input password component
+            // we have to check that the two occurences 'pwd1' and 'pwd2' are the same
+            const equalsOk = pwd1 === pwd2;
+            self.AC.error.set( equalsOk ? '' : '<p>'+pwiI18n.label( pwiAccounts.strings, 'twice_passwords', 'password_different' )+'</p>' );
+            self.$( '.ac-twice-passwords' ).trigger( 'ac-twice-data', { ok: equalsOk, length: pwd1.length });
+        }
     };
+
+    self.autorun(() => {
+        const fn = Template.currentData().role + 'PasswordTwice';
+        const display = Template.currentData().display;
+        self.AC.twice.set( display[fn] ? display[fn]() : pwiAccounts.conf.passwordTwice );
+    });
 });
 
 Template.ac_twice_passwords.helpers({
@@ -35,8 +58,8 @@ Template.ac_twice_passwords.helpers({
     // params to first occurrence of new password
     parmNewOne(){
         return {
-            label: pwiI18n.label( pwiAccounts.strings, 'change_pwd', 'new_label' ),
-            placeholder: pwiI18n.label( pwiAccounts.strings, 'change_pwd', 'newone_placeholder' ),
+            label: pwiI18n.label( pwiAccounts.strings, 'twice_passwords', 'label' ),
+            placeholder: pwiI18n.label( pwiAccounts.strings, 'twice_passwords', 'placeholder1' ),
             new: true
         }
     },
@@ -46,7 +69,18 @@ Template.ac_twice_passwords.helpers({
     parmNewTwo(){
         return {
             label: '',
-            placeholder: pwiI18n.label( pwiAccounts.strings, 'change_pwd', 'newtwo_placeholder' )
+            placeholder: pwiI18n.label( pwiAccounts.strings, 'twice_passwords', 'placeholder2' )
         }
     },
+
+    // whether we must display two input fields ?
+    twice(){
+        return Template.instance().AC.twice.get();
+    }
+});
+
+Template.ac_twice_passwords.events({
+    'keyup .ac-twice-passwords'( event, instance ){
+        instance.AC.check();
+    }
 });

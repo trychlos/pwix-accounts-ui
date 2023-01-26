@@ -85,6 +85,12 @@ pwiAccounts.strings = {
         signup: {
             modal_title: 'Sign up for a new account'
         },
+        twice_passwords: {
+            label: 'Password',
+            placeholder1: 'Enter a password',
+            placeholder2: 'Re-enter the password',
+            password_different: 'Passwords are different'
+        },
         unlogged: {
             unlogged: 'Account',
             signin: 'Sign in',
@@ -105,7 +111,6 @@ pwiAccounts.strings = {
             verify_error: 'Sorry, it happens that I am unable to send a verification mail. Be kind enough to try later.',
             verify_success: 'Mail successfully sent',
             success_signup: 'New account {0} successfully created',
-            password_different: 'Passwords are different',
             mandatory_fields: 'Mandatory fields'
         },
         verify_ask: {
@@ -204,6 +209,12 @@ pwiAccounts.strings = {
         signup: {
             modal_title: 'Créer un nouveau compte'
         },
+        twice_passwords: {
+            label: 'Mot de passe',
+            placeholder1: 'Saisissez votre mot de passe',
+            placeholder2: 'Saisissez à nouveau votre mot de passe',
+            password_different: 'Les mots de passe sont différents'
+        },
         unlogged: {
             unlogged: 'Compte',
             signin: 'S\'identifier',
@@ -225,7 +236,6 @@ pwiAccounts.strings = {
             verify_error: 'Humm... Désolé, mais il semble que je ne sois pas dans la possibilité de vous envoyer un message. Merci de bien vouloir ré-essayer un peu plus tard.',
             verify_success: 'Message envoyé avec succès',
             success_signup: 'Nouveau compte {0} créé',
-            password_different: 'Les mots de passe sont différents',
             mandatory_fields: 'Champs obligatoires'
         },
         verify_ask: {

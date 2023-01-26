@@ -20,19 +20,15 @@
 |    9 | 2023- 1-21 | do not autopublish the list of users |
 |   13 | 2023- 1-21 | be able to handle all Meteor Accounts configuration |
 |   14 | 2023- 1-21 | make sure we provide a full replacement for accounts-ui (see enrollment ?) |
-|   18 | 2023- 1-21 | honor loginNonVerified |
 |   20 | 2023- 1-21 | when a name is set, set a data-ac-name attribute on the acUserLogin div |
 |   21 | 2023- 1-24 | BUG CSS: when unlogged, the dropdown  button doesn't consider the padding set by the application (height is too small) |
-|   23 | 2023- 1-24 | configure whether the signup has two password fields (+ prevent copy/paste in these fields) |
-|      | 2023- 1-24 | having an eye on the right of the password input field would make two password fields useless |
-|      | 2023- 1-25 | eye is ok, but should not prevent these two input fields |
-|      | 2023- 1-25 | if this option is confirmed, should apply both to signup and change_pwd and reset_pwd |
 |   24 | 2023- 1-25 | BUG data associated to ac-password-data message is received as undefined when length=0 |
 |   25 | 2023- 1-25 | reset_ask make sure we take an email address |
 |   26 | 2023- 1-25 | let the user change his email address |
 |   27 | 2023- 1-25 | let the user change his username |
 |   28 | 2023- 1-25 | have a profile dialog with all change options |
-|   29 | | |
+|   29 | 2023- 1-26 | manage several email addresses per user |
+|   30 | | |
 
 ---
 ## Done
@@ -66,12 +62,19 @@
 |      | 2023- 1-23 | cancelled as duplicate of #14 |
 |   16 | 2023- 1-21 | honor preferredLabel |
 |      | 2023- 1-24 | cancelled as parm is removed |
+|   18 | 2023- 1-21 | honor loginNonVerified |
+|      | 2023- 1-25 | cancelled as useless at the moment |
 |   19 | 2023- 1-21 | honor loggedButtonAction (resp. unlogged) in replacement of loggedButtonShown |
 |      | 2023- 1-23 | done in v0.90.1 |
 |   22 | 2023- 1-24 | configure a username minimal length |
 |      | 2023- 1-24 | done |
+|   23 | 2023- 1-24 | configure whether the signup has two password fields (+ prevent copy/paste in these fields) |
+|      | 2023- 1-24 | having an eye on the right of the password input field would make two password fields useless |
+|      | 2023- 1-25 | eye is ok, but should not prevent these two input fields |
+|      | 2023- 1-25 | if this option is confirmed, should apply both to signup and change_pwd and reset_pwd |
+|      | 2023- 1-26 | done in v0.90.1 |
 
 ---
 P. Wieser
 - Created on 2023, Jan. 18th
-- Last updated on 2023, Jan. 21st
+- Last updated on 2023, Jan. 26th

@@ -24,12 +24,7 @@ export class acDisplay {
     // static data
     //
 
-    // when an instance asks to have a 'singlePanel', i.e. wants reserve the display, we put this static to true
-    //  so that each instance may know that someone wants the display for itself
-    //  as a consequence, an instance is allowed to display its panels if SinglePanelReqs() is empty || singlePanel()=true
-    static SinglePanelReqs = [];
-
-    // keep here a list of all instanciated acDisplay objects
+    // keep here a list of all instanciated named acDisplay objects
     static Displays = {};
 
     // the known actions
@@ -70,14 +65,9 @@ export class acDisplay {
 
     _errorMsg = new ReactiveVar( '' );
     _modalTitle = new ReactiveVar( '' );
-    _showPanels = new ReactiveVar( true );
 
     // used to toggle the hide/show display
     _shown = new ReactiveVar( false );
-
-    // whether the user can click outside the modal to close it
-    //  at the moment this is not a configuration option, and always false
-    _staticBackdrop = new ReactiveVar( false );
 
     // private functions
 
@@ -141,7 +131,7 @@ export class acDisplay {
     // public data
 
     // the title of the modal dialogs is configured here
-    //  buttons are configured in 'ac_modal_buttons' component
+    //  buttons are configured in 'ac_footer_buttons' component
     static c = {
         AC_PANEL_CHANGEPWD: {
             modal_title: {
@@ -211,11 +201,6 @@ export class acDisplay {
             return true;
         });
 
-        // if single panel, record it to be kept outside of the normal flow
-        if( this.singlePanel()){
-            acDisplay.SinglePanelReqs.push( this.uuid());
-        }
-
         // setup the initial panel
         pwiAccounts.Panel.asked( this.initialPanel());
 
@@ -229,19 +214,12 @@ export class acDisplay {
         // show/hide the dialog depending of the currently requested template and the options of this dialog
         Tracker.autorun(() => {
             if( self.ready()){
-                let show = false;
+                let show = true;
                 const panel = pwiAccounts.Panel.asked();
                 const prev = pwiAccounts.Panel.previous();
                 switch( panel ){
                     case AC_PANEL_NONE:
-                        if( self.singlePanel() && prev && prev !== AC_PANEL_NONE ){
-                            // transition to NONE ends up with singlePanel feature
-                            //self.renderMode( acDisplay.r.NONE );
-                            const idx = acDisplay.SinglePanelReqs.indexOf( self.uuid());
-                            if( idx > -1 ){
-                                acDisplay.SinglePanelReqs.splice( idx, 1 );
-                            }
-                        }
+                        show = false;
                         break;
                     case AC_PANEL_SIGNIN:
                     case AC_PANEL_SIGNUP:
@@ -249,8 +227,6 @@ export class acDisplay {
                     case AC_PANEL_SIGNOUT:
                     case AC_PANEL_CHANGEPWD:
                     case AC_PANEL_VERIFYASK:
-                        // to be displayed, must allow panels, have a no-NONE rendering mode, and not be inside of a singlePanel run
-                        show = self.allowed();
                         break;
                 }
                 if( show ){
@@ -275,24 +251,21 @@ export class acDisplay {
     }
 
     /**
-     * @returns {Boolean} true if *this* dialog is allowed to be shown at the moment
-     */
-    allowed(){
-        const panel = pwiAccounts.Panel.asked();
-        const show = this.showPanels()
-            && this.renderMode() !== AC_PANEL_NONE
-            && (( this.singlePanel() && this.initialPanel() === panel ) || acDisplay.SinglePanelReqs.length === 0 );
-        //console.log( this, acDisplay.SinglePanelReqs, 'show', show );
-        return show;
-    }
-
-    /**
      * static
      * @param {String} name the searched name
      * @returns {acDisplay} the corresponding acDisplay instance, or null
      */
     static byName( name ){
         return acDisplay.Displays.name || null;
+    }
+
+    /**
+     * Getter/Setter
+     * @param {Boolean|Function} single whether this instance uses two password input fields when changing a user's password
+     * @returns {Boolean}
+     */
+    changePasswordTwice( twice ){
+        return this._get_set_bool_fn( 'changePasswordTwice', twice );
     }
 
     /**
@@ -591,7 +564,16 @@ export class acDisplay {
     resetLink( flag ){
         return this._get_set_bool_fn( 'resetLink', flag );
     }
-    
+
+    /**
+     * Getter/Setter
+     * @param {Boolean|Function} single whether this instance uses two password input fields when resetting a user's password
+     * @returns {Boolean}
+     */
+    resetPasswordTwice( twice ){
+        return this._get_set_bool_fn( 'resetPasswordTwice', twice );
+    }
+
     /**
      * Getter/Setter
      * Returns the HTML content to be put in the first place of the 'reset_pwd' section, before the mail
@@ -634,18 +616,6 @@ export class acDisplay {
         }
         this._shown.set( true );
         return this;
-    }
-
-    /**
-     * Getter/Setter
-     * @param {Boolean} show whether to show the panels
-     * @returns {Boolean}
-     */
-    showPanels( show ){
-        if( show === true || show === false ){
-            this._showPanels.set( show );
-        }
-        return this._showPanels.get();
     }
 
     /**
@@ -717,6 +687,15 @@ export class acDisplay {
 
     /**
      * Getter/Setter
+     * @param {Boolean|Function} single whether this instance uses two password input fields when creating a new account
+     * @returns {Boolean}
+     */
+    signupPasswordTwice( twice ){
+        return this._get_set_bool_fn( 'signupPasswordTwice', twice );
+    }
+
+    /**
+     * Getter/Setter
      * Returns the HTML content to be put in the first place of the 'signup' section, before the username
      * Not considered if username is not permitted.
      * @param {String|Function} label a string or a function which returns a string
@@ -755,28 +734,6 @@ export class acDisplay {
      */
     signupTextFour( label ){
         return this._get_set_string_fn( 'signupTextFour', label );
-    }
-
-    /**
-     * Getter/Setter
-     * @param {Boolean|Function} single whether this instance is to be used outside of the standard workflow
-     * @returns {Boolean}
-     */
-    singlePanel( single ){
-        return this._get_set_bool_fn( 'singlePanel', single );
-    }
-
-    /**
-     * Getter/Setter
-     * The dialog is it rendered as a modal or as a div ?
-     * @param {Boolean} backdrop true if the backdrop is static (thus blocking the application)
-     * @returns {Boolean} the backdrop status
-     */
-    staticBackdrop( backdrop=null ){
-        if( backdrop === true || backdrop === false ){
-            this._staticBackdrop.set( backdrop );
-        }
-        return this._staticBackdrop.get();
     }
 
     /**

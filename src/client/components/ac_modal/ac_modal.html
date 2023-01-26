@@ -6,61 +6,49 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
 
-                        {{#if header }}
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5">{{ title }}</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                        {{/if}}
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">{{ title }}</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
 
-                        {{#if body }}
-                            <div class="modal-body">
-                                <div class="container-fluid">
-                                    <div class="ac-modal-content">
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="ac-modal-content">
 
-                                        <div class="ac-content">
-                                            {{> Template.dynamic template=template data=(display) }}
-                                        </div>
-                                
+                                    <div class="ac-content">
+                                        {{> Template.dynamic template=template data=(display) }}
                                     </div>
+                            
                                 </div>
                             </div>
-                        {{/if}}
+                        </div>
 
-                        {{#if footer }}
-                            <div class="modal-footer">
-                                {{> ac_modal_buttons }}
-                            </div>
-                        {{/if}}
+                        <div class="modal-footer">
+                            {{> ac_footer_buttons }}
+                        </div>
 
                     </div>
                 </div>
             </div>
-
-            {{ backdrop }}
         {{/if}}
         
         {{#if uiJQuery }}
             <div class="jq-modal" title="{{ title }}">
-                {{#if body }}
-                    <div class="modal-body">
-                        <div class="container-fluid">
-                            <div class="ac-modal-content">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="ac-modal-content">
 
-                                <div class="ac-content">
-                                    {{> Template.dynamic template=template data=(display) }}
-                                </div>
-                        
+                            <div class="ac-content">
+                                {{> Template.dynamic template=template data=(display) }}
                             </div>
+                    
                         </div>
                     </div>
-                {{/if}}
+                </div>
 
-                {{#if footer }}
-                    <div class="modal-footer">
-                        {{> ac_modal_buttons }}
-                    </div>
-                {{/if}}
+                <div class="modal-footer">
+                    {{> ac_footer_buttons }}
+                </div>
             </div>
         {{/if}}
 

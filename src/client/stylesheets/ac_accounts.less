@@ -35,6 +35,20 @@
             margin-top: 0.5em;
         }
     }
+    .ac-footer-buttons {
+        @media screen and ( max-width: @sm-width ){
+            flex-wrap: wrap;
+        }
+        button {
+            margin-left: 0.5em;
+        }
+        .ac-right {
+            width: -webkit-fill-available;
+            @media screen and ( max-width: @sm-width ){
+                margin-top: 0.5em;
+            }
+        }
+    }
     .ac-input-password {
         .ac-eye {
             margin-left: -30px;
@@ -61,7 +75,7 @@
             margin: 0;
         }
         div:not( :first-child ) .ac-label {
-            margin-top: 0.5em;
+            margin-top: 0.75em;
         }
         input {
             margin-top: 0.25em;
@@ -102,26 +116,8 @@
     .ac-modal {
         color :black;
         background-color: white;
-
         .modal {
             --bs-modal-width: 550px;
-
-            .modal-footer {
-                .ac-modal-buttons {
-                    @media screen and ( max-width: @sm-width ){
-                        flex-wrap: wrap;
-                    }
-                    button {
-                        margin-left: 0.5em;
-                    }
-                    .ac-right {
-                        width: -webkit-fill-available;
-                        @media screen and ( max-width: @sm-width ){
-                            margin-top: 0.5em;
-                        }
-                    }
-                }
-            }
         }
     }
     .hidden {
@@ -130,6 +126,9 @@
     .ac-each-users {
         padding-left: 1em;
         line-height: 1.75em;
+    }
+    .ac-mt05 {
+        margin-top: 0.5em;
     }
     .ac-mt1 {
         margin-top: 1em;

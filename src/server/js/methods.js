@@ -7,8 +7,8 @@ Meteor.methods({
     // create a user without auto login
     // https://docs.meteor.com/api/passwords.html#Accounts-createUser
     // called on the server, this methods returns the new account id
-    'pwiAccounts.createUser'( email, password ){
-        return Accounts.createUser({ email:email, password:password });
+    'pwiAccounts.createUser'( options ){
+        return Accounts.createUser( options );
     },
 
     // return true if the email address already exists

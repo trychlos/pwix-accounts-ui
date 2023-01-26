@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/components/ac_modal_buttons/ac_modal_buttons.js
+ * pwix:accounts/src/client/components/ac_footer_buttons/ac_footer_buttons.js
  *
  * Provides various buttons, to be displayed either in a modal footer, or in the bottom of a div.
  * 
@@ -10,9 +10,9 @@ import { pwiI18n } from 'meteor/pwi:i18n';
 
 import '../../../common/js/index.js';
 
-import './ac_modal_buttons.html';
+import './ac_footer_buttons.html';
 
-Template.ac_modal_buttons.onCreated( function(){
+Template.ac_footer_buttons.onCreated( function(){
     const self = this;
 
     // some configurations depending of the currently displayed template
@@ -125,10 +125,10 @@ Template.ac_modal_buttons.onCreated( function(){
     };
 });
 
-Template.ac_modal_buttons.onRendered( function(){
+Template.ac_footer_buttons.onRendered( function(){
 });
 
-Template.ac_modal_buttons.helpers({
+Template.ac_footer_buttons.helpers({
 
     // buttons helpers
     btnClass( btn ){
@@ -169,7 +169,7 @@ Template.ac_modal_buttons.helpers({
     }
 });
 
-Template.ac_modal_buttons.events({
+Template.ac_footer_buttons.events({
 
     'click .ac-link'( event, instance ){
         //console.log( event );

@@ -17,11 +17,12 @@ Template.ac_change_pwd.onCreated( function(){
 
     self.AC = {
         error: new ReactiveVar( '' ),
+        passwordOk: new ReactiveVar( true ),
+        twiceOk: new ReactiveVar( true ),
 
         enableSubmit: function(){
             const pwd2 = self.$( '.ac-newone .ac-input' ).val();
             const pwd3 = self.$( '.ac-newtwo .ac-input' ).val();
-            const btn = self.$( '.ac-change-pwd' ).closest( '.acUserLogin' ).find( '.ac-submit' );
             self.AC.error.set( '' );
             // whether the old password 'pwd1' is ok will be validated by the Meteor.Accounts package
             // whether the new password 'pwd2' is ok is checked by the input password component
@@ -37,7 +38,12 @@ Template.ac_change_pwd.onCreated( function(){
 });
 
 Template.ac_change_pwd.onRendered( function(){
-    this.AC.enableSubmit();
+    const self = this;
+
+    self.autorun(() => {
+        const btn = self.$( '.ac-change-pwd' ).closest( '.acUserLogin' ).find( '.ac-submit' );
+        btn.prop( 'disabled', !self.AC.passwordOk.get() || !self.AC.twiceOk.get());
+    })
 });
 
 Template.ac_change_pwd.helpers({
@@ -46,22 +52,12 @@ Template.ac_change_pwd.helpers({
         return Template.instance().AC.error.get() || this.display.errorMsg();
     },
 
-    // params to first occurrence of new password
-    parmNewOne(){
+    // parameters for the password input
+    parmTwice(){
         return {
-            label: pwiI18n.label( pwiAccounts.strings, 'change_pwd', 'new_label' ),
-            placeholder: pwiI18n.label( pwiAccounts.strings, 'change_pwd', 'newone_placeholder' ),
-            new: true
-        }
-    },
-
-    // params to second occurrence of new password
-    //  do not set as 'new' to not have the 'strength' display
-    parmNewTwo(){
-        return {
-            label: '',
-            placeholder: pwiI18n.label( pwiAccounts.strings, 'change_pwd', 'newtwo_placeholder' )
-        }
+            display: this.display,
+            role: 'change'
+        };
     },
 
     // params to old password
@@ -88,15 +84,16 @@ Template.ac_change_pwd.helpers({
 });
 
 Template.ac_change_pwd.events({
-    'keyup .ac-change-pwd'( event, instance ){
-        instance.AC.enableSubmit();
-    },
+    // message sent by the input password component
+    //  NB: happens that data arrives undefined :( see #24
     'ac-password-data .ac-change-pwd'( event, instance, data ){
-        // may happen that data be undefined !
         console.log( 'ac-password-data', data );
-        if( data ){
-            instance.AC.strength = data.strength;
-            instance.AC.length = data.length;
-        }
+        instance.AC.passwordOk.set( data ? data.ok : false );
+    },
+
+    // message sent by the twice passwords component
+    'ac-twice-data .ac-change-pwd'( event, instance, data ){
+        console.log( 'ac-twice-data', data );
+        instance.AC.twiceOk.set( data ? data.ok : false );
     }
 });

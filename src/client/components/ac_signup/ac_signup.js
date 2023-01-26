@@ -10,6 +10,7 @@ import '../ac_input_email/ac_input_email.js';
 import '../ac_input_password/ac_input_password.js';
 import '../ac_input_username/ac_input_username.js';
 import '../ac_mandatory_footer/ac_mandatory_footer.js';
+import '../ac_twice_passwords/ac_twice_passwords.js';
 
 import './ac_signup.html';
 
@@ -19,6 +20,7 @@ Template.ac_signup.onCreated( function(){
     self.AC = {
         emailOk: new ReactiveVar( true ),
         passwordOk: new ReactiveVar( true ),
+        twiceOk: new ReactiveVar( true ),
         usernameOk: new ReactiveVar( true ),
 
         // submit button
@@ -51,7 +53,7 @@ Template.ac_signup.onRendered( function(){
     this.AC.resetInput();
 
     self.autorun(() => {
-        self.AC.submitBtn.prop( 'disabled', !self.AC.emailOk.get() || !self.AC.usernameOk.get() || !self.AC.passwordOk.get());
+        self.AC.submitBtn.prop( 'disabled', !self.AC.emailOk.get() || !self.AC.passwordOk.get() || !self.AC.twiceOk.get() || !self.AC.usernameOk.get());
     });
 });
 
@@ -70,6 +72,14 @@ Template.ac_signup.helpers({
     // whether username is permitted
     haveUsername(){
         return Template.instance().AC.haveUsername();
+    },
+
+    // parameters for the password input
+    parmTwice(){
+        return {
+            display: this.display,
+            role: 'signup'
+        };
     },
 
     // the text at the first place of the section (if username)
@@ -105,6 +115,12 @@ Template.ac_signup.events({
     'ac-password-data .ac-signup'( event, instance, data ){
         //console.log( 'ac-password-data', data );
         instance.AC.passwordOk.set( data ? data.ok : false );
+    },
+
+    // message sent by the twice passwords component
+    'ac-twice-data .ac-signup'( event, instance, data ){
+        //console.log( 'ac-twice-data', data );
+        instance.AC.twiceOk.set( data ? data.ok : false );
     },
 
     // message sent by the input username component

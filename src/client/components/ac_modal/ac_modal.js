@@ -12,7 +12,7 @@ import { pwiI18n } from 'meteor/pwi:i18n';
 import '../../../common/js/index.js';
 
 import '../ac_change_pwd/ac_change_pwd.js';
-import '../ac_modal_buttons/ac_modal_buttons.js';
+import '../ac_footer_buttons/ac_footer_buttons.js';
 import '../ac_reset_ask/ac_reset_ask.js';
 import '../ac_signin/ac_signin.js';
 import '../ac_signout/ac_signout.js';
@@ -110,39 +110,9 @@ Template.ac_modal.onRendered( function(){
 
 Template.ac_modal.helpers({
 
-    // whether to use a static backdrop
-    backdrop(){
-        const self = Template.instance();
-        const display = self.AC.display;
-        if( display.staticBackdrop() && display.ready()){
-            self.$( display.modalSelector()).prop( 'data-bs-backdrop', 'static' );
-        }
-    },
-
-    // whether this modal exhibits a body ?
-    //  obviously always true, but here for consistency and completeness
-    body(){
-        return true;
-    },
-
     // pass the acDisplay instance to child template
     display(){
         return { display: Template.instance().AC.display };
-    },
-
-    // whether this modal exhibits a footer ?
-    //  true if have a cancel button or a submit one
-    footer(){
-        return Template.instance().AC.haveCancelButton() || Template.instance().AC.haveSubmitButton();
-    },
-
-    // whether this modal exhibits a header ?
-    //  true if have a title (only for a modal rendering, which is the case here) or a close button
-    header(){
-        const display = Template.instance().AC.display;
-        const title = display.modalTitle();
-        const staticBackdrop = display.staticBackdrop();
-        return title.length || !staticBackdrop;
     },
 
     // label translation
