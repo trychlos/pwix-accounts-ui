@@ -17,7 +17,6 @@
 |    2 | 2023- 1-20 | provides a button with a configurable label 'login with Zimbra' |
 |    3 | 2023- 1-20 | provides a button to connect to the future chosen identity manager |
 |    8 | 2023- 1-21 | develop a small SPA application to provide tests for the package |
-|    9 | 2023- 1-21 | do not autopublish the list of users |
 |   13 | 2023- 1-21 | be able to handle all Meteor Accounts configuration |
 |   14 | 2023- 1-21 | provide enrollment (see for example accounts-ui) |
 |   20 | 2023- 1-21 | when a name is set, set a data-ac-name attribute on the acUserLogin div |
@@ -50,6 +49,8 @@
 |      | 2023- 1-23 | done in v0.90.1 |
 |    7 | 2023- 1-21 | have a hardcoded min password length |
 |      |            | Cancelled as README.md states that we do not do that |
+|    9 | 2023- 1-21 | do not autopublish the list of users |
+|      | 2023- 1-26 | publication is disabled (commented out) |
 |   10 | 2023- 1-21 | use constantes rather than just strings when configuring |
 |      |            | AC_UI_BOOTSTRAP, AC_UI_JQUERY |
 |      |            | AC_PWD_VERYWEAK, AC_PWD_WEAK, AC_PWD_MEDIUM, AC_PWD_STRONG, AC_PWD_VERYSTRONG |

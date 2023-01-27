@@ -3,9 +3,11 @@
  */
 
 // autopublish users so that every application which use this package can also use its features....
+/* todo #9
 Meteor.publish( null, function(){
     return Meteor.users.find();
 });
+*/
 
 // a special publication which let a selection per email
 //  just provide objects { id, email, verified }
