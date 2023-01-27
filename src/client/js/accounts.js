@@ -35,7 +35,7 @@ import '../components/ac_reset_pwd/ac_reset_pwd.js';
 
 _verifyExpired = function(){
     pwiBootbox.alert({
-        title: pwiI18n.label( pwiAccounts.strings, 'user', 'mail_verified_title' ),
+        title: pwiI18n.label( pwiAccounts.strings, 'user', 'verify_title' ),
         message: pwiI18n.label( pwiAccounts.strings, 'user', 'verify_error' )
     });
 }
@@ -59,8 +59,8 @@ Accounts.onEmailVerificationLink( function( token, done ){
                         _verifyExpired();
                     } else {
                         pwiBootbox.alert({
-                            title: pwiI18n.label( pwiAccounts.strings, 'user', 'mail_verified_title' ),
-                            message: pwiI18n.label( pwiAccounts.strings, 'user', 'mail_verified_text' )
+                            title: pwiI18n.label( pwiAccounts.strings, 'user', 'verify_title' ),
+                            message: pwiI18n.label( pwiAccounts.strings, 'user', 'verify_text' )
                         });
                         // a special construction which answers to the special event listener attached to the document
                         // see pwix:accounts/src/client/js/handlers.js
@@ -109,8 +109,8 @@ Accounts.onEmailVerificationLink( function( token, done ){
 
 _resetExpired = function(){
     pwiBootbox.alert({
-        title: pwiI18n.label( pwiAccounts.strings, 'user', 'reset_title' ),
-        message: pwiI18n.label( pwiAccounts.strings, 'user', 'reset_error' )
+        title: pwiI18n.label( pwiAccounts.strings, 'user', 'resetpwd_title' ),
+        message: pwiI18n.label( pwiAccounts.strings, 'user', 'resetpwd_error' )
     });
 }
 
@@ -127,8 +127,8 @@ Accounts.onResetPasswordLink( function( token, done ){
                             _resetExpired();
                         } else {
                             pwiBootbox.alert({
-                                title: pwiI18n.label( pwiAccounts.strings, 'user', 'reset_title' ),
-                                message: pwiI18n.label( pwiAccounts.strings, 'user', 'reset_text' )
+                                title: pwiI18n.label( pwiAccounts.strings, 'user', 'resetpwd_title' ),
+                                message: pwiI18n.label( pwiAccounts.strings, 'user', 'resetpwd_text' )
                             });
                             // a special construction which answers to the special event listener attached to the document
                             // see pwix:accounts/src/client/js/handlers.js

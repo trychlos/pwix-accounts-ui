@@ -52,10 +52,10 @@ export class acUser {
         Accounts.changePassword( oldpwd, newpwd, ( err ) => {
             if( err ){
                 console.error( err );
-                target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_change_pwd' ));
+                target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'changepwd_error' ));
             } else {
                 pwiAccounts.Panel.asked( AC_PANEL_NONE );
-                pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'success_change_pwd' ));
+                pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'changepwd_success' ));
                 $( '.acUserLogin' ).trigger( 'ac-user-changepwd', self.emailAddress());
             }
         });
@@ -78,7 +78,7 @@ export class acUser {
             Accounts.createUser( options, ( err ) => {
                 if( err ){
                     console.error( err );
-                    target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_signup' ));
+                    target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'signup_error' ));
                 } else {
                     self.state( AC_LOGGED );
                     pwiAccounts.Panel.asked( AC_PANEL_NONE );
@@ -89,9 +89,9 @@ export class acUser {
             Meteor.call( 'pwiAccounts.createUser', options, ( err, res ) => {
                 if( err ){
                     console.error( err );
-                    target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_signup' ));
+                    target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'signup_error' ));
                 } else {
-                    pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'success_signup' ).format( options.email || options.username ));
+                    pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'signup_success' ).format( options.email || options.username ));
                     $( '.acUserLogin' ).trigger( 'ac-user-create', options );
                 }
             });
@@ -119,7 +119,7 @@ export class acUser {
         Meteor.loginWithPassword( userid, password, ( err ) => {
             if( err ){
                 console.error( err );
-                target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_login' ));
+                target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'signin_error' ));
             } else {
                 self.state( AC_LOGGED );
                 pwiAccounts.Panel.asked( AC_PANEL_NONE );
@@ -156,10 +156,10 @@ export class acUser {
         Accounts.forgotPassword({ email: mail }, ( err ) => {
             if( err ){
                 console.error( err );
-                target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'error_reset_send' ));
+                target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'resetask_error' ));
             } else {
                 pwiAccounts.Panel.asked( AC_PANEL_NONE );
-                pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'reset_asked_success' ));
+                pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'resetask_success' ));
                 $( '.acUserLogin' ).trigger( 'ac-user-resetasked', mail );
             }
         });
@@ -190,9 +190,15 @@ export class acUser {
      */
     verifyMail(){
         const self = this;
-        Meteor.call( 'pwiAccounts.sendVerificationEmail', Meteor.userId());
-        pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'verify_success' ));
-        pwiAccounts.Panel.asked( AC_PANEL_NONE );
-        $( '.acUserLogin' ).trigger( 'ac-user-verifyasked', self.emailAddress());
+        Meteor.callPromise( 'pwiAccounts.sendVerificationEmail', Meteor.userId())
+            .then(( result ) => {
+                if( result ){
+                    pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'verifyask_success' ));
+                    $( '.acUserLogin' ).trigger( 'ac-user-verifyasked', self.emailAddress());
+                } else {
+                    pwiTolert.error( pwiI18n.label( pwiAccounts.strings, 'user', 'verifyask_error' ));
+                }
+                pwiAccounts.Panel.asked( AC_PANEL_NONE );
+            });
     }
 }

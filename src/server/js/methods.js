@@ -58,8 +58,13 @@ Meteor.methods({
     },
 
     // send a mail with a verification link
+    //  the returned object has:
+    //  - email
+    //  - user { _id, services.email, emails }
+    //  - token
+    //  - url
+    //  - options
     'pwiAccounts.sendVerificationEmail'( id ){
-        Accounts.sendVerificationEmail( id );
-        return true;
+        return Accounts.sendVerificationEmail( id );
     }
 });
