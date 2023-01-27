@@ -56,8 +56,7 @@ Template.ac_twice_passwords.onCreated( function(){
 Template.ac_twice_passwords.helpers({
     // error message
     errorMsg(){
-        const str = Template.instance().AC.error.get() || ( this.display ? this.display.errorMsg() : '' );
-        return str ? str : '<p>&nbsp;</p>';
+        return Template.instance().AC.error.get();
     },
 
     // params to first occurrence of new password
