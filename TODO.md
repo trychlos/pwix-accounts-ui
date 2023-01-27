@@ -19,7 +19,7 @@
 |    8 | 2023- 1-21 | develop a small SPA application to provide tests for the package |
 |    9 | 2023- 1-21 | do not autopublish the list of users |
 |   13 | 2023- 1-21 | be able to handle all Meteor Accounts configuration |
-|   14 | 2023- 1-21 | make sure we provide a full replacement for accounts-ui (see enrollment ?) |
+|   14 | 2023- 1-21 | provide enrollment (see for example accounts-ui) |
 |   20 | 2023- 1-21 | when a name is set, set a data-ac-name attribute on the acUserLogin div |
 |   24 | 2023- 1-25 | BUG data associated to ac-password-data message is received as undefined when length=0 |
 |   26 | 2023- 1-25 | let the user change his email address |
@@ -27,7 +27,13 @@
 |   28 | 2023- 1-25 | have a profile dialog with all change options |
 |   29 | 2023- 1-26 | manage several email addresses per user |
 |      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
-|   33 | | |
+|   33 | 2023- 1-27 | before first publication, get rid of local pwi:tolert dependancy |
+|   34 | 2023- 1-27 | before first publication, get rid of local pwi:string-prototype dependancy |
+|   35 | 2023- 1-27 | before first publication, get rid of local pwi:layout dependancy |
+|   36 | 2023- 1-27 | before first publication, get rid of local pwi:i18n dependancy |
+|   37 | 2023- 1-27 | before first publication, get rid of local pwi:bootbox dependancy |
+|   38 | 2023- 1-27 | review acSelect: do not use Promise in helpers |
+|   39 |  |  |
 
 ---
 ## Done
