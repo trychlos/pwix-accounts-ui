@@ -14,6 +14,8 @@
  * (see https://docs.meteor.com/api/passwords.html#Accounts-onResetPasswordLink).
  */
 
+import printf from 'printf';
+
 import '../../../common/js/index.js';
 
 import '../ac_footer_buttons/ac_footer_buttons.js';
@@ -40,7 +42,7 @@ Template.ac_reset_pwd.onCreated( function(){
             const result = pwiAccounts.conf[item];
             const string = typeof result === 'function' ? result() : ( typeof result === 'object' ? pwiI18n.label( pwiAccounts.strings, result.group, result.label ) : result );
             const user = self.data.user;
-            return string.format( user ? user.services.password.reset.email : '' )
+            return printf( string, user ? user.services.password.reset.email : '' );
         }
     };
 });
