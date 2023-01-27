@@ -8,7 +8,7 @@
  * We so do NOT have any acDisplay information.
  * 
  * Parms:
- * - token
+ * - user
  * - cb a callback to be called on submit
  * as provided to Accounts.onResetPasswordLink() function
  * (see https://docs.meteor.com/api/passwords.html#Accounts-onResetPasswordLink).
@@ -29,7 +29,6 @@ Template.ac_reset_pwd.onCreated( function(){
         me: AC_PANEL_RESETPWD,
         passwordOk: new ReactiveVar( true ),
         twiceOk: new ReactiveVar( true ),
-        user: new ReactiveVar( null ),
 
         close(){
             self.$( '.ac-reset-pwd .bs-modal' ).modal( 'hide' );
@@ -40,25 +39,10 @@ Template.ac_reset_pwd.onCreated( function(){
             const item = 'resetPwd'+label;
             const result = pwiAccounts.conf[item];
             const string = typeof result === 'function' ? result() : ( typeof result === 'object' ? pwiI18n.label( pwiAccounts.strings, result.group, result.label ) : result );
-            const user = self.AC.user.get();
+            const user = self.data.user;
             return string.format( user ? user.services.password.reset.email : '' )
         }
     };
-
-    // retrieve the user which holds the provided token
-    self.autorun(() => {
-        if( pwiAccounts.ready()){
-            let promise = Promise.resolve( true )
-            .then(() => {
-                return Meteor.callPromise( 'pwiAccounts.byResetToken', self.data.token );
-            })
-            .then(( result ) => {
-                //console.log( 'byResetToken resolving to', result );  // undefined when not found
-                self.AC.user.set( result ? result : null );
-                return true;
-            });
-        }
-    });
 });
 
 Template.ac_reset_pwd.onRendered( function(){

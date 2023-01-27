@@ -28,9 +28,7 @@
 |   27 | 2023- 1-25 | let the user change his username |
 |   28 | 2023- 1-25 | have a profile dialog with all change options |
 |   29 | 2023- 1-26 | manage several email addresses per user |
-|   30 | 2023- 1-26 | send ac-user-resetpwd message from Accounts.onResetPasswordLink() function |
-|   31 | 2023- 1-26 | review home footer background |
-|   32 | | |
+|   31 | | |
 
 ---
 ## Done
@@ -75,6 +73,8 @@
 |      | 2023- 1-25 | eye is ok, but should not prevent these two input fields |
 |      | 2023- 1-25 | if this option is confirmed, should apply both to signup and change_pwd and reset_pwd |
 |      | 2023- 1-26 | done in v0.90.1 |
+|   30 | 2023- 1-26 | send ac-user-resetpwd message from Accounts.onResetPasswordLink() function |
+|      | 2023- 1-27 | done in v0.90.1 |
 
 ---
 P. Wieser

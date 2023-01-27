@@ -453,7 +453,7 @@ via messages sent to the `<div class="acUserLogin">...</div>`.
 
     Change the rendering mode
 
-### Messages sent by acUserLogin
+### Messages sent on `acUserLogin` element
 
 In the same time, the 'acUserLogin' template advertises of its contexts:
 
@@ -461,13 +461,12 @@ In the same time, the 'acUserLogin' template advertises of its contexts:
 
     Advertises of a panel transition, with previous and new panels
 
-- ac-user-changepwd + `userId`
-- ac-user-create + `userId`
+- ac-user-changepwd + `emailAddress`
+- ac-user-create + `emailAddress`
 - ac-user-login + `userId`
-- ac-user-logout + `userId`
-- ac-user-resetasked + `userId`
-- ac-user-resetpwd + `userId`
-- ac-user-verifyasked + `userId`
+- ac-user-logout + `emailAddress`
+- ac-user-resetasked + `emailAddress`
+- ac-user-verifyasked + `emailAddress`
 
     Advertises of a realized action on the user account
 
@@ -483,6 +482,12 @@ In the same time, the 'acUserLogin' template advertises of its contexts:
 - ac-twice-data
 
     Provides the current characteristics of the new password (resp. username, resp. email address, resp. double password fields) being inputed by the user.
+
+### Messages sent on `body` element
+
+- ac-user-resetpwd + `emailAddress`
+
+    This message is sent when a user has just reset his password.
 
 ## Advanced use cases
 
