@@ -37,7 +37,7 @@ Template.ac_input_username.onCreated( function(){
                     return ok;
                 })
                 .then(() => {
-                    return ok && val.length ? Meteor.callPromise( 'pwiAccounts.existsUsername', val ) : ok;
+                    return ok && val.length ? Meteor.callPromise( 'pwiAccounts.byUsername', val ) : ok;
                 })
                 .then(( res, err ) => {
                     if( ok && val.length ){

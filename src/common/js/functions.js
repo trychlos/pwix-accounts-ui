@@ -6,15 +6,10 @@ pwiAccounts = {
     ...pwiAccounts,
     ...{
         /*
-         * @returns {Promise} which resolves to the main identity if the specified user
-         *  {
-         *      exists: true|false
-         *      emails: [] array of objects { address, verified }, may be empty
-         *      username: <string>
-         *  }
+         * @returns {Promise} which resolves to the specified user account
          */
         identity( id ){
-            return Meteor.callPromise( 'pwiAccounts.getIdentity', id );
+            return Meteor.callPromise( 'pwiAccounts.byId', id );
         },
 
         /*
@@ -22,8 +17,8 @@ pwiAccounts = {
          */
         emailAddress( id ){
             return pwiAccounts.identity( id )
-                .then(( result ) => {
-                        return result.exists ? ( result.emails[0].address ) : null;
+                .then(( user ) => {
+                        return user ? ( user.emails[0].address ) : null;
                 });
         },
 
@@ -32,8 +27,8 @@ pwiAccounts = {
          */
         isEmailVerified( id ){
             return pwiAccounts.identity( id )
-                .then(( result ) => {
-                        return result.exists ? ( result.emails[0].verified ) : false;
+                .then(( user ) => {
+                        return user ? ( user.emails[0].verified ) : false;
                 });
         }
     }

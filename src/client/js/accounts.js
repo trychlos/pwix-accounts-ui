@@ -38,34 +38,11 @@ Accounts.onEmailVerificationLink( function( token, done ){
 //  The lifetime must so be enough to let the user enter it..
 
 Accounts.onResetPasswordLink( function( token, done ){
-    console.log( 'onResetPasswordLink token='+token );
-    console.log( 'Accounts._getPasswordResetTokenLifetimeMs', Accounts._getPasswordResetTokenLifetimeMs());
-    //Blaze.renderWithData( Template.ac_reset_pwd, { token: token, cb: ( passwd ) => {
-    //    if( passwd && passwd.length ){
-    //        console.log( 'passwd='+passwd, 'token='+token );
-            Accounts.resetPassword( token, 'xxxxxx', ( err ) => {
-                if( err ){
-                    console.error( err );
-                    pwiBootbox.alert({
-                        title: pwiI18n.label( pwiAccounts.strings, 'user', 'reset_title' ),
-                        message: pwiI18n.label( pwiAccounts.strings, 'user', 'reset_error' )
-                    });
-                } else {
-                    pwiBootbox.alert({
-                        title: pwiI18n.label( pwiAccounts.strings, 'user', 'reset_title' ),
-                        message: pwiI18n.label( pwiAccounts.strings, 'user', 'reset_text' )
-                    });
-                    done();
-                }
-            });
-    //    }
-    //}}, $( 'body' )[0] );
-
-    /*
+    //console.log( 'onResetPasswordLink token='+token );
+    //console.log( 'Accounts._getPasswordResetTokenLifetimeMs', Accounts._getPasswordResetTokenLifetimeMs());
     Blaze.renderWithData( Template.ac_reset_pwd, { token: token, cb: ( passwd ) => {
         if( passwd && passwd.length ){
-            console.log( 'passwd='+passwd, 'token='+token );
-            Accounts.resetPassword( token, passwd, ( err ) => {
+            Accounts.resetPassword( token, 'xxxxxx', ( err ) => {
                 if( err ){
                     console.error( err );
                     pwiBootbox.alert({
@@ -82,5 +59,4 @@ Accounts.onResetPasswordLink( function( token, done ){
             });
         }
     }}, $( 'body' )[0] );
-    */
 });

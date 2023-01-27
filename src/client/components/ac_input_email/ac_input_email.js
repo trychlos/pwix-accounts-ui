@@ -45,7 +45,7 @@ Template.ac_input_email.onCreated( function(){
                     return ok;
                 })
                 .then(() => {
-                    return ok && self.AC.checkNew.get() && val.length ? Meteor.callPromise( 'pwiAccounts.existsEmailAddress', val ) : ok;
+                    return ok && self.AC.checkNew.get() && val.length ? Meteor.callPromise( 'pwiAccounts.byEmailAddress', val ) : ok;
                 })
                 .then(( res, err ) => {
                     if( ok && self.AC.checkNew.get() && val.length ){
