@@ -148,7 +148,8 @@ Defaut values are:
 <ul><li>haveMailAddress: AC_FIELD_MANDATORY</li>
 <li>haveUsername: AC_FIELD_NONE</li></ul>
 Please be conscious that some features of your application may want display the identifier of a user.
-If this is the case, note that it would be a string security hole to let the application display a verified email address as this would be some sort of spam magnet!
+If this is the case, note that it would be a string security hole to let the application display a verified email address as this would be some sort of spam magnet!<br />
+More, whatever be the requirements of the application, this later MUST take care of allowing needed fields in its schema.
 </td></tr>
 
 <tr><td style="vertical-align:top;">
