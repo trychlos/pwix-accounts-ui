@@ -5,14 +5,16 @@
 pwiAccounts = {
     ...pwiAccounts,
     ...{
-        /*
+        /**
+         * @locus Anywhere
          * @returns {Promise} which resolves to the specified user account
          */
         identity( id ){
             return Meteor.callPromise( 'pwiAccounts.byId', id );
         },
 
-        /*
+        /**
+         * @locus Anywhere
          * @returns {Promise} which resolves to the first email address of the user
          */
         emailAddress( id ){
@@ -22,8 +24,9 @@ pwiAccounts = {
                 });
         },
 
-        /*
-         * @returns {Promise} which resolves to true if user exists and at least hist first email address has been verified
+        /**
+         * @locus Anywhere
+         * @returns {Promise} which resolves to true if user exists and at least his first email address has been verified
          */
         isEmailVerified( id ){
             return pwiAccounts.identity( id )

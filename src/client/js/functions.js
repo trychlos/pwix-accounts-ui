@@ -14,6 +14,7 @@ pwiAccounts = {
     ...pwiAccounts,
     ...{
         /**
+         * @locus Client
          * @returns {Array} the list of dropdown items to be displayed regarding the
          *  current user connection state.
          *  NB: we only return here the list of standard dropdown items as we cannot manage
