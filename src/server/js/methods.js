@@ -5,11 +5,11 @@ import { Accounts } from 'meteor/accounts-base';
 
 _cleanUser = function ( user ){
     if( user ){
-        if( user.services && user.services.password ){
-            delete user.services.password.bcrypt;
-        }
         if( user.services ){
             delete user.services.resume;
+            if( user.services.password ){
+                delete user.services.password.bcrypt;
+            }
         }
         delete user.profile;
     }
@@ -42,6 +42,12 @@ Meteor.methods({
     'pwiAccounts.byUsername'( username ){
         console.log( 'pwiAccounts.byUsername' );
         return _cleanUser( Accounts.findUserByUsername( username ));
+    },
+
+    // find the user who holds the given email verification token
+    'pwiAccounts.byEmailVerificationToken'( token ){
+        console.log( 'pwiAccounts.byEmailVerificationToken' );
+        return _cleanUser( Meteor.users.findOne({ 'services.email.verificationTokens': { $elemMatch: { token: token }}},{ 'services.email':1 }));
     },
 
     // create a user without auto login

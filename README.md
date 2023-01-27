@@ -486,8 +486,9 @@ In the same time, the 'acUserLogin' template advertises of its contexts:
 ### Messages sent on `body` element
 
 - ac-user-resetpwd + `emailAddress`
+- ac-user-verifymail + `emailAddress`
 
-    This message is sent when a user has just reset his password.
+    These messages are sent as `CustomEvent`s with ad-hoc details.
 
 ## Advanced use cases
 

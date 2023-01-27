@@ -10,32 +10,68 @@ import '../../common/js/index.js';
 
 import '../components/ac_reset_pwd/ac_reset_pwd.js';
 
-_tokenExpired = function(){
-    pwiBootbox.alert({
-        title: pwiI18n.label( pwiAccounts.strings, 'user', 'reset_title' ),
-        message: pwiI18n.label( pwiAccounts.strings, 'user', 'reset_error' )
-    });
-}
-
 //  when the user clicks on the two below links, the function is executed between
 //  the packages configurations and Meteor.startup()
 
 // https://docs.meteor.com/api/passwords.html#Accounts-onEmailVerificationLink
+//
+//      "services" : {
+//          "email" : {
+//              "verificationTokens" : [
+//                  {
+//                      "token" : "znEz5ibBf1uLLvOSpMjjm92Sah7j8iXPWemFdllaexU",
+//                      "address" : "xxxx@xxx.xx",
+//                      "when" : ISODate("2022-10-23T15:14:42.242Z")
+//                  }, {
+//                      "token" : "276Oy_MRKwTI0e8cQTIYPZ7wepEX1dD460qsLz9TWaX",
+//                      "address" : "xxxx@xxx.xx",
+//                      "when" : ISODate("2022-10-23T15:14:45.953Z")
+//                  }
+//              ]
+//          }
+//      }
+//
+// URL is of the form 'http://localhost:3000/#/verify-email/8R7RpL6ysRSAIO6Us6kA4uTITzb3xl1wzbNqyDIlAph'
+
+_verifyExpired = function(){
+    pwiBootbox.alert({
+        title: pwiI18n.label( pwiAccounts.strings, 'user', 'mail_verified_title' ),
+        message: pwiI18n.label( pwiAccounts.strings, 'user', 'verify_error' )
+    });
+}
 
 Accounts.onEmailVerificationLink( function( token, done ){
-    console.log( 'onEmailVerificationLink' );
-    Accounts.verifyEmail( token, ( err ) => {
-        if( err ){
-            console.error( err );
-            _tokenExpired();
-        } else {
-            pwiBootbox.alert({
-                title: pwiI18n.label( pwiAccounts.strings, 'user', 'mail_verified_title' ),
-                message: pwiI18n.label( pwiAccounts.strings, 'user', 'mail_verified_text' )
-            });
-            done();
-        }
-    });
+    //console.log( 'onEmailVerificationLink' );
+    Meteor.callPromise( 'pwiAccounts.byEmailVerificationToken', token )
+        .then(( user ) => {
+            if( user ){
+                let email = null;
+                user.services.email.verificationTokens.every(( it ) => {
+                    if( it.token === token ){
+                        email = it.address;
+                        return false;
+                    }
+                    return true;
+                });
+                Accounts.verifyEmail( token, ( err ) => {
+                    if( err ){
+                        console.error( err );
+                        _verifyExpired();
+                    } else {
+                        pwiBootbox.alert({
+                            title: pwiI18n.label( pwiAccounts.strings, 'user', 'mail_verified_title' ),
+                            message: pwiI18n.label( pwiAccounts.strings, 'user', 'mail_verified_text' )
+                        });
+                        // a special construction which answers to the special event listener attached to the document
+                        // see pwix:accounts/src/client/js/handlers.js
+                        document.body.dispatchEvent( new CustomEvent( 'ac-user-verifymail', { bubbles: true, detail: { email: email }}));
+                        done();
+                    }
+                });
+            } else {
+                _verifyExpired();
+            }
+        });
 });
 
 // https://docs.meteor.com/api/passwords.html#Accounts-onResetPasswordLink
@@ -49,13 +85,13 @@ Accounts.onEmailVerificationLink( function( token, done ){
 //  We prefer here to check that the token still exists before asking the user to enter his new password.
 //
 //     "services" : {
-//     "password" : {
-//         "bcrypt" : "$2b$10$l7tmsX0057C/zmhFgYdX4e.l05ajjt40wBGYvOuil44kOYKbg6T72",
-//         "reset" : {
-//             "token" : "1_RmvqfJejCLEF2_ShnrQ6Np5txkycg9v37EqIldXY1",
-//             "email" : "bbbb@bbb.bb",
-//             "when" : ISODate("2023-01-26T17:09:47.020Z"),
-//             "reason" : "reset"
+//         "password" : {
+//             "reset" : {
+//                 "token" : "1_RmvqfJejCLEF2_ShnrQ6Np5txkycg9v37EqIldXY1",
+//                 "email" : "bbbb@bbb.bb",
+//                 "when" : ISODate("2023-01-26T17:09:47.020Z"),
+//                 "reason" : "reset"
+//             }
 //         }
 //     }
 //
@@ -71,6 +107,13 @@ Accounts.onEmailVerificationLink( function( token, done ){
 //          passwordResetTokenExpirationInDays: 1           // 1 day
 //      });
 
+_resetExpired = function(){
+    pwiBootbox.alert({
+        title: pwiI18n.label( pwiAccounts.strings, 'user', 'reset_title' ),
+        message: pwiI18n.label( pwiAccounts.strings, 'user', 'reset_error' )
+    });
+}
+
 Accounts.onResetPasswordLink( function( token, done ){
     //console.log( 'onResetPasswordLink token='+token );
     //console.log( 'Accounts._getPasswordResetTokenLifetimeMs', Accounts._getPasswordResetTokenLifetimeMs());
@@ -81,7 +124,7 @@ Accounts.onResetPasswordLink( function( token, done ){
                     Accounts.resetPassword( token, 'xxxxxx', ( err ) => {
                         if( err ){
                             console.error( err );
-                            _tokenExpired();
+                            _resetExpired();
                         } else {
                             pwiBootbox.alert({
                                 title: pwiI18n.label( pwiAccounts.strings, 'user', 'reset_title' ),
@@ -95,7 +138,7 @@ Accounts.onResetPasswordLink( function( token, done ){
                     });
                 }}, $( 'body' )[0] );
             } else {
-                _tokenExpired();
+                _resetExpired();
             }
         });
 });

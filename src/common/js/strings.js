@@ -111,7 +111,8 @@ pwiAccounts.strings = {
             verify_success: 'Mail successfully sent',
             success_signup: 'New account {0} successfully created',
             mandatory_fields: 'Mandatory fields',
-            reset_asked_success: 'Reset mail successfully sent'
+            reset_asked_success: 'Reset mail successfully sent',
+            verify_error: 'Humm... Sorry, but it seems your token has expired.<br />You have to re-ask for a new verification link.'
         },
         verify_ask: {
             modal_title: 'Re-send verification mail',
@@ -236,7 +237,8 @@ pwiAccounts.strings = {
             verify_success: 'Message envoyé avec succès',
             success_signup: 'Nouveau compte {0} créé',
             mandatory_fields: 'Champs obligatoires',
-            reset_asked_success: 'Message envoyé avec succès'
+            reset_asked_success: 'Message envoyé avec succès',
+            verify_error: 'Humm... Désolé, mais il semble que le jeton utilisé soit expiré.<br />Vous devez en redemander un nouveau.'
         },
         verify_ask: {
             modal_title: 'Vérifier l\'adresse de messagerie',

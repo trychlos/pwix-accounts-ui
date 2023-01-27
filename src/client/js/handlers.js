@@ -10,3 +10,7 @@ document.addEventListener( 'ac-user-resetpwd', ( event ) => {
     //console.log( 'event', event );
     console.log( event.type, event.detail.email );
 });
+
+document.addEventListener( 'ac-user-verifymail', ( event ) => {
+    console.log( event.type, event.detail.email );
+});
