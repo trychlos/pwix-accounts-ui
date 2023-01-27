@@ -106,6 +106,12 @@ Accounts.onEmailVerificationLink( function( token, done ){
 //      Accounts.config({
 //          passwordResetTokenExpirationInDays: 1           // 1 day
 //      });
+//
+// Note: it happens that resetting the password of the user A automatically logs-in this user A,
+//  even if a user B was previsouly connected :()
+//  As this function is called just before Meteor.startup() is run, the connextion of user B seems
+//  to be temporarily suspended. If user A completes the form, then it automatically logs in.
+//  Else, user B is re-connected.
 
 _resetExpired = function(){
     pwiBootbox.alert({
@@ -117,6 +123,7 @@ _resetExpired = function(){
 Accounts.onResetPasswordLink( function( token, done ){
     //console.log( 'onResetPasswordLink token='+token );
     //console.log( 'Accounts._getPasswordResetTokenLifetimeMs', Accounts._getPasswordResetTokenLifetimeMs());
+    //console.log( 'onResetPasswordLink', Meteor.user());
     Meteor.callPromise( 'pwiAccounts.byResetToken', token )
         .then(( user ) => {
             if( user ){
