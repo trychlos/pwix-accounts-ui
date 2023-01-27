@@ -57,7 +57,6 @@ function configure( api ){
     api.use( 'pwi:bootbox', 'client' );
     api.use( 'pwi:i18n' );
     api.use( 'pwi:layout', 'client' );
-    api.use( 'pwi:string-prototype' );
     api.use( 'pwi:tolert', 'client' );
     api.addFiles( 'src/client/components/acMenuItems/acMenuItems.js', 'client' );
     api.addFiles( 'src/client/components/acSelect/acSelect.js', 'client' );
@@ -67,6 +66,7 @@ function configure( api ){
 Npm.depends({
     'bootstrap': '5.2.1',
     'email-validator': '2.0.4',
+    'printf': '0.6.1',
     'uuid': '9.0.0',
     'zxcvbn': '4.4.2'
 });
