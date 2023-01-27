@@ -8,6 +8,8 @@
  * 
  * Parms:
  *  - display: the acDisplay instance
+ *      Is undefined when invoked from ac_reset_pwd template
+ *      Take care!
  *  - role: 'signup|change|reset'
  *      This happens to also be the prefix of the to-be-called acDisplay methods
  *      Do not change!
@@ -47,14 +49,15 @@ Template.ac_twice_passwords.onCreated( function(){
     self.autorun(() => {
         const fn = Template.currentData().role + 'PasswordTwice';
         const display = Template.currentData().display;
-        self.AC.twice.set( display[fn] ? display[fn]() : pwiAccounts.conf.passwordTwice );
+        self.AC.twice.set( display && display[fn] ? display[fn]() : ( pwiAccounts.conf[fn] ? pwiAccounts.conf[fn] : pwiAccounts.conf.passwordTwice ));
     });
 });
 
 Template.ac_twice_passwords.helpers({
     // error message
     errorMsg(){
-        return Template.instance().AC.error.get() || this.display.errorMsg();
+        const str = Template.instance().AC.error.get() || ( this.display ? this.display.errorMsg() : '' );
+        return str ? str : '<p>&nbsp;</p>';
     },
 
     // params to first occurrence of new password

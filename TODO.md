@@ -29,7 +29,8 @@
 |   28 | 2023- 1-25 | have a profile dialog with all change options |
 |   29 | 2023- 1-26 | manage several email addresses per user |
 |   30 | 2023- 1-26 | send ac-user-resetpwd message from Accounts.onResetPasswordLink() function |
-|   31 | | |
+|   31 | 2023- 1-26 | review home footer background |
+|   32 | | |
 
 ---
 ## Done

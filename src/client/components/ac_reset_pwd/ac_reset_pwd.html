@@ -1,33 +1,40 @@
-<template name="ac_reset_input">
-    <div class="ac-reset-input">
+<template name="ac_reset_pwd">
+    <div class="ac-reset-pwd">
 
-        <div class="modal fade" tabindex="-1" aria-labelledby="Reset password" aria-hidden="true">
+        <div class="bs-modal modal fade" tabindex="-1" aria-labelledby="Reset password" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
 
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5">{{ i18n label="title" }}</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">{{ title }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
 
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="ac-modal-content">
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="ac-modal-content">
+                                <form>
 
-                                    <div class="ac-description">
-                                        {{{ i18n label="description" }}}
-                                    </div>
+                                    {{#if textOne }}
+                                        <div class="ac-text ac-text-one">{{{ textOne }}}</div>
+                                        <div class="ac-mt1"></div>
+                                    {{/if}}
 
                                     {{> ac_twice_passwords (parmTwice) }}
-                            
-                                </div>
+
+                                    {{#if textTwo }}
+                                        <div class="ac-mt1"></div>
+                                        <div class="ac-text ac-text-two">{{{ textTwo }}}</div>
+                                    {{/if}}
+
+                                </form>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary ac-cancel">{{ i18n label="btn_cancel" }}</button>
-                            <button type="button" class="btn btn-primary ac-submit">{{ i18n label="btn_ok" }}</button>
-                        </div>
+                    <div class="modal-footer">
+                        {{> ac_footer_buttons me=(me) }}
+                    </div>
 
                 </div>
             </div>

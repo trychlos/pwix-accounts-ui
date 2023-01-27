@@ -6,6 +6,8 @@
  * Parms:
  *  - label: String, defaulting to 'Mail address'
  *  - placeholder: String, defaulting to 'Enter your email address'
+ *  - syntax: true|false whether to check the email syntax, defaulting to true
+ *  - new: true|false whether to check for non-yet existant, defaulting to false
  */
 
 import emailValidator from 'email-validator';
@@ -23,26 +25,30 @@ Template.ac_input_email.onCreated( function(){
     self.AC = {
         inputField: null,
         errorMsg: new ReactiveVar( '' ),
+        checkSyntax: new ReactiveVar( true ),
+        checkNew: new ReactiveVar( true ),
 
         // check the current input field (only if new)
         //  let the error message empty if field is empty
         check(){
             let promise = Promise.resolve( true );
             let ok = true;
+            self.AC.errorMsg.set( '' );
             let val = self.AC.inputField.val().trim();
+            //console.log( 'syntax='+self.AC.checkSyntax.get(), 'new='+self.AC.checkNew.get());
             promise = promise
                 .then(() => {
-                    if( ok && val.length && !emailValidator.validate( val )){
+                    if( ok && self.AC.checkSyntax.get() && val.length && !emailValidator.validate( val )){
                         ok = false;
                         self.AC.errorMsg.set( self.AC.i18n( 'invalid' ));
                     }
                     return ok;
                 })
                 .then(() => {
-                    return ok && val.length ? Meteor.callPromise( 'pwiAccounts.existsEmailAddress', val ) : ok;
+                    return ok && self.AC.checkNew.get() && val.length ? Meteor.callPromise( 'pwiAccounts.existsEmailAddress', val ) : ok;
                 })
                 .then(( res, err ) => {
-                    if( ok && val.length ){
+                    if( ok && self.AC.checkNew.get() && val.length ){
                         if( err ){
                             console.error( err );
                         } else if( res ){
@@ -76,11 +82,31 @@ Template.ac_input_email.onCreated( function(){
         // reinitialize the form
         reset(){
             self.$( 'input' ).val( '' );
-            if( Template.currentData().new ){
+            if( self.AC.checkSyntax.get() || self.AC.checkNew.get()){
                 self.AC.check();
             }
         }
     };
+
+    // setup reactive vars
+    self.autorun(() => {
+        const syntax = Template.currentData().syntax;
+        if( syntax === true || syntax === false ){
+            self.AC.checkSyntax.set( syntax );
+        } else {
+            self.AC.checkSyntax.set( true );
+        }
+    });
+
+    // setup reactive vars
+    self.autorun(() => {
+        const newx = Template.currentData().new;
+        if( newx === true || newx === false ){
+            self.AC.checkNew.set( newx );
+        } else {
+            self.AC.checkNew.set( false );
+        }
+    });
 });
 
 Template.ac_input_email.onRendered( function(){
@@ -90,20 +116,19 @@ Template.ac_input_email.onRendered( function(){
     self.AC.inputField = self.$( '.ac-input-email input' );
 
     // initialize the form
-    if( Template.currentData().new ){
-        self.AC.check();
-    }
+    self.AC.reset();
 });
 
 Template.ac_input_email.helpers({
+    // whether we have to check anything
+    checks(){
+        const AC = Template.instance().AC;
+        return AC.checkSyntax.get() || AC.checkNew.get();
+    },
+
     // an error message if new password
     errorMsg(){
         return '<p>'+Template.instance().AC.errorMsg.get()+'</p>';
-    },
-
-    // whether we are entering a new username
-    isNew(){
-        return this.new || false;
     },
 
     // whether the username is marked as mandatory ?
@@ -120,9 +145,7 @@ Template.ac_input_email.helpers({
 
 Template.ac_input_email.events({
     'keyup input'( event, instance ){
-        if( Template.currentData().new ){
-            instance.AC.check();
-        }
+        instance.AC.check();
     },
 
     // reset the form

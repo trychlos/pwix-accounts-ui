@@ -1,81 +1,139 @@
 /*
- * pwix:accounts/src/client/components/ac_reset_input/ac_reset_input.js
+ * pwix:accounts/src/client/components/ac_reset_pwd/ac_reset_pwd.js
  *
- * Runs a modal dialog to let the user enter a new password.
+ * Runs a modal dialog to let the user reset his/her password.
  * Doesn't change the connection state.
+ * 
+ * Please note that this panel is run inside of a modal dialog, but OUTSIDE of any 'acUserLogin' template.
+ * We so do NOT have any acDisplay information.
+ * 
+ * Parms:
+ * - token
+ * - cb a callback to be called on submit
+ * as provided to Accounts.onResetPasswordLink() function
+ * (see https://docs.meteor.com/api/passwords.html#Accounts-onResetPasswordLink).
  */
-
-import { pwiI18n } from 'meteor/pwi:i18n';
 
 import '../../../common/js/index.js';
 
+import '../ac_footer_buttons/ac_footer_buttons.js';
 import '../ac_twice_passwords/ac_twice_passwords.js';
 
-import './ac_reset_input.html';
+import './ac_reset_pwd.html';
 
-Template.ac_reset_input.onCreated( function(){
+Template.ac_reset_pwd.onCreated( function(){
     const self = this;
+    //console.log( self );
 
     self.AC = {
+        me: AC_PANEL_RESETPWD,
         passwordOk: new ReactiveVar( true ),
         twiceOk: new ReactiveVar( true ),
+        user: new ReactiveVar( null ),
 
         close(){
-            self.$( '.ac-reset-input .modal' ).modal( 'hide' );
+            self.$( '.ac-reset-pwd .bs-modal' ).modal( 'hide' );
             return false;
+        },
+            
+        text( label ){
+            const item = 'resetPwd'+label;
+            const result = pwiAccounts.conf[item];
+            const string = typeof result === 'function' ? result() : ( typeof result === 'object' ? pwiI18n.label( pwiAccounts.strings, result.group, result.label ) : result );
+            const user = self.AC.user.get();
+            return string.format( user ? user.services.password.reset.email : '' )
         }
     };
+
+    // retrieve the user which holds the provided token
+    self.autorun(() => {
+        if( pwiAccounts.ready()){
+            let promise = Promise.resolve( true )
+            .then(() => {
+                return Meteor.callPromise( 'pwiAccounts.byResetToken', self.data.token );
+            })
+            .then(( result ) => {
+                //console.log( 'byResetToken resolving to', result );  // undefined when not found
+                self.AC.user.set( result ? result : null );
+                return true;
+            });
+        }
+    });
 });
 
-Template.ac_reset_input.onRendered( function(){
+Template.ac_reset_pwd.onRendered( function(){
     const self = this;
 
-    self.$( '.ac-reset-input .modal' ).modal( 'show' );
+    self.$( '.ac-reset-pwd .modal' ).modal( 'show' );
+
+    self.$( '.ac-reset-pwd .bs-modal' ).draggable({
+        handle: '.modal-header',
+        cursor: 'grab'
+    });
 
     self.autorun(() => {
-        const btn = self.$( '.ac-submit' );
+        const btn = self.$( '.ac-reset-pwd .ac-submit' );
         btn.prop( 'disabled', !self.AC.passwordOk.get() || !self.AC.twiceOk.get());
     });
 });
 
-Template.ac_reset_input.helpers({
-    // label translation
-    i18n( opts ){
-        return pwiI18n.label( pwiAccounts.strings, 'reset_input', opts.hash.label, opts.hash.language );
+Template.ac_reset_pwd.helpers({
+    // footer buttons
+    me(){
+        return Template.instance().AC.me;
     },
 
-    // provides data to ac_twice_passwords template
+    // parameters for the password input
     parmTwice(){
         return {
-            display: this.display,
             role: 'reset'
         };
     },
+
+    // the text before the old password
+    textOne(){
+        return Template.instance().AC.text( 'TextOne' );
+    },
+
+    // the text between old and new passwords
+    textTwo(){
+        return Template.instance().AC.text( 'TextTwo' );
+    },
+
+    // modal title
+    title(){
+        return pwiAccounts.Panel.modalTitle( Template.instance().AC.me );
+    }
 });
 
-Template.ac_reset_input.events({
-    'click .ac-cancel'( event, instance ){
+Template.ac_reset_pwd.events({
+    // message sent by the input password component
+    //  NB: happens that data arrives undefined :( see #24
+    'ac-password-data .ac-reset-pwd'( event, instance, data ){
+        //console.log( 'ac-password-data', data );
+        instance.AC.passwordOk.set( data ? data.ok : false );
+    },
+
+    // message sent by the twice passwords component
+    'ac-twice-data .ac-reset-pwd'( event, instance, data ){
+        //console.log( 'ac-twice-data', data );
+        instance.AC.twiceOk.set( data ? data.ok : false );
+    },
+
+    // on Cancel button
+    'ac-button-cancel .ac-reset-pwd'( event, instance ){
         return instance.AC.close();
     },
 
-    'click .ac-submit'( event, instance ){
-        const pwd = self.$( '.ac-password-input' ).val().trim();
+    // on Submit button
+    'ac-button-submit .ac-reset-pwd'( event, instance ){
+        const pwd = instance.$( '.ac-newone .ac-input-password input' ).val().trim();
         Template.currentData().cb( pwd );
         return instance.AC.close();
     },
 
-    'ac-password-data .ac-reset-input'( event, instance, data ){
-        if( data ){
-            instance.AC.passwordOk.set( data.ok );
-        }
-    },
-
-    'ac-twice-data .ac-reset-input'( event, instance, data ){
-        instance.AC.twiceOk.set( data.ok );
-    },
-
     // remove the Blaze element from the DOM
-    'hidden.bs.modal .ac-reset-input'( event, instance ){
+    'hidden.bs.modal .ac-reset-pwd'( event, instance ){
         Blaze.remove( instance.view );
     }
 });

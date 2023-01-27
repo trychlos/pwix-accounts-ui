@@ -46,6 +46,7 @@ Template.ac_input_password.onCreated( function(){
             width = 5-width;
             self.$( '.ac-strength-other' ).css({ width: width+'em' });
             // computes the error message (empty if field is empty)
+            //console.log( 'res.score='+res.score, 'minScore='+self.AC.minScore, 'passwordStrrngth='+pwiAccounts.conf.passwordStrength );
             let ok = true;
             if( val.length ){
                 if( val.length < pwiAccounts.conf.passwordLength ){

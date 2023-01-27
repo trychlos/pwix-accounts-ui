@@ -5,6 +5,10 @@
  * 
  * Parms:
  *  - display: the acDisplay instance
+ *      Is undefined when invoked from ac_reset_pwd template
+ *      Take care!
+ * - me: the name of the requesting panel
+ *      Only set by ac_reset_pwd template
  */
 import { pwiI18n } from 'meteor/pwi:i18n';
 
@@ -25,12 +29,12 @@ Template.ac_footer_buttons.helpers({
 
     // returns the ordered list of buttons to be displayed depending of the currently displayed template
     buttons(){
-        return pwiAccounts.Panel.buttons( pwiAccounts.Panel.asked());
+        return pwiAccounts.Panel.buttons( this.me ? this.me : pwiAccounts.Panel.asked());
     },
 
     // whether to display this link
     haveLink( link ){
-        const ret = link.have ? this.display[link.have]() : true;
+        const ret = link.have && this.display ? this.display[link.have]() : true;
         return ret;
     },
 
@@ -44,7 +48,7 @@ Template.ac_footer_buttons.helpers({
 
     // returns the ordered list of links to be displayed depending of the current state
     links(){
-        return pwiAccounts.Panel.links( pwiAccounts.Panel.asked());
+        return pwiAccounts.Panel.links( this.me ? this.me : pwiAccounts.Panel.asked());
     }
 });
 
@@ -61,6 +65,7 @@ Template.ac_footer_buttons.events({
     },
 
     'click .ac-submit'( event, instance ){
-        instance.$( event.target ).closest( '.acUserLogin' ).find( '.ac-user-login' ).trigger( 'ac-button-submit' );
+        //instance.$( event.target ).closest( '.acUserLogin' ).find( '.ac-user-login' ).trigger( 'ac-button-submit' );
+        instance.$( event.target ).trigger( 'ac-button-submit' );
     }
 });

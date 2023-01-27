@@ -22,6 +22,7 @@ Package.onUse( function( api ){
         'AC_PANEL_NONE',
         'AC_PANEL_CHANGEPWD',
         'AC_PANEL_RESETASK',
+        'AC_PANEL_RESETPWD',
         'AC_PANEL_SIGNIN',
         'AC_PANEL_SIGNOUT',
         'AC_PANEL_SIGNUP',

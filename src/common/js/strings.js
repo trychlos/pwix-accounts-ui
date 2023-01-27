@@ -63,17 +63,16 @@ pwiAccounts.strings = {
         },
         reset_ask: {
             modal_title: 'Lost password ?',
-            textBefore: 'By clicking on the below "Send" button, we will send a mail to the specified mail address.'
+            textOne: 'By clicking on the below "Send" button, we will send a mail to the specified mail address.'
                 +' This mail will include a link which will let you freely change your password.'
                 +' Please be conscious that the provided link will have a limited life.<br />'
                 +' Do not run the process if you do not have an access to your mailbox.<br /><p>&nbsp;</p>'
         },
-        reset_input: {
-            title: 'Resetting your password',
-            description: '',
-            password_label: 'Enter your new password',
-            btn_cancel: 'Cancel',
-            btn_ok: 'OK'
+        reset_pwd: {
+            modal_title: 'Reset your password',
+            textOne: 'Hello <b>{0}</b>,<br />'
+                +'Welcome again!<br />'
+                +'Let us reset your password, and enjoy.'
         },
         signin: {
             modal_title: 'Sign in with my account'
@@ -187,18 +186,17 @@ pwiAccounts.strings = {
         },
         reset_ask: {
             modal_title: 'Mot de passe oublié ?',
-            textBefore: 'Lorsque vous aurez pressé le bouton "Envoyer" ci-dessous, nous enverrons un message vers votre adresse de messagerie.<br />'
+            textOne: 'Lorsque vous aurez pressé le bouton "Envoyer" ci-dessous, nous enverrons un message vers votre adresse de messagerie.<br />'
                 +'Ce message contiendra un lien sur lequel vous devrez cliquer, et qui vous permettra de ré-initialiser votre mot de passe.<br />'
                 +'<br />'
                 +'<i>Notez s\'il vous plait que, pour des raisons de sécurité, ce lien a une durée de vie limitée (env. 30mn par défaut). '
                 +'N\'exécutez pas cette opération si vous n\'avez pas accès à votre boite de messagerie.</i>'
         },
-        reset_input: {
-            title: 'Ré-initialiser votre mot de passe',
-            description: '',
-            password_label: 'Saisissez votre nouveau mot de passe',
-            btn_cancel: 'Annuler',
-            btn_ok: 'OK'
+        reset_pwd: {
+            modal_title: 'Réinitialisez votre mot de passe',
+            textOne: 'Bonjour <b>{0}</b>,<br />'
+                +'Merci de cette nouvelle visite!<br />'
+                +'Réinitialisons votre mot de passe, et profitez de la suite &nbsp;!'
         },
         signin: {
             modal_title: 'M\'identifier avec mon compte'

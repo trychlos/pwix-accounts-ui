@@ -8,7 +8,7 @@ import { pwiI18n } from 'meteor/pwi:i18n';
 
 import '../../common/js/index.js';
 
-import '../components/ac_reset_input/ac_reset_input.js';
+import '../components/ac_reset_pwd/ac_reset_pwd.js';
 
 //  when the user clicks on the two below links, the function is executed between
 //  the packages configurations and Meteor.startup() (and before the object instanciation)
@@ -38,9 +38,33 @@ Accounts.onEmailVerificationLink( function( token, done ){
 //  The lifetime must so be enough to let the user enter it..
 
 Accounts.onResetPasswordLink( function( token, done ){
-    console.log( 'onResetPasswordLink' );
-    Blaze.renderWithData( Template.ac_reset_input, { cb: ( passwd ) => {
+    console.log( 'onResetPasswordLink token='+token );
+    console.log( 'Accounts._getPasswordResetTokenLifetimeMs', Accounts._getPasswordResetTokenLifetimeMs());
+    //Blaze.renderWithData( Template.ac_reset_pwd, { token: token, cb: ( passwd ) => {
+    //    if( passwd && passwd.length ){
+    //        console.log( 'passwd='+passwd, 'token='+token );
+            Accounts.resetPassword( token, 'xxxxxx', ( err ) => {
+                if( err ){
+                    console.error( err );
+                    pwiBootbox.alert({
+                        title: pwiI18n.label( pwiAccounts.strings, 'user', 'reset_title' ),
+                        message: pwiI18n.label( pwiAccounts.strings, 'user', 'reset_error' )
+                    });
+                } else {
+                    pwiBootbox.alert({
+                        title: pwiI18n.label( pwiAccounts.strings, 'user', 'reset_title' ),
+                        message: pwiI18n.label( pwiAccounts.strings, 'user', 'reset_text' )
+                    });
+                    done();
+                }
+            });
+    //    }
+    //}}, $( 'body' )[0] );
+
+    /*
+    Blaze.renderWithData( Template.ac_reset_pwd, { token: token, cb: ( passwd ) => {
         if( passwd && passwd.length ){
+            console.log( 'passwd='+passwd, 'token='+token );
             Accounts.resetPassword( token, passwd, ( err ) => {
                 if( err ){
                     console.error( err );
@@ -58,4 +82,5 @@ Accounts.onResetPasswordLink( function( token, done ){
             });
         }
     }}, $( 'body' )[0] );
+    */
 });

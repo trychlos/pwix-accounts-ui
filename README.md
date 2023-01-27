@@ -204,6 +204,14 @@ Value is expected to be a string which contains HTML code, or a function which r
 </td></tr>
 
 <tr><td style="vertical-align:top;">
+resetPasswordTwice
+</td><td>
+Whether to request the user to enter twice the password when resetting for an existing account.<br />
+A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
+The possible values are true or false, defaulting to the value of the <code>passwordTwice</code> package configuration.
+</td></tr>
+
+<tr><td style="vertical-align:top;">
 usernameLength
 </td><td>
 The minimal required username length.<br />
@@ -336,8 +344,7 @@ Whatever be the initial choice, the application may still change the rendering m
 
 <tr><td style="vertical-align:top;">
 signupPasswordTwice<br />
-changePasswordTwice<br />
-resetPasswordTwice
+changePasswordTwice
 </td><td>
 Whether to request the user to enter twice the password of a newly created account, or the new password of an existing account.<br />
 A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />

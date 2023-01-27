@@ -4,6 +4,17 @@
 import { Accounts } from 'meteor/accounts-base';
 
 Meteor.methods({
+    // retrieve the account who holds the given reset password token
+    'pwiAccounts.byResetToken'( token ){
+        const user = Meteor.users.findOne({ 'services.password.reset.token': token },{ 'services.password.reset': 1 });
+        if( user ){
+            delete user['services.password.bcrypt'];
+            delete user['services.resume'];
+        }
+        console.log( 'pwiAccounts.byResetToken', user );
+        return user;
+    },
+
     // create a user without auto login
     // https://docs.meteor.com/api/passwords.html#Accounts-createUser
     // called on the server, this methods returns the new account id
@@ -18,7 +29,7 @@ Meteor.methods({
         return res;
     },
 
-    // return  true if the username already exists
+    // return true if the username already exists
     'pwiAccounts.existsUsername'( username ){
         const res = Accounts.findUserByUsername( username );
         console.log( 'existsUsername', username, res );
