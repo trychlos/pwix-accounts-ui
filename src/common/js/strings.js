@@ -70,7 +70,7 @@ pwiAccounts.strings = {
         },
         reset_pwd: {
             modal_title: 'Reset your password',
-            textOne: 'Hello <b>{0}</b>,<br />'
+            textOne: 'Hello <b>%s</b>,<br />'
                 +'Welcome again!<br />'
                 +'Let us reset your password, and enjoy.'
         },
@@ -102,11 +102,11 @@ pwiAccounts.strings = {
             resetask_error: 'Unable to send a reset link to the specified address',
             resetask_success: 'Reset mail successfully sent',
             resetpwd_title: 'Password reset',
-            resetpwd_text: 'Hi.<br />Your password has been successfully reset.<br />You will now be logged-in.',
+            resetpwd_text: 'Hi.<br />Your password has been successfully reset.<br />You are now automatically logged-in.',
             resetpwd_error: 'Humm... Sorry, but your token has expired. I\'am unfortunately unable to reset your password.<br />You have to re-ask for a new reset link.',
             signin_error: 'Invalid mail address and/or password. Please check your credentials. In case of doubt, please contact our administrator.',
             signup_error: 'Unable to create this new account',
-            signup_success: 'New account {0} successfully created',
+            signup_success: 'New account %s successfully created',
             verify_error: 'Humm... Sorry, but it seems your token has expired.<br />You have to re-ask for a new verification link.',
             verify_text: 'Hi.<br />Your mail is now verified.<br />You can participate (and enjoy).',
             verify_title: 'Mail verification',
@@ -195,7 +195,7 @@ pwiAccounts.strings = {
         },
         reset_pwd: {
             modal_title: 'Réinitialisez votre mot de passe',
-            textOne: 'Bonjour <b>{0}</b>,<br />'
+            textOne: 'Bonjour <b>%s</b>,<br />'
                 +'Merci de cette nouvelle visite!<br />'
                 +'Réinitialisons votre mot de passe, et profitez de la suite &nbsp;!'
         },
@@ -227,11 +227,11 @@ pwiAccounts.strings = {
             resetask_error: 'Impossible d\'envoyer un lien de réinitialisation.',
             resetask_success: 'Message envoyé avec succès',
             resetpwd_error: 'Humm... Désolé, mais il semble que le jeton utilisé soit expiré.<br />Vous devez en redemander un nouveau.',
-            resetpwd_text: 'Bonjour,<br />Votre mot de passe a été réinitilisé avec succès.<br />Vous allez être automatiquement connecté au site.',
+            resetpwd_text: 'Bonjour,<br />Votre mot de passe a été réinitilisé avec succès.<br />Vous êtes automatiquement connecté au site.',
             resetpwd_title: 'Réinitialisation du mot de passe',
             signin_error: 'L\'adresse de messagerie et/ou le mot de passe sont invalides. Merci de bien vouloir les vérifier.\nEn cas de doute, vous pouvez vous rapprocher de notre administrateur.',
             signup_error: 'Impossible de créer ce nouveau compte.',
-            signup_success: 'Nouveau compte {0} créé',
+            signup_success: 'Nouveau compte %s créé',
             verify_error: 'Humm... Désolé, mais il semble que le jeton utilisé soit expiré.<br />Vous devez en redemander un nouveau.',
             verify_text: 'Bonjour,<br />Votre adresse de messagerie est maintenant considérée comme vérifiée.<br />'
                 +'Vous pouvez participer aux forums (et en profiter).',
