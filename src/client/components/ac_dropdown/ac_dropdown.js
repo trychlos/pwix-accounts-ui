@@ -20,8 +20,7 @@ Template.ac_dropdown.onCreated( function(){
         display: Template.currentData().display,
 
         // compute the class of the button
-        btnClass(){
-            const state = pwiAccounts.User.state();
+        btnClass( state ){
             let result = '';
             switch( state ){
                 case AC_LOGGED:
@@ -34,9 +33,8 @@ Template.ac_dropdown.onCreated( function(){
             return result;
         },
 
-        // compute the content of the button
-        btnContent(){
-            const state = pwiAccounts.User.state();
+        // set the content of the button
+        btnContent( state ){
             let result = '';
             switch( state ){
                 case AC_LOGGED:
@@ -50,8 +48,7 @@ Template.ac_dropdown.onCreated( function(){
         },
 
         // whether this template has to manage a dropdown menu
-        hasDropdown(){
-            const state = pwiAccounts.User.state();
+        hasDropdown( state ){
             return ( state === AC_LOGGED && self.AC.display.loggedButtonAction() === AC_ACT_DROPDOWN )
                 || ( state === AC_UNLOGGED && self.AC.display.unloggedButtonAction() === AC_ACT_DROPDOWN );
         }
@@ -60,13 +57,17 @@ Template.ac_dropdown.onCreated( function(){
 
 Template.ac_dropdown.onRendered( function(){
     const self = this;
-    const btn = self.$( '.ac-dropdown button' );
+    btn = self.$( '.ac-dropdown button' );
 
     self.autorun(() => {
-        if( self.AC.hasDropdown()){
+        if( self.AC.hasDropdown( pwiAccounts.User.state())){
             btn.attr( 'data-bs-toggle', 'dropdown' );
             btn.attr( 'data-bs-auto-close', 'true' );
             btn.attr( 'aria-expanded', 'false' );
+        } else {
+            btn.attr( 'data-bs-toggle', '' );
+            btn.attr( 'data-bs-auto-close', '' );
+            btn.attr( 'aria-expanded', '' );
         }
     });
 
@@ -81,7 +82,8 @@ Template.ac_dropdown.onRendered( function(){
     //  when dealing with HTML content and more generally with triple-braces helpers
     //  This solution, as a one-line jQuery which doesn't use Blaze helpers, works well.
     self.autorun(() => {
-        btn.html( self.AC.btnContent());
+        //console.log( 'btnContent autorun' );
+        btn.html( self.AC.btnContent( pwiAccounts.User.state()));
     });
 });
 
@@ -90,7 +92,8 @@ Template.ac_dropdown.helpers({
     // the classes to be added to the button
     //  note that the 'dropdown-toggle' bootstrap class displays the down-arrow ':after' the label
     buttonClass(){
-        return Template.instance().AC.btnClass();
+        //console.log( 'buttonClass helper' );
+        return Template.instance().AC.btnClass( pwiAccounts.User.state());
     },
 
     // pass the acDisplay instance to child template
@@ -100,10 +103,10 @@ Template.ac_dropdown.helpers({
 
     // whether we have to manage a dropdown menu
     dropdown(){
-        return Template.instance().AC.hasDropdown() ? 'dropdown' : '';
+        return Template.instance().AC.hasDropdown( pwiAccounts.User.state()) ? 'dropdown' : '';
     },
 
     hasDropdown(){
-        return Template.instance().AC.hasDropdown();
+        return Template.instance().AC.hasDropdown( pwiAccounts.User.state());
     }
 });

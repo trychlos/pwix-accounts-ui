@@ -23,12 +23,11 @@
 |   20 | 2023- 1-21 | when a name is set, set a data-ac-name attribute on the acUserLogin div |
 |   21 | 2023- 1-24 | BUG CSS: when unlogged, the dropdown  button doesn't consider the padding set by the application (height is too small) |
 |   24 | 2023- 1-25 | BUG data associated to ac-password-data message is received as undefined when length=0 |
-|   25 | 2023- 1-25 | reset_ask make sure we take an email address |
 |   26 | 2023- 1-25 | let the user change his email address |
 |   27 | 2023- 1-25 | let the user change his username |
 |   28 | 2023- 1-25 | have a profile dialog with all change options |
 |   29 | 2023- 1-26 | manage several email addresses per user |
-|   32 | 2023- 1-27 | BUG dropdown button is not reactive |
+|      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
 |   33 | | |
 
 ---
@@ -74,10 +73,14 @@
 |      | 2023- 1-25 | eye is ok, but should not prevent these two input fields |
 |      | 2023- 1-25 | if this option is confirmed, should apply both to signup and change_pwd and reset_pwd |
 |      | 2023- 1-26 | done in v0.90.1 |
+|   25 | 2023- 1-25 | reset_ask make sure we take an email address |
+|      | 2023- 1-26 | done |
 |   30 | 2023- 1-26 | send ac-user-resetpwd message from Accounts.onResetPasswordLink() function |
 |      | 2023- 1-27 | done in v0.90.1 |
 |   31 | 2023- 1-27 | send ac-user-verifymail message from Accounts.onEmailVerificationLink() function |
 |      | 2023- 1-27 | done in v0.90.1 |
+|   32 | 2023- 1-27 | BUG dropdown button is not reactive |
+|      | 2023- 1-27 | fixed in v0.90.1 |
 
 ---
 P. Wieser

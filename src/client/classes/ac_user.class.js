@@ -5,7 +5,7 @@
  * A singleton is attached to the global 'pwiAccounts' object.
  */
 import { Accounts } from 'meteor/accounts-base';
-import { ReactiveVar } from 'meteor/reactive-var';
+import { Tracker } from 'meteor/tracker';
 
 import { pwiI18n } from 'meteor/pwi:i18n';
 import { pwiTolert } from 'meteor/pwi:tolert';
@@ -17,9 +17,28 @@ export class acUser {
 
     // maintains a LOGGED/UNLOGGED status
     //  is expected to be exactly consistant with Meteor.user() but adds a (very) thin conceptualization level
-    _state = new ReactiveVar( null );
+    _state = {
+        dep: null,
+        value: null
+    }
 
     // private functions
+    /*
+     * Setter only
+     * @param {String} state the new logged-in status
+     * @returns {String} the logged-in status as AC_LOGGED or AC_UNLOGGED
+     * A reactive data source
+     */
+    _stateSet( state ){
+        if( !this._state.dep ){
+            this._state.dep = new Tracker.Dependency();
+        }
+        if( state && ( state === AC_LOGGED || state === AC_UNLOGGED ) && state !== this._state.value ){
+            this._state.value = state;
+            this._state.dep.changed();
+        }
+        return this._state.value;
+    }
 
     //public data
 
@@ -35,7 +54,9 @@ export class acUser {
 
         console.log( 'pwix:accounts instanciating new acUser' );
 
-        this.state( Meteor.userId() ? AC_LOGGED : AC_UNLOGGED );
+        Tracker.autorun(() => {
+            this._stateSet( Meteor.userId() ? AC_LOGGED : AC_UNLOGGED );
+        });
 
         acUser.Singleton = this;
         return this;
@@ -80,7 +101,7 @@ export class acUser {
                     console.error( err );
                     target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'signup_error' ));
                 } else {
-                    self.state( AC_LOGGED );
+                    //self.state( AC_LOGGED );
                     pwiAccounts.Panel.asked( AC_PANEL_NONE );
                     $( '.acUserLogin' ).trigger( 'ac-user-create', mail );
                 }
@@ -121,7 +142,7 @@ export class acUser {
                 console.error( err );
                 target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'signin_error' ));
             } else {
-                self.state( AC_LOGGED );
+                //self.state( AC_LOGGED );
                 pwiAccounts.Panel.asked( AC_PANEL_NONE );
                 $( '.acUserLogin' ).trigger( 'ac-user-login', userid );
             }
@@ -134,7 +155,7 @@ export class acUser {
     logout(){
         const email = this.emailAddress();
         Meteor.logout();
-        this.state( AC_UNLOGGED );
+        //this.state( AC_UNLOGGED );
         pwiAccounts.Panel.asked( AC_PANEL_NONE );
         $( '.acUserLogin' ).trigger( 'ac-user-logout', email );
     }
@@ -166,15 +187,14 @@ export class acUser {
     }
 
     /**
-     * Getter/Setter
+     * Getter only
      * @param {String} state the new logged-in status
      * @returns {String} the logged-in status as AC_LOGGED or AC_UNLOGGED
+     * A reactive data source
      */
-    state( state ){
-        if( state && ( state === AC_LOGGED || state === AC_UNLOGGED )){
-            this._state.set( state );
-        }
-        return this._state.get();
+    state(){
+        this._state.dep.depend();
+        return this._state.value;
     }
 
     /**
