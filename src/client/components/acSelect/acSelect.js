@@ -108,7 +108,7 @@ Template.acSelect.helpers({
 
     // returns the username of the user
     username( it ){
-        return pwiAccounts.email( it._id );
+        return pwiAccounts.emailAddress( it._id ).then(( email ) => { return Promise.resolve( email ); } );
     },
 
     // returns the list of known users

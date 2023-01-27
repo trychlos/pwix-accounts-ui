@@ -10,7 +10,7 @@ import { Tracker } from 'meteor/tracker';
 import printf from 'printf';
 
 import { pwiI18n } from 'meteor/pwi:i18n';
-import { pwiTolert } from 'meteor/pwi:tolert';
+import { tlTolert } from 'meteor/pwix:tolert';
 
 export class acUser {
 
@@ -78,7 +78,7 @@ export class acUser {
                 target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'changepwd_error' ));
             } else {
                 pwiAccounts.Panel.asked( AC_PANEL_NONE );
-                pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'changepwd_success' ));
+                tlTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'changepwd_success' ));
                 $( '.acUserLogin' ).trigger( 'ac-user-changepwd', self.emailAddress());
             }
         });
@@ -114,7 +114,7 @@ export class acUser {
                     console.error( err );
                     target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'signup_error' ));
                 } else {
-                    pwiTolert.success( printf( pwiI18n.label( pwiAccounts.strings, 'user', 'signup_success' ), options.email || options.username ));
+                    tlTolert.success( printf( pwiI18n.label( pwiAccounts.strings, 'user', 'signup_success' ), options.email || options.username ));
                     $( '.acUserLogin' ).trigger( 'ac-user-create', options );
                 }
             });
@@ -182,7 +182,7 @@ export class acUser {
                 target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'resetask_error' ));
             } else {
                 pwiAccounts.Panel.asked( AC_PANEL_NONE );
-                pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'resetask_success' ));
+                tlTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'resetask_success' ));
                 $( '.acUserLogin' ).trigger( 'ac-user-resetasked', mail );
             }
         });
@@ -215,10 +215,10 @@ export class acUser {
         Meteor.callPromise( 'pwiAccounts.sendVerificationEmail', Meteor.userId())
             .then(( result ) => {
                 if( result ){
-                    pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'verifyask_success' ));
+                    tlTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'verifyask_success' ));
                     $( '.acUserLogin' ).trigger( 'ac-user-verifyasked', self.emailAddress());
                 } else {
-                    pwiTolert.error( pwiI18n.label( pwiAccounts.strings, 'user', 'verifyask_error' ));
+                    tlTolert.error( pwiI18n.label( pwiAccounts.strings, 'user', 'verifyask_error' ));
                 }
                 pwiAccounts.Panel.asked( AC_PANEL_NONE );
             });
