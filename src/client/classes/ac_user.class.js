@@ -7,6 +7,8 @@
 import { Accounts } from 'meteor/accounts-base';
 import { Tracker } from 'meteor/tracker';
 
+import printf from 'printf';
+
 import { pwiI18n } from 'meteor/pwi:i18n';
 import { pwiTolert } from 'meteor/pwi:tolert';
 
@@ -103,7 +105,7 @@ export class acUser {
                 } else {
                     //self.state( AC_LOGGED );
                     pwiAccounts.Panel.asked( AC_PANEL_NONE );
-                    $( '.acUserLogin' ).trigger( 'ac-user-create', mail );
+                    $( '.acUserLogin' ).trigger( 'ac-user-create', options.email );
                 }
             });
         } else {
@@ -112,7 +114,7 @@ export class acUser {
                     console.error( err );
                     target.trigger( 'ac-display-error', pwiI18n.label( pwiAccounts.strings, 'user', 'signup_error' ));
                 } else {
-                    pwiTolert.success( pwiI18n.label( pwiAccounts.strings, 'user', 'signup_success' ).format( options.email || options.username ));
+                    pwiTolert.success( printf( pwiI18n.label( pwiAccounts.strings, 'user', 'signup_success' ), options.email || options.username ));
                     $( '.acUserLogin' ).trigger( 'ac-user-create', options );
                 }
             });
