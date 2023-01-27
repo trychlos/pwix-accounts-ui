@@ -56,7 +56,7 @@ function configure( api ){
     api.use( 'less', 'client' );
     api.use( 'pwi:bootbox', 'client' );
     api.use( 'pwi:i18n' );
-    api.use( 'pwi:layout', 'client' );
+    api.use( 'pwix:layout', 'client' );
     api.use( 'pwix:tolert', 'client' );
     api.addFiles( 'src/client/components/acMenuItems/acMenuItems.js', 'client' );
     api.addFiles( 'src/client/components/acSelect/acSelect.js', 'client' );

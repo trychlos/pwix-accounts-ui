@@ -2,7 +2,7 @@
  * /pwix:accounts/src/client/stylesheets/ac_accounts.less
  */
 
-@import "{pwi:layout}/src/client/css/layout.less";
+@import "{pwix:layout}/src/client/css/ui_layout.less";
 
 .acUserLogin,
 .acSelect,
@@ -37,7 +37,7 @@
         }
     }
     .ac-footer-buttons {
-        @media screen and ( max-width: @sm-width ){
+        @media screen and ( max-width: @ui-sm-width ){
             flex-wrap: wrap;
         }
         button {
@@ -45,7 +45,7 @@
         }
         .ac-right {
             width: -webkit-fill-available;
-            @media screen and ( max-width: @sm-width ){
+            @media screen and ( max-width: @ui-sm-width ){
                 margin-top: 0.5em;
             }
         }
