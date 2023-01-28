@@ -1,12 +1,12 @@
 /*
- * pwix:accounts/src/common/js/define.js
+ * pwix:accounts/src/common/js/config.js
  *
  * Just define the object here.
  */
 
 import { Tracker } from 'meteor/tracker';
 
-console.log( 'pwix:accounts/src/common/js/define.js defining globally exported pwiAccounts object' );
+console.log( 'pwix:accounts/src/common/js/config.js defining globally exported pwiAccounts object' );
 
 _ready = {
     dep: new Tracker.Dependency(),

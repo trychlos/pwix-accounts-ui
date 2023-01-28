@@ -26,8 +26,6 @@
 |   28 | 2023- 1-25 | have a profile dialog with all change options |
 |   29 | 2023- 1-26 | manage several email addresses per user |
 |      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
-|   33 | 2023- 1-27 | before first publication, get rid of local pwi:tolert dependancy |
-|   35 | 2023- 1-27 | before first publication, get rid of local pwix:layout dependancy |
 |   36 | 2023- 1-27 | before first publication, get rid of local pwi:i18n dependancy |
 |   37 | 2023- 1-27 | before first publication, get rid of local pwi:bootbox dependancy |
 |   38 | 2023- 1-27 | review acSelect: do not use Promise in helpers |
@@ -88,8 +86,12 @@
 |      | 2023- 1-27 | done in v0.90.1 |
 |   32 | 2023- 1-27 | BUG dropdown button is not reactive |
 |      | 2023- 1-27 | fixed in v0.90.1 |
+|   33 | 2023- 1-27 | before first publication, get rid of local pwi:tolert dependancy |
+|      | 2023- 1-27 | done, replacing with pwix:tolert |
 |   34 | 2023- 1-27 | before first publication, get rid of local pwi:string-prototype dependancy |
 |      | 2023- 1-27 | done in v0.90.1 |
+|   35 | 2023- 1-27 | before first publication, get rid of local pwi:layout dependancy |
+|      | 2023- 1-28 | done, replacing with pwix-layout |
 
 ---
 P. Wieser
