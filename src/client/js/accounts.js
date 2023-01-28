@@ -3,8 +3,8 @@
  */
 import { Accounts } from 'meteor/accounts-base';
 
-import { pwiBootbox } from 'meteor/pwi:bootbox';
-import { pwiI18n } from 'meteor/pwi:i18n';
+import { bbBootbox } from 'meteor/pwix:bootbox';
+import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
 import '../../common/js/index.js';
 
@@ -34,9 +34,9 @@ import '../components/ac_reset_pwd/ac_reset_pwd.js';
 // URL is of the form 'http://localhost:3000/#/verify-email/8R7RpL6ysRSAIO6Us6kA4uTITzb3xl1wzbNqyDIlAph'
 
 _verifyExpired = function(){
-    pwiBootbox.alert({
-        title: pwiI18n.label( pwiAccounts.strings, 'user', 'verify_title' ),
-        message: pwiI18n.label( pwiAccounts.strings, 'user', 'verify_error' )
+    bbBootbox.alert({
+        title: i18n.label( AC_I18N, 'user.verify_title' ),
+        message: i18n.label( AC_I18N, 'user.verify_error' )
     });
 }
 
@@ -58,9 +58,9 @@ Accounts.onEmailVerificationLink( function( token, done ){
                         console.error( err );
                         _verifyExpired();
                     } else {
-                        pwiBootbox.alert({
-                            title: pwiI18n.label( pwiAccounts.strings, 'user', 'verify_title' ),
-                            message: pwiI18n.label( pwiAccounts.strings, 'user', 'verify_text' )
+                        bbBootbox.alert({
+                            title: i18n.label( AC_I18N, 'user.verify_title' ),
+                            message: i18n.label( AC_I18N, 'user.verify_text' )
                         });
                         // a special construction which answers to the special event listener attached to the document
                         // see pwix:accounts/src/client/js/handlers.js
@@ -114,9 +114,9 @@ Accounts.onEmailVerificationLink( function( token, done ){
 //  Else, user B is re-connected.
 
 _resetExpired = function(){
-    pwiBootbox.alert({
-        title: pwiI18n.label( pwiAccounts.strings, 'user', 'resetpwd_title' ),
-        message: pwiI18n.label( pwiAccounts.strings, 'user', 'resetpwd_error' )
+    bbBootbox.alert({
+        title: i18n.label( AC_I18N, 'user.resetpwd_title' ),
+        message: i18n.label( AC_I18N, 'user.resetpwd_error' )
     });
 }
 
@@ -133,9 +133,9 @@ Accounts.onResetPasswordLink( function( token, done ){
                             console.error( err );
                             _resetExpired();
                         } else {
-                            pwiBootbox.alert({
-                                title: pwiI18n.label( pwiAccounts.strings, 'user', 'resetpwd_title' ),
-                                message: pwiI18n.label( pwiAccounts.strings, 'user', 'resetpwd_text' )
+                            bbBootbox.alert({
+                                title: i18n.label( AC_I18N, 'user.resetpwd_title' ),
+                                message: i18n.label( AC_I18N, 'user.resetpwd_text' )
                             });
                             // a special construction which answers to the special event listener attached to the document
                             // see pwix:accounts/src/client/js/handlers.js

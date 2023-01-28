@@ -590,3 +590,6 @@ When the application chooses to hide the logged/unlogged button depending of the
 it should apply its media query on the 'display' div class, which is a direct child of the 'acUserLogin' one.
 
 This way, the 'acUserLogin' div is kept active, and continues to receive the messages.
+---
+P. Wieser
+- Last updated on 2023, Jan. 27th

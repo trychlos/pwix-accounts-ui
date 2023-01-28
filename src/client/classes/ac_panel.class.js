@@ -6,7 +6,7 @@
 
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { pwiI18n } from 'meteor/pwi:i18n';
+import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
 import '../../common/js/index.js';
 
@@ -25,7 +25,7 @@ export class acPanel {
                 { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
                 { class: 'btn-primary ac-submit',   key: 'ok_label' }
             ],
-            modal_title: { group: 'change_pwd', key: 'modal_title' },
+            modal_title: { i18n: 'change_pwd.modal_title' },
             template: 'ac_change_pwd'
         },
         AC_PANEL_RESETASK: {
@@ -37,7 +37,7 @@ export class acPanel {
                 { key: 'signin_link', target: AC_PANEL_SIGNIN, have: 'signinLink' },
                 { key: 'signup_link', target: AC_PANEL_SIGNUP, have: 'signupLink' }
             ],
-            modal_title: { group: 'reset_ask', key: 'modal_title' },
+            modal_title: { i18n: 'reset_ask.modal_title' },
             template: 'ac_reset_ask'
         },
         AC_PANEL_RESETPWD: {
@@ -45,7 +45,7 @@ export class acPanel {
                 { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
                 { class: 'btn-primary ac-submit',   key: 'ok_label' }
             ],
-            modal_title: { group: 'reset_pwd', key: 'modal_title' },
+            modal_title: { i18n: 'reset_pwd.modal_title' },
             template: 'ac_reset_pwd'
         },
         AC_PANEL_SIGNIN: {
@@ -57,7 +57,7 @@ export class acPanel {
                 { key: 'reset_link',  target: AC_PANEL_RESETASK, have: 'resetLink' },
                 { key: 'signup_link', target: AC_PANEL_SIGNUP,   have: 'signupLink' }
             ],
-            modal_title: { group: 'signin', key: 'modal_title' },
+            modal_title: { i18n: 'signin.modal_title' },
             template: 'ac_signin'
         },
         AC_PANEL_SIGNOUT: {
@@ -65,7 +65,7 @@ export class acPanel {
                 { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
                 { class: 'btn-primary ac-submit',   key: 'signout_label' }
             ],
-            modal_title: { group: 'signout', key: 'modal_title' },
+            modal_title: { i18n: 'signout.modal_title' },
             template: 'ac_signout'
         },
         AC_PANEL_SIGNUP: {
@@ -76,7 +76,7 @@ export class acPanel {
             links: [
                 { key: 'signin_link', target: AC_PANEL_SIGNIN, have: 'signinLink' }
             ],
-            modal_title: { group: 'signup', key: 'modal_title' },
+            modal_title: { i18n: 'signup.modal_title' },
             template: 'ac_signup'
         },
         AC_PANEL_VERIFYASK: {
@@ -84,7 +84,7 @@ export class acPanel {
                 { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
                 { class: 'btn-primary ac-submit',   key: 'send_label' }
             ],
-            modal_title: { group: 'verify_ask', key: 'modal_title' },
+            modal_title: { i18n: 'verify_ask.modal_title' },
             template: 'ac_verify_ask'
         }
     };
@@ -159,7 +159,7 @@ export class acPanel {
      */
     modalTitle( name ){
         const o = acPanel.Knowns[name] ? acPanel.Knowns[name].modal_title || null : null;
-        return o ? pwiI18n.label( pwiAccounts.strings, o.group, o.key ) : '';
+        return o ? i18n.label( AC_I18N, o.i18n ) : '';
     }
 
     /**

@@ -22,6 +22,9 @@ pwiAccounts = {
         pwiAccounts.conf = { ...pwiAccounts.conf, ...o };
     },
 
+    // internationalization
+    i18n: {},
+
     /**
      * A reactive data source.
      * Returned value is updated at package client startup.

@@ -12,7 +12,7 @@
  *                  defaults to none
  */
 
-import { pwiI18n } from 'meteor/pwi:i18n';
+import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -35,7 +35,7 @@ Template.acSelect.onCreated( function(){
 
         // get a translated label
         i18n( label ){
-            return pwiI18n.label( pwiAccounts.strings, 'select', label );
+            return i18n.label( AC_I18N, 'select.'+label );
         },
 
         // update the input selection reactive var on each change
@@ -89,11 +89,6 @@ Template.acSelect.onRendered( function(){
 });
 
 Template.acSelect.helpers({
-    // get a translated label
-    i18n( opts ){
-        return Template.instance().AC.i18n( opts.hash.label );
-    },
-
     // whether the user is to be selected
     selected( it ){
         const hash = Template.instance().AC.hash.get();

@@ -12,7 +12,7 @@ import { Tracker } from 'meteor/tracker';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { v4 as uuidv4 } from 'uuid';
 
-import { pwiI18n } from 'meteor/pwi:i18n';
+import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
 import '../../common/js/index.js';
 
@@ -101,13 +101,13 @@ export class acDisplay {
 
     // get/set a configuration option as a string or a function
     //  maybe be with a reference array of accepted values
-    //  also accept an object with 'group' and 'label' keys
+    //  also accept an object with 'i8n' key
     _get_set_string_fn( key, label, ref ){
         if( label !== undefined ){
             if(( typeof label === 'string' && ( ref === undefined || ref.includes( label ))) || typeof label === 'function' ){
                 this._conf[key].set( label );
-            } else if( typeof label === 'object' && Object.keys( label ).includes( 'group' ) && Object.keys( label ).includes( 'label' )){
-                this._conf[key].set( pwiI18n.label( pwiAccounts.strings, label.group, label.label ));
+            } else if( typeof label === 'object' && Object.keys( label ).includes( 'i18n' )){
+                this._conf[key].set( i18n.label( AC_I18N, label.i18n ));
             } else {
                 console.error( key, 'invalid argument:', label );
             }

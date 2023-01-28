@@ -7,7 +7,6 @@
  *  - template: the name of the template to embed
  *  - display: the acDisplay instance (needed here as we must not be tied to where the modal is rendered in the HTML page)
  */
-import { pwiI18n } from 'meteor/pwi:i18n';
 
 import '../../../common/js/index.js';
 
@@ -89,11 +88,6 @@ Template.ac_modal.onRendered( function(){
 });
 
 Template.ac_modal.helpers({
-
-    // label translation
-    i18n( opts ){
-        return pwiI18n.label( pwiAccounts.strings, 'modal', opts.hash.label, opts.hash.language );
-    },
 
     // pass the the input parameters to child template
     parms(){

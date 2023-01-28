@@ -10,7 +10,7 @@
  * - me: the name of the requesting panel
  *      Only set by ac_reset_pwd template
  */
-import { pwiI18n } from 'meteor/pwi:i18n';
+import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
 
@@ -24,7 +24,7 @@ Template.ac_footer_buttons.helpers({
     },
 
     btnLabel( btn ){
-        return btn.key && btn.key.length ? pwiI18n.label( pwiAccounts.strings, 'buttons', btn.key ) : '';
+        return btn.key && btn.key.length ? i18n.label( AC_I18N, 'buttons.'+btn.key ) : '';
     },
 
     // returns the ordered list of buttons to be displayed depending of the currently displayed template
@@ -39,7 +39,7 @@ Template.ac_footer_buttons.helpers({
     },
 
     linkLabel( link ){
-        return link.key && link.key.length ? pwiI18n.label( pwiAccounts.strings, 'buttons', link.key ) : '';
+        return link.key && link.key.length ? i18n.label( AC_I18N, 'buttons.'+link.key ) : '';
     },
 
     linkTarget( link ){

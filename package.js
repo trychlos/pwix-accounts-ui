@@ -54,8 +54,8 @@ function configure( api ){
     api.use( 'deanius:promise', 'client' );
     api.use( 'ecmascript' );
     api.use( 'less', 'client' );
-    api.use( 'pwi:bootbox', 'client' );
-    api.use( 'pwi:i18n' );
+    api.use( 'pwix:bootbox', 'client' );
+    api.use( 'pwix:i18n' );
     api.use( 'pwix:layout', 'client' );
     api.use( 'pwix:tolert', 'client' );
     api.addFiles( 'src/client/components/acMenuItems/acMenuItems.js', 'client' );

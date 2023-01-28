@@ -12,7 +12,7 @@
 
 import emailValidator from 'email-validator';
 
-import { pwiI18n } from 'meteor/pwi:i18n';
+import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
 
@@ -76,7 +76,7 @@ Template.ac_input_email.onCreated( function(){
 
         // provides a translated label
         i18n( key ){
-            return pwiI18n.label( pwiAccounts.strings, 'input_email', key );
+            return i18n.label( AC_I18N, 'input_email.'+key );
         },
 
         // reinitialize the form

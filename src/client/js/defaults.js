@@ -4,7 +4,7 @@
  * Setup the client defaults.
  */
 
-import { pwiI18n } from 'meteor/pwi:i18n';
+import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
 /* 
  *  HTML attributs
@@ -108,7 +108,7 @@ _buildStandardItems = function( source ){
         html += '" href="#" data-ac-msg="'+it.msgaction+'"';
         html += '>';
         html += '<span class="fa-solid fa-fw '+it.faicon+'"></span>';
-        html += '<p>'+pwiI18n.label( pwiAccounts.strings, 'features', it.labelkey )+'</p>';
+        html += '<p>'+i18n.label( AC_I18N, 'features.'+it.labelkey )+'</p>';
         html += '</a>'
         result.push( html );
         return true;
@@ -153,17 +153,17 @@ defaults = {
             changePwdTextOne: '',
             changePwdTextTwo: '',
             changePwdTextThree: '',
-            resetAskTextOne: { group:'reset_ask', label:'textOne' },
+            resetAskTextOne: { i18n: 'reset_ask.textOne' },
             resetAskTextTwo: '',
             signinTextOne: '',
             signinTextTwo: '',
             signinTextThree: '',
-            signoutTextOne: { group:'signout', label:'textOne' },
+            signoutTextOne: { i18n: 'signout.textOne' },
             signupTextOne: '',
             signupTextTwo: '',
             signupTextThree: '',
             signupTextFour: '',
-            verifyAskTextOne: { group:'verify_ask', label:'textOne' },
+            verifyAskTextOne: { i18n: 'verify_ask.textOne' },
             signinLink: true,
             signupLink: true,
             resetLink: true,

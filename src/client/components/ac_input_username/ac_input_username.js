@@ -8,7 +8,7 @@
  *  - placeholder: String, defaulting to 'Enter your username'
  *  - new: Boolean, whether we are entering a new username, defaulting to false
  */
-import { pwiI18n } from 'meteor/pwi:i18n';
+import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
 
@@ -68,7 +68,7 @@ Template.ac_input_username.onCreated( function(){
 
         // provides a translated label
         i18n( key ){
-            return pwiI18n.label( pwiAccounts.strings, 'input_username', key );
+            return i18n.label( AC_I18N, 'input_username.'+key );
         },
 
         // reinitialize the form

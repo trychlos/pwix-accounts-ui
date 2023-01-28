@@ -10,7 +10,7 @@
  */
 import zxcvbn from 'zxcvbn';
 
-import { pwiI18n } from 'meteor/pwi:i18n';
+import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
 
@@ -68,7 +68,7 @@ Template.ac_input_password.onCreated( function(){
 
         // provides a translated label
         i18n( key ){
-            return pwiI18n.label( pwiAccounts.strings, 'input_password', key );
+            return i18n.label( AC_I18N, 'input_password.'+key );
         },
 
         // reinitialize the form

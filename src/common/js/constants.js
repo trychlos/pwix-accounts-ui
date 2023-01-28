@@ -41,3 +41,7 @@ AC_RENDER_DIV = 'AC_RENDER_DIV';
 // frontend toolbox
 AC_UI_BOOTSTRAP = 'AC_UI_BOOTSTRAP';
 AC_UI_JQUERY = 'AC_UI_JQUERY';
+
+// non exported internal constant as i18n namespace
+
+AC_I18N = 'pwix:accounts'

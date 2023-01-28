@@ -19,7 +19,7 @@ defaults = {
         passwordLength: 8,
         passwordStrength: AC_PWD_MEDIUM,
         passwordTwice: true,
-        resetPwdTextOne: { group:'reset_pwd', label:'textOne' },
+        resetPwdTextOne: { i18n: 'reset_pwd.textOne' },
         resetPwdTextTwo: '',
         resetPasswordTwice: _passwordTwice,
         usernameLength: 4,

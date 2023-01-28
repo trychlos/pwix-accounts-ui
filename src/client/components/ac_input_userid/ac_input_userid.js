@@ -11,7 +11,7 @@
  *  - placeholder: String, defaulting to 'Enter your username or your email address'
  */
 
-import { pwiI18n } from 'meteor/pwi:i18n';
+import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
 
@@ -21,6 +21,6 @@ Template.ac_input_userid.helpers({
 
     // returns the translated string
     text( key ){
-        return Object.keys( this ).includes( key ) ? this[key] : pwiI18n.label( pwiAccounts.strings, 'input_userid', key );
+        return Object.keys( this ).includes( key ) ? this[key] : i18n.label( AC_I18N, 'input_userid.'+key );
     }
 });

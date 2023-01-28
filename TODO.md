@@ -26,8 +26,8 @@
 |   28 | 2023- 1-25 | have a profile dialog with all change options |
 |   29 | 2023- 1-26 | manage several email addresses per user |
 |      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
-|   36 | 2023- 1-27 | before first publication, get rid of local pwi:i18n dependancy |
-|   37 | 2023- 1-27 | before first publication, get rid of local pwi:bootbox dependancy |
+|   36 | 2023- 1-27 | before first publication, get rid of local pwix:i18n dependancy |
+|   37 | 2023- 1-27 | before first publication, get rid of local pwix:bootbox dependancy |
 |   38 | 2023- 1-27 | review acSelect: do not use Promise in helpers |
 |   39 |  |  |
 

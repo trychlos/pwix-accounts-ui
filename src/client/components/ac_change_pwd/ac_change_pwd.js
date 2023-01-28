@@ -4,7 +4,7 @@
  * Parms:
  *  - display: the acDisplay instance
  */
-import { pwiI18n } from 'meteor/pwi:i18n';
+import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
 
@@ -47,7 +47,7 @@ Template.ac_change_pwd.helpers({
     // params to old password
     labelOld(){
         return {
-            label: pwiI18n.label( pwiAccounts.strings, 'change_pwd', 'old_label' )
+            label: i18n.label( AC_I18N, 'change_pwd.old_label' )
         }
     },
 
