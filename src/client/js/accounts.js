@@ -3,7 +3,7 @@
  */
 import { Accounts } from 'meteor/accounts-base';
 
-import { bbBootbox } from 'meteor/pwix:bootbox';
+import { pwixBootbox } from 'meteor/pwix:bootbox';
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
 import '../../common/js/index.js';
@@ -34,7 +34,7 @@ import '../components/ac_reset_pwd/ac_reset_pwd.js';
 // URL is of the form 'http://localhost:3000/#/verify-email/8R7RpL6ysRSAIO6Us6kA4uTITzb3xl1wzbNqyDIlAph'
 
 _verifyExpired = function(){
-    bbBootbox.alert({
+    pwixBootbox.alert({
         title: i18n.label( AC_I18N, 'user.verify_title' ),
         message: i18n.label( AC_I18N, 'user.verify_error' )
     });
@@ -58,7 +58,7 @@ Accounts.onEmailVerificationLink( function( token, done ){
                         console.error( err );
                         _verifyExpired();
                     } else {
-                        bbBootbox.alert({
+                        pwixBootbox.alert({
                             title: i18n.label( AC_I18N, 'user.verify_title' ),
                             message: i18n.label( AC_I18N, 'user.verify_text' )
                         });
@@ -114,7 +114,7 @@ Accounts.onEmailVerificationLink( function( token, done ){
 //  Else, user B is re-connected.
 
 _resetExpired = function(){
-    bbBootbox.alert({
+    pwixBootbox.alert({
         title: i18n.label( AC_I18N, 'user.resetpwd_title' ),
         message: i18n.label( AC_I18N, 'user.resetpwd_error' )
     });
@@ -133,7 +133,7 @@ Accounts.onResetPasswordLink( function( token, done ){
                             console.error( err );
                             _resetExpired();
                         } else {
-                            bbBootbox.alert({
+                            pwixBootbox.alert({
                                 title: i18n.label( AC_I18N, 'user.resetpwd_title' ),
                                 message: i18n.label( AC_I18N, 'user.resetpwd_text' )
                             });

@@ -26,8 +26,6 @@
 |   28 | 2023- 1-25 | have a profile dialog with all change options |
 |   29 | 2023- 1-26 | manage several email addresses per user |
 |      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
-|   36 | 2023- 1-27 | before first publication, get rid of local pwix:i18n dependancy |
-|   37 | 2023- 1-27 | before first publication, get rid of local pwix:bootbox dependancy |
 |   38 | 2023- 1-27 | review acSelect: do not use Promise in helpers |
 |   39 |  |  |
 
@@ -87,11 +85,15 @@
 |   32 | 2023- 1-27 | BUG dropdown button is not reactive |
 |      | 2023- 1-27 | fixed in v0.90.1 |
 |   33 | 2023- 1-27 | before first publication, get rid of local pwi:tolert dependancy |
-|      | 2023- 1-27 | done, replacing with pwix:tolert |
+|      | 2023- 1-27 | done, replacing with (published) pwix:tolert |
 |   34 | 2023- 1-27 | before first publication, get rid of local pwi:string-prototype dependancy |
 |      | 2023- 1-27 | done in v0.90.1 |
 |   35 | 2023- 1-27 | before first publication, get rid of local pwi:layout dependancy |
-|      | 2023- 1-28 | done, replacing with pwix-layout |
+|      | 2023- 1-28 | done, replacing with (published) pwix-layout |
+|   36 | 2023- 1-27 | before first publication, get rid of local pwi:i18n dependancy |
+|      | 2023- 1-28 | done, replacing with (published) pwix-i18n |
+|   37 | 2023- 1-27 | before first publication, get rid of local pwi:bootbox dependancy |
+|      | 2023- 1-28 | done, replacing with (published) pwix-bootbox |
 
 ---
 P. Wieser
