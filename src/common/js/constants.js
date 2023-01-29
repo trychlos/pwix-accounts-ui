@@ -42,6 +42,9 @@ AC_RENDER_DIV = 'AC_RENDER_DIV';
 AC_UI_BOOTSTRAP = 'AC_UI_BOOTSTRAP';
 AC_UI_JQUERY = 'AC_UI_JQUERY';
 
-// non exported internal constant as i18n namespace
+// when choosing between username or email address
+AC_USERNAME = 'AC_USERNAME';
+AC_EMAIL_ADDRESS = 'AC_EMAIL_ADDRESS';
 
+// non exported internal constant as i18n namespace
 AC_I18N = 'pwix:accounts'

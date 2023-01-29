@@ -8,16 +8,15 @@
  * This is needed because the Bootstrap version doesn't support to be embedded in a 'position:fixed' parent
  *  which be unfortunately the case when the application header is sticky.
  */
+
 import { Tracker } from 'meteor/tracker';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { v4 as uuidv4 } from 'uuid';
 
-import { pwixI18n as i18n } from 'meteor/pwix:i18n';
+import { v4 as uuidv4 } from 'uuid';
 
 import '../../common/js/index.js';
 
-import { acPanel } from './ac_panel.class.js';
-import { acUser } from './ac_user.class.js';
+import { acOptionsUserLogin } from './ac_options_user_login.class.js';
 
 export class acDisplay {
 
@@ -26,20 +25,6 @@ export class acDisplay {
 
     // keep here a list of all instanciated named acDisplay objects
     static Displays = {};
-
-    // the known actions
-    static Actions = [
-        AC_ACT_HIDDEN,
-        AC_ACT_NONE,
-        AC_ACT_DROPDOWN,
-        AC_ACT_BUBBLE
-    ];
-
-    // the known render modes
-    static RenderModes = [
-        AC_RENDER_MODAL,
-        AC_RENDER_DIV
-    ];
 
     // private data
     //
@@ -57,9 +42,6 @@ export class acDisplay {
     //  it is changed as soon as the acDisplay is initialized with the generated uuid for this acDisplay
     _modalSelector = '';
 
-    // configuration options as an object which contains one ReactiveVar for each key
-    _conf = {};
-
     // whether the DOM is ready
     _ready = new ReactiveVar( false );
 
@@ -69,66 +51,14 @@ export class acDisplay {
     // used to toggle the hide/show display
     _shown = new ReactiveVar( false );
 
+    // the acOptionsUserLogin object
+    _optionsUserLogin = null;
+
     // private functions
-
-    // make sure we return an array for the configuration option
-    _toArray( key ){
-        const value = this._conf[key].get();
-        let result = [];
-        if( typeof value === 'function' ){
-            const ret = value();
-            result = typeof ret === 'string' ? [ ret ] : ( Array.isArray( ret ) ? ret : [] );
-        } else if( typeof value === 'string' ){
-            result = [ value ];
-        } else if( Array.isArray( value )){
-            result = value;
-        }
-        return result;
-    }
-
-    // get/set a configuration option as a boolean or a function
-    _get_set_bool_fn( key, bool ){
-        if( bool !== undefined ){
-            if( bool === true || bool === false || typeof bool === 'function' ){
-                this._conf[key].set( bool );
-            } else {
-                console.error( key, 'invalid argument:', bool );
-            }
-        }
-        const value = this._conf[key].get();
-        return typeof value === 'function' ? value() : value;
-    }
-
-    // get/set a configuration option as a string or a function
-    //  maybe be with a reference array of accepted values
-    //  also accept an object with 'i8n' key
-    _get_set_string_fn( key, label, ref ){
-        if( label !== undefined ){
-            if(( typeof label === 'string' && ( ref === undefined || ref.includes( label ))) || typeof label === 'function' ){
-                this._conf[key].set( label );
-            } else if( typeof label === 'object' && Object.keys( label ).includes( 'i18n' )){
-                this._conf[key].set( i18n.label( AC_I18N, label.i18n ));
-            } else {
-                console.error( key, 'invalid argument:', label );
-            }
-        }
-        const value = this._conf[key].get();
-        return typeof value === 'function' ? value() : value;
-    }
-
-    // get/set a configuration option as a string, an array or a function
-    _get_set_string_array_fn( key, inval ){
-        if( inval !== undefined ){
-            if( typeof inval === 'string' || Array.isArray( inval ) || typeof inval === 'function' ){
-                this._conf[key].set( inval );
-            } else {
-                console.error( key, 'invalid argument:', inval );
-            }
-        }
-        return this._toArray( key );
-    }
+    //
 
     // public data
+    //
 
     /**
      * Constructor
@@ -150,21 +80,13 @@ export class acDisplay {
             ...defaults.acUserLogin,
             ...opts
         };
-        Object.keys( _parms ).every(( key ) => {
-            if( typeof self[key] === 'function' ){
-                self._conf[key] = new ReactiveVar();
-                self[key]( _parms[key] );
-            } else {
-                console.error( 'acDisplay: unmanaged configuration option', key );
-            }
-            return true;
-        });
+        this._optionsUserLogin = new acOptionsUserLogin( _parms );
 
         // setup the initial panel
-        pwiAccounts.Panel.asked( this.initialPanel());
+        pwiAccounts.Panel.asked( this.opts().initialPanel());
 
         // if the instance is named, then keep it to be usable later
-        const name = this.name();
+        const name = this.opts().name();
         if( name ){
             acDisplay.Displays.name = self;
         }
@@ -216,45 +138,6 @@ export class acDisplay {
     }
 
     /**
-     * Getter/Setter
-     * @param {Boolean|Function} single whether this instance uses two password input fields when changing a user's password
-     * @returns {Boolean}
-     */
-    changePasswordTwice( twice ){
-        return this._get_set_bool_fn( 'changePasswordTwice', twice );
-    }
-
-    /**
-     * Getter/Setter
-     * Returns the HTML content to be put in first place of the 'change_pwd' section, before old password
-     * @param {String|Function} label a string or a function which returns a string
-     * @returns {String}
-     */
-    changePwdTextOne( label ){
-        return this._get_set_string_fn( 'changePwdTextOne', label );
-    }
-
-    /**
-     * Getter/Setter
-     * Returns the HTML content to be put in second place of the 'change_pwd' section, between old and new passwords
-     * @param {String|Function} label a string or a function which returns a string
-     * @returns {String}
-     */
-    changePwdTextTwo( label ){
-        return this._get_set_string_fn( 'changePwdTextTwo', label );
-    }
-
-    /**
-     * Getter/Setter
-     * Returns the HTML content to be put in last place of the 'change_pwd' section, after new passwords
-     * @param {String|Function} label a string or a function which returns a string
-     * @returns {String}
-     */
-    changePwdTextThree( label ){
-        return this._get_set_string_fn( 'changePwdTextThree', label );
-    }
-
-    /**
      * @returns {Array} an array of items as the <li>...</li> inner HTML strings
      */
     dynItemsAfter(){
@@ -262,10 +145,10 @@ export class acDisplay {
         let items = null;
         switch( state ){
             case AC_LOGGED:
-                items = this.loggedItemsAfter();
+                items = this.opts().loggedItemsAfter();
                 break;
             case AC_UNLOGGED:
-                items = this.unloggedItemsAfter();
+                items = this.opts().unloggedItemsAfter();
                 break;
         }
         let res = [];
@@ -298,10 +181,10 @@ export class acDisplay {
         let items = null;
         switch( state ){
             case AC_LOGGED:
-                items = this.loggedItemsBefore();
+                items = this.opts().loggedItemsBefore();
                 break;
             case AC_UNLOGGED:
-                items = this.unloggedItemsBefore();
+                items = this.opts().unloggedItemsBefore();
                 break;
         }
         let res = [];
@@ -354,7 +237,7 @@ export class acDisplay {
     hide(){
         //console.log( 'acDisplay hide', this.modal());
         if( this.modal()){
-            switch( pwiAccounts.conf.ui ){
+            switch( pwiAccounts.opts().ui()){
                 case AC_UI_BOOTSTRAP:
                     $( this.modalSelector()).modal( 'hide' );
                     break;
@@ -370,78 +253,12 @@ export class acDisplay {
         this.modalTitle( '' );
         return this;
     }
-    
-    /**
-     * Getter/Setter
-     * @param {String|Function} panel the initial panel to be displayed
-     * @returns {String} the initial panel
-     */
-    initialPanel( panel ){
-        return this._get_set_string_fn( 'initialPanel', panel, Object.keys( acPanel.Knowns ));
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Function} action the action triggered by the 'logged' button
-     * @returns {String}
-     */
-    loggedButtonAction( action ){
-        return this._get_set_string_fn( 'loggedButtonAction', action, acDisplay.Actions );
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Function} classname the class(es) to be added the 'logged' button
-     * @returns {String}
-     */
-    loggedButtonClass( classname ){
-        return this._get_set_string_fn( 'loggedButtonClass', classname );
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Function} content the content to be displayed in the 'logged' button
-     * @returns {String}
-     */
-    loggedButtonContent( content ){
-        return this._get_set_string_fn( 'loggedButtonContent', content );
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Array|Function} items the <li>...</li> inner HTML as a string,
-     *  or an array of such strings, or a function which returns a string or an array.
-     * @returns {Array} the provided items as a maybe empty array.
-     */
-    loggedItems( items ){
-        return this._get_set_string_array_fn( 'loggedItems', items );
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Array|Function} items the <li>...</li> inner HTML as a string,
-     *  or an array of such strings, or a function which returns a string or an array.
-     * @returns {Array} the provided item as a maybe empty array.
-     */
-    loggedItemsAfter( items ){
-        return this._get_set_string_array_fn( 'loggedItemsAfter', items );
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Array|Function} items the <li>...</li> inner HTML as a string,
-     *  or an array of such strings, or a function which returns a string or an array.
-     * @returns {Array} the provided item as a maybe empty array.
-     */
-    loggedItemsBefore( items ){
-        return this._get_set_string_array_fn( 'loggedItemsBefore', items );
-    }
 
     /**
      * @returns {Boolean} true if rendered as a modal
      */
     modal(){
-        return this._conf.renderMode.get() === AC_RENDER_MODAL;
+        return this.opts().renderMode() === AC_RENDER_MODAL;
     }
 
     /**
@@ -456,13 +273,13 @@ export class acDisplay {
         if( this._modalSelector ){
             return this._modalSelector;
         }
-        switch( pwiAccounts.conf.ui ){
+        switch( pwiAccounts.opts().ui()){
             case AC_UI_BOOTSTRAP:
                 return 'div.ac-modal div.bs-modal';
             case AC_UI_JQUERY:
                 return 'div.jq-modal';
         }
-        console.error( 'unknown \'ui\' configuration', pwiAccounts.conf.ui );
+        console.error( 'unknown \'ui\' configuration', pwiAccounts.opts().ui());
         return '';
     }
 
@@ -481,12 +298,10 @@ export class acDisplay {
     }
 
     /**
-     * Getter/Setter
-     * @param {String|Function} name the name of this acUserLogin instance
-     * @returns {String}
+     * @returns {acOptionsUserLogin} the configuration options object
      */
-    name( name ){
-        return this._get_set_string_fn( 'name', name );
+    opts(){
+        return this._optionsUserLogin;
     }
 
     /**
@@ -503,61 +318,13 @@ export class acDisplay {
     }
 
     /**
-     * Getter/Setter
-     * The dialog is it rendered as a modal or as a div ?
-     * @param {String|Function} mode the rendering mode
-     * @returns {String} the rendering mode
-     */
-    renderMode( mode ){
-        return this._get_set_string_fn( 'renderMode', mode, acDisplay.RenderModes );
-    }
-
-    /**
-     * Getter/Setter
-     * @param {Boolean|Function} flag whether to display the 'resetPwd' link
-     * @returns {Boolean}
-     */
-    resetLink( flag ){
-        return this._get_set_bool_fn( 'resetLink', flag );
-    }
-
-    /**
-     * Getter/Setter
-     * @param {Boolean|Function} single whether this instance uses two password input fields when resetting a user's password
-     * @returns {Boolean}
-     */
-    resetPasswordTwice( twice ){
-        return this._get_set_bool_fn( 'resetPasswordTwice', twice );
-    }
-
-    /**
-     * Getter/Setter
-     * Returns the HTML content to be put in the first place of the 'reset_ask' section, before the mail
-     * @param {String|Function} label a string or a function which returns a string
-     * @returns {String}
-     */
-    resetAskTextOne( label ){
-        return this._get_set_string_fn( 'resetAskTextOne', label );
-    }
-
-    /**
-     * Getter/Setter
-     * Returns the HTML content to be put in the second place of the 'reset_ask section, after the mail
-     * @param {String|Function} label a string or a function which returns a string
-     * @returns {String}
-     */
-    resetAskTextTwo( label ){
-        return this._get_set_string_fn( 'resetAskTextTwo', label );
-    }
-
-    /**
      * Make the dialog visible, either as a modal or as a div
      * @returns {acDisplay}
      */
     show(){
         //console.log( 'acDisplay show', this.modal());
         if( this.modal()){
-            switch( pwiAccounts.conf.ui ){
+            switch( pwiAccounts.opts().ui()){
                 case AC_UI_BOOTSTRAP:
                     //console.log( 'showing BS modal', this.modalSelector());
                     $( this.modalSelector()).modal( 'show' );
@@ -575,124 +342,6 @@ export class acDisplay {
     }
 
     /**
-     * Getter/Setter
-     * @param {Boolean|Function} flag whether to display the 'signin' link
-     * @returns {Boolean}
-     */
-    signinLink( flag ){
-        return this._get_set_bool_fn( 'signinLink', flag );
-    }
-
-    /**
-     * Getter/Setter
-     * Returns the HTML content to be put in the first place of the 'signin' section, before the mail
-     * @param {String|Function} label a string or a function which returns a string
-     * @returns {String}
-     */
-    signinTextOne( label ){
-        return this._get_set_string_fn( 'signinTextOne', label );
-    }
-
-    /**
-     * Getter/Setter
-     * Returns the HTML content to be put in the second place of the 'signin' section, between the mail and the password
-     * @param {String|Function} label a string or a function which returns a string
-     * @returns {String}
-     */
-    signinTextTwo( label ){
-        return this._get_set_string_fn( 'signinTextTwo', label );
-    }
-
-    /**
-     * Getter/Setter
-     * Returns the HTML content to be put in the last place of the 'signin' section, after the password
-     * @param {String|Function} label a string or a function which returns a string
-     * @returns {String}
-     */
-    signinTextThree( label ){
-        return this._get_set_string_fn( 'signinTextThree', label );
-    }
-
-    /**
-     * Getter/Setter
-     * Returns the HTML content to be put as the 'signout' section
-     * @param {String|Function} label a string or a function which returns a string
-     * @returns {String}
-     */
-    signoutTextOne( label ){
-        return this._get_set_string_fn( 'signoutTextOne', label );
-    }
-
-    /**
-     * Getter/Setter
-     * @param {Boolean|Function} flag whether to auto-connect a newly created account
-     * @returns {Boolean}
-     */
-    signupAutoConnect( flag ){
-        return this._get_set_bool_fn( 'signupAutoConnect', flag );
-    }
-
-    /**
-     * Getter/Setter
-     * @param {Boolean|Function} flag whether to display the 'signup' link
-     * @returns {Boolean}
-     */
-    signupLink( flag ){
-        return this._get_set_bool_fn( 'signupLink', flag );
-    }
-
-    /**
-     * Getter/Setter
-     * @param {Boolean|Function} single whether this instance uses two password input fields when creating a new account
-     * @returns {Boolean}
-     */
-    signupPasswordTwice( twice ){
-        return this._get_set_bool_fn( 'signupPasswordTwice', twice );
-    }
-
-    /**
-     * Getter/Setter
-     * Returns the HTML content to be put in the first place of the 'signup' section, before the username
-     * Not considered if username is not permitted.
-     * @param {String|Function} label a string or a function which returns a string
-     * @returns {String}
-     */
-    signupTextOne( label ){
-        return this._get_set_string_fn( 'signupTextOne', label );
-    }
-
-    /**
-     * Getter/Setter
-     * Returns the HTML content to be put in the second place of the 'signup' section, before the mail
-     * Not considered if email address is not considered
-     * @param {String|Function} label a string or a function which returns a string
-     * @returns {String}
-     */
-    signupTextTwo( label ){
-        return this._get_set_string_fn( 'signupTextTwo', label );
-    }
-
-    /**
-     * Getter/Setter
-     * Returns the HTML content to be put in the third place of the 'signup' section, before the password
-     * @param {String|Function} label a string or a function which returns a string
-     * @returns {String}
-     */
-    signupTextThree( label ){
-        return this._get_set_string_fn( 'signupTextThree', label );
-    }
-
-    /**
-     * Getter/Setter
-     * Returns the HTML content to be put in the last place of the 'signup' section, after the password
-     * @param {String|Function} label a string or a function which returns a string
-     * @returns {String}
-     */
-    signupTextFour( label ){
-        return this._get_set_string_fn( 'signupTextFour', label );
-    }
-
-    /**
      * Toggle the visibility of the dialog
      * @returns {acDisplay}
      */
@@ -706,76 +355,9 @@ export class acDisplay {
     }
 
     /**
-     * Getter/Setter
-     * @param {String|Function} action the action triggered by the 'unlogged' button
-     * @returns {String}
-     */
-    unloggedButtonAction( action ){
-        return this._get_set_string_fn( 'unloggedButtonAction', action, acDisplay.Actions );
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Function} classname the class(es) to be added the 'unlogged' button
-     * @returns {String}
-     */
-    unloggedButtonClass( classname ){
-        return this._get_set_string_fn( 'unloggedButtonClass', classname );
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Function} content the content to be displayed in the 'unlogged' button
-     * @returns {String}
-     */
-    unloggedButtonContent( content ){
-        return this._get_set_string_fn( 'unloggedButtonContent', content );
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Array|Function} items the <li>...</li> inner HTML as a string,
-     *  or an array of such strings, or a function which returns a string or an array.
-     * @returns {Array} the provided items as a maybe empty array.
-     */
-    unloggedItems( items ){
-        return this._get_set_string_array_fn( 'unloggedItems', items );
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Array|Function} items the <li>...</li> inner HTML as a string,
-     *  or an array of such strings, or a function which returns a string or an array.
-     * @returns {Array} the provided items as a maybe empty array.
-     */
-    unloggedItemsAfter( items ){
-        return this._get_set_string_array_fn( 'unloggedItemsAfter', items );
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Array|Function} items the <li>...</li> inner HTML as a string,
-     *  or an array of such strings, or a function which returns a string or an array.
-     * @returns {Array} the provided items as a maybe empty array.
-     */
-    unloggedItemsBefore( items ){
-        return this._get_set_string_array_fn( 'unloggedItemsBefore', items );
-    }
-
-    /**
      * @returns {String} the UUID of this instance
      */
     uuid(){
         return this._uuid;
-    }
-
-    /**
-     * Getter/Setter
-     * Returns the HTML content to be put as the 'verify_ask' section
-     * @param {String|Function} label a string or a function which returns a string
-     * @returns {String}
-     */
-    verifyAskTextOne( label ){
-        return this._get_set_string_fn( 'verifyAskTextOne', label );
     }
 }

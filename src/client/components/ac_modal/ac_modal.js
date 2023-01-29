@@ -28,13 +28,13 @@ Template.ac_modal.onCreated( function(){
         display: Template.currentData().display,
 
         uiBootstrap(){
-            //console.log( 'uiBootstrap', pwiAccounts.conf.ui === pwiAccounts.ui.Bootstrap );
-            return pwiAccounts.conf.ui === AC_UI_BOOTSTRAP;
+            //console.log( 'uiBootstrap', pwiAccounts.opts().ui() === pwiAccounts.ui.Bootstrap );
+            return pwiAccounts.opts().ui() === AC_UI_BOOTSTRAP;
         },
 
         uiJQuery(){
-            //console.log( 'uiJQuery', pwiAccounts.conf.ui === pwiAccounts.ui.jQueryUI );
-            return pwiAccounts.conf.ui === AC_UI_JQUERY;
+            //console.log( 'uiJQuery', pwiAccounts.opts().ui() === pwiAccounts.ui.jQueryUI );
+            return pwiAccounts.opts().ui() === AC_UI_JQUERY;
         },
 
         // the id set on the top div of this template (div.ac-modal)

@@ -9,7 +9,11 @@
  * 
  *  - text          (opt)
  *                  a ReactiveVar which may contain some (HTML compliant) text to be displayed
+ *                  before the list of users
  *                  defaults to none
+ * 
+ *  - preferred     AC_USERNAME|AC_EMAIL_ADDRESS
+ *                  defaulting to AC_EMAIL_ADDRESS (or the one which is configured)
  */
 
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
@@ -28,7 +32,11 @@ Template.acSelect.onCreated( function(){
         uuid: uuidv4(),
 
         // a hash parallely maintained to ease the updates
+        //  contains the selected id's
         hash: new ReactiveVar( {} ),
+
+        // users are stored here (hash by _id)
+        users: {},
 
         // subscribe to our publication
         handle: self.subscribe( 'pwiAccounts.byEmail' ),
@@ -77,22 +85,33 @@ Template.acSelect.onCreated( function(){
             self.AC.hash.set( hash );
         }
     };
+
+    // get the passed-in selection and copy it as a hash
+    self.autorun(() => {
+        const rv = Template.currentData().selection;
+        self.AC.selection2hash( rv ? rv.get() : [] );
+    });
+
+    // when subscription is ready, get the users
+    self.autorun(() => {
+        if( self.AC.handle.ready()){
+            Meteor.users.find({}).fetch().every(( u ) => {
+                self.AC.users[u._id] = u;
+                return true;
+            });
+        }
+    });
 });
 
 Template.acSelect.onRendered( function(){
     const self = this;
-
-    self.autorun(() => {
-        const rv = Template.currentData().selection;
-        self.AC.selection2hash( rv ? rv.get() : [] );
-    })
 });
 
 Template.acSelect.helpers({
     // whether the user is to be selected
-    selected( it ){
+    selected( id ){
         const hash = Template.instance().AC.hash.get();
-        return Object.keys( hash ).includes( it._id ) ? 'checked' : '';
+        return Object.keys( hash ).includes( id ) ? 'checked' : '';
     },
 
     // a description
@@ -101,16 +120,15 @@ Template.acSelect.helpers({
         return rv ? rv.get() : '';
     },
 
-    // returns the username of the user
-    username( it ){
-        return pwiAccounts.emailAddress( it._id ).then(( email ) => { return Promise.resolve( email ); } );
+    // returns the username or the email address of the user
+    //  depending of the global configuration
+    username( id ){
+        const user = Template.instance().AC.users[id];
     },
 
     // returns the list of known users
     users(){
-        if( Template.instance().AC.handle.ready()){
-            return Meteor.users.find({}, { sort: { email: 1 }});
-        }
+        return Object.keys( Template.instance().AC.users );
     },
 
     // returns this instance identifier

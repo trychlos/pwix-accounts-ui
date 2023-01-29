@@ -49,7 +49,7 @@ Template.ac_twice_passwords.onCreated( function(){
     self.autorun(() => {
         const fn = Template.currentData().role + 'PasswordTwice';
         const display = Template.currentData().display;
-        self.AC.twice.set( display && display[fn] ? display[fn]() : ( pwiAccounts.conf[fn] ? pwiAccounts.conf[fn] : pwiAccounts.conf.passwordTwice ));
+        self.AC.twice.set( display && display.opts()[fn] ? display.opts()[fn]() : ( pwiAccounts.opts()[fn] ? pwiAccounts.opts()[fn]() : pwiAccounts.opts().passwordTwice()));
     });
 });
 

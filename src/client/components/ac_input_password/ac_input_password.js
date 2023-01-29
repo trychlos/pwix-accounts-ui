@@ -46,10 +46,10 @@ Template.ac_input_password.onCreated( function(){
             width = 5-width;
             self.$( '.ac-strength-other' ).css({ width: width+'em' });
             // computes the error message (empty if field is empty)
-            //console.log( 'res.score='+res.score, 'minScore='+self.AC.minScore, 'passwordStrrngth='+pwiAccounts.conf.passwordStrength );
+            //console.log( 'res.score='+res.score, 'minScore='+self.AC.minScore, 'passwordStrrngth='+pwiAccounts.opt().passwordStrength());
             let ok = true;
             if( val.length ){
-                if( val.length < pwiAccounts.conf.passwordLength ){
+                if( val.length < pwiAccounts.opts().passwordLength()){
                     ok = false;
                     self.AC.errorMsg.set( self.AC.i18n( 'too_short' ));
                 } else if( res.score < self.AC.minScore ){
@@ -83,7 +83,7 @@ Template.ac_input_password.onCreated( function(){
     // compute the minimal required score according to the configures minimal strength
     let i = 0;
     self.AC.score.every(( it ) => {
-        if( it.k === pwiAccounts.conf.passwordStrength ){
+        if( it.k === pwiAccounts.opts().passwordStrength()){
             self.AC.minScore = i;
             return false;
         }

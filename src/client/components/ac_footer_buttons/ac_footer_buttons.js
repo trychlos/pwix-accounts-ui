@@ -34,7 +34,7 @@ Template.ac_footer_buttons.helpers({
 
     // whether to display this link
     haveLink( link ){
-        const ret = link.have && this.display ? this.display[link.have]() : true;
+        const ret = link.have && this.display ? this.display.opts()[link.have]() : link.have;
         return ret;
     },
 

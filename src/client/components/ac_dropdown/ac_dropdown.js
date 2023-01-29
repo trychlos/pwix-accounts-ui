@@ -24,10 +24,10 @@ Template.ac_dropdown.onCreated( function(){
             let result = '';
             switch( state ){
                 case AC_LOGGED:
-                    result = self.AC.display.loggedButtonClass();
+                    result = self.AC.display.opts().loggedButtonClass();
                     break;
                 case AC_UNLOGGED:
-                    result = self.AC.display.unloggedButtonClass();
+                    result = self.AC.display.opts().unloggedButtonClass();
                     break;
             }
             return result;
@@ -38,10 +38,10 @@ Template.ac_dropdown.onCreated( function(){
             let result = '';
             switch( state ){
                 case AC_LOGGED:
-                    result = self.AC.display.loggedButtonContent();
+                    result = self.AC.display.opts().loggedButtonContent();
                     break;
                 case AC_UNLOGGED:
-                    result = self.AC.display.unloggedButtonContent();
+                    result = self.AC.display.opts().unloggedButtonContent();
                     break;
             }
             return result;
@@ -49,8 +49,8 @@ Template.ac_dropdown.onCreated( function(){
 
         // whether this template has to manage a dropdown menu
         hasDropdown( state ){
-            return ( state === AC_LOGGED && self.AC.display.loggedButtonAction() === AC_ACT_DROPDOWN )
-                || ( state === AC_UNLOGGED && self.AC.display.unloggedButtonAction() === AC_ACT_DROPDOWN );
+            return ( state === AC_LOGGED && self.AC.display.opts().loggedButtonAction() === AC_ACT_DROPDOWN )
+                || ( state === AC_UNLOGGED && self.AC.display.opts().unloggedButtonAction() === AC_ACT_DROPDOWN );
         }
     };
 });

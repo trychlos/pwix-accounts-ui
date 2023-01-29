@@ -127,7 +127,7 @@ function _emailAddress(){
  * a function to return the 'passwordTwice' package default value
  */
 function _passwordTwice(){
-    return pwiAccounts.conf.passwordTwice;
+    return pwiAccounts.opts().passwordTwice();
 }
 
 defaults = {

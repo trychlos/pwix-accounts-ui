@@ -27,10 +27,10 @@ Template.ac_signup.onCreated( function(){
         submitBtn: null,
 
         haveEmailAddress(){
-            return pwiAccounts.conf.haveEmailAddress !== AC_FIELD_NONE;
+            return pwiAccounts.opts().haveEmailAddress() !== AC_FIELD_NONE;
         },
         haveUsername(){
-            return pwiAccounts.conf.haveUsername !== AC_FIELD_NONE;
+            return pwiAccounts.opts().haveUsername() !== AC_FIELD_NONE;
         },
 
         resetInput(){
@@ -84,22 +84,22 @@ Template.ac_signup.helpers({
 
     // the text at the first place of the section (if username)
     textOne(){
-        return this.display.signupTextOne();
+        return this.display.opts().signupTextOne();
     },
 
     // the text at the second place of the section (if email)
     textTwo(){
-        return this.display.signupTextTwo();
+        return this.display.opts().signupTextTwo();
     },
 
     // the text at the third place of the section
     textThree(){
-        return this.display.signupTextThree();
+        return this.display.opts().signupTextThree();
     },
 
     // the text at the fourth place of the section
     textFour(){
-        return this.display.signupTextFour();
+        return this.display.opts().signupTextFour();
     }
 });
 

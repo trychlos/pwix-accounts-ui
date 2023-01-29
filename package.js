@@ -35,7 +35,9 @@ Package.onUse( function( api ){
         'AC_RENDER_MODAL',
         'AC_RENDER_DIV',
         'AC_UI_BOOTSTRAP',
-        'AC_UI_JQUERY'
+        'AC_UI_JQUERY',
+        'AC_USERNAME',
+        'AC_EMAIL_ADDRESS'
     ]);
     api.mainModule( 'src/client/js/index.js', 'client' );
     api.mainModule( 'src/server/js/index.js', 'server' );

@@ -54,7 +54,7 @@ Template.ac_input_username.onCreated( function(){
                 })
                 .then(() => {
                     if( ok && !val.length ){
-                        ok = pwiAccounts.conf.haveUsername === AC_FIELD_OPTIONAL;
+                        ok = pwiAccounts.opts().haveUsername() === AC_FIELD_OPTIONAL;
                         self.AC.errorMsg.set( '' );
                     }
                     return ok;
@@ -107,7 +107,7 @@ Template.ac_input_username.helpers({
     // whether the username is marked as mandatory ?
     //  true if field is required and new account
     mandatory(){
-        return this.new && pwiAccounts.conf.haveUsername === AC_FIELD_MANDATORY;
+        return this.new && pwiAccounts.opts().haveUsername() === AC_FIELD_MANDATORY;
     },
 
     // returns the keyed translated string

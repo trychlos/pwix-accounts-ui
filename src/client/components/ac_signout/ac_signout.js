@@ -10,6 +10,6 @@ import './ac_signout.html';
 Template.ac_signout.helpers({
     // the text the section
     textOne(){
-        return this.display.signoutTextOne();
+        return this.display.opts().signoutTextOne();
     }
 });

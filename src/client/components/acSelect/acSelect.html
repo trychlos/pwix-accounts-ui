@@ -7,10 +7,10 @@
 
         <div class="ac-border w-100">
             <div class="ac-each-users">
-                {{#each it in users }}
+                {{#each id in users }}
                     <div class="d-flex align-items-center ac-item">
-                        <input type="checkbox" class="form-check-input form-check-input-sm ac-checkbox" data-ac-id="{{ it._id }}" id="ac-select-{{ uuid }}-{{ it._id }}" {{ selected it }} />
-                        <label class="form-check-label form-check-label-sm ac-item" for="ac-select-{{ uuid }}-{{ it._id }}">{{ username it }}</label>
+                        <input type="checkbox" class="form-check-input form-check-input-sm ac-checkbox" data-ac-id="{{ id }}" id="ac-select-{{ uuid }}-{{ id }}" {{ selected id }} />
+                        <label class="form-check-label form-check-label-sm ac-item" for="ac-select-{{ uuid }}-{{ id }}">{{ username id }}</label>
                     </div>
                 {{/each}}
             </div>

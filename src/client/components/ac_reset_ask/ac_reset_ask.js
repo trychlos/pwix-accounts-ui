@@ -35,12 +35,12 @@ Template.ac_reset_ask.helpers({
 
     // the text at the first place of the section
     textOne(){
-        return this.display.resetAskTextOne();
+        return this.display.opts().resetAskTextOne();
     },
 
     // the text at the second place of the section
     textTwo(){
-        return this.display.resetAskTextTwo();
+        return this.display.opts().resetAskTextTwo();
     }
 });
 

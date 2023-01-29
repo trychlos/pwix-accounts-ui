@@ -39,8 +39,8 @@ Template.acUserLogin.onCreated( function(){
         hasDropdown(){
             const display = self.AC.display;
             const state = pwiAccounts.User.state();
-            return ( state === AC_LOGGED && display.loggedButtonAction() !== AC_ACT_HIDDEN )
-                || ( state === AC_UNLOGGED && display.unloggedButtonAction() !== AC_ACT_HIDDEN );
+            return ( state === AC_LOGGED && display.opts().loggedButtonAction() !== AC_ACT_HIDDEN )
+                || ( state === AC_UNLOGGED && display.opts().unloggedButtonAction() !== AC_ACT_HIDDEN );
         }
     };
 });
@@ -115,14 +115,14 @@ Template.acUserLogin.events({
                 break;
             case AC_PANEL_SIGNUP:
                 let options = {};
-                if( pwiAccounts.conf.haveUsername ){
+                if( pwiAccounts.opts().haveUsername()){
                     options.username = instance.$( '.ac-signup .ac-input-username .ac-input' ).val().trim();
                 }
-                if( pwiAccounts.conf.haveEmailAddress ){
+                if( pwiAccounts.opts().haveEmailAddress()){
                     options.email = instance.$( '.ac-signup .ac-input-email .ac-input' ).val().trim();
                 }
                 options.password = instance.$( '.ac-signup .ac-newone .ac-input' ).val().trim();
-                const autoConnect = instance.AC.display.signupAutoConnect();
+                const autoConnect = instance.AC.display.opts().signupAutoConnect();
                 pwiAccounts.User.createUser( options, $( event.currentTarget ), autoConnect );
                 if( !autoConnect ){
                     $( event.currentTarget ).find( '.ac-signup' ).trigger( 'ac-clear' );
@@ -184,7 +184,7 @@ Template.acUserLogin.events({
     //  let the message bubble up
     'ac-panel-transition'( event, instance, data ){
         //console.log( 'ac-panel-transition', 'previous='+data.previous, 'next='+data.next );
-        if( data.next !== AC_PANEL_NONE && instance.AC.display.renderMode() === AC_RENDER_MODAL ){
+        if( data.next !== AC_PANEL_NONE && instance.AC.display.opts().renderMode() === AC_RENDER_MODAL ){
             if( !pwiAccounts.Panel.view()){
                 view = Blaze.renderWithData( Template.ac_modal, { template: 'ac_user_login', display: instance.AC.display }, $( '.acUserLogin' )[0] );
                 pwiAccounts.Panel.view( view );
@@ -194,11 +194,11 @@ Template.acUserLogin.events({
 
     // change the acDisplay rendering mode
     'ac-render-modal'( event, instance ){
-        instance.AC.display.renderMode( acDisplay.r.MODAL );
+        instance.AC.display.opts().renderMode( AC_RENDER_MODAL );
         return false;
     },
     'ac-render-div'( event, instance ){
-        instance.AC.display.renderMode( acDisplay.r.DIV );
+        instance.AC.display.opts().renderMode( AC_RENDER_DIV );
         return false;
     },
 

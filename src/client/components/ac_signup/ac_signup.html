@@ -2,27 +2,31 @@
     <div class="ac-signup">
 
         <form>
+            {{#if textOne }}
+            <div class="ac-text ac-text-one">{{{ textOne }}}</div>
+            <div class="ac-mt1"></div>
+            {{/if}}
+
             {{#if haveUsername }}
-                {{#if textOne }}
-                    <div class="ac-text ac-text-one">{{{ textOne }}}</div>
-                    <div class="ac-mt1"></div>
-                {{/if}}
                 {{> ac_input_username new=true }}
             {{/if}}
 
-            {{#if haveEmailAddress }}
-                {{#if textTwo }}
-                    {{#if haveUsername }}
-                        <div class="ac-mt1"></div>
-                    {{/if}}
-                    <div class="ac-text ac-text-two">{{{ textTwo }}}</div>
+            {{#if textTwo }}
+                {{#if haveUsername }}
                     <div class="ac-mt1"></div>
                 {{/if}}
+                <div class="ac-text ac-text-two">{{{ textTwo }}}</div>
+                <div class="ac-mt1"></div>
+            {{/if}}
+
+            {{#if haveEmailAddress }}
                 {{> ac_input_email new=true }}
             {{/if}}
 
             {{#if textThree }}
-                <div class="ac-mt1"></div>
+                {{#if haveEmailAddress }}
+                    <div class="ac-mt1"></div>
+                {{/if}}
                 <div class="ac-text ac-text-three">{{{ textThree }}}</div>
                 <div class="ac-mt1"></div>
             {{/if}}

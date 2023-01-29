@@ -53,17 +53,17 @@ Template.ac_change_pwd.helpers({
 
     // the text before the old password
     textOne(){
-        return this.display.changePwdTextOne();
+        return this.display.opts().changePwdTextOne();
     },
 
     // the text between old and new passwords
     textTwo(){
-        return this.display.changePwdTextTwo();
+        return this.display.opts().changePwdTextTwo();
     },
 
     // the text after new passwords
     textThree(){
-        return this.display.changePwdTextThree();
+        return this.display.opts().changePwdTextThree();
     }
 });
 

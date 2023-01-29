@@ -109,7 +109,7 @@ export class acPanel {
             return acPanel.Singleton;
         }
 
-        console.log( 'pwix:accounts instanciating new acPanel' );
+        //console.log( 'pwix:accounts instanciating new acPanel' );
 
         this.asked( panel );
 

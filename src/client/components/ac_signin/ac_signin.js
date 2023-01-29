@@ -25,16 +25,16 @@ Template.ac_signin.helpers({
 
     // a description before the section
     textOne(){
-        return this.display.signinTextOne();
+        return this.display.opts().signinTextOne();
     },
 
     // a description in the middle of the section
     textTwo(){
-        return this.display.signinTextTwo();
+        return this.display.opts().signinTextTwo();
     },
 
     // a description at the endof the section
     textThree(){
-        return this.display.signinTextThree();
+        return this.display.opts().signinTextThree();
     }
 });
