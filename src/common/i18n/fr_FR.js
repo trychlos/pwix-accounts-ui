@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/common/js/strings.js
+ * pwix:accounts/src/common/i18n/fr_FR.js
  */
 
 pwiAccounts.i18n = {
