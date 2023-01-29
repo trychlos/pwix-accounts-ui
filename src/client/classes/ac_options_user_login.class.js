@@ -2,10 +2,6 @@
  * pwix:accounts/src/client/classes/ac_options_user_login.class.js
  *
  * This class manages the acUserLogin configuration options.
- * 
- * Unused as of 2023- 1-29
-        loggedItems
-        unloggedItems
  */
 
 import { acOptions } from '../../common/classes/ac_options.class.js';

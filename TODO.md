@@ -21,12 +21,15 @@
 |   14 | 2023- 1-21 | provide enrollment (see for example accounts-ui) |
 |   20 | 2023- 1-21 | when a name is set, set a data-ac-name attribute on the acUserLogin div |
 |   24 | 2023- 1-25 | BUG data associated to ac-password-data message is received as undefined when length=0 |
+|      | 2023- 1-29 | as a work-around is applied, this is very low priority |
 |   26 | 2023- 1-25 | let the user change his email address |
+|      | 2023- 1-29 | implies to define a new dropdown item and a new panel |
 |   27 | 2023- 1-25 | let the user change his username |
+|      | 2023- 1-29 | implies to define a new dropdown item and a new panel |
 |   28 | 2023- 1-25 | have a profile dialog with all change options |
+|      | 2023- 1-29 | implies to define a new dropdown item and a new panel |
 |   29 | 2023- 1-26 | manage several email addresses per user |
 |      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
-|   38 | 2023- 1-27 | review acSelect: do not use Promise in helpers |
 |   39 |  |  |
 
 ---
@@ -94,6 +97,8 @@
 |      | 2023- 1-28 | done, replacing with (published) pwix-i18n |
 |   37 | 2023- 1-27 | before first publication, get rid of local pwi:bootbox dependancy |
 |      | 2023- 1-28 | done, replacing with (published) pwix-bootbox |
+|   38 | 2023- 1-27 | review acSelect: do not use Promise in helpers |
+|      | 2023- 1-29 | done |
 
 ---
 P. Wieser

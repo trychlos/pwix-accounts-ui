@@ -77,6 +77,11 @@ pwiAccounts.i18n = {
                     +'Merci de cette nouvelle visite!<br />'
                     +'Réinitialisons votre mot de passe, et profitez de la suite &nbsp;!'
             },
+            select: {
+                close_btn: 'Annuler',
+                save_btn: 'Enregistrer',
+                title: 'Sélection des utilisateurs'
+            },
             signin: {
                 modal_title: 'M\'identifier avec mon compte'
             },

@@ -124,6 +124,7 @@ Template.acSelect.helpers({
     //  depending of the global configuration
     username( id ){
         const user = Template.instance().AC.users[id];
+        return pwiAccounts.preferredLabel( user, this.preferred );
     },
 
     // returns the list of known users

@@ -2,6 +2,10 @@
  * pwix:accounts/src/common/js/functions.js
  */
 
+import { pwixI18n as i18n } from 'meteor/pwix:i18n';
+
+import { acOptionsConf } from '../classes/ac_options_conf.class.js';
+
 pwiAccounts = {
     ...pwiAccounts,
     ...{
@@ -38,7 +42,8 @@ pwiAccounts = {
         /**
          * @locus Anywhere
          * @param {Object} user the user record got the database
-         * @param {String} preferred the user preference, either AC_USERNAME or AC_EMAIL_ADDRESS
+         * @param {String} preferred the optional user preference, either AC_USERNAME or AC_EMAIL_ADDRESS,
+         *  defaulting to the configured value.
          * @returns: {String} the label to preferentially use when referring to a user
          *  either a username or an email address
          *  depending of the fields required in the global conf
@@ -46,14 +51,23 @@ pwiAccounts = {
          *  and of the user's preference
          */
         preferredLabel( user, preferred ){
-            let conf = pwiAccounts.opts().preferredLabel();
-            if( typeof conf === 'function' ){
-                conf = conf();
+            let mypref = preferred;
+            if( !mypref || !acOptionsConf.Labels.includes( mypref )){
+                mypref = pwiAccounts.opts().preferredLabel();
             }
-            if( conf !== AC_USERNAME && conf !== AC_EMAIL_ADDRESS ){
-                conf = AC_EMAIL_ADDRESS;
+            if( mypref === AC_USERNAME && user.username ){
+                return user.username;
             }
-            //if pwiAccounts.conf.
+            if( mypref === AC_EMAIL_ADDRESS && user.emails[0].address ){
+                return user.emails[0].address;
+            }
+            if( user.emails[0].address ){
+                return user.emails[0].address;
+            }
+            if( user.username ){
+                return user.username;
+            }
+            return user._id;
         }
     }
 };

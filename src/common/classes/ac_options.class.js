@@ -2,7 +2,10 @@
  * pwix:accounts/src/common/classes/ac_options.class.js
  *
  * This class manages the configuration options.
- * It is expected to be derived by each consumer, i.e. global configuration and acUserLogin configuration.
+ * It is expected to be derived by each consumer, here global configuration and acUserLogin configuration.
+ * 
+ * Rationale: we want most of the options be providable either by their value, or by a function which will return
+ *  the value at run time. And, more, we want these options be reactive.
  */
 
 import { ReactiveVar } from 'meteor/reactive-var';

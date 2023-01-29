@@ -76,6 +76,11 @@ pwiAccounts.i18n = {
                     +'Welcome again!<br />'
                     +'Let us reset your password, and enjoy.'
             },
+            select: {
+                close_btn: 'Cancel',
+                save_btn: 'Save',
+                title: 'Users selection'
+            },
             signin: {
                 modal_title: 'Sign in with my account'
             },
@@ -121,11 +126,6 @@ pwiAccounts.i18n = {
                 textOne: 'While your mail address has not been verified, you are not able to participate to discussions forums.<br />'
                     +'By clicking on the below "Send" button, we will send a mail to your declared mail address.<br />'
                     +'This mail will include a link which you have to click on so that your email becomes "verified".'
-            },
-            select: {
-                close_btn: 'Cancel',
-                save_btn: 'Save',
-                title: 'Users selection'
             }
         }
     }
