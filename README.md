@@ -605,6 +605,28 @@ When the application chooses to hide the logged/unlogged button depending of the
 it should apply its media query on the 'display' div class, which is a direct child of the 'acUserLogin' one.
 
 This way, the 'acUserLogin' div is kept active, and continues to receive the messages.
+
+## NPM peer dependencies
+
+Starting with v 1.0.0, and in accordance with advices from [the Meteor Guide](https://guide.meteor.com/writing-atmosphere-packages.html#npm-dependencies), we no more hardcode NPM dependencies in the `Npm.depends` clause of the `package.js`. 
+
+Instead we check npm versions of installed packages at runtime, on server startup, in development environment.
+
+Dependencies as of v 1.0.0:
+```
+    '@popperjs/core': '^2.11.6',
+    'bootstrap': '^5.2.1',
+    'email-validator': '^2.0.4',
+    'printf': '^0.6.1',
+    'uuid': '^9.0.0',
+    'zxcvbn': '^4.4.2'
+```
+
+Each of these dependencies should be installed at application level:
+```
+    meteor npm install <package> --save
+```
+
 ---
 P. Wieser
 - Last updated on 2023, Jan. 27th

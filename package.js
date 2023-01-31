@@ -60,10 +60,14 @@ function configure( api ){
     api.use( 'pwix:i18n' );
     api.use( 'pwix:layout', 'client' );
     api.use( 'pwix:tolert', 'client' );
+    api.use( 'tmeasday:check-npm-versions@1.0.2', 'server' );
     api.addFiles( 'src/client/components/acMenuItems/acMenuItems.js', 'client' );
     api.addFiles( 'src/client/components/acSelect/acSelect.js', 'client' );
     api.addFiles( 'src/client/components/acUserLogin/acUserLogin.js', 'client' );
 }
+
+// NPM dependencies are checked in /src/server/js/check_npms.js
+// See also https://guide.meteor.com/writing-atmosphere-packages.html#npm-dependencies
 
 Npm.depends({
     'bootstrap': '5.2.1',
