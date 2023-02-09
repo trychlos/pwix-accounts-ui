@@ -2,7 +2,7 @@
  * pwix:accounts/src/client/components/ac_signin/ac_signin.js
  * 
  * Parms:
- *  - display: the acDisplay instance
+ *  - aculInstance: the acUserLogin template instance
  */
 import '../../../common/js/index.js';
 
@@ -20,21 +20,21 @@ Template.ac_signin.helpers({
     // error message
     //  here, the only error is when server doesn't validate the credentials
     errorMsg(){
-        return this.display.errorMsg();
+        return this.aculInstance.AC.display.errorMsg();
     },
 
     // a description before the section
     textOne(){
-        return this.display.opts().signinTextOne();
+        return this.aculInstance.AC.options.signinTextOne();
     },
 
     // a description in the middle of the section
     textTwo(){
-        return this.display.opts().signinTextTwo();
+        return this.aculInstance.AC.options.signinTextTwo();
     },
 
     // a description at the endof the section
     textThree(){
-        return this.display.opts().signinTextThree();
+        return this.aculInstance.AC.options.signinTextThree();
     }
 });

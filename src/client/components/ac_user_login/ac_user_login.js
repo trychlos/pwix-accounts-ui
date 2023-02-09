@@ -2,8 +2,7 @@
  * pwix:accounts/src/client/components/ac_user_login/ac_user_login.js
  * 
  * Parms:
- *  - display: the acDisplay instance passed through the acUserLogin (if div) or ac_modal (if modal)
- *
+ *  - aculInstance: the acUserLogin template instance passed through the acUserLogin (if div) or ac_modal (if modal)
  */
 import '../../../common/js/index.js';
 
@@ -18,17 +17,18 @@ import './ac_user_login.html';
 
 Template.ac_user_login.helpers({
 
-    // pass the acDisplay instance to child template
-    display(){
-        return this.display;
+    // pass the parent acUserLogin template instance to child template
+    aculInstance(){
+        return this.aculInstance;
     },
 
     // whether to display as a modal dialog ?
     modal(){
-        return this.display.modal();
+        return this.aculInstance.AC.modal();
     },
 
     template(){
+        //console.log( pwiAccounts.Panel.template( pwiAccounts.Panel.asked()));
         return pwiAccounts.Panel.template( pwiAccounts.Panel.asked());
     }
 });

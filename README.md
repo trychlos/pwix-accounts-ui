@@ -196,18 +196,6 @@ Possible values are true or false, defaulting to true.</b>
 </td></tr>
 
 <tr><td style="vertical-align:top;">
-preferredLabel
-</td><td>
-How to preferentially refer to a user when both options are available:
-<ul>
-<li>AC_USERNAME</li>
-<li>AC_EMAIL_ADDRESS</li>
- </ul>
-A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
-Default value is AC_EMAIL_ADDRESS, though the actually displayed label heavily depends of the runtime configuration as we try to always display something.</b>
-</td></tr>
-
-<tr><td style="vertical-align:top;">
 resetPwdTextOne<br />
 resetPwdTextTwo
 </td><td style="vertical-align:top;">

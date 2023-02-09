@@ -2,7 +2,7 @@
  * pwix:accounts/src/client/components/ac_signup/ac_signup.js
  * 
  * Parms:
- *  - display: the acDisplay instance
+ *  - aculInstance: the acUserLogin template instance
  */
 import '../../../common/js/index.js';
 
@@ -16,6 +16,7 @@ import './ac_signup.html';
 
 Template.ac_signup.onCreated( function(){
     const self = this;
+    console.log( 'onCreated', this, Template.currentData());
 
     self.AC = {
         emailOk: new ReactiveVar( true ),
@@ -32,7 +33,6 @@ Template.ac_signup.onCreated( function(){
         haveUsername(){
             return pwiAccounts.opts().haveUsername() !== AC_FIELD_NONE;
         },
-
         resetInput(){
             self.$( '.ac-input-password' ).trigger( 'ac-reset-input' );
             if( self.AC.haveEmailAddress()){
@@ -61,7 +61,7 @@ Template.ac_signup.helpers({
     // error message
     errorMsg(){
         // even if we have no message at all, we keep at least one blank line
-        return '<p>'+this.display.errorMsg()+'</p>';
+        return '<p>'+this.aculInstance.AC.display.errorMsg()+'</p>';
     },
 
     // whether email address is permitted
@@ -77,29 +77,29 @@ Template.ac_signup.helpers({
     // parameters for the password input
     parmTwice(){
         return {
-            display: this.display,
+            aculInstance: this.aculInstance,
             role: 'signup'
         };
     },
 
     // the text at the first place of the section (if username)
     textOne(){
-        return this.display.opts().signupTextOne();
+        return this.aculInstance.AC.options.signupTextOne();
     },
 
     // the text at the second place of the section (if email)
     textTwo(){
-        return this.display.opts().signupTextTwo();
+        return this.aculInstance.AC.options.signupTextTwo();
     },
 
     // the text at the third place of the section
     textThree(){
-        return this.display.opts().signupTextThree();
+        return this.aculInstance.AC.options.signupTextThree();
     },
 
     // the text at the fourth place of the section
     textFour(){
-        return this.display.opts().signupTextFour();
+        return this.aculInstance.AC.options.signupTextFour();
     }
 });
 

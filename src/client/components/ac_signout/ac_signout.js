@@ -2,7 +2,7 @@
  * pwix:accounts/src/client/components/ac_signout/ac_signout.js
  * 
  * Parms:
- *  - display: the acDisplay instance
+ *  - aculInstance: the acUserLogin template instance
  */
 
 import './ac_signout.html';
@@ -10,6 +10,6 @@ import './ac_signout.html';
 Template.ac_signout.helpers({
     // the text the section
     textOne(){
-        return this.display.opts().signoutTextOne();
+        return this.aculInstance.AC.options.signoutTextOne();
     }
 });

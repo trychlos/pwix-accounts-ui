@@ -4,10 +4,11 @@
  * This class manages the acUserLogin configuration options.
  */
 
-import { acOptions } from '../../common/classes/ac_options.class.js';
+import { pwixOptions } from 'meteor/pwix:options';
+
 import { acPanel } from './ac_panel.class.js';
 
-export class acOptionsUserLogin extends acOptions {
+export class acOptionsUserLogin extends pwixOptions.Options {
 
     // static data
     //
@@ -50,6 +51,7 @@ export class acOptionsUserLogin extends acOptions {
      */
     constructor( options ){
         super( options );
+        console.log( 'pwix:accounts instanciating acOptionsUserLogin', options );
         return this;
     }
 

@@ -2,7 +2,7 @@
  * pwix:accounts/src/client/classes/ac_display.class.js
  *
  * This class manages the display of all login/logout dialogs.
- * The instance is first attached to the 'acUserLogin' template, thus available to each and every child template.
+ * The instance is attached to the 'acUserLogin' template, thus available to each and every child template.
  * 
  * As of 23.01, acDisplay class may use either the Bootstrap or the jQuery UI version of their modal dialog widget.
  * This is needed because the Bootstrap version doesn't support to be embedded in a 'position:fixed' parent
@@ -12,11 +12,7 @@
 import { Tracker } from 'meteor/tracker';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import '../../common/js/index.js';
-
-import { acOptionsUserLogin } from './ac_options_user_login.class.js';
 
 export class acDisplay {
 
@@ -29,12 +25,8 @@ export class acDisplay {
     // private data
     //
 
-    // the 'acUserLogin' template instance
+    // the acUserLogin template instance
     _instance = null;
-
-    // a UUID which identifies *this* acDisplay instance
-    //  mainly used for debugging purposes
-    _uuid = null;
 
     // the jQuery selector for the modal
     //  the corresponding method has some suitable defaut values, depending of whether we are using
@@ -51,9 +43,6 @@ export class acDisplay {
     // used to toggle the hide/show display
     _shown = new ReactiveVar( false );
 
-    // the acOptionsUserLogin object
-    _optionsUserLogin = null;
-
     // private functions
     //
 
@@ -62,31 +51,20 @@ export class acDisplay {
 
     /**
      * Constructor
-     * @param {Object} instance an 'acUserLogin' template instance
-     * @param {Object} opts the parameters passed to the initial 'acUserLogin' template:
+     * @param {acUserLogin} instance the acUserLogin template instance
      * @returns {acDisplay}
      */
-    constructor( instance, opts={} ){
+    constructor( instance ){
         const self = this;
-
-        this._uuid = uuidv4();
-        this._instance = instance;
-
-        console.log( 'pwix:accounts instanciating acDisplay', opts, 'uuid', this._uuid );
-
-        // by merging defaults and provided options, we get an object which contains all known configuration options
-        // allocate a new reactive var for the option and set it
-        let _parms = {
-            ...defaults.acUserLogin,
-            ...opts
-        };
-        this._optionsUserLogin = new acOptionsUserLogin( _parms );
+        console.log( 'pwix:accounts instanciating acDisplay', instance );
+        self._instance = instance;
 
         // setup the initial panel
-        pwiAccounts.Panel.asked( this.opts().initialPanel());
+        //pwiAccounts.Panel.asked( self._instance.AC.options.initialPanel(), self._instance.AC.uuid );
+        pwiAccounts.Panel.asked( AC_PANEL_NONE, self._instance.AC.uuid );
 
         // if the instance is named, then keep it to be usable later
-        const name = this.opts().name();
+        const name = self._instance.AC.options.name();
         if( name ){
             acDisplay.Displays.name = self;
         }
@@ -97,7 +75,6 @@ export class acDisplay {
             if( self.ready()){
                 let show = true;
                 const panel = pwiAccounts.Panel.asked();
-                const prev = pwiAccounts.Panel.previous();
                 switch( panel ){
                     case AC_PANEL_NONE:
                         show = false;
@@ -145,10 +122,10 @@ export class acDisplay {
         let items = null;
         switch( state ){
             case AC_LOGGED:
-                items = this.opts().loggedItemsAfter();
+                items = this._instance.AC.options.loggedItemsAfter();
                 break;
             case AC_UNLOGGED:
-                items = this.opts().unloggedItemsAfter();
+                items = this._instance.AC.options.unloggedItemsAfter();
                 break;
         }
         let res = [];
@@ -170,6 +147,7 @@ export class acDisplay {
                 console.error( '[dynItemsAfter] invalid value while expecting string, array or function', items );
             }
         }
+        //console.log( 'dynItemsAfter', res );
         return res;
     }
 
@@ -181,10 +159,10 @@ export class acDisplay {
         let items = null;
         switch( state ){
             case AC_LOGGED:
-                items = this.opts().loggedItemsBefore();
+                items = this._instance.AC.options.loggedItemsBefore();
                 break;
             case AC_UNLOGGED:
-                items = this.opts().unloggedItemsBefore();
+                items = this._instance.AC.options.unloggedItemsBefore();
                 break;
         }
         let res = [];
@@ -236,7 +214,7 @@ export class acDisplay {
      */
     hide(){
         //console.log( 'acDisplay hide', this.modal());
-        if( this.modal()){
+        if( this._instance.AC.options.renderMode() === AC_RENDER_MODAL ){
             switch( pwiAccounts.opts().ui()){
                 case AC_UI_BOOTSTRAP:
                     $( this.modalSelector()).modal( 'hide' );
@@ -252,13 +230,6 @@ export class acDisplay {
         this.errorMsg( '' );
         this.modalTitle( '' );
         return this;
-    }
-
-    /**
-     * @returns {Boolean} true if rendered as a modal
-     */
-    modal(){
-        return this.opts().renderMode() === AC_RENDER_MODAL;
     }
 
     /**
@@ -298,13 +269,6 @@ export class acDisplay {
     }
 
     /**
-     * @returns {acOptionsUserLogin} the configuration options object
-     */
-    opts(){
-        return this._optionsUserLogin;
-    }
-
-    /**
      * Getter/Setter
      * @param {Boolean} ready whether the DOM is ready
      * @returns {Boolean}
@@ -323,7 +287,7 @@ export class acDisplay {
      */
     show(){
         //console.log( 'acDisplay show', this.modal());
-        if( this.modal()){
+        if( this._instance.AC.options.renderMode() === AC_RENDER_MODAL ){
             switch( pwiAccounts.opts().ui()){
                 case AC_UI_BOOTSTRAP:
                     //console.log( 'showing BS modal', this.modalSelector());

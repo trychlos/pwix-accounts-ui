@@ -6,9 +6,9 @@
 
 import '../js/constants.js';
 
-import { acOptions } from './ac_options.class.js';
+import { pwixOptions } from 'meteor/pwix:options';
 
-export class acOptionsConf extends acOptions {
+export class acOptionsConf extends pwixOptions.Options {
 
     // static data
     //
@@ -24,12 +24,6 @@ export class acOptionsConf extends acOptions {
     static Frontends = [
         AC_UI_BOOTSTRAP,
         AC_UI_JQUERY
-    ];
-
-    // possible user label
-    static Labels = [
-        AC_USERNAME,
-        AC_EMAIL_ADDRESS
     ];
 
     // password strength
@@ -114,15 +108,6 @@ export class acOptionsConf extends acOptions {
      */
     passwordTwice( twice ){
         return this.getset_Bool_Fn( 'passwordTwice', twice, { default: defaults.common.passwordTwice });
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Function} value preferred label when displaying a user
-     * @returns {String}
-     */
-    preferredLabel( value ){
-        return this.getset_String_Fn_Object( 'preferredLabel', value, { default: defaults.common.preferredLabel, ref: acOptionsConf.Labels });
     }
 
     /**

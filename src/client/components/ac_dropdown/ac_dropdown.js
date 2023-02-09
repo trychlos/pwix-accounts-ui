@@ -6,7 +6,7 @@
  * - or (not exclusive) when no user is logged, and the 'unloggedButtonAction' is not hidden.
  * 
  * Parms:
- *  - display: the acDisplay instance
+ *  - aculInstance: the acUserLogin template instance
  */
 
 import '../../../common/js/index.js';
@@ -17,17 +17,17 @@ Template.ac_dropdown.onCreated( function(){
     const self = this;
 
     self.AC = {
-        display: Template.currentData().display,
+        aculInstance: Template.currentData().aculInstance,
 
         // compute the class of the button
         btnClass( state ){
             let result = '';
             switch( state ){
                 case AC_LOGGED:
-                    result = self.AC.display.opts().loggedButtonClass();
+                    result = self.AC.aculInstance.AC.options.loggedButtonClass();
                     break;
                 case AC_UNLOGGED:
-                    result = self.AC.display.opts().unloggedButtonClass();
+                    result = self.AC.aculInstance.AC.options.unloggedButtonClass();
                     break;
             }
             return result;
@@ -38,10 +38,10 @@ Template.ac_dropdown.onCreated( function(){
             let result = '';
             switch( state ){
                 case AC_LOGGED:
-                    result = self.AC.display.opts().loggedButtonContent();
+                    result = self.AC.aculInstance.AC.options.loggedButtonContent();
                     break;
                 case AC_UNLOGGED:
-                    result = self.AC.display.opts().unloggedButtonContent();
+                    result = self.AC.aculInstance.AC.options.unloggedButtonContent();
                     break;
             }
             return result;
@@ -49,8 +49,8 @@ Template.ac_dropdown.onCreated( function(){
 
         // whether this template has to manage a dropdown menu
         hasDropdown( state ){
-            return ( state === AC_LOGGED && self.AC.display.opts().loggedButtonAction() === AC_ACT_DROPDOWN )
-                || ( state === AC_UNLOGGED && self.AC.display.opts().unloggedButtonAction() === AC_ACT_DROPDOWN );
+            return ( state === AC_LOGGED && self.AC.aculInstance.AC.options.loggedButtonAction() === AC_ACT_DROPDOWN )
+                || ( state === AC_UNLOGGED && self.AC.aculInstance.AC.options.unloggedButtonAction() === AC_ACT_DROPDOWN );
         }
     };
 });
@@ -96,9 +96,9 @@ Template.ac_dropdown.helpers({
         return Template.instance().AC.btnClass( pwiAccounts.User.state());
     },
 
-    // pass the acDisplay instance to child template
-    display(){
-        return this.display;
+    // pass the parent acUserLogin template instance to child template
+    aculInstance(){
+        return this.aculInstance;
     },
 
     // whether we have to manage a dropdown menu

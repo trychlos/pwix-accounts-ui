@@ -1,5 +1,5 @@
 /*
- * pwix:editor/src/server/js/check_npms.js
+ * pwix:accounts/src/server/js/check_npms.js
  */
 
 import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';
@@ -8,6 +8,8 @@ if( false ){
     // whitelist packages which are included via a subfolder
     require( '@popperjs/core/package.json' );
     require( 'bootstrap/package.json' );
+    require( 'email-validator/package.json' );  // still not detected
+    require( 'zxcvbn/package.json' );           // still not detected
 }
 
 checkNpmVersions({
@@ -17,4 +19,4 @@ checkNpmVersions({
     'printf': '^0.6.1',
     'uuid': '^9.0.0',
     'zxcvbn': '^4.4.2'
-    }, 'pwix:editor' );
+    }, 'pwix:accounts' );

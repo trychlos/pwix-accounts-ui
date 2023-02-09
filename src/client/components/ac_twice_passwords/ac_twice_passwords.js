@@ -7,7 +7,7 @@
  * 'ac-password-data' and 'ac-twice-data' messages.
  * 
  * Parms:
- *  - display: the acDisplay instance
+ *  - aculInstance: the acUserLogin template instance
  *      Is undefined when invoked from ac_reset_pwd template
  *      Take care!
  *  - role: 'signup|change|reset'
@@ -48,8 +48,10 @@ Template.ac_twice_passwords.onCreated( function(){
 
     self.autorun(() => {
         const fn = Template.currentData().role + 'PasswordTwice';
-        const display = Template.currentData().display;
-        self.AC.twice.set( display && display.opts()[fn] ? display.opts()[fn]() : ( pwiAccounts.opts()[fn] ? pwiAccounts.opts()[fn]() : pwiAccounts.opts().passwordTwice()));
+        const aculInstance = Template.currentData().aculInstance;
+        self.AC.twice.set( 
+            aculInstance && aculInstance.AC && aculInstance.AC.options[fn] ?
+                aculInstance.AC.options[fn]() : ( pwiAccounts.opts()[fn] ? pwiAccounts.opts()[fn]() : pwiAccounts.opts().passwordTwice()));
     });
 });
 

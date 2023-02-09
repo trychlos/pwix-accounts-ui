@@ -30,7 +30,7 @@ Template.ac_input_username.onCreated( function(){
             let val = self.AC.inputField.val().trim();
             promise = promise
                 .then(() => {
-                    if( ok && val.length && val.length < pwiAccounts.conf.usernameLength ){
+                    if( ok && val.length && val.length < pwiAccounts.opts().usernameLength()){
                         ok = false;
                         self.AC.errorMsg.set( self.AC.i18n( 'too_short' ));
                     }

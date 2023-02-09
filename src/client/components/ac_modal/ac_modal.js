@@ -5,7 +5,7 @@
  * 
  * Parms:
  *  - template: the name of the template to embed
- *  - display: the acDisplay instance (needed here as we must not be tied to where the modal is rendered in the HTML page)
+ *  - aculInstance: the acUserLogin template instance
  */
 
 import '../../../common/js/index.js';
@@ -22,10 +22,12 @@ import './ac_modal.html';
 
 Template.ac_modal.onCreated( function(){
     const self = this;
-    //console.log( self );
+    //console.log( 'onCreated' );
 
     self.AC = {
-        display: Template.currentData().display,
+        aculInstance: Template.currentData().aculInstance,
+        // the id set on the top div of this template (div.ac-modal)
+        topId: null,
 
         uiBootstrap(){
             //console.log( 'uiBootstrap', pwiAccounts.opts().ui() === pwiAccounts.ui.Bootstrap );
@@ -35,18 +37,16 @@ Template.ac_modal.onCreated( function(){
         uiJQuery(){
             //console.log( 'uiJQuery', pwiAccounts.opts().ui() === pwiAccounts.ui.jQueryUI );
             return pwiAccounts.opts().ui() === AC_UI_JQUERY;
-        },
-
-        // the id set on the top div of this template (div.ac-modal)
-        topId: null
+        }
     };
 });
 
 Template.ac_modal.onRendered( function(){
     const self = this;
+    //console.log( 'onRendered' );
 
     // set a unique id on the top div of the template
-    const uuid = self.AC.display.uuid();
+    const uuid = self.AC.aculInstance.AC.uuid;
     const modalAc = self.$( '.ac-modal' );
     self.AC.topId = uuid+'-ac';
     modalAc.attr( 'id', self.AC.topId );
@@ -56,9 +56,9 @@ Template.ac_modal.onRendered( function(){
     //  set an ID to the splitted div to be sure to be able to uniquely find it, and changes the
     //  modalSelector accordingly
     if( self.AC.uiJQuery()){
-        const modalJq = self.$( self.AC.display.modalSelector());
+        const modalJq = self.$( self.AC.aculInstance.AC.display.modalSelector());
         modalJq.attr( 'id', uuid+'-jq' );
-        self.AC.display.modalSelector( '#'+uuid+'-jq' );
+        self.AC.aculInstance.AC.display.modalSelector( '#'+uuid+'-jq' );
 
         modalJq.dialog({
             autoOpen: false,
@@ -84,24 +84,27 @@ Template.ac_modal.onRendered( function(){
         });
     }
 
-    //console.log( 'modal rendered' );
+    // add a tag class to body element to let the stylesheet identify *this* modal
+    $( 'body' ).addClass( 'ac-modal-class' );
 });
 
 Template.ac_modal.helpers({
 
     // pass the the input parameters to child template
     parms(){
-        return Template.currentData();
+        //console.log( 'parms', this );
+        return this;
     },
 
     // provides the template name
     template(){
+        //console.log( 'template', this.template );
         return this.template;
     },
 
     // modal title
     title(){
-        return Template.instance().AC.display.modalTitle();
+        return this.aculInstance.AC.display.modalTitle();
     },
 
     // are we configured for a Bootstrap ui ?
@@ -128,6 +131,7 @@ Template.ac_modal.events({
         $( event.currentTarget ).trigger( 'ac-hidden-modal', event.currentTarget );
 
         // because the template has been created 'on the fly'
+        $( 'body' ).removeClass( 'ac-modal-class' );
         Blaze.remove( instance.view );
         pwiAccounts.Panel.view( null );
     },

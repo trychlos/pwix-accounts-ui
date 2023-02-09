@@ -5,9 +5,10 @@
  * 
  * Parms:
  *  - name (opt.) the name attributed by the application to this 'acUserLogin' instance
- *  - or display the acDisplay instance
+ * or
+ *  - aculInstance: the acUserLogin template instance
  * 
- * When called from an application, the name is at the time the only way to identify a specific
+ * From the application point of view, the name is at the time the only way to identify a specific
  * 'acUserLogin' instance, and thus to get the managing acDisplay.
  */
 
@@ -25,10 +26,11 @@ Template.acMenuItems.onCreated( function(){
     };
 
     self.autorun(() => {
-        if( Object.keys( Template.currentData()).includes( 'name' )){
-            self.AC.display.set( acDisplay.byName( Template.currentData().name ));
+        const dataContext = Template.currentData();
+        if( Object.keys( dataContext ).includes( 'name' )){
+            self.AC.display.set( acDisplay.byName( dataContext.name ));
         } else {
-            self.AC.display.set( Template.currentData().display );
+            self.AC.display.set( dataContext.aculInstance.AC.display );
         }
     });
 });

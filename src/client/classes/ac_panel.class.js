@@ -1,7 +1,12 @@
 /*
  * /src/client/classes/ac_panel.class.js
  *
- * This class manages the requested panel as a singleton, as all 'acUserLogin' instanciated templates share the same display request.
+ * This class manages the requested panel as a singleton, as all 'acUserLogin' instanciated templates must share the same viewport.
+ * As a consequence, they must support each other so that only one acUserLogin template displays a panel at each moment.
+ * 
+ * When the AC_PANEL_NONE is requested, this means that nobody wants to display anything.
+ * When someone wants to trigger a transition, the caller must provide the UUID of the requester acUserLogin template instance.
+ * The display will so be reserved to this same instance until next transition to AC_PANEL_NONE.
  */
 
 import { ReactiveVar } from 'meteor/reactive-var';
@@ -18,7 +23,6 @@ export class acPanel {
     // the known panels
     static Knowns = {
         AC_PANEL_NONE: {
-
         },
         AC_PANEL_CHANGEPWD: {
             buttons: [
@@ -93,6 +97,7 @@ export class acPanel {
     _panel = new ReactiveVar( null );
     _previous = new ReactiveVar( null );
     _view = new ReactiveVar( null );
+    _requester = new ReactiveVar( null );
 
     // private functions
 
@@ -104,6 +109,7 @@ export class acPanel {
      * @returns {acPanel}
      */
     constructor( panel=AC_PANEL_NONE ){
+
         if( acPanel.Singleton ){
             console.log( 'pwix:accounts returning already instanciated acPanel' );
             return acPanel.Singleton;
@@ -120,14 +126,24 @@ export class acPanel {
     /**
      * Getter/Setter
      * @param {String} panel the requested panel
+     * @param {String} uuid the uuid identifier of the requester acUserLogin object
      * @returns {String} the currently (maybe newly ?) requested panel
      */
-    asked( panel ){
+    asked( panel, uuid ){
         if( panel ){
             const previous = this._panel.get();
             if( Object.keys( acPanel.Knowns ).includes( panel ) && panel !== previous ){
-                console.log( 'pwix:accounts triggering transition from '+previous+' to '+panel );
-                $( '.acUserLogin' ).trigger( 'ac-panel-transition', { previous: previous, next: panel });
+                // manage reservations
+                if( panel === AC_PANEL_NONE ){
+                    this._requester.set( null );
+                } else if( uuid ){
+                    this._requester.set( uuid );
+                } else {
+                    console.errror( 'requester not identified' );
+                }
+                // trigger the transition
+                console.log( 'pwix:accounts triggering transition from '+previous+' to '+panel+' (uuid='+uuid+')' );
+                $( '.acUserLogin' ).trigger( 'ac-panel-transition', { previous: previous, next: panel, requester: uuid || null });
                 this._panel.set( panel );
                 this._previous.set( previous );
             }
@@ -167,6 +183,15 @@ export class acPanel {
      */
     previous(){
         return this._previous.get();
+    }
+
+    /**
+     * @param {String} uuid the identifier of the willing-to acUserLogin template instance
+     * @returns {Boolean} whether this instance is allowed to handle the request
+     */
+    requesterAllowed( uuid ){
+        const requester = this._requester.get();
+        return !requester || requester === uuid;
     }
 
     /**

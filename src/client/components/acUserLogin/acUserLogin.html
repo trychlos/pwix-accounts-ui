@@ -1,13 +1,13 @@
 <template name="acUserLogin">
-    <div class="acUserLogin">
+    <div class="acUserLogin" id="{{ uuid }}">
 
         <div class="display">
             {{#if hasDropdown }}
-                {{> ac_dropdown display=(display) }}
+                {{> ac_dropdown aculInstance=(aculInstance) }}
             {{/if}}
 
             {{#unless modal }}
-                {{> ac_user_login display=(display) }}
+                {{> ac_user_login aculInstance=(aculInstance) }}
             {{/unless}}
         </div>
 

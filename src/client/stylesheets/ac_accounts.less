@@ -134,6 +134,8 @@
 }
 
 // Prevent the Bootstrap backdrop modal to be displayed
-body.modal-open .modal-backdrop.show {
-    z-index: -1;
-}
+body.modal-open.ac-modal-class {
+    .modal-backdrop.show {
+        display: none;
+    }
+} 

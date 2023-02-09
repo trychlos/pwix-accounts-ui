@@ -21,7 +21,7 @@
 |   14 | 2023- 1-21 | provide enrollment (see for example accounts-ui) |
 |   20 | 2023- 1-21 | when a name is set, set a data-ac-name attribute on the acUserLogin div |
 |   24 | 2023- 1-25 | BUG data associated to ac-password-data message is received as undefined when length=0 |
-|      | 2023- 1-29 | as a work-around is applied, this is very low priority |
+|      | 2023- 1-29 | as a work-around has been found, this is very low priority |
 |   26 | 2023- 1-25 | let the user change his email address |
 |      | 2023- 1-29 | implies to define a new dropdown item and a new panel |
 |   27 | 2023- 1-25 | let the user change his username |
@@ -30,7 +30,9 @@
 |      | 2023- 1-29 | implies to define a new dropdown item and a new panel |
 |   29 | 2023- 1-26 | manage several email addresses per user |
 |      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
-|   39 |  |  |
+|   39 | 2023- 1-31 | WARN email-validator not detected by checkNpmversions |
+|   40 | 2023- 1-31 | WARN zxcvbn not detected by checkNpmversions |
+|   41 |  |  |
 
 ---
 ## Done

@@ -4,9 +4,10 @@
  * Provides various buttons, to be displayed either in a modal footer, or in the bottom of a div.
  * 
  * Parms:
- *  - display: the acDisplay instance
+ *  - aculInstance: the acUserLogin template instance
  *      Is undefined when invoked from ac_reset_pwd template
  *      Take care!
+ * or
  * - me: the name of the requesting panel
  *      Only set by ac_reset_pwd template
  */
@@ -34,7 +35,7 @@ Template.ac_footer_buttons.helpers({
 
     // whether to display this link
     haveLink( link ){
-        const ret = link.have && this.display ? this.display.opts()[link.have]() : link.have;
+        const ret = link.have && this.aculInstance ? this.aculInstance.AC.options[link.have]() : link.have;
         return ret;
     },
 
@@ -56,7 +57,7 @@ Template.ac_footer_buttons.events({
 
     'click .ac-link'( event, instance ){
         //console.log( event );
-        pwiAccounts.Panel.asked( instance.$( event.currentTarget ).find( 'a' ).attr( 'data-ac-target' ));
+        pwiAccounts.Panel.asked( instance.$( event.currentTarget ).find( 'a' ).attr( 'data-ac-target' ), Template.currentData().aculInstance.AC.uuid );
     },
 
     'click .ac-cancel'( event, instance ){
@@ -66,6 +67,14 @@ Template.ac_footer_buttons.events({
 
     'click .ac-submit'( event, instance ){
         //instance.$( event.target ).closest( '.acUserLogin' ).find( '.ac-user-login' ).trigger( 'ac-button-submit' );
-        instance.$( event.target ).trigger( 'ac-button-submit' );
+        const aculInstance = Template.currentData().aculInstance;
+        let target = instance.$( event.target );
+        let data = {};
+        if( aculInstance ){
+            target = $( '.acUserLogin#'+aculInstance.AC.uuid );
+            data.uuid = aculInstance.AC.uuid;
+        }
+        //console.log( target );
+        target.trigger( 'ac-button-submit', data );
     }
 });

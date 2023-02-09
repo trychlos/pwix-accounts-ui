@@ -35,9 +35,7 @@ Package.onUse( function( api ){
         'AC_RENDER_MODAL',
         'AC_RENDER_DIV',
         'AC_UI_BOOTSTRAP',
-        'AC_UI_JQUERY',
-        'AC_USERNAME',
-        'AC_EMAIL_ADDRESS'
+        'AC_UI_JQUERY'
     ]);
     api.mainModule( 'src/client/js/index.js', 'client' );
     api.mainModule( 'src/server/js/index.js', 'server' );
@@ -59,6 +57,7 @@ function configure( api ){
     api.use( 'pwix:bootbox', 'client' );
     api.use( 'pwix:i18n' );
     api.use( 'pwix:layout', 'client' );
+    api.use( 'pwix:options' );
     api.use( 'pwix:tolert', 'client' );
     api.use( 'tmeasday:check-npm-versions@1.0.2', 'server' );
     api.addFiles( 'src/client/components/acMenuItems/acMenuItems.js', 'client' );

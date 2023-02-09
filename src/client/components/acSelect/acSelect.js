@@ -96,6 +96,7 @@ Template.acSelect.onCreated( function(){
     self.autorun(() => {
         if( self.AC.handle.ready()){
             Meteor.users.find({}).fetch().every(( u ) => {
+                u.preferredLabel = pwiAccounts.preferredLabel( u );
                 self.AC.users[u._id] = u;
                 return true;
             });
@@ -124,7 +125,7 @@ Template.acSelect.helpers({
     //  depending of the global configuration
     username( id ){
         const user = Template.instance().AC.users[id];
-        return pwiAccounts.preferredLabel( user, this.preferred );
+        return user.preferredLabel.get();
     },
 
     // returns the list of known users
