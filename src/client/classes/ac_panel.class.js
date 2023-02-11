@@ -1,33 +1,14 @@
 /*
- * /src/client/classes/ac_displayer.class.js
- *
- * This class manages the display in the user interface of the different dialogs.
- * Because this display is a unique resource, the class is managed as a singleton which is maintained by the pwiAccounts
- * global object.
- * 
- * Rationale: not only the acUserLogin template instance, but also any other class or piece of code of the package may
- * ask at any time to display a dialog to interact with the user. In order these dialogs do not overlap each other and
- * lead to a bad user experience, this class make sure that only one dialog is showed at any time, and who has requested
- * it.
- * 
- * The display must then:
- * - first be reserved by a requester, and this request may or not be accepted
- * - then be freed up by this same requester
+ * /src/client/classes/ac_panel.class.js
  */
-
-import { ReactiveVar } from 'meteor/reactive-var';
-
-import { pwixI18n as i18n } from 'meteor/pwix:i18n';
-
-import '../../common/js/index.js';
 
 export class acPanel {
 
-    // private data
-    static Singleton = null;
+    // static data
+    //
 
     // the known panels
-    static Knowns = {
+    static Panels = {
         AC_PANEL_NONE: {
         },
         AC_PANEL_CHANGEPWD: {
@@ -99,15 +80,39 @@ export class acPanel {
         }
     };
 
+    // static methods
+    //
+
+    /**
+     * Validate that the provided panel is a valid one, i.e. a known, non-empty, string.
+     * @throws {Error}
+     */
+    static validate( panel ){
+        if( !panel ){
+            throw new Error( 'empty panel name' );
+        }
+        if( !acPanel.Panels.includes( panel )){
+            throw new Error( 'unknown panel', panel );
+        }
+    }
+
+    // private data
+    //
+
     // what is the current displayed template ?
     _panel = new ReactiveVar( null );
     _previous = new ReactiveVar( null );
     _view = new ReactiveVar( null );
     _requester = new ReactiveVar( null );
 
-    // private functions
+    // private methods
+    //
 
     // public data
+    //
+
+    // public methods
+    //
 
     /**
      * Constructor
@@ -138,7 +143,7 @@ export class acPanel {
     asked( panel, uuid ){
         if( panel ){
             const previous = this._panel.get();
-            if( Object.keys( acPanel.Knowns ).includes( panel ) && panel !== previous ){
+            if( Object.keys( acPanel.Panels ).includes( panel ) && panel !== previous ){
                 // manage reservations
                 if( panel === AC_PANEL_NONE ){
                     this._requester.set( null );
@@ -162,7 +167,7 @@ export class acPanel {
      * @returns {Array} the ordered list of buttons to be displayed for this panel
      */
     buttons( name ){
-        return acPanel.Knowns[name] ? acPanel.Knowns[name].buttons || [] : [];
+        return acPanel.Panels[name] ? acPanel.Panels[name].buttons || [] : [];
     }
 
     /**
@@ -172,7 +177,7 @@ export class acPanel {
      *  which are not managed here.
      */
     links( name ){
-        return acPanel.Knowns[name] ? acPanel.Knowns[name].links || [] : [];
+        return acPanel.Panels[name] ? acPanel.Panels[name].links || [] : [];
     }
 
     /**
@@ -180,7 +185,7 @@ export class acPanel {
      * @returns {String} the localized title of the modal which implements the panel, or empty
      */
     modalTitle( name ){
-        const o = acPanel.Knowns[name] ? acPanel.Knowns[name].modal_title || null : null;
+        const o = acPanel.Panels[name] ? acPanel.Panels[name].modal_title || null : null;
         return o ? i18n.label( AC_I18N, o.i18n ) : '';
     }
 
@@ -205,7 +210,7 @@ export class acPanel {
      * @returns {String} the Blaze template which implements the panel, or empty
      */
     template( name ){
-        return acPanel.Knowns[name] ? acPanel.Knowns[name].template || '' : '';
+        return acPanel.Panels[name] ? acPanel.Panels[name].template || '' : '';
     }
 
     /**

@@ -5,10 +5,18 @@
  *
  * Is callable many times so that a different set of parameters produces different (though, of course, consistent) results.
  *
- * This behavior relies on three distinct classes:
+ * This behavior relies on several classes:
+ * 
+ * - global classes:
+ *   > acDisplayer is a singleton attached to the global 'pwiAccounts' object, and maintains the display (aka the viewport) as a whole
+ *   > acUser is a singleton attached to the global 'pwiAccounts' object, and interfaces the user status.
+ * 
+ * - local classes:
+ *   > acOptionsUserLogin the configuration options provided by the caller (or their defaults)
+ *   > acUserLoginCompanion a companion class which glues together this Blaze template instance with classes and interfaces
+ * 
  * - acShower is attached to each and every 'acUserLogin' template, and manages the display of the fields
- * - acDisplayer is a singleton attached to the global 'pwiAccounts' object, and maintains the currently displayed panel
- * - acUser is a singleton attached to the global 'pwiAccounts' object, and interfaces the user status.
+
  *
  * Even if the logged (resp. unlogged) buttons are not displayed, the underlying panels can still be activated when
  * a transition requires that. This is because all acUserLogin instances share the same required panel, which is
@@ -28,6 +36,7 @@ import { v4 as uuidv4 } from 'uuid';
 import '../../../common/js/index.js';
 
 import { acShower } from '../../classes/ac_shower.class.js';
+import { acUserLoginCompanion } from '../../classes/ac_user_login_companion.class.js';
 import { acOptionsUserLogin } from '../../classes/ac_options_user_login.class.js';
 
 import '../../stylesheets/ac_accounts.less';
@@ -42,6 +51,7 @@ Template.acUserLogin.onCreated( function(){
     const self = this;
 
     self.AC = {
+        companion: null,
         display: null,
         options: null,
         uuid: uuidv4(),
@@ -67,6 +77,9 @@ Template.acUserLogin.onCreated( function(){
         ...Template.currentData()
     });
 
+    // instanciates our companion class
+    self.AC.companion = new acUserLoginCompanion( self );
+
     // instanciates the display manager
     self.AC.display = new acShower( self );
 });
@@ -86,7 +99,7 @@ Template.acUserLogin.onRendered( function(){
     }, 15 );
 
     // setup the initial panel only when the template is rendered
-    pwiAccounts.Displayer.asked( self.AC.options.initialDisplayer(), self.AC.uuid );
+    pwiAccounts.Displayer.asked( self.AC.options.initialPanel(), self.AC.uuid );
 });
 
 Template.acUserLogin.helpers({

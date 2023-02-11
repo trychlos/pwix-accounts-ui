@@ -32,7 +32,9 @@
 |      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
 |   39 | 2023- 1-31 | WARN email-validator not detected by checkNpmversions |
 |   40 | 2023- 1-31 | WARN zxcvbn not detected by checkNpmversions |
-|   41 |  |  |
+|   41 | 2023- 2-11 | pwiAccounts.isEmailVerified() assert that the function is relevant and at is right place |
+|   42 | 2023- 2-11 | pwiAccounts.dropdownItems() assert that the function is relevant and at is right place |
+|   43 |  |  |
 
 ---
 ## Done

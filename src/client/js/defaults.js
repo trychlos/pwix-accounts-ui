@@ -149,7 +149,7 @@ defaults = {
             renderMode: AC_RENDER_MODAL,
             signupPasswordTwice: _passwordTwice,
             changePasswordTwice: _passwordTwice,
-            initialDisplayer: AC_PANEL_NONE,
+            initialPanel: AC_PANEL_NONE,
             changePwdTextOne: '',
             changePwdTextTwo: '',
             changePwdTextThree: '',

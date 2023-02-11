@@ -6,7 +6,7 @@
 
 import { pwixOptions } from 'meteor/pwix:options';
 
-import { acDisplayer } from './ac_displayer.class.js';
+import { acPanel } from './ac_panel.class.js';
 
 export class acOptionsUserLogin extends pwixOptions.Options {
 
@@ -27,10 +27,13 @@ export class acOptionsUserLogin extends pwixOptions.Options {
         AC_RENDER_DIV
     ];
 
+    // static methods
+    //
+
     // private data
     //
 
-    // private functions
+    // private methods
     //
 
     // public data
@@ -99,8 +102,8 @@ export class acOptionsUserLogin extends pwixOptions.Options {
      * @param {String|Function} panel the initial panel to be displayed
      * @returns {String} the initial panel
      */
-    initialDisplay( panel ){
-        return this.getset_String_Fn_Object( 'initialDisplay', panel, { default: defaults.acUserLogin.initialDisplay, ref: Object.keys( acDisplayer.Knowns ) });
+    initialPanel( panel ){
+        return this.getset_String_Fn_Object( 'initialPanel', panel, { default: defaults.acUserLogin.initialPanel, ref: Object.keys( acPanel.Panels ) });
     }
 
     /**

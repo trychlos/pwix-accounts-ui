@@ -14,8 +14,16 @@ import { tlTolert } from 'meteor/pwix:tolert';
 
 export class acUser {
 
-    // private data
+    // static data
+    //
+
     static Singleton = null;
+
+    // static methods
+    //
+
+    // private data
+    //
 
     // maintains a LOGGED/UNLOGGED status
     //  is expected to be exactly consistant with Meteor.user() but adds a (very) thin conceptualization level
@@ -24,7 +32,9 @@ export class acUser {
         value: null
     }
 
-    // private functions
+    // private methods
+    //
+
     /*
      * Setter only
      * @param {String} state the new logged-in status
@@ -42,7 +52,11 @@ export class acUser {
         return this._state.value;
     }
 
-    //public data
+    // public data
+    //
+
+    // public methods
+    //
 
     /**
      * Constructor

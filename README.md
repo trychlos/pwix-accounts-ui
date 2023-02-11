@@ -359,7 +359,7 @@ the normal login/logout workflow. This is accomplished by configuring for displa
 </td></tr>
 
 <tr><td style="vertical-align:top;">
-initialDisplayer
+initialPanel
 </td><td>
 Designates the panel to be initially displayed when this 'acUserLogin' template is instanciated.<br />
 Possible values are:

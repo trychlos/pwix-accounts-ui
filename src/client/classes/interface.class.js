@@ -7,7 +7,6 @@
  * 
  * To be called from the implementing constructor.
  */
-import { featureProvider, Msg } from './index.js';
 
 export class Interface {
 

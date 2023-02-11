@@ -60,8 +60,8 @@ export class acShower {
         self._instance = instance;
 
         // setup the initial panel
-        //pwiAccounts.Displayer.asked( self._instance.AC.options.initialDisplayer(), self._instance.AC.uuid );
-        pwiAccounts.Displayer.asked( AC_PANEL_NONE, self._instance.AC.uuid );
+        //pwiAccounts.Displayer.asked( self._instance.AC.options.initialPanel(), self._instance.AC.uuid );
+        //pwiAccounts.Displayer.asked( AC_PANEL_NONE, self._instance.AC.uuid );
 
         // if the instance is named, then keep it to be usable later
         const name = self._instance.AC.options.name();
@@ -74,7 +74,7 @@ export class acShower {
         Tracker.autorun(() => {
             if( self.ready()){
                 let show = true;
-                const panel = pwiAccounts.Displayer.asked();
+                const panel = AC_PANEL_NONE; //pwiAccounts.Displayer.asked();
                 switch( panel ){
                     case AC_PANEL_NONE:
                         show = false;
@@ -96,11 +96,13 @@ export class acShower {
         });
 
         // set the modal title depending of the current displayed panel
+        /*
         Tracker.autorun(() => {
             if( self.ready()){
                 this.modalTitle( pwiAccounts.Displayer.modalTitle( pwiAccounts.Displayer.asked()));
             }
         });
+        */
 
         return this;
     }

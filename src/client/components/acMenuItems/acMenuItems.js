@@ -10,6 +10,10 @@
  * 
  * From the application point of view, the name is at the time the only way to identify a specific
  * 'acUserLogin' instance, and thus to get the managing acShower.
+ * 
+ * From our point of view, 'acMenuItems' component display the available items as a dropdown menu.
+ * Though we do our best to inherit from a 'acUserLogin' configuration, we will limit ourselves
+ * to a standard menu if we do not find any willing-to 'acUserLogin' instance.
  */
 
 import '../../../common/js/index.js';
