@@ -27,6 +27,8 @@ import { IDisplayRequester } from './idisplay-requester.interface.js';
 import { acEvent } from './ac_event.class.js';
 import { acPanel } from './ac_panel.class.js';
 
+ANONYMOUS = 'ANONYMOUS';
+
 export class IDisplayer {
 
     // the implementation instance
@@ -58,11 +60,18 @@ export class IDisplayer {
 
     /**
      * @summary Common event handler
+     * 
+     *  Default is to redirect the event if possible:
+     *  - either because the event itself provides a requester detail
+     *  - either because an identified requester as asked for the display
+     * 
      * [-implementation Api-]
      */
     v_handler( event ){
         //console.debug( 'IDisplayer.v_handler()', event );
-        const requester = event.detail.requester;
+        let redirect = null;
+        // if the event has a requester detail, then redirect the former to the later
+        const requester = event.detail.requester || this._requester;
         //console.log( requester );
         if( requester && requester.IDisplayRequester && requester.IDisplayRequester instanceof IDisplayRequester ){
             //console.log( 'redirecting to', requester.IDisplayRequester.target());
@@ -84,7 +93,7 @@ export class IDisplayer {
      * [-Public API-]
      */
     ask( requester, panel, opts ){
-        if( requester && !( requester instanceof IDisplayRequester )){
+        if( requester && !( requester.IDisplayRequester && requester.IDisplayRequester instanceof IDisplayRequester )){
             throw new Error( 'not a IDisplayRequester instance', requester );
         }
         acPanel.validate( panel );
@@ -93,7 +102,7 @@ export class IDisplayer {
             return false;
         }
         // the requester may be null if the caller doesn't care of receiving events
-        this._requester = requester;
+        this._requester = requester || ANONYMOUS;
         return true;
     }
 

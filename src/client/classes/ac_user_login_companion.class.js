@@ -113,6 +113,19 @@ export class acUserLoginCompanion {
     }
 
     /**
+     * @summary A generic event handler for acUserLogin
+     *  If the provided data contains a requester, we can check that we are actually the right target
+     *  If the provided data contains a panel, we have to ask for the display of this panel
+     *  Else...
+     * @param {String} event the event type
+     * @param {Object} data the associated data
+     * @returns {Boolean} whether we have successfully managed this event
+     *  This returned value may be used by the caller to allow - or not - the default event handling...
+     */
+    handleEvent( event, data ){
+    }
+
+    /**
      * @returns {String} the unique identifier of this instance
      */
     id(){

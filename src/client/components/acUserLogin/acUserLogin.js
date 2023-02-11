@@ -264,8 +264,17 @@ Template.acUserLogin.events({
         }
     },
 
-    'ac-panel-signout-event/ac-panel-changepwd-event/ac-panel-verifyask-event .acUserLogin'( event, instance, data ){
-        console.log( event, data );
+    // usually sent from acMenuItems, including this requester and
+    'ac-panel-changepwd-event .acUserLogin'( event, instance, data ){
+        instance.AC.companion.handleEvent( event, data );
+    },
+
+    'ac-panel-signout-event .acUserLogin'( event, instance, data ){
+        instance.AC.companion.handleEvent( event, data );
+    },
+
+    'ac-panel-verifyask-event .acUserLogin'( event, instance, data ){
+        instance.AC.companion.handleEvent( event, data );
     },
 
     // transition advertising

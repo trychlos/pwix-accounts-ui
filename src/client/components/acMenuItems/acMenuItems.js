@@ -99,7 +99,8 @@ Template.acMenuItems.events({
             //$( event.currentTarget ).trigger( msg );
             const aculInstance = instance.AC.aculInstance.get();
             const companion = aculInstance && aculInstance.AC ? aculInstance.AC.companion : null;
-            pwiAccounts.Displayer.IDisplayer.trigger( msg, { requester: companion });
+            const panel = $( event.currentTarget ).attr( 'data-ac-panel' );
+            pwiAccounts.Displayer.IDisplayer.trigger( msg, { requester: companion, panel: panel });
         }
     }
 });

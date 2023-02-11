@@ -30,7 +30,7 @@ _stdMenuItems = {
             faicon: 'fa-right-from-bracket',
             labelkey: 'signout',
             enablefn: _enableAlways,
-            panel: 'SIGNOUT',
+            panel: 'AC_PANEL_SIGNOUT',
             msgaction: 'ac-panel-signout-event'
         },
         {
@@ -39,7 +39,7 @@ _stdMenuItems = {
             faicon: 'fa-passport',
             labelkey: 'changepwd',
             enablefn: _enableAlways,
-            panel: 'CHANGEPWD',
+            panel: 'AC_PANEL_CHANGEPWD',
             msgaction: 'ac-panel-changepwd-event'
         },
         {
@@ -48,7 +48,7 @@ _stdMenuItems = {
             faicon: 'fa-envelope-circle-check',
             labelkey: 'verifyask',
             enablefn: _enableMailVerified,
-            panel: 'VERIFYASK',
+            panel: 'AC_PANEL_VERIFYASK',
             msgaction: 'ac-panel-verifyask-event'
         }
     ],
@@ -59,7 +59,7 @@ _stdMenuItems = {
             faicon: 'fa-user',
             labelkey: 'signin',
             enablefn: _enableAlways,
-            panel: 'SIGNIN',
+            panel: 'AC_PANEL_SIGNIN',
             msgaction: 'ac-panel-signin-event'
         },
         {
@@ -68,7 +68,7 @@ _stdMenuItems = {
             faicon: 'fa-user-plus',
             labelkey: 'signup',
             enablefn: _enableAlways,
-            panel: 'SIGNUP',
+            panel: 'AC_PANEL_SIGNUP',
             msgaction: 'ac-panel-signup-event'
         },
         {
@@ -77,7 +77,7 @@ _stdMenuItems = {
             faicon: 'fa-lock-open',
             labelkey: 'resetask',
             enablefn: _enableAlways,
-            panel: 'RESETASK',
+            panel: 'AC_PANEL_RESETASK',
             msgaction: 'ac-panel-resetask-event'
         },
     ]
@@ -105,7 +105,7 @@ _buildStandardItems = function( source ){
         if( it.enablefn && !it.enablefn()){
             html += ' disabled';
         }
-        html += '" href="#" data-ac-msg="'+it.msgaction+'"';
+        html += '" href="#" data-ac-msg="'+it.msgaction+'" data-ac-panel="'+it.panel+'"';
         html += '>';
         html += '<span class="fa-solid fa-fw '+it.faicon+'"></span>';
         html += '<p>'+i18n.label( AC_I18N, 'features.'+it.labelkey )+'</p>';
