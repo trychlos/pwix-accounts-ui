@@ -7,7 +7,7 @@
  *
  * This behavior relies on three distinct classes:
  * - acShower is attached to each and every 'acUserLogin' template, and manages the display of the fields
- * - acDisplay is a singleton attached to the global 'pwiAccounts' object, and maintains the currently displayed panel
+ * - acDisplayer is a singleton attached to the global 'pwiAccounts' object, and maintains the currently displayed panel
  * - acUser is a singleton attached to the global 'pwiAccounts' object, and interfaces the user status.
  *
  * Even if the logged (resp. unlogged) buttons are not displayed, the underlying panels can still be activated when

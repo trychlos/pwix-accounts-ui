@@ -67,11 +67,3 @@ function configure( api ){
 
 // NPM dependencies are checked in /src/server/js/check_npms.js
 // See also https://guide.meteor.com/writing-atmosphere-packages.html#npm-dependencies
-
-Npm.depends({
-    'bootstrap': '5.2.1',
-    'email-validator': '2.0.4',
-    'printf': '0.6.1',
-    'uuid': '9.0.0',
-    'zxcvbn': '4.4.2'
-});
