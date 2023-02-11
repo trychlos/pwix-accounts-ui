@@ -30,7 +30,7 @@ Template.ac_footer_buttons.helpers({
 
     // returns the ordered list of buttons to be displayed depending of the currently displayed template
     buttons(){
-        return pwiAccounts.Display.buttons( this.me ? this.me : pwiAccounts.Display.asked());
+        return pwiAccounts.Displayer.buttons( this.me ? this.me : pwiAccounts.Displayer.asked());
     },
 
     // whether to display this link
@@ -49,7 +49,7 @@ Template.ac_footer_buttons.helpers({
 
     // returns the ordered list of links to be displayed depending of the current state
     links(){
-        return pwiAccounts.Display.links( this.me ? this.me : pwiAccounts.Display.asked());
+        return pwiAccounts.Displayer.links( this.me ? this.me : pwiAccounts.Displayer.asked());
     }
 });
 
@@ -57,7 +57,7 @@ Template.ac_footer_buttons.events({
 
     'click .ac-link'( event, instance ){
         //console.log( event );
-        pwiAccounts.Display.asked( instance.$( event.currentTarget ).find( 'a' ).attr( 'data-ac-target' ), Template.currentData().aculInstance.AC.uuid );
+        pwiAccounts.Displayer.asked( instance.$( event.currentTarget ).find( 'a' ).attr( 'data-ac-target' ), Template.currentData().aculInstance.AC.uuid );
     },
 
     'click .ac-cancel'( event, instance ){

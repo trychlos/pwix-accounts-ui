@@ -199,7 +199,7 @@ Possible values are true or false, defaulting to true.</b>
 resetPwdTextOne<br />
 resetPwdTextTwo
 </td><td style="vertical-align:top;">
-Displays personalization<br/>
+Displayers personalization<br/>
 These options let the application provides its own content before the input fields of the corresponding panel.<br />
 Value is expected to be a string which contains HTML code, or a function which returns such a string.
 </td></tr>
@@ -359,7 +359,7 @@ the normal login/logout workflow. This is accomplished by configuring for displa
 </td></tr>
 
 <tr><td style="vertical-align:top;">
-initialDisplay
+initialDisplayer
 </td><td>
 Designates the panel to be initially displayed when this 'acUserLogin' template is instanciated.<br />
 Possible values are:
@@ -390,7 +390,7 @@ signupTextThree<br />
 signupTextFour<br />
 verifyAskTextOne
 </td><td style="vertical-align:top;">
-Displays personalization<br/>
+Displayers personalization<br/>
 These options let the application provides its own content before the input fields of the corresponding panel.<br />
 Value is expected to be a string which contains HTML code, or a function which returns such a string.
 </td></tr>
@@ -437,7 +437,7 @@ via messages sent to the `<div class="acUserLogin">...</div>`.
 
 - ac-panel + `panel`
 
-    Display the requested panel
+    Displayer the requested panel
 
 - ac-panel-none
 - ac-panel-signin
@@ -447,7 +447,7 @@ via messages sent to the `<div class="acUserLogin">...</div>`.
 - ac-panel-changepwd
 - ac-panel-verifyask
 
-    Display the targeted panel
+    Displayer the targeted panel
 
 - ac-render-modal
 - ac-render-div
@@ -497,44 +497,52 @@ In the same time, the 'acUserLogin' template advertises of its contexts:
 
 ### Exported objects
 
-- pwiAccounts
+- `pwiAccounts`
+
+### Exported methods
+
+- `pwiAccounts.ready()`
+
+    A client-only method which advertises when the package has been successfully initialized.
+
+    A reactive data source.
 
 ### Exported constants
 
-- AC_LOGGED
-- AC_UNLOGGED
+- `AC_LOGGED`
+- `AC_UNLOGGED`
 
-- AC_ACT_HIDDEN
-- AC_ACT_NONE
-- AC_ACT_DROPDOWN
-- AC_ACT_BUBBLE
+- `AC_ACT_HIDDEN`
+- `AC_ACT_NONE`
+- `AC_ACT_DROPDOWN`
+- `AC_ACT_BUBBLE`
 
-- AC_FIELD_NONE
-- AC_FIELD_OPTIONAL
-- AC_FIELD_MANDATORY
+- `AC_FIELD_NONE`
+- `AC_FIELD_OPTIONAL`
+- `AC_FIELD_MANDATORY`
 
-- AC_PANEL_NONE
-- AC_PANEL_CHANGEPWD
-- AC_PANEL_RESETASK
-- AC_PANEL_SIGNIN
-- AC_PANEL_SIGNOUT
-- AC_PANEL_SIGNUP
-- AC_PANEL_VERIFYASK
+- `AC_PANEL_NONE`
+- `AC_PANEL_CHANGEPWD`
+- `AC_PANEL_RESETASK`
+- `AC_PANEL_SIGNIN`
+- `AC_PANEL_SIGNOUT`
+- `AC_PANEL_SIGNUP`
+- `AC_PANEL_VERIFYASK`
 
-- AC_PWD_VERYWEAK
-- AC_PWD_WEAK
-- AC_PWD_MEDIUM
-- AC_PWD_STRONG
-- AC_PWD_VERYSTRONG
+- `AC_PWD_VERYWEAK`
+- `AC_PWD_WEAK`
+- `AC_PWD_MEDIUM`
+- `AC_PWD_STRONG`
+- `AC_PWD_VERYSTRONG`
 
-- AC_RENDER_MODAL
-- AC_RENDER_DIV
+- `AC_RENDER_MODAL`
+- `AC_RENDER_DIV`
 
-- AC_UI_BOOTSTRAP
-- AC_UI_JQUERY
+- `AC_UI_BOOTSTRAP`
+- `AC_UI_JQUERY`
 
-- AC_USERNAME
-- AC_EMAIL_ADDRESS
+- `AC_USERNAME`
+- `AC_EMAIL_ADDRESS`
 
 ### Exported templates
 

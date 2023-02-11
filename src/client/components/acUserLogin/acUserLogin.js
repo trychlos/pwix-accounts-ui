@@ -86,7 +86,7 @@ Template.acUserLogin.onRendered( function(){
     }, 15 );
 
     // setup the initial panel only when the template is rendered
-    pwiAccounts.Display.asked( self.AC.options.initialDisplay(), self.AC.uuid );
+    pwiAccounts.Displayer.asked( self.AC.options.initialDisplayer(), self.AC.uuid );
 });
 
 Template.acUserLogin.helpers({
@@ -120,20 +120,20 @@ Template.acUserLogin.events({
      */
     // cancel the current display
     'ac-button-cancel .acUserLogin'( event, instance ){
-        if( pwiAccounts.Display.requesterAllowed( instance.AC.uuid )){
+        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
             console.log( event, instance );
-            pwiAccounts.Display.asked( AC_PANEL_NONE );
+            pwiAccounts.Displayer.asked( AC_PANEL_NONE );
             return false;
         }
     },
 
     // validate the current display
     'ac-button-submit .acUserLogin'( event, instance, data ){
-        if( pwiAccounts.Display.requesterAllowed( instance.AC.uuid )){
+        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
             console.log( event, instance, data );
             let mail = null;
             let password = null;
-            switch( pwiAccounts.Display.asked()){
+            switch( pwiAccounts.Displayer.asked()){
                 case AC_PANEL_CHANGEPWD:
                     const pwd1 = instance.$( '.ac-change-pwd .ac-old .ac-input' ).val().trim();
                     const pwd2 = instance.$( '.ac-change-pwd .ac-newone .ac-input' ).val().trim();
@@ -178,7 +178,7 @@ Template.acUserLogin.events({
     },
 
     'ac-display-error .acUserLogin'( event, instance, msg ){
-        if( pwiAccounts.Display.requesterAllowed( instance.AC.uuid )){
+        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
             console.log( event, instance, msg );
             instance.AC.display.errorMsg( msg );
             return false;
@@ -187,66 +187,66 @@ Template.acUserLogin.events({
 
     // change the current displayed template
     'ac-panel .acUserLogin'( event, instance, panel ){
-        if( pwiAccounts.Display.requesterAllowed( instance.AC.uuid )){
+        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
             console.log( event, instance, panel );
-            pwiAccounts.Display.asked( panel, instance.AC.uuid );
+            pwiAccounts.Displayer.asked( panel, instance.AC.uuid );
             return false;
         }
     },
 
     // be specific on the requested displayed template
     'ac-panel-none .acUserLogin'( event, instance ){
-        if( pwiAccounts.Display.requesterAllowed( instance.AC.uuid )){
+        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
             console.log( event, instance );
-            pwiAccounts.Display.asked( AC_PANEL_NONE );
+            pwiAccounts.Displayer.asked( AC_PANEL_NONE );
             return false;
         }
     },
     'ac-panel-changepwd .acUserLogin'( event, instance ){
-        if( pwiAccounts.Display.requesterAllowed( instance.AC.uuid )){
+        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
             console.log( event, instance );
-            pwiAccounts.Display.asked( AC_PANEL_CHANGEPWD, instance.AC.uuid );
+            pwiAccounts.Displayer.asked( AC_PANEL_CHANGEPWD, instance.AC.uuid );
             return false;
         }
     },
     'ac-panel-resetask .acUserLogin'( event, instance ){
-        if( pwiAccounts.Display.requesterAllowed( instance.AC.uuid )){
+        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
             console.log( event, instance );
-            pwiAccounts.Display.asked( AC_PANEL_RESETASK, instance.AC.uuid );
+            pwiAccounts.Displayer.asked( AC_PANEL_RESETASK, instance.AC.uuid );
             return false;
         }
     },
     'ac-panel-resetpwd .acUserLogin'( event, instance ){
-        if( pwiAccounts.Display.requesterAllowed( instance.AC.uuid )){
+        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
             console.log( event, instance );
-            pwiAccounts.Display.asked( AC_PANEL_RESETPWD, instance.AC.uuid );
+            pwiAccounts.Displayer.asked( AC_PANEL_RESETPWD, instance.AC.uuid );
             return false;
         }
     },
     'ac-panel-signin .acUserLogin'( event, instance ){
-        if( pwiAccounts.Display.requesterAllowed( instance.AC.uuid )){
+        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
             console.log( event, instance );
-            pwiAccounts.Display.asked( AC_PANEL_SIGNIN, instance.AC.uuid );
+            pwiAccounts.Displayer.asked( AC_PANEL_SIGNIN, instance.AC.uuid );
             return false;
         }
     },
     'ac-panel-signout .acUserLogin'( event, instance ){
-        if( pwiAccounts.Display.requesterAllowed( instance.AC.uuid )){
-            pwiAccounts.Display.asked( AC_PANEL_SIGNOUT, instance.AC.uuid );
+        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
+            pwiAccounts.Displayer.asked( AC_PANEL_SIGNOUT, instance.AC.uuid );
             return  false;
         }
     },
     'ac-panel-signup .acUserLogin'( event, instance ){
-        if( pwiAccounts.Display.requesterAllowed( instance.AC.uuid )){
+        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
             console.log( event, instance );
-            pwiAccounts.Display.asked( AC_PANEL_SIGNUP, instance.AC.uuid );
+            pwiAccounts.Displayer.asked( AC_PANEL_SIGNUP, instance.AC.uuid );
             return false;
         }
     },
     'ac-panel-verifyask .acUserLogin'( event, instance ){
-        if( pwiAccounts.Display.requesterAllowed( instance.AC.uuid )){
+        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
             console.log( event, instance );
-            pwiAccounts.Display.asked( AC_PANEL_VERIFYASK, instance.AC.uuid );
+            pwiAccounts.Displayer.asked( AC_PANEL_VERIFYASK, instance.AC.uuid );
             return false;
         }
     },
@@ -255,12 +255,12 @@ Template.acUserLogin.events({
     //  let the message bubble up
     'ac-panel-transition .acUserLogin'( event, instance, data ){
         console.log( event, instance, data );
-        if( pwiAccounts.Display.requesterAllowed( instance.AC.uuid )){
+        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
             if( data.next !== AC_PANEL_NONE && instance.AC.options.renderMode() === AC_RENDER_MODAL ){
-                if( !pwiAccounts.Display.view()){
+                if( !pwiAccounts.Displayer.view()){
                     const uuid = data.uuid || instance.AC.uuid;
                     view = Blaze.renderWithData( Template.ac_modal, { template: 'ac_user_login', aculInstance: instance }, $( '.acUserLogin#'+uuid )[0] );
-                    pwiAccounts.Display.view( view );
+                    pwiAccounts.Displayer.view( view );
                 }
             }
             return false;
@@ -269,14 +269,14 @@ Template.acUserLogin.events({
 
     // change the acShower rendering mode
     'ac-render-modal .acUserLogin'( event, instance ){
-        if( pwiAccounts.Display.requesterAllowed( instance.AC.uuid )){
+        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
             console.log( event, instance );
             instance.AC.options.renderMode( AC_RENDER_MODAL );
             return false;
         }
     },
     'ac-render-div .acUserLogin'( event, instance ){
-        if( pwiAccounts.Display.requesterAllowed( instance.AC.uuid )){
+        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
             console.log( event, instance );
             instance.AC.options.renderMode( AC_RENDER_DIV );
             return false;
@@ -285,7 +285,7 @@ Template.acUserLogin.events({
 
     // set the modal title
     'ac-title .acUserLogin'( event, instance, data ){
-        if( pwiAccounts.Display.requesterAllowed( instance.AC.uuid )){
+        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
             console.log( event, instance, data );
             instance.AC.display.modalTitle( data );
             return false;

@@ -32,6 +32,10 @@ export class acDisplayer {
             return acDisplayer.Singleton;
         }
         //console.log( 'pwix:accounts instanciating new acDisplayer' );
+
+        Interface.add( this, IDisplayer, {
+        });
+
         acDisplayer.Singleton = this;
         return this;
     }

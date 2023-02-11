@@ -20,7 +20,7 @@ export class acShower {
     //
 
     // keep here a list of all instanciated named acShower objects
-    static Displays = {};
+    static Displayers = {};
 
     // private data
     //
@@ -60,13 +60,13 @@ export class acShower {
         self._instance = instance;
 
         // setup the initial panel
-        //pwiAccounts.Display.asked( self._instance.AC.options.initialDisplay(), self._instance.AC.uuid );
-        pwiAccounts.Display.asked( AC_PANEL_NONE, self._instance.AC.uuid );
+        //pwiAccounts.Displayer.asked( self._instance.AC.options.initialDisplayer(), self._instance.AC.uuid );
+        pwiAccounts.Displayer.asked( AC_PANEL_NONE, self._instance.AC.uuid );
 
         // if the instance is named, then keep it to be usable later
         const name = self._instance.AC.options.name();
         if( name ){
-            acShower.Displays.name = self;
+            acShower.Displayers.name = self;
         }
 
         // manage the panel transition
@@ -74,7 +74,7 @@ export class acShower {
         Tracker.autorun(() => {
             if( self.ready()){
                 let show = true;
-                const panel = pwiAccounts.Display.asked();
+                const panel = pwiAccounts.Displayer.asked();
                 switch( panel ){
                     case AC_PANEL_NONE:
                         show = false;
@@ -98,7 +98,7 @@ export class acShower {
         // set the modal title depending of the current displayed panel
         Tracker.autorun(() => {
             if( self.ready()){
-                this.modalTitle( pwiAccounts.Display.modalTitle( pwiAccounts.Display.asked()));
+                this.modalTitle( pwiAccounts.Displayer.modalTitle( pwiAccounts.Displayer.asked()));
             }
         });
 
@@ -111,7 +111,7 @@ export class acShower {
      * @returns {acShower} the corresponding acShower instance, or null
      */
     static byName( name ){
-        return acShower.Displays.name || null;
+        return acShower.Displayers.name || null;
     }
 
     /**
@@ -196,7 +196,7 @@ export class acShower {
 
     /**
      * Getter/Setter
-     * Displays have their own error messages (e.g. password too short or too weak).
+     * Displayers have their own error messages (e.g. password too short or too weak).
      * This method is provided to host error messages returned from the server (e.g. bad credentials).
      * @param {String} msg error msg
      * @returns {String} the current error message
@@ -309,7 +309,7 @@ export class acShower {
      * Toggle the visibility of the dialog
      * @returns {acShower}
      */
-    toggleDisplay(){
+    toggleDisplayer(){
         if( this._shown.get()){
             this.hide();
         } else {

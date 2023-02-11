@@ -133,7 +133,7 @@ Template.ac_modal.events({
         // because the template has been created 'on the fly'
         $( 'body' ).removeClass( 'ac-modal-class' );
         Blaze.remove( instance.view );
-        pwiAccounts.Display.view( null );
+        pwiAccounts.Displayer.view( null );
     },
 
     'shown.bs.modal .ac-modal'( event, instance ){

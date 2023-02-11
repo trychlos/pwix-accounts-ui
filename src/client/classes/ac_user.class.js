@@ -77,7 +77,7 @@ export class acUser {
                 console.error( err );
                 target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.changepwd_error' ));
             } else {
-                pwiAccounts.Display.asked( AC_PANEL_NONE );
+                pwiAccounts.Displayer.asked( AC_PANEL_NONE );
                 tlTolert.success( i18n.label( AC_I18N, 'user.changepwd_success' ));
                 $( '.acUserLogin' ).trigger( 'ac-user-changepwd', self.emailAddress());
             }
@@ -104,7 +104,7 @@ export class acUser {
                     target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.signup_error' ));
                 } else {
                     //self.state( AC_LOGGED );
-                    pwiAccounts.Display.asked( AC_PANEL_NONE );
+                    pwiAccounts.Displayer.asked( AC_PANEL_NONE );
                     $( '.acUserLogin' ).trigger( 'ac-user-create', options.email );
                 }
             });
@@ -145,7 +145,7 @@ export class acUser {
                 target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.signin_error' ));
             } else {
                 //self.state( AC_LOGGED );
-                pwiAccounts.Display.asked( AC_PANEL_NONE );
+                pwiAccounts.Displayer.asked( AC_PANEL_NONE );
                 $( '.acUserLogin' ).trigger( 'ac-user-login', userid );
             }
         });
@@ -158,7 +158,7 @@ export class acUser {
         const email = this.emailAddress();
         Meteor.logout();
         //this.state( AC_UNLOGGED );
-        pwiAccounts.Display.asked( AC_PANEL_NONE );
+        pwiAccounts.Displayer.asked( AC_PANEL_NONE );
         $( '.acUserLogin' ).trigger( 'ac-user-logout', email );
     }
 
@@ -181,7 +181,7 @@ export class acUser {
                 console.error( err );
                 target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.resetask_error' ));
             } else {
-                pwiAccounts.Display.asked( AC_PANEL_NONE );
+                pwiAccounts.Displayer.asked( AC_PANEL_NONE );
                 tlTolert.success( i18n.label( AC_I18N, 'user.resetask_success' ));
                 $( '.acUserLogin' ).trigger( 'ac-user-resetasked', mail );
             }
@@ -220,7 +220,7 @@ export class acUser {
                 } else {
                     tlTolert.error( i18n.label( AC_I18N, 'user.verifyask_error' ));
                 }
-                pwiAccounts.Display.asked( AC_PANEL_NONE );
+                pwiAccounts.Displayer.asked( AC_PANEL_NONE );
             });
     }
 }
