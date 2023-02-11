@@ -28,7 +28,7 @@ Template.ac_user_login.helpers({
     },
 
     template(){
-        //console.log( pwiAccounts.Panel.template( pwiAccounts.Panel.asked()));
-        return pwiAccounts.Panel.template( pwiAccounts.Panel.asked());
+        //console.log( pwiAccounts.Display.template( pwiAccounts.Display.asked()));
+        return pwiAccounts.Display.template( pwiAccounts.Display.asked());
     }
 });

@@ -60,8 +60,8 @@ export class acShower {
         self._instance = instance;
 
         // setup the initial panel
-        //pwiAccounts.Panel.asked( self._instance.AC.options.initialPanel(), self._instance.AC.uuid );
-        pwiAccounts.Panel.asked( AC_PANEL_NONE, self._instance.AC.uuid );
+        //pwiAccounts.Display.asked( self._instance.AC.options.initialDisplay(), self._instance.AC.uuid );
+        pwiAccounts.Display.asked( AC_PANEL_NONE, self._instance.AC.uuid );
 
         // if the instance is named, then keep it to be usable later
         const name = self._instance.AC.options.name();
@@ -74,7 +74,7 @@ export class acShower {
         Tracker.autorun(() => {
             if( self.ready()){
                 let show = true;
-                const panel = pwiAccounts.Panel.asked();
+                const panel = pwiAccounts.Display.asked();
                 switch( panel ){
                     case AC_PANEL_NONE:
                         show = false;
@@ -98,7 +98,7 @@ export class acShower {
         // set the modal title depending of the current displayed panel
         Tracker.autorun(() => {
             if( self.ready()){
-                this.modalTitle( pwiAccounts.Panel.modalTitle( pwiAccounts.Panel.asked()));
+                this.modalTitle( pwiAccounts.Display.modalTitle( pwiAccounts.Display.asked()));
             }
         });
 
@@ -196,7 +196,7 @@ export class acShower {
 
     /**
      * Getter/Setter
-     * Panels have their own error messages (e.g. password too short or too weak).
+     * Displays have their own error messages (e.g. password too short or too weak).
      * This method is provided to host error messages returned from the server (e.g. bad credentials).
      * @param {String} msg error msg
      * @returns {String} the current error message

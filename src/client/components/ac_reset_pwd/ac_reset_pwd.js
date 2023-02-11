@@ -87,7 +87,7 @@ Template.ac_reset_pwd.helpers({
 
     // modal title
     title(){
-        return pwiAccounts.Panel.modalTitle( Template.instance().AC.me );
+        return pwiAccounts.Display.modalTitle( Template.instance().AC.me );
     }
 });
 

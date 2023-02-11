@@ -15,7 +15,7 @@ import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
 import '../../common/js/index.js';
 
-export class acPanel {
+export class acDisplay {
 
     // private data
     static Singleton = null;
@@ -106,20 +106,20 @@ export class acPanel {
     /**
      * Constructor
      * @param {String} panel the panel to initialize with, defaulting to 'AC_PANEL_NONE'
-     * @returns {acPanel}
+     * @returns {acDisplay}
      */
     constructor( panel=AC_PANEL_NONE ){
 
-        if( acPanel.Singleton ){
-            console.log( 'pwix:accounts returning already instanciated acPanel' );
-            return acPanel.Singleton;
+        if( acDisplay.Singleton ){
+            console.log( 'pwix:accounts returning already instanciated acDisplay' );
+            return acDisplay.Singleton;
         }
 
-        //console.log( 'pwix:accounts instanciating new acPanel' );
+        //console.log( 'pwix:accounts instanciating new acDisplay' );
 
         this.asked( panel );
 
-        acPanel.Singleton = this;
+        acDisplay.Singleton = this;
         return this;
     }
 
@@ -132,7 +132,7 @@ export class acPanel {
     asked( panel, uuid ){
         if( panel ){
             const previous = this._panel.get();
-            if( Object.keys( acPanel.Knowns ).includes( panel ) && panel !== previous ){
+            if( Object.keys( acDisplay.Knowns ).includes( panel ) && panel !== previous ){
                 // manage reservations
                 if( panel === AC_PANEL_NONE ){
                     this._requester.set( null );
@@ -156,7 +156,7 @@ export class acPanel {
      * @returns {Array} the ordered list of buttons to be displayed for this panel
      */
     buttons( name ){
-        return acPanel.Knowns[name] ? acPanel.Knowns[name].buttons || [] : [];
+        return acDisplay.Knowns[name] ? acDisplay.Knowns[name].buttons || [] : [];
     }
 
     /**
@@ -166,7 +166,7 @@ export class acPanel {
      *  which are not managed here.
      */
     links( name ){
-        return acPanel.Knowns[name] ? acPanel.Knowns[name].links || [] : [];
+        return acDisplay.Knowns[name] ? acDisplay.Knowns[name].links || [] : [];
     }
 
     /**
@@ -174,7 +174,7 @@ export class acPanel {
      * @returns {String} the localized title of the modal which implements the panel, or empty
      */
     modalTitle( name ){
-        const o = acPanel.Knowns[name] ? acPanel.Knowns[name].modal_title || null : null;
+        const o = acDisplay.Knowns[name] ? acDisplay.Knowns[name].modal_title || null : null;
         return o ? i18n.label( AC_I18N, o.i18n ) : '';
     }
 
@@ -199,7 +199,7 @@ export class acPanel {
      * @returns {String} the Blaze template which implements the panel, or empty
      */
     template( name ){
-        return acPanel.Knowns[name] ? acPanel.Knowns[name].template || '' : '';
+        return acDisplay.Knowns[name] ? acDisplay.Knowns[name].template || '' : '';
     }
 
     /**

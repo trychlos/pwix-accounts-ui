@@ -199,7 +199,7 @@ Possible values are true or false, defaulting to true.</b>
 resetPwdTextOne<br />
 resetPwdTextTwo
 </td><td style="vertical-align:top;">
-Panels personalization<br/>
+Displays personalization<br/>
 These options let the application provides its own content before the input fields of the corresponding panel.<br />
 Value is expected to be a string which contains HTML code, or a function which returns such a string.
 </td></tr>
@@ -359,7 +359,7 @@ the normal login/logout workflow. This is accomplished by configuring for displa
 </td></tr>
 
 <tr><td style="vertical-align:top;">
-initialPanel
+initialDisplay
 </td><td>
 Designates the panel to be initially displayed when this 'acUserLogin' template is instanciated.<br />
 Possible values are:
@@ -390,7 +390,7 @@ signupTextThree<br />
 signupTextFour<br />
 verifyAskTextOne
 </td><td style="vertical-align:top;">
-Panels personalization<br/>
+Displays personalization<br/>
 These options let the application provides its own content before the input fields of the corresponding panel.<br />
 Value is expected to be a string which contains HTML code, or a function which returns such a string.
 </td></tr>

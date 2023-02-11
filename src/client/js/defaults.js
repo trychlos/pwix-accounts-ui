@@ -17,10 +17,10 @@ import { pwixI18n as i18n } from 'meteor/pwix:i18n';
  * Properties
  * 
  * - panel: the panel to be displayed at item activation
- *          the function pwiAccounts.Panel.asked() may be called with this argument
+ *          the function pwiAccounts.Display.asked() may be called with this argument
  * 
  * - msgaction: the message to be triggered for simulating the item activation
- *          under the hood, the message handler just calls pwiAccounts.Panel.asked() with the corresponding argument
+ *          under the hood, the message handler just calls pwiAccounts.Display.asked() with the corresponding argument
  */
 _stdMenuItems = {
     AC_LOGGED: [
@@ -149,7 +149,7 @@ defaults = {
             renderMode: AC_RENDER_MODAL,
             signupPasswordTwice: _passwordTwice,
             changePasswordTwice: _passwordTwice,
-            initialPanel: AC_PANEL_NONE,
+            initialDisplay: AC_PANEL_NONE,
             changePwdTextOne: '',
             changePwdTextTwo: '',
             changePwdTextThree: '',
