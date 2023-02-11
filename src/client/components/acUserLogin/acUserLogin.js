@@ -42,6 +42,7 @@ import { acUserLoginOptions } from '../../classes/ac_user_login_options.class.js
 import '../../stylesheets/ac_accounts.less';
 
 import '../ac_dropdown/ac_dropdown.js';
+import '../ac_footer/ac_footer.js';
 import '../ac_modal/ac_modal.js';
 import '../ac_user_login/ac_user_login.js';
 
@@ -264,17 +265,18 @@ Template.acUserLogin.events({
         }
     },
 
-    // usually sent from acMenuItems, including this requester and
+    // usually sent from acMenuItems, including this requester and requested panel
+    // Flow is: acMenuItems -> IDisplayer -> here -> acUserLoginCompanion -> IDisplayer
     'ac-panel-changepwd-event .acUserLogin'( event, instance, data ){
-        instance.AC.companion.handleEvent( event, data );
+        return !instance.AC.companion.handleEvent( event, data );
     },
 
     'ac-panel-signout-event .acUserLogin'( event, instance, data ){
-        instance.AC.companion.handleEvent( event, data );
+        return !instance.AC.companion.handleEvent( event, data );
     },
 
     'ac-panel-verifyask-event .acUserLogin'( event, instance, data ){
-        instance.AC.companion.handleEvent( event, data );
+        return !instance.AC.companion.handleEvent( event, data );
     },
 
     // transition advertising

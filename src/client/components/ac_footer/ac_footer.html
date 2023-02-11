@@ -1,0 +1,23 @@
+<template name="ac_footer">
+    <div class="ac-footer flex-grow-1 d-flex justify-content-start align-items-center">
+
+        <div class="ac-left flex-grow-1">
+            <div class="d-flex justify-content-start align-items-center">
+                {{#each link in links }}
+                    {{#if haveLink link }}
+                        <div class="ac-link">
+                            <a href="#" data-ac-target="{{ linkTarget link }}">{{ linkLabel link }}</a>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
+        </div>
+    
+        <div class="ac-right d-flex justify-content-end align-items-center">
+            {{#each btn in buttons }}
+                <button type="button" class="btn {{ btnClass btn }}">{{ btnLabel btn }}</button>
+            {{/each}}
+        </div>
+
+    </div>
+</template>

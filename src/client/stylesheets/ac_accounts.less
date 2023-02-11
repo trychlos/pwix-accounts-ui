@@ -4,14 +4,12 @@
 
 @import "{pwix:layout}/src/client/css/ui_layout.less";
 
-.acUserLogin,
-.acSelect,
-.ac-reset-pwd {
+body {
     line-height: var( --bs-body-line-height );
     color: inherit;
     background-color: inherit;
     border-color: inherit;
-
+    
     .ac-border {
         border-top: solid 1px gray;
     }
@@ -36,6 +34,7 @@
             margin-top: 0.5em;
         }
     }
+    .ac-footer,
     .ac-footer-buttons {
         @media screen and ( max-width: @ui-sm-width ){
             flex-wrap: wrap;
@@ -134,8 +133,10 @@
 }
 
 // Prevent the Bootstrap backdrop modal to be displayed
+/*
 body.modal-open.ac-modal-class {
     .modal-backdrop.show {
         display: none;
     }
 } 
+*/

@@ -23,6 +23,8 @@
  *  back.
  */
 
+import { pwixModal } from 'meteor/pwix:modal';
+
 import { IDisplayRequester } from './idisplay-requester.interface.js';
 import { acEvent } from './ac_event.class.js';
 import { acPanel } from './ac_panel.class.js';
@@ -60,11 +62,11 @@ export class IDisplayer {
 
     /**
      * @summary Common event handler
-     * 
+     *
      *  Default is to redirect the event if possible:
      *  - either because the event itself provides a requester detail
      *  - either because an identified requester as asked for the display
-     * 
+     *
      * [-implementation Api-]
      */
     v_handler( event ){
@@ -96,14 +98,24 @@ export class IDisplayer {
         if( requester && !( requester.IDisplayRequester && requester.IDisplayRequester instanceof IDisplayRequester )){
             throw new Error( 'not a IDisplayRequester instance', requester );
         }
-        acPanel.validate( panel );
         // if we already have a requester for the display, then refuse the request
         if( this._requester ){
             return false;
         }
-        // the requester may be null if the caller doesn't care of receiving events
-        this._requester = requester || ANONYMOUS;
-        return true;
+        if( panel ){
+            // the requester may be null if the caller doesn't care of receiving events
+            this._requester = requester || ANONYMOUS;
+            // show the panel (at last...)
+            pwixModal.run({
+                mdTemplate: acPanel.template( panel ),
+                mdTitle: acPanel.title( panel ),
+                mdTarget : requester ? requester.IDisplayRequester.target() : null,
+                mdFooter: 'ac_footer',
+                ...opts
+            });
+            return true;
+        }
+        return false;
     }
 
     /**

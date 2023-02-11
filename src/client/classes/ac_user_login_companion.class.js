@@ -9,6 +9,7 @@ import { Random } from 'meteor/random';
 
 import { IDisplayRequester } from './idisplay-requester.interface.js';
 import { Interface } from './interface.class';
+import { acPanel } from './ac_panel.class.js';
 
 export class acUserLoginCompanion {
 
@@ -46,11 +47,19 @@ export class acUserLoginCompanion {
     //
 
     /*
+     * @returns {String} A unique identifier
+     * [-IDisplayRequester implementation-]
+     */
+    _idisplayrequesterId(){
+        return this.id();
+    }
+
+    /*
      * @returns {Object} the jQuery object which will receive the events
      * [-IDisplayRequester implementation-]
      */
     _idisplayrequesterTarget(){
-        console.debug( 'acUserLoginCompanion._idisplayrequesterTarget()' );
+        //console.debug( 'acUserLoginCompanion._idisplayrequesterTarget()' );
         return this.ready() ? this._instance.$( this.jqSelector()) : null;
     }
 
@@ -80,6 +89,7 @@ export class acUserLoginCompanion {
         }
 
         Interface.add( this, IDisplayRequester, {
+            v_id: this._idisplayrequesterId,
             v_target: this._idisplayrequesterTarget
         });
 
@@ -123,6 +133,17 @@ export class acUserLoginCompanion {
      *  This returned value may be used by the caller to allow - or not - the default event handling...
      */
     handleEvent( event, data ){
+        if( data.requester && data.requester.IDisplayRequester && data.requester.IDisplayRequester instanceof IDisplayRequester ){
+            if( data.requester.IDisplayRequester.id() !== this.id()){
+                console.log( 'cowardly refusing to handle an event for someone else', data, this );
+                return false;
+            }
+        }
+        if( data.panel ){
+            acPanel.validate( data.panel );
+            return pwiAccounts.Displayer.IDisplayer.ask( this, data.panel, data );
+        }
+        return false;
     }
 
     /**
@@ -137,6 +158,13 @@ export class acUserLoginCompanion {
      */
     jqSelector(){
         return this._jqSelector;
+    }
+
+    /**
+     * @returns {Object} the acUserLoginOptions from the acUserLogin Blaze template instance
+     */
+    opts(){
+        return this._instance.AC.options;
     }
 
     /**

@@ -2,6 +2,8 @@
  * /src/client/classes/ac_panel.class.js
  */
 
+import { pwixI18n as i18n } from 'meteor/pwix:i18n';
+
 export class acPanel {
 
     // static data
@@ -84,6 +86,41 @@ export class acPanel {
     //
 
     /**
+     * @param {String} name the name of the panel
+     * @returns {Array} the ordered list of buttons to be displayed for this panel
+     */
+    static buttons( name ){
+        return acPanel.Panels[name] ? acPanel.Panels[name].buttons || [] : [];
+    }
+
+    /**
+     * @param {String} name the name of the panel
+     * @returns {Array} the ordered list of links to be displayed for this panel
+     * Note that whether these links will be actually displayed also depends of configuration options
+     *  which are not managed here.
+     */
+    static links( name ){
+        return acPanel.Panels[name] ? acPanel.Panels[name].links || [] : [];
+    }
+
+    /**
+     * @param {String} name the name of the panel
+     * @returns {String} the Blaze template which implements the panel, or empty
+     */
+    static template( name ){
+        return acPanel.Panels[name] ? acPanel.Panels[name].template || '' : '';
+    }
+
+    /**
+     * @param {String} name the name of the panel
+     * @returns {String} the localized title of the modal which implements the panel, or empty
+     */
+    static title( name ){
+        const o = acPanel.Panels[name] ? acPanel.Panels[name].modal_title || null : null;
+        return o ? i18n.label( AC_I18N, o.i18n ) : '';
+    }
+
+    /**
      * Validate that the provided panel is a valid one, i.e. a known, non-empty, string.
      * @throws {Error}
      */
@@ -91,7 +128,7 @@ export class acPanel {
         if( !panel ){
             throw new Error( 'empty panel name' );
         }
-        if( !acPanel.Panels.includes( panel )){
+        if( !Object.keys( acPanel.Panels ).includes( panel )){
             throw new Error( 'unknown panel', panel );
         }
     }
@@ -163,33 +200,6 @@ export class acPanel {
     }
 
     /**
-     * @param {String} name the name of the panel
-     * @returns {Array} the ordered list of buttons to be displayed for this panel
-     */
-    buttons( name ){
-        return acPanel.Panels[name] ? acPanel.Panels[name].buttons || [] : [];
-    }
-
-    /**
-     * @param {String} name the name of the panel
-     * @returns {Array} the ordered list of links to be displayed for this panel
-     * Note that whether these links will be actually displayed also depends of configuration options
-     *  which are not managed here.
-     */
-    links( name ){
-        return acPanel.Panels[name] ? acPanel.Panels[name].links || [] : [];
-    }
-
-    /**
-     * @param {String} name the name of the panel
-     * @returns {String} the localized title of the modal which implements the panel, or empty
-     */
-    modalTitle( name ){
-        const o = acPanel.Panels[name] ? acPanel.Panels[name].modal_title || null : null;
-        return o ? i18n.label( AC_I18N, o.i18n ) : '';
-    }
-
-    /**
      * @returns {String} the previous panel
      */
     previous(){
@@ -203,14 +213,6 @@ export class acPanel {
     requesterAllowed( uuid ){
         const requester = this._requester.get();
         return !requester || requester === uuid;
-    }
-
-    /**
-     * @param {String} name the name of the panel
-     * @returns {String} the Blaze template which implements the panel, or empty
-     */
-    template( name ){
-        return acPanel.Panels[name] ? acPanel.Panels[name].template || '' : '';
     }
 
     /**

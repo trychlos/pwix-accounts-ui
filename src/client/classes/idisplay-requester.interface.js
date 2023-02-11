@@ -24,7 +24,15 @@ export class IDisplayRequester {
        *** *************************************************************************************** */
 
     /**
-     * Provides the events target.
+     * @returns {String} A IDisplayRequester unique identifier
+     * [-implementation Api-]
+     */
+    v_id(){
+        return null;
+    }
+
+    /**
+     * @summary Provides the events target.
      * @returns {Object} the jQuery object which acts as the receiver of the events.
      * [-implementation Api-]
      */
@@ -38,7 +46,15 @@ export class IDisplayRequester {
        *** *************************************************************************************** */
 
     /**
-     * Provides the events target.
+     * @returns {String} The IDisplayRequester unique identifier.
+     * [-Public Api-]
+     */
+    id(){
+        return this.v_id();
+    }
+
+    /**
+     * @summary Provides the events target.
      * @returns {Object} the jQuery object which acts as the receiver of the event.
      * [-Public Api-]
      */
