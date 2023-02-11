@@ -27,7 +27,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import '../../../common/js/index.js';
 
-import { acShower } from '../../classes/ac_display.class.js';
+import { acShower } from '../../classes/ac_shower.class.js';
 import { acOptionsUserLogin } from '../../classes/ac_options_user_login.class.js';
 
 import '../../stylesheets/ac_accounts.less';

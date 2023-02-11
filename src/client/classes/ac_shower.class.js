@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/classes/ac_display.class.js
+ * pwix:accounts/src/client/classes/ac_shower.class.js
  *
  * This class manages the display of all login/logout dialogs.
  * The instance is attached to the 'acUserLogin' template, thus available to each and every child template.

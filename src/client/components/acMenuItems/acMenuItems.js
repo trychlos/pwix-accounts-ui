@@ -14,7 +14,7 @@
 
 import '../../../common/js/index.js';
 
-import { acShower } from '../../classes/ac_display.class.js';
+import { acShower } from '../../classes/ac_shower.class.js';
 
 import './acMenuItems.html';
 
