@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/classes/ac_options_user_login.class.js
+ * pwix:accounts/src/client/classes/ac_user_login_options.class.js
  *
  * This class manages the acUserLogin configuration options.
  */
@@ -8,7 +8,7 @@ import { pwixOptions } from 'meteor/pwix:options';
 
 import { acPanel } from './ac_panel.class.js';
 
-export class acOptionsUserLogin extends pwixOptions.Options {
+export class acUserLoginOptions extends pwixOptions.Options {
 
     // static data
     //
@@ -50,11 +50,11 @@ export class acOptionsUserLogin extends pwixOptions.Options {
      * All options are accepted as long as the corresponding getter/setter method exists in this derived class.
      * 
      * @param {Object} options the options to be managed
-     * @returns {acOptionsUserLogin}
+     * @returns {acUserLoginOptions}
      */
     constructor( options ){
         super( options );
-        console.log( 'pwix:accounts instanciating acOptionsUserLogin', options );
+        console.log( 'pwix:accounts instanciating acUserLoginOptions', options );
         return this;
     }
 
@@ -112,7 +112,7 @@ export class acOptionsUserLogin extends pwixOptions.Options {
      * @returns {String}
      */
     loggedButtonAction( action ){
-        return this.getset_String_Fn_Object( 'loggedButtonAction', action, { default: defaults.acUserLogin.loggedButtonAction, ref: acOptionsUserLogin.Actions });
+        return this.getset_String_Fn_Object( 'loggedButtonAction', action, { default: defaults.acUserLogin.loggedButtonAction, ref: acUserLoginOptions.Actions });
     }
 
     /**
@@ -179,7 +179,7 @@ export class acOptionsUserLogin extends pwixOptions.Options {
      * @returns {String} the rendering mode
      */
     renderMode( mode ){
-        return this.getset_String_Fn_Object( 'renderMode', mode, { default: defaults.acUserLogin.renderMode, ref: acOptionsUserLogin.RenderModes });
+        return this.getset_String_Fn_Object( 'renderMode', mode, { default: defaults.acUserLogin.renderMode, ref: acUserLoginOptions.RenderModes });
     }
 
     /**
@@ -335,7 +335,7 @@ export class acOptionsUserLogin extends pwixOptions.Options {
      * @returns {String}
      */
     unloggedButtonAction( action ){
-        return this.getset_String_Fn_Object( 'unloggedButtonAction', action, { default: defaults.acUserLogin.unloggedButtonAction, ref: acOptionsUserLogin.Actions });
+        return this.getset_String_Fn_Object( 'unloggedButtonAction', action, { default: defaults.acUserLogin.unloggedButtonAction, ref: acUserLoginOptions.Actions });
     }
 
     /**

@@ -12,7 +12,7 @@
  *   > acUser is a singleton attached to the global 'pwiAccounts' object, and interfaces the user status.
  * 
  * - local classes:
- *   > acOptionsUserLogin the configuration options provided by the caller (or their defaults)
+ *   > acUserLoginOptions the configuration options provided by the caller (or their defaults)
  *   > acUserLoginCompanion a companion class which glues together this Blaze template instance with classes and interfaces
  * 
  * - acShower is attached to each and every 'acUserLogin' template, and manages the display of the fields
@@ -27,7 +27,7 @@
  * weird display.
  * 
  * The template is instanciated here (and potentially several times as explained above), and uniquely identified by its uuid.
- * The acShower and acOptionsUserLogin objects are attached to this instance.
+ * The acShower and acUserLoginOptions objects are attached to this instance.
  * The instance is then passed as a parameter to each and every child template.
  */
 
@@ -37,7 +37,7 @@ import '../../../common/js/index.js';
 
 import { acShower } from '../../classes/ac_shower.class.js';
 import { acUserLoginCompanion } from '../../classes/ac_user_login_companion.class.js';
-import { acOptionsUserLogin } from '../../classes/ac_options_user_login.class.js';
+import { acUserLoginOptions } from '../../classes/ac_user_login_options.class.js';
 
 import '../../stylesheets/ac_accounts.less';
 
@@ -72,7 +72,7 @@ Template.acUserLogin.onCreated( function(){
     console.log( 'pwix:accounts instanciating acUserLogin', self.AC.uuid );
 
     // instanciates the options manager
-    self.AC.options = new acOptionsUserLogin({
+    self.AC.options = new acUserLoginOptions({
         ...defaults.acUserLogin,
         ...Template.currentData()
     });
