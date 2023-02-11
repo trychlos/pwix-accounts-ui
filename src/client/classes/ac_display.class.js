@@ -1,5 +1,5 @@
 /*
- * /src/client/classes/ac_panel.class.js
+ * /src/client/classes/ac_display.class.js
  *
  * This class manages the requested panel as a singleton, as all 'acUserLogin' instanciated templates must share the same viewport.
  * As a consequence, they must support each other so that only one acUserLogin template displays a panel at each moment.

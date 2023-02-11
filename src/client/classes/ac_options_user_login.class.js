@@ -6,7 +6,7 @@
 
 import { pwixOptions } from 'meteor/pwix:options';
 
-import { acDisplay } from './ac_panel.class.js';
+import { acDisplay } from './ac_display.class.js';
 
 export class acOptionsUserLogin extends pwixOptions.Options {
 

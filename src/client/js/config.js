@@ -5,7 +5,7 @@
  * - attach the acUser singleton as User to pwiAccounts
  */
 
-import { acDisplay } from '../classes/ac_panel.class.js';
+import { acDisplay } from '../classes/ac_display.class.js';
 import { acUser } from '../classes/ac_user.class.js';
 
 pwiAccounts = {
