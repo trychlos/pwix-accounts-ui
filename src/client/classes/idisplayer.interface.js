@@ -43,6 +43,12 @@ export class IDisplayer {
     constructor( instance ){
         console.debug( 'IDisplayer instanciation' );
         this._instance = instance;
+
+        // install the general events handler
+        acEvent.enumerate(( name ) => {
+            document.addEventListener( name, this.v_handler );
+        });
+
         return this;
     }
 
@@ -55,7 +61,13 @@ export class IDisplayer {
      * [-implementation Api-]
      */
     v_handler( event ){
-        console.debug( 'IDisplayer.v_handler()', event );
+        //console.debug( 'IDisplayer.v_handler()', event );
+        const requester = event.detail.requester;
+        //console.log( requester );
+        if( requester && requester.IDisplayRequester && requester.IDisplayRequester instanceof IDisplayRequester ){
+            //console.log( 'redirecting to', requester.IDisplayRequester.target());
+            requester.IDisplayRequester.target().trigger( event.type, event.detail );
+        }
     }
 
     /* *** ***************************************************************************************
@@ -92,14 +104,9 @@ export class IDisplayer {
      *  So MUST be an object
      * [-Public API-]
      */
-    trigger( event ){
+    trigger( event, parms={} ){
         acEvent.validate( event );
-        let _args = [ ...arguments ];
-        _args.shift();
-        let _data = {
-            bubbles: true,
-            detail: { ..._args }
-        };
-        document.body.dispatchEvent( new CustomEvent( event, _data ));
+        //console.log( event, _data );
+        document.body.dispatchEvent( new CustomEvent( event, { bubbles: true, detail: parms }));
     }
 }

@@ -8,7 +8,6 @@
 
 import { IDisplayer } from './idisplayer.interface.js';
 import { Interface } from './interface.class';
-import { acEvent } from './ac_event.class.js';
 
 export class acDisplayer {
 
@@ -42,13 +41,9 @@ export class acDisplayer {
             console.log( 'pwix:accounts returning already instanciated acDisplayer' );
             return acDisplayer.Singleton;
         }
-        //console.log( 'pwix:accounts instanciating new acDisplayer' );
+        console.log( 'pwix:accounts instanciating new acDisplayer' );
 
         Interface.add( this, IDisplayer, {
-        });
-
-        acEvent.enumerate(( name ) => {
-            document.addEventListener( name, this.v_handler );
         });
 
         acDisplayer.Singleton = this;

@@ -31,7 +31,7 @@ _stdMenuItems = {
             labelkey: 'signout',
             enablefn: _enableAlways,
             panel: 'SIGNOUT',
-            msgaction: 'ac-panel-signout'
+            msgaction: 'ac-panel-signout-event'
         },
         {
             id: 'ac-changepwd-item',
@@ -40,7 +40,7 @@ _stdMenuItems = {
             labelkey: 'changepwd',
             enablefn: _enableAlways,
             panel: 'CHANGEPWD',
-            msgaction: 'ac-panel-changepwd'
+            msgaction: 'ac-panel-changepwd-event'
         },
         {
             id: 'ac-verifyask-item',
@@ -49,7 +49,7 @@ _stdMenuItems = {
             labelkey: 'verifyask',
             enablefn: _enableMailVerified,
             panel: 'VERIFYASK',
-            msgaction: 'ac-panel-verifyask'
+            msgaction: 'ac-panel-verifyask-event'
         }
     ],
     AC_UNLOGGED: [
@@ -60,7 +60,7 @@ _stdMenuItems = {
             labelkey: 'signin',
             enablefn: _enableAlways,
             panel: 'SIGNIN',
-            msgaction: 'ac-panel-signin'
+            msgaction: 'ac-panel-signin-event'
         },
         {
             id: 'ac-signup-item',
@@ -69,7 +69,7 @@ _stdMenuItems = {
             labelkey: 'signup',
             enablefn: _enableAlways,
             panel: 'SIGNUP',
-            msgaction: 'ac-panel-signup'
+            msgaction: 'ac-panel-signup-event'
         },
         {
             id: 'ac-resetask-item',
@@ -78,7 +78,7 @@ _stdMenuItems = {
             labelkey: 'resetask',
             enablefn: _enableAlways,
             panel: 'RESETASK',
-            msgaction: 'ac-panel-resetask'
+            msgaction: 'ac-panel-resetask-event'
         },
     ]
 };

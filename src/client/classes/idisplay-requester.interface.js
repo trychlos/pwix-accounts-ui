@@ -25,7 +25,7 @@ export class IDisplayRequester {
 
     /**
      * Provides the events target.
-     * @returns {Object} the jQuery object which acts as the receiver of the events sent by the IDisplayable.
+     * @returns {Object} the jQuery object which acts as the receiver of the events.
      * [-implementation Api-]
      */
     v_target(){
@@ -36,4 +36,13 @@ export class IDisplayRequester {
     /* *** ***************************************************************************************
        *** The public API, i.e; the API anyone may call to access the interface service        ***
        *** *************************************************************************************** */
+
+    /**
+     * Provides the events target.
+     * @returns {Object} the jQuery object which acts as the receiver of the event.
+     * [-Public Api-]
+     */
+    target(){
+        return this.v_target();
+    }
 }

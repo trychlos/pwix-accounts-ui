@@ -9,6 +9,7 @@ import { Tracker } from 'meteor/tracker';
 
 import { acDisplayer } from '../classes/ac_displayer.class.js';
 import { acUser } from '../classes/ac_user.class.js';
+import { IDisplayer } from '../classes/idisplayer.interface.js';
 
 _ready = {
     dep: new Tracker.Dependency(),
@@ -33,3 +34,6 @@ pwiAccounts = {
         }
     }
 }
+
+console.log( 'pwiAccounts.Displayer instanceof acDisplayer', pwiAccounts.Displayer instanceof acDisplayer );
+console.log( 'pwiAccounts.Displayer instanceof IDisplayer', pwiAccounts.Displayer instanceof IDisplayer );

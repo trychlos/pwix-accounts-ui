@@ -18,7 +18,7 @@
 
 import '../../../common/js/index.js';
 
-import { acShower } from '../../classes/ac_shower.class.js';
+import { acUserLoginCompanion } from '../../classes/ac_user_login_companion.class.js';
 
 import './acMenuItems.html';
 
@@ -26,15 +26,17 @@ Template.acMenuItems.onCreated( function(){
     const self = this;
 
     self.AC = {
-        display: new ReactiveVar( null )
+        aculInstance: new ReactiveVar( null )
     };
 
+    // does our best to get a acUserLogin Blaze template instance which is expected to main a menu configuration
+    //  if not able to, then rely on standard options only
     self.autorun(() => {
         const dataContext = Template.currentData();
         if( Object.keys( dataContext ).includes( 'name' )){
-            self.AC.display.set( acShower.byName( dataContext.name ));
+            self.AC.aculInstance.set( acUserLoginCompanion.byName( dataContext.name ));
         } else {
-            self.AC.display.set( dataContext.aculInstance.AC.display );
+            self.AC.aculInstance.set( dataContext.aculInstance );
         }
     });
 });
@@ -43,7 +45,7 @@ Template.acMenuItems.onRendered( function(){
     const self = this;
 
     // a small note for the maintainer!
-    //  the acShower dynItemsBefore/Standard/After() returns the button content as a HTML string
+    //  the acUserLoginCompanion dynItemsBefore/Standard/After() returns the button content as a HTML string
     //  first try has been to use a triple-braces helper '{{{ buttonContent }}}' to feed the data into the DOM
     //  it happens that this doesn't work as each content update seems to be added to the previous content
     //  visual effect is for example to have several user icons :(
@@ -55,26 +57,31 @@ Template.acMenuItems.onRendered( function(){
     //  This solution, as a one-line jQuery which doesn't use Blaze helpers, works well.
     self.autorun(() => {
         const menu = self.$( '.acMenuItems' );
-        const display = self.AC.display.get();
-        if( display && menu ){
-            let result = [];
-            const before = display.dynItemsBefore();
-            before.every(( it ) => {
-                result.push( it );
-                return true;
-            });
-            const std = display.dynItemsStandard();
+        const aculInstance = self.AC.aculInstance.get();
+        const companion = aculInstance && aculInstance.AC ? aculInstance.AC.companion : null;
+        if( menu ){
+            ddItems = [];
+            if( companion ){
+                const before = companion.dynItemsBefore();
+                before.every(( it ) => {
+                    ddItems.push( it );
+                    return true;
+                });
+            }
+            const std = pwiAccounts.dropdownItems();
             std.every(( it ) => {
-                result.push( it );
+                ddItems.push( it );
                 return true;
             });
-            const after = display.dynItemsAfter();
-            after.every(( it ) => {
-                result.push( it );
-                return true;
-            });
+            if( companion ){
+                const after = companion.dynItemsAfter();
+                after.every(( it ) => {
+                    ddItems.push( it );
+                    return true;
+                });
+            }
             let html = '';
-            result.every(( it ) => {
+            ddItems.every(( it ) => {
                 html += '<li>'+it+'</li>\n';
                 return true;
             });
@@ -89,7 +96,10 @@ Template.acMenuItems.events({
         const msg = $( event.currentTarget ).attr( 'data-ac-msg' );
         if( msg ){
             console.log( 'triggering', msg );
-            $( event.currentTarget ).trigger( msg );
+            //$( event.currentTarget ).trigger( msg );
+            const aculInstance = instance.AC.aculInstance.get();
+            const companion = aculInstance && aculInstance.AC ? aculInstance.AC.companion : null;
+            pwiAccounts.Displayer.IDisplayer.trigger( msg, { requester: companion });
         }
     }
 });

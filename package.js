@@ -59,6 +59,7 @@ function configure( api ){
     api.use( 'pwix:layout', 'client' );
     api.use( 'pwix:options' );
     api.use( 'pwix:tolert', 'client' );
+    api.use( 'random', 'client' );
     api.use( 'tmeasday:check-npm-versions@1.0.2', 'server' );
     api.addFiles( 'src/client/components/acMenuItems/acMenuItems.js', 'client' );
     api.addFiles( 'src/client/components/acSelect/acSelect.js', 'client' );

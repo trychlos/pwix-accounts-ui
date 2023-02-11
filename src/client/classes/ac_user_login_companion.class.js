@@ -2,7 +2,13 @@
  * pwix:accounts/src/client/classes/ac_user_login_companion.class.js
  *
  * A companion class for the 'acUserLogin' Blaze template.
+ * Implements the IDisplayRequester interface.
  */
+
+import { Random } from 'meteor/random';
+
+import { IDisplayRequester } from './idisplay-requester.interface.js';
+import { Interface } from './interface.class';
 
 export class acUserLoginCompanion {
 
@@ -12,19 +18,46 @@ export class acUserLoginCompanion {
     // keep here a list of all instanciated named objects
     static NamedInstances = {};
 
+    // static methods
+    //
+
+    /**
+     * @param {String} name the searched name
+     * @returns {acUserLoginCompanion} the corresponding acUserLoginCompanion instance, or null
+     */
+    static byName( name ){
+        return acUserLoginCompanion.NamedInstances.name || null;
+    }
+
     // private data
     //
 
-    // the acUserLogin template instance
+    // a unique identifier for this instance
+    _id = null;
+
+    // the acUserLogin template instance and its jQuery selector
     _instance = null;
+    _jqSelector = null;
 
     // whether the DOM is ready
     _ready = new ReactiveVar( false );
 
-    // private functions
+    // private methods
     //
 
+    /*
+     * @returns {Object} the jQuery object which will receive the events
+     * [-IDisplayRequester implementation-]
+     */
+    _idisplayrequesterTarget(){
+        console.debug( 'acUserLoginCompanion._idisplayrequesterTarget()' );
+        return this.ready() ? this._instance.$( this.jqSelector()) : null;
+    }
+
     // public data
+    //
+
+    // public methods
     //
 
     /**
@@ -35,7 +68,10 @@ export class acUserLoginCompanion {
     constructor( instance ){
         const self = this;
         console.log( 'pwix:accounts instanciating acUserLoginCompanion', instance );
+
+        self._id = Random.id();
         self._instance = instance;
+        self._jqSelector = '.acUserLogin#'+self._id;
 
         // if the instance is named, then keep it to be usable later
         const name = self._instance.AC.options.name();
@@ -43,96 +79,51 @@ export class acUserLoginCompanion {
             acUserLoginCompanion.NamedInstances.name = self;
         }
 
-        return this;
-    }
+        Interface.add( this, IDisplayRequester, {
+            v_target: this._idisplayrequesterTarget
+        });
 
-    /**
-     * static
-     * @param {String} name the searched name
-     * @returns {acUserLoginCompanion} the corresponding acUserLoginCompanion instance, or null
-     */
-    static byName( name ){
-        return acUserLoginCompanion.NamedInstances.name || null;
+        return this;
     }
 
     /**
      * @returns {Array} an array of items as the <li>...</li> inner HTML strings
      */
     dynItemsAfter(){
-        const state = pwiAccounts.User.state();
-        let items = null;
-        switch( state ){
+        switch( pwiAccounts.User.state()){
             case AC_LOGGED:
-                items = this._instance.AC.options.loggedItemsAfter();
-                break;
+                return this._instance.AC.options.loggedItemsAfter();
             case AC_UNLOGGED:
-                items = this._instance.AC.options.unloggedItemsAfter();
-                break;
+                return this._instance.AC.options.unloggedItemsAfter();
         }
-        let res = [];
-        if( items ){
-            if( typeof items === 'string' ){
-                res.push( items );
-            } else if( Array.isArray( items )){
-                res = items;
-            } else if( typeof items === 'function' ){
-                const res_items = items();
-                if( typeof res_items === 'string' ){
-                    res.push( res_items );
-                } else if( Array.isArray( res_items )){
-                    res = res_items;
-                } else {
-                    console.error( '[dynItemsAfter] invalid function returned value while expecting string, array or function', res_items );
-                }
-            } else {
-                console.error( '[dynItemsAfter] invalid value while expecting string, array or function', items );
-            }
-        }
-        //console.log( 'dynItemsAfter', res );
-        return res;
+        return [];
     }
 
     /**
      * @returns {Array} an array of items as the <li>...</li> inner HTML strings
      */
     dynItemsBefore(){
-        const state = pwiAccounts.User.state();
-        let items = null;
-        switch( state ){
+        switch( pwiAccounts.User.state()){
             case AC_LOGGED:
-                items = this._instance.AC.options.loggedItemsBefore();
-                break;
+                return this._instance.AC.options.loggedItemsBefore();
             case AC_UNLOGGED:
-                items = this._instance.AC.options.unloggedItemsBefore();
-                break;
+                return this._instance.AC.options.unloggedItemsBefore();
         }
-        let res = [];
-        if( items ){
-            if( typeof items === 'string' ){
-                res.push( items );
-            } else if( Array.isArray( items )){
-                res = items;
-            } else if( typeof items === 'function' ){
-                const res_items = items();
-                if( typeof res_items === 'string' ){
-                    res.push( res_items );
-                } else if( Array.isArray( res_items )){
-                    res = res_items;
-                } else {
-                    console.error( '[dynItemsBefore] invalid function returned value while expecting string, array or function', res_items );
-                }
-            } else {
-                console.error( '[dynItemsBefore] invalid value while expecting string, array or function', items );
-            }
-        }
-        return res;
+        return [];
     }
 
     /**
-     * @returns {Array} an array of items as the <li>...</li> inner HTML strings
+     * @returns {String} the unique identifier of this instance
      */
-    dynItemsStandard(){
-        return pwiAccounts.dropdownItems();
+    id(){
+        return this._id;
+    }
+
+    /**
+     * @returns {Object} the jQuery selector for this instance
+     */
+    jqSelector(){
+        return this._jqSelector;
     }
 
     /**

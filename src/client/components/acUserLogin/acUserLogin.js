@@ -52,9 +52,9 @@ Template.acUserLogin.onCreated( function(){
 
     self.AC = {
         companion: null,
-        display: null,
+        display: null,      // to be obsoleted
         options: null,
-        uuid: uuidv4(),
+        uuid: uuidv4(),     // to be obsoleted
 
         // whether this template instance is to display a dropdown button ?
         hasDropdown(){
@@ -71,7 +71,7 @@ Template.acUserLogin.onCreated( function(){
 
     console.log( 'pwix:accounts instanciating acUserLogin', self.AC.uuid );
 
-    // instanciates the options manager
+    // first instanciates the options manager
     self.AC.options = new acUserLoginOptions({
         ...defaults.acUserLogin,
         ...Template.currentData()
@@ -88,18 +88,18 @@ Template.acUserLogin.onRendered( function(){
     const self = this;
     console.log( 'onRendered', this );
 
-    // make the acShower 'ready' as soon as the DOM is itself ready
+    // make the acUserLoginCompanion 'ready' as soon as the DOM is itself ready
     //  thanks to Blaze rendering mechanisms, this toplevel template is the last to be rendered
     const intervalId = setInterval(() => {
-        const div = self.$( '.acUserLogin#'+self.AC.uuid );
+        const div = self.$( self.AC.companion.jqSelector());
         if( div.length > 0 ){
-            self.AC.display.ready( true );
+            self.AC.companion.ready( true );
             clearInterval( intervalId );
         }
     }, 15 );
 
     // setup the initial panel only when the template is rendered
-    pwiAccounts.Displayer.asked( self.AC.options.initialPanel(), self.AC.uuid );
+    //pwiAccounts.Displayer.asked( self.AC.options.initialPanel(), self.AC.uuid );
 });
 
 Template.acUserLogin.helpers({
@@ -115,14 +115,14 @@ Template.acUserLogin.helpers({
         return Template.instance().AC.hasDropdown();
     },
 
+    // set a unique id on the acUserLogin div
+    id(){
+        return Template.instance().AC.companion.id();
+    },
+
     // whether the display must be rendered as a modal one ?
     modal(){
         return Template.instance().AC.modal();
-    },
-
-    // set a unique id on the acUserLogin div
-    uuid(){
-        return Template.instance().AC.uuid;
     }
 });
 
@@ -262,6 +262,10 @@ Template.acUserLogin.events({
             pwiAccounts.Displayer.asked( AC_PANEL_VERIFYASK, instance.AC.uuid );
             return false;
         }
+    },
+
+    'ac-panel-signout-event/ac-panel-changepwd-event/ac-panel-verifyask-event .acUserLogin'( event, instance, data ){
+        console.log( event, data );
     },
 
     // transition advertising
