@@ -2,7 +2,7 @@
  * pwix:accounts/src/client/components/ac_change_pwd/ac_change_pwd.js
  * 
  * Parms:
- *  - aculInstance: the acUserLogin template instance
+ *  - requester: the acUserLoginCompanion object
  */
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
@@ -33,7 +33,7 @@ Template.ac_change_pwd.onRendered( function(){
 Template.ac_change_pwd.helpers({
     // error message
     errorMsg(){
-        return this.aculInstance.AC.display.errorMsg();
+        return pwiAccounts.Displayer.errorMsg();
     },
 
     // parameters for the password input
@@ -53,17 +53,17 @@ Template.ac_change_pwd.helpers({
 
     // the text before the old password
     textOne(){
-        return this.aculInstance.AC.options.changePwdTextOne();
+        return this.requester.opts().changePwdTextOne();
     },
 
     // the text between old and new passwords
     textTwo(){
-        return this.aculInstance.AC.options.changePwdTextTwo();
+        return this.requester.opts().changePwdTextTwo();
     },
 
     // the text after new passwords
     textThree(){
-        return this.aculInstance.AC.options.changePwdTextThree();
+        return this.requester.opts().changePwdTextThree();
     }
 });
 

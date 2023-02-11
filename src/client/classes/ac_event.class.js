@@ -9,9 +9,7 @@ export class acEvent {
 
     // the known events
     static Events = [
-        // display change and transition
-        'ac-panel-event',
-        'ac-panel-none-event',
+        // displayed panels
         'ac-panel-changepwd-event',
         'ac-panel-resetask-event',
         'ac-panel-resetpwd-event',
@@ -19,7 +17,6 @@ export class acEvent {
         'ac-panel-signout-event',
         'ac-panel-signup-event',
         'ac-panel-verifyask-event',
-        'ac-panel-transition-event',
         // user status changes
         'ac-user-changedpwd-event',
         'ac-user-created-event',
@@ -28,7 +25,9 @@ export class acEvent {
         'ac-user-resetasked-event',
         'ac-user-resetdone-event',
         'ac-user-verifyasked-event',
-        'ac-user-verified-event'
+        'ac-user-verified-event',
+        // when the modal is about to close
+        'md-modal-close'
     ];
 
     // static methods

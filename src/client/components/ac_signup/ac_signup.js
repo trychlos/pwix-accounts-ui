@@ -2,7 +2,7 @@
  * pwix:accounts/src/client/components/ac_signup/ac_signup.js
  * 
  * Parms:
- *  - aculInstance: the acUserLogin template instance
+ *  - requester: the acUserLoginCompanion object
  */
 import '../../../common/js/index.js';
 
@@ -61,7 +61,7 @@ Template.ac_signup.helpers({
     // error message
     errorMsg(){
         // even if we have no message at all, we keep at least one blank line
-        return '<p>'+this.aculInstance.AC.display.errorMsg()+'</p>';
+        return pwiAccounts.Displayer.errorMsg();
     },
 
     // whether email address is permitted
@@ -84,22 +84,22 @@ Template.ac_signup.helpers({
 
     // the text at the first place of the section (if username)
     textOne(){
-        return this.aculInstance.AC.options.signupTextOne();
+        return this.requester.opts().signupTextOne();
     },
 
     // the text at the second place of the section (if email)
     textTwo(){
-        return this.aculInstance.AC.options.signupTextTwo();
+        return this.requester.opts().signupTextTwo();
     },
 
     // the text at the third place of the section
     textThree(){
-        return this.aculInstance.AC.options.signupTextThree();
+        return this.requester.opts().signupTextThree();
     },
 
     // the text at the fourth place of the section
     textFour(){
-        return this.aculInstance.AC.options.signupTextFour();
+        return this.requester.opts().signupTextFour();
     }
 });
 

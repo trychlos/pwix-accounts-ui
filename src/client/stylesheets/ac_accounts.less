@@ -4,15 +4,10 @@
 
 @import "{pwix:layout}/src/client/css/ui_layout.less";
 
-body {
-    line-height: var( --bs-body-line-height );
-    color: inherit;
-    background-color: inherit;
-    border-color: inherit;
-    
-    .ac-border {
-        border-top: solid 1px gray;
-    }
+// the dropdown menu (when displayed)
+//  and its items
+//  do not style them when displayed inside of another menu
+.ac-dropdown {
     .ac-btn.dropdown-toggle:hover,
     .ac-btn.dropdown-toggle:active,
     .ac-btn.dropdown-toggle:focus-visible,
@@ -26,27 +21,24 @@ body {
             color: gray;
         }
     }
+}
+
+// the components displayed inside of a mdModal
+.ac-component {
+    line-height: var( --bs-body-line-height );
+    color: inherit;
+    background-color: inherit;
+    border-color: inherit;
+    
+    .ac-border {
+        border-top: solid 1px gray;
+    }
     .ac-error {
         font-size: 85%;
         font-style: italic;
         color: red;
         p:first-child {
             margin-top: 0.5em;
-        }
-    }
-    .ac-footer,
-    .ac-footer-buttons {
-        @media screen and ( max-width: @ui-sm-width ){
-            flex-wrap: wrap;
-        }
-        button {
-            margin-left: 0.5em;
-        }
-        .ac-right {
-            width: -webkit-fill-available;
-            @media screen and ( max-width: @ui-sm-width ){
-                margin-top: 0.5em;
-            }
         }
     }
     .ac-input-password {
@@ -84,16 +76,6 @@ body {
             border-color: var( --bs-danger );
         }
     }
-    .ac-link a {
-        font-size: 85%;
-        margin-right: 1em;
-        white-space: nowrap;
-        color: var( --bs-link-color );
-        text-decoration: none;
-    }
-    .ac-link a:hover {
-        text-decoration: underline;
-    }
     .ac-mandatory-footer {
         position: relative;
         bottom: -0.5em;
@@ -113,13 +95,6 @@ body {
     .ac-mandatory-field sup {
         top: -0.4em;
     }
-    .ac-modal {
-        color :black;
-        background-color: white;
-        .modal {
-            --bs-modal-width: 550px;
-        }
-    }
     .ac-each-users {
         padding-left: 1em;
         line-height: 1.75em;
@@ -132,11 +107,28 @@ body {
     }
 }
 
-// Prevent the Bootstrap backdrop modal to be displayed
-/*
-body.modal-open.ac-modal-class {
-    .modal-backdrop.show {
-        display: none;
+// the footer of our modals
+.ac-footer {
+    @media screen and ( max-width: @ui-sm-width ){
+        flex-wrap: wrap;
     }
-} 
-*/
+    button {
+        margin-left: 0.5em;
+    }
+    .ac-link a {
+        font-size: 85%;
+        margin-right: 1em;
+        white-space: nowrap;
+        color: var( --bs-link-color );
+        text-decoration: none;
+    }
+    .ac-link a:hover {
+        text-decoration: underline;
+    }
+    .ac-right {
+        width: -webkit-fill-available;
+        @media screen and ( max-width: @ui-sm-width ){
+            margin-top: 0.5em;
+        }
+    }
+}

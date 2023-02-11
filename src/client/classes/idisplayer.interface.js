@@ -21,11 +21,23 @@
  * 
  *  Anybody can request the display, and gains it. But only a IDisplayRequester will be able to get the events
  *  back.
+ * 
+ * Note about the event system
+ * 
+ *  We get tied here to jQuery event system, to keep compatibility with other packages.
+ *  But we could also have used:
+ *      document.body.dispatchEvent( new CustomEvent( event, { bubbles: true, detail: parms }));
+ *  and then
+ *      document.addEventListener( name, this.v_handler );
+ *  with the inconvenience that addEventListener doesn't work with jQuery events :(
  */
+
+import { ReactiveVar } from 'meteor/reactive-var';
+import { Tracker } from 'meteor/tracker';
 
 import { pwixModal } from 'meteor/pwix:modal';
 
-import { IDisplayRequester } from './idisplay-requester.interface.js';
+import { IDisplayRequester } from './idisplay_requester.interface.js';
 import { acEvent } from './ac_event.class.js';
 import { acPanel } from './ac_panel.class.js';
 
@@ -39,6 +51,9 @@ export class IDisplayer {
     // the current IDisplayRequester (null if nobody)
     _requester = null;
 
+    // the currently displayed panel as a reactive var
+    _panel = new ReactiveVar( null );
+
     /**
      * Constructor
      * @param {*} instance the implementation instance
@@ -47,10 +62,20 @@ export class IDisplayer {
     constructor( instance ){
         console.debug( 'IDisplayer instanciation' );
         this._instance = instance;
+        const self = this;
 
-        // install the general events handler
+        // install a general events handler
         acEvent.enumerate(( name ) => {
-            document.addEventListener( name, this.v_handler );
+            $( document ).on( name, this.v_handler.bind( self ));
+        });
+
+        // re-set modal title when panel changes
+        Tracker.autorun(() => {
+            const panel = self.panel();
+            if( panel ){
+                pwixModal.setTitle( acPanel.title( panel ));
+                pwixModal.setTemplate( acPanel.template( panel ));
+            }
         });
 
         return this;
@@ -62,22 +87,29 @@ export class IDisplayer {
 
     /**
      * @summary Common event handler
+     * @param {Object} event the jQuery event
+     * @param {Object} data the data associated to the event by the sender
      *
      *  Default is to redirect the event if possible:
-     *  - either because the event itself provides a requester detail
-     *  - either because an identified requester as asked for the display
+     *  - either because the event itself provides a requester information
+     *  - or because an identified requester as asked for the display
      *
      * [-implementation Api-]
      */
-    v_handler( event ){
-        //console.debug( 'IDisplayer.v_handler()', event );
-        let redirect = null;
-        // if the event has a requester detail, then redirect the former to the later
-        const requester = event.detail.requester || this._requester;
+    v_handler( event, data ){
+        //console.debug( 'IDisplayer.v_handler()', event, data );
+        // some messages can be directly handled here
+        switch( event.type ){
+            case 'md-modal-close':
+                this.free();
+                return;
+        }
+        // if the event has a requester information, then redirect the former to the later
+        const requester = data.requester || this._requester;
         //console.log( requester );
         if( requester && requester.IDisplayRequester && requester.IDisplayRequester instanceof IDisplayRequester ){
             //console.log( 'redirecting to', requester.IDisplayRequester.target());
-            requester.IDisplayRequester.target().trigger( event.type, event.detail );
+            requester.IDisplayRequester.target().trigger( event.type, data );
         }
     }
 
@@ -100,22 +132,48 @@ export class IDisplayer {
         }
         // if we already have a requester for the display, then refuse the request
         if( this._requester ){
+            console.log( 'request is refused as display is already used' );
             return false;
         }
-        if( panel ){
-            // the requester may be null if the caller doesn't care of receiving events
-            this._requester = requester || ANONYMOUS;
-            // show the panel (at last...)
-            pwixModal.run({
-                mdTemplate: acPanel.template( panel ),
-                mdTitle: acPanel.title( panel ),
-                mdTarget : requester ? requester.IDisplayRequester.target() : null,
-                mdFooter: 'ac_footer',
-                ...opts
-            });
-            return true;
+        acPanel.validate( panel );
+        this.panel( panel );
+        // the requester may be null if the caller doesn't care of receiving events
+        this._requester = requester || ANONYMOUS;
+        // show the panel (at last...)
+        pwixModal.run({
+            mdTemplate: acPanel.template( panel ),
+            mdTitle: acPanel.title( panel ),
+            mdTarget : requester ? requester.IDisplayRequester.target() : null,
+            mdFooter: 'ac_footer',
+            ...opts
+        });
+        return true;
+    }
+
+    /**
+     * @summary Free the current requester
+     * [-Public API-]
+     */
+    free(){
+        if( !this._requester ){
+            console.log( 'no requester at the time' );
         }
-        return false;
+        console.log( 'freeing the display' );
+        this._requester = null;
+        this.panel( null );
+    }
+
+    /**
+     * Getter/Setter
+     * Maintains the currently displayed panel as a ReactiveVar
+     * @param {String} panel to be displayed
+     * @returns {String} the currently displayed panel, or null
+     */
+    panel( panel ){
+        if( panel !== undefined ){
+            this._panel.set( panel );
+        }
+        return this._panel.get();
     }
 
     /**
@@ -128,6 +186,6 @@ export class IDisplayer {
     trigger( event, parms={} ){
         acEvent.validate( event );
         //console.log( event, _data );
-        document.body.dispatchEvent( new CustomEvent( event, { bubbles: true, detail: parms }));
+        $( 'body' ).trigger( event, parms );
     }
 }

@@ -6,6 +6,8 @@
  * global object.
  */
 
+import { ReactiveVar } from 'meteor/reactive-var';
+
 import { IDisplayer } from './idisplayer.interface.js';
 import { Interface } from './interface.class';
 
@@ -21,6 +23,8 @@ export class acDisplayer {
 
     // private data
     //
+
+    _errorMsg = new ReactiveVar( '' );
 
     // private methods
     //
@@ -48,5 +52,19 @@ export class acDisplayer {
 
         acDisplayer.Singleton = this;
         return this;
+    }
+
+    /**
+     * Getter/Setter
+     * Panels have their own error messages (e.g. password too short or too weak).
+     * This method is provided to host error messages returned from the server (e.g. bad credentials).
+     * @param {String} msg error msg
+     * @returns {String} the current error message
+     */
+    errorMsg( msg=null ){
+        if( msg !== null ){
+            this._errorMsg.set( msg );
+        }
+        return this._errorMsg.get();
     }
 }

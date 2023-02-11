@@ -4,7 +4,7 @@
  * A companion class which implements the IDisplayRequester interface.
  */
 
-import { IDisplayRequester } from './idisplay-requester.interface.js';
+import { IDisplayRequester } from './idisplay_requester.interface.js';
 import { Interface } from './interface.class';
 
 export class acRequester {

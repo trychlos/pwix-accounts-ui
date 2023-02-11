@@ -7,7 +7,7 @@
 
 import { Random } from 'meteor/random';
 
-import { IDisplayRequester } from './idisplay-requester.interface.js';
+import { IDisplayRequester } from './idisplay_requester.interface.js';
 import { Interface } from './interface.class';
 import { acPanel } from './ac_panel.class.js';
 

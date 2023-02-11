@@ -128,67 +128,62 @@ Template.acUserLogin.helpers({
 });
 
 Template.acUserLogin.events({
-    /*
-     * Important: only deal with messages sent when we are the current requester
-     *  Let bubble others...
-     */
-    // cancel the current display
-    'ac-button-cancel .acUserLogin'( event, instance ){
-        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
-            console.log( event, instance );
-            pwiAccounts.Displayer.asked( AC_PANEL_NONE );
-            return false;
-        }
-    },
-
     // validate the current display
     'ac-button-submit .acUserLogin'( event, instance, data ){
-        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
-            console.log( event, instance, data );
-            let mail = null;
-            let password = null;
-            switch( pwiAccounts.Displayer.asked()){
-                case AC_PANEL_CHANGEPWD:
-                    const pwd1 = instance.$( '.ac-change-pwd .ac-old .ac-input' ).val().trim();
-                    const pwd2 = instance.$( '.ac-change-pwd .ac-newone .ac-input' ).val().trim();
-                    pwiAccounts.User.changePwd( pwd1, pwd2, $( event.currentTarget ));
-                    break;
-                case AC_PANEL_RESETASK:
-                    mail = instance.$( '.ac-reset-ask .ac-input-email .ac-input' ).val().trim();
-                    pwiAccounts.User.resetPwd( mail, $( event.currentTarget ));
-                    break;
-                case AC_PANEL_SIGNIN:
-                    // 'mail' here may be either an email address or a username
-                    mail = instance.$( '.ac-signin .ac-input-userid .ac-input' ).val().trim();
-                    password = instance.$( '.ac-signin .ac-input-password .ac-input' ).val().trim();
-                    //console.log( 'mail',mail,'password', pwd );
-                    pwiAccounts.User.loginWithPassword( mail, password, $( event.currentTarget ));
-                    break;
-                case AC_PANEL_SIGNOUT:
-                    pwiAccounts.User.logout();
-                    break;
-                case AC_PANEL_SIGNUP:
-                    let options = {};
-                    if( pwiAccounts.opts().haveUsername()){
-                        options.username = instance.$( '.ac-signup .ac-input-username .ac-input' ).val().trim();
-                    }
-                    if( pwiAccounts.opts().haveEmailAddress()){
-                        options.email = instance.$( '.ac-signup .ac-input-email .ac-input' ).val().trim();
-                    }
-                    options.password = instance.$( '.ac-signup .ac-newone .ac-input' ).val().trim();
-                    const autoConnect = instance.AC.options.signupAutoConnect();
-                    console.log( 'found autoConnect='+autoConnect );
-                    pwiAccounts.User.createUser( options, $( event.currentTarget ), autoConnect );
-                    if( !autoConnect ){
-                        $( event.currentTarget ).find( '.ac-signup' ).trigger( 'ac-clear' );
-                    }
-                    break;
-                case AC_PANEL_VERIFYASK:
-                    pwiAccounts.User.verifyMail();
-                    break;
-            }
-            return false;
+        console.log( event, instance, data );
+        let mail = null;
+        let password = null;
+        let managed = false;
+        switch( data.panel ){
+            case AC_PANEL_CHANGEPWD:
+                const pwd1 = instance.$( '.ac-change-pwd .ac-old .ac-input' ).val().trim();
+                const pwd2 = instance.$( '.ac-change-pwd .ac-newone .ac-input' ).val().trim();
+                pwiAccounts.User.changePwd( pwd1, pwd2, data.requester );
+                managed = true;
+                break;
+            case AC_PANEL_RESETASK:
+                mail = instance.$( '.ac-reset-ask .ac-input-email .ac-input' ).val().trim();
+                pwiAccounts.User.resetPwd( mail, data.requester );
+                managed = true;
+                break;
+            case AC_PANEL_SIGNIN:
+                // 'mail' here may be either an email address or a username
+                mail = instance.$( '.ac-signin .ac-input-userid .ac-input' ).val().trim();
+                password = instance.$( '.ac-signin .ac-input-password .ac-input' ).val().trim();
+                //console.log( 'mail',mail,'password', pwd );
+                pwiAccounts.User.loginWithPassword( mail, password, data.requester );
+                managed = true;
+                break;
+            case AC_PANEL_SIGNOUT:
+                pwiAccounts.User.logout( data.requester );
+                managed = true;
+                break;
+            case AC_PANEL_SIGNUP:
+                let options = {};
+                if( pwiAccounts.opts().haveUsername()){
+                    options.username = instance.$( '.ac-signup .ac-input-username .ac-input' ).val().trim();
+                }
+                if( pwiAccounts.opts().haveEmailAddress()){
+                    options.email = instance.$( '.ac-signup .ac-input-email .ac-input' ).val().trim();
+                }
+                options.password = instance.$( '.ac-signup .ac-newone .ac-input' ).val().trim();
+                const autoConnect = instance.AC.options.signupAutoConnect();
+                console.log( 'found autoConnect='+autoConnect );
+                pwiAccounts.User.createUser( options, data.requester, autoConnect );
+                if( !autoConnect ){
+                    $( event.currentTarget ).find( '.ac-signup' ).trigger( 'ac-clear' );
+                }
+                managed = true;
+                break;
+            case AC_PANEL_VERIFYASK:
+                pwiAccounts.User.verifyMail( data.requester );
+                managed = true;
+                break;
         }
+        if( managed ){
+            pwixModal.close();
+        }
+        return !managed;
     },
 
     'ac-display-error .acUserLogin'( event, instance, msg ){
@@ -271,7 +266,19 @@ Template.acUserLogin.events({
         return !instance.AC.companion.handleEvent( event, data );
     },
 
+    'ac-panel-resetask-event .acUserLogin'( event, instance, data ){
+        return !instance.AC.companion.handleEvent( event, data );
+    },
+
+    'ac-panel-signin-event .acUserLogin'( event, instance, data ){
+        return !instance.AC.companion.handleEvent( event, data );
+    },
+
     'ac-panel-signout-event .acUserLogin'( event, instance, data ){
+        return !instance.AC.companion.handleEvent( event, data );
+    },
+
+    'ac-panel-signup-event .acUserLogin'( event, instance, data ){
         return !instance.AC.companion.handleEvent( event, data );
     },
 

@@ -2,7 +2,7 @@
  * pwix:accounts/src/client/components/ac_reset_ask/ac_reset_ask.js
  * 
  * Parms:
- *  - aculInstance: the acUserLogin template instance
+ *  - requester: the acUserLoginCompanion object
 */
 import '../../../common/js/index.js';
 
@@ -30,17 +30,17 @@ Template.ac_reset_ask.onRendered( function(){
 Template.ac_reset_ask.helpers({
     // error message
     errorMsg(){
-        return this.aculInstance.AC.display.errorMsg();
+        return pwiAccounts.Displayer.errorMsg();
     },
 
     // the text at the first place of the section
     textOne(){
-        return this.aculInstance.AC.options.resetAskTextOne();
+        return this.requester.opts().resetAskTextOne();
     },
 
     // the text at the second place of the section
     textTwo(){
-        return this.aculInstance.AC.options.resetAskTextTwo();
+        return this.requester.opts().resetAskTextTwo();
     }
 });
 
