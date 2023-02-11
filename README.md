@@ -546,7 +546,7 @@ This template displays the list of `<li>...</li>` items of the menu to be displa
 
 The template expects to be called with one of these two parameters:
 
-- either a 'dialog' one, which must address an acDisplay instance, and is the way it is internally called by the package itself
+- either a 'dialog' one, which must address an acShower instance, and is the way it is internally called by the package itself
 
 - or with a 'name' key which must address the name of a 'acUserLogin' instance.
 

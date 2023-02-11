@@ -5,7 +5,7 @@
  * Doesn't change the connection state.
  * 
  * Please note that this panel is run inside of a modal dialog, but OUTSIDE of any 'acUserLogin' template.
- * We so do NOT have any acDisplay information.
+ * We so do NOT have any acShower information.
  * 
  * Parms:
  * - user

@@ -4,7 +4,7 @@
  * This class manages the display of all login/logout dialogs.
  * The instance is attached to the 'acUserLogin' template, thus available to each and every child template.
  * 
- * As of 23.01, acDisplay class may use either the Bootstrap or the jQuery UI version of their modal dialog widget.
+ * As of 23.01, acShower class may use either the Bootstrap or the jQuery UI version of their modal dialog widget.
  * This is needed because the Bootstrap version doesn't support to be embedded in a 'position:fixed' parent
  *  which be unfortunately the case when the application header is sticky.
  */
@@ -14,12 +14,12 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import '../../common/js/index.js';
 
-export class acDisplay {
+export class acShower {
 
     // static data
     //
 
-    // keep here a list of all instanciated named acDisplay objects
+    // keep here a list of all instanciated named acShower objects
     static Displays = {};
 
     // private data
@@ -31,7 +31,7 @@ export class acDisplay {
     // the jQuery selector for the modal
     //  the corresponding method has some suitable defaut values, depending of whether we are using
     //  Bootstrap of jQueryUI dialogs
-    //  it is changed as soon as the acDisplay is initialized with the generated uuid for this acDisplay
+    //  it is changed as soon as the acShower is initialized with the generated uuid for this acShower
     _modalSelector = '';
 
     // whether the DOM is ready
@@ -52,11 +52,11 @@ export class acDisplay {
     /**
      * Constructor
      * @param {acUserLogin} instance the acUserLogin template instance
-     * @returns {acDisplay}
+     * @returns {acShower}
      */
     constructor( instance ){
         const self = this;
-        console.log( 'pwix:accounts instanciating acDisplay', instance );
+        console.log( 'pwix:accounts instanciating acShower', instance );
         self._instance = instance;
 
         // setup the initial panel
@@ -66,7 +66,7 @@ export class acDisplay {
         // if the instance is named, then keep it to be usable later
         const name = self._instance.AC.options.name();
         if( name ){
-            acDisplay.Displays.name = self;
+            acShower.Displays.name = self;
         }
 
         // manage the panel transition
@@ -108,10 +108,10 @@ export class acDisplay {
     /**
      * static
      * @param {String} name the searched name
-     * @returns {acDisplay} the corresponding acDisplay instance, or null
+     * @returns {acShower} the corresponding acShower instance, or null
      */
     static byName( name ){
-        return acDisplay.Displays.name || null;
+        return acShower.Displays.name || null;
     }
 
     /**
@@ -210,10 +210,10 @@ export class acDisplay {
 
     /**
      * Hode the dialog, either as a modal or as a div
-     * @returns {acDisplay}
+     * @returns {acShower}
      */
     hide(){
-        //console.log( 'acDisplay hide', this.modal());
+        //console.log( 'acShower hide', this.modal());
         if( this._instance.AC.options.renderMode() === AC_RENDER_MODAL ){
             switch( pwiAccounts.opts().ui()){
                 case AC_UI_BOOTSTRAP:
@@ -283,10 +283,10 @@ export class acDisplay {
 
     /**
      * Make the dialog visible, either as a modal or as a div
-     * @returns {acDisplay}
+     * @returns {acShower}
      */
     show(){
-        //console.log( 'acDisplay show', this.modal());
+        //console.log( 'acShower show', this.modal());
         if( this._instance.AC.options.renderMode() === AC_RENDER_MODAL ){
             switch( pwiAccounts.opts().ui()){
                 case AC_UI_BOOTSTRAP:
@@ -307,7 +307,7 @@ export class acDisplay {
 
     /**
      * Toggle the visibility of the dialog
-     * @returns {acDisplay}
+     * @returns {acShower}
      */
     toggleDisplay(){
         if( this._shown.get()){

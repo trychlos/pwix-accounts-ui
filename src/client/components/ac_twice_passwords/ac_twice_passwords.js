@@ -11,7 +11,7 @@
  *      Is undefined when invoked from ac_reset_pwd template
  *      Take care!
  *  - role: 'signup|change|reset'
- *      This happens to also be the prefix of the to-be-called acDisplay methods
+ *      This happens to also be the prefix of the to-be-called acShower methods
  *      Do not change!
  *  - label: String, defaulting to 'Password'
  *  - placeholder1: String, defaulting to 'Enter your password'

@@ -9,12 +9,12 @@
  *  - aculInstance: the acUserLogin template instance
  * 
  * From the application point of view, the name is at the time the only way to identify a specific
- * 'acUserLogin' instance, and thus to get the managing acDisplay.
+ * 'acUserLogin' instance, and thus to get the managing acShower.
  */
 
 import '../../../common/js/index.js';
 
-import { acDisplay } from '../../classes/ac_display.class.js';
+import { acShower } from '../../classes/ac_display.class.js';
 
 import './acMenuItems.html';
 
@@ -28,7 +28,7 @@ Template.acMenuItems.onCreated( function(){
     self.autorun(() => {
         const dataContext = Template.currentData();
         if( Object.keys( dataContext ).includes( 'name' )){
-            self.AC.display.set( acDisplay.byName( dataContext.name ));
+            self.AC.display.set( acShower.byName( dataContext.name ));
         } else {
             self.AC.display.set( dataContext.aculInstance.AC.display );
         }
@@ -39,7 +39,7 @@ Template.acMenuItems.onRendered( function(){
     const self = this;
 
     // a small note for the maintainer!
-    //  the acDisplay dynItemsBefore/Standard/After() returns the button content as a HTML string
+    //  the acShower dynItemsBefore/Standard/After() returns the button content as a HTML string
     //  first try has been to use a triple-braces helper '{{{ buttonContent }}}' to feed the data into the DOM
     //  it happens that this doesn't work as each content update seems to be added to the previous content
     //  visual effect is for example to have several user icons :(

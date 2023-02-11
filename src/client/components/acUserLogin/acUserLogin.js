@@ -6,7 +6,7 @@
  * Is callable many times so that a different set of parameters produces different (though, of course, consistent) results.
  *
  * This behavior relies on three distinct classes:
- * - acDisplay is attached to each and every 'acUserLogin' template, and manages the display of the fields
+ * - acShower is attached to each and every 'acUserLogin' template, and manages the display of the fields
  * - acPanel is a singleton attached to the global 'pwiAccounts' object, and maintains the currently displayed panel
  * - acUser is a singleton attached to the global 'pwiAccounts' object, and interfaces the user status.
  *
@@ -19,7 +19,7 @@
  * weird display.
  * 
  * The template is instanciated here (and potentially several times as explained above), and uniquely identified by its uuid.
- * The acDisplay and acOptionsUserLogin objects are attached to this instance.
+ * The acShower and acOptionsUserLogin objects are attached to this instance.
  * The instance is then passed as a parameter to each and every child template.
  */
 
@@ -27,7 +27,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import '../../../common/js/index.js';
 
-import { acDisplay } from '../../classes/ac_display.class.js';
+import { acShower } from '../../classes/ac_display.class.js';
 import { acOptionsUserLogin } from '../../classes/ac_options_user_login.class.js';
 
 import '../../stylesheets/ac_accounts.less';
@@ -68,14 +68,14 @@ Template.acUserLogin.onCreated( function(){
     });
 
     // instanciates the display manager
-    self.AC.display = new acDisplay( self );
+    self.AC.display = new acShower( self );
 });
 
 Template.acUserLogin.onRendered( function(){
     const self = this;
     console.log( 'onRendered', this );
 
-    // make the acDisplay 'ready' as soon as the DOM is itself ready
+    // make the acShower 'ready' as soon as the DOM is itself ready
     //  thanks to Blaze rendering mechanisms, this toplevel template is the last to be rendered
     const intervalId = setInterval(() => {
         const div = self.$( '.acUserLogin#'+self.AC.uuid );
@@ -267,7 +267,7 @@ Template.acUserLogin.events({
         }
     },
 
-    // change the acDisplay rendering mode
+    // change the acShower rendering mode
     'ac-render-modal .acUserLogin'( event, instance ){
         if( pwiAccounts.Panel.requesterAllowed( instance.AC.uuid )){
             console.log( event, instance );
