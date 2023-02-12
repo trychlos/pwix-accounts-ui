@@ -1,14 +1,14 @@
 /*
  * /src/client/classes/ac_displayer.class.js
  *
- * This class implements the IDisplayer interface.
+ * This class implements the IDisplayManager interface.
  * Because this display is a unique resource, the class is managed as a singleton which is maintained by the pwiAccounts
  * global object.
  */
 
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { IDisplayer } from './idisplayer.interface.js';
+import { IDisplayManager } from './idisplay_manager.interface.js';
 import { Interface } from './interface.class';
 
 export class acDisplayer {
@@ -47,7 +47,7 @@ export class acDisplayer {
         }
         console.log( 'pwix:accounts instanciating new acDisplayer' );
 
-        Interface.add( this, IDisplayer, {
+        Interface.add( this, IDisplayManager, {
         });
 
         acDisplayer.Singleton = this;

@@ -189,12 +189,12 @@ Template.acUserLogin.events({
 
     'ac-display-error .acUserLogin'( event, instance, msg ){
         console.log( event, instance, msg );
-        pwiAccounts.Displayer.IDisplayer.errorMsg( msg );
+        pwiAccounts.Displayer.IDisplayManager.errorMsg( msg );
         return false;
     },
 
     // usually sent from acMenuItems, including this requester and requested panel
-    // Flow is: acMenuItems -> IDisplayer -> here -> acUserLoginCompanion -> IDisplayer
+    // Flow is: acMenuItems -> IDisplayManager -> here -> acUserLoginCompanion -> IDisplayManager
     'ac-panel-changepwd-event .acUserLogin'( event, instance, data ){
         return !instance.AC.companion.handleEvent( event, data );
     },

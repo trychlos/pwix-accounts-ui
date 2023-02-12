@@ -50,7 +50,7 @@ Template.ac_footer.helpers({
 
     // returns the ordered list of buttons to be displayed depending of the currently displayed template
     buttons(){
-        return acPanel.buttons( pwiAccounts.Displayer.IDisplayer.panel());
+        return acPanel.buttons( pwiAccounts.Displayer.IDisplayManager.panel());
     },
 
     // whether to display this link
@@ -69,7 +69,7 @@ Template.ac_footer.helpers({
 
     // returns the ordered list of links to be displayed depending of the current state
     links(){
-        return acPanel.links( pwiAccounts.Displayer.IDisplayer.panel());
+        return acPanel.links( pwiAccounts.Displayer.IDisplayManager.panel());
     }
 });
 
@@ -78,7 +78,7 @@ Template.ac_footer.events({
     'click .ac-link'( event, instance ){
         //console.log( event );
         const panel = instance.$( event.currentTarget ).find( 'a' ).attr( 'data-ac-target' );
-        pwiAccounts.Displayer.IDisplayer.panel( panel );
+        pwiAccounts.Displayer.IDisplayManager.panel( panel );
     },
 
     'click .ac-cancel'( event, instance ){

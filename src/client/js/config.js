@@ -10,7 +10,7 @@ import { Tracker } from 'meteor/tracker';
 import { acDisplayer } from '../classes/ac_displayer.class.js';
 import { acAnonRequester } from '../classes/ac_anon_requester.class.js';
 import { acUser } from '../classes/ac_user.class.js';
-import { IDisplayer } from '../classes/idisplayer.interface.js';
+import { IDisplayManager } from '../classes/idisplay_manager.interface.js';
 
 _ready = {
     dep: new Tracker.Dependency(),

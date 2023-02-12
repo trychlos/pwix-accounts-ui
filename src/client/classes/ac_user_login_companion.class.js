@@ -141,7 +141,7 @@ export class acUserLoginCompanion {
         }
         if( data.panel ){
             acPanel.validate( data.panel );
-            return pwiAccounts.Displayer.IDisplayer.ask( this, data.panel, data );
+            return pwiAccounts.Displayer.IDisplayManager.ask( this, data.panel, data );
         }
         return false;
     }

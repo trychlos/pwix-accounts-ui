@@ -1,5 +1,5 @@
 /*
- * IDisplayer interface
+ * IDisplayManager interface
  *
  *  The public interface to the display service,
  *  aka the public interface of the acDisplayer singleton.
@@ -43,7 +43,7 @@ import { acPanel } from './ac_panel.class.js';
 
 ANONYMOUS = 'ANONYMOUS';
 
-export class IDisplayer {
+export class IDisplayManager {
 
     // the implementation instance
     _instance = null;
@@ -57,10 +57,10 @@ export class IDisplayer {
     /**
      * Constructor
      * @param {*} instance the implementation instance
-     * @returns {IDisplayer}
+     * @returns {IDisplayManager}
      */
     constructor( instance ){
-        console.debug( 'IDisplayer instanciation' );
+        console.debug( 'IDisplayManager instanciation' );
         this._instance = instance;
         const self = this;
 
@@ -97,7 +97,7 @@ export class IDisplayer {
      * [-implementation Api-]
      */
     v_handler( event, data ){
-        //console.debug( 'IDisplayer.v_handler()', event, data );
+        //console.debug( 'IDisplayManager.v_handler()', event, data );
         // some messages can be directly handled here
         switch( event.type ){
             case 'ac-submit':
@@ -127,7 +127,7 @@ export class IDisplayer {
      * @param {IDisplayRequester} requester a IDisplayRequester instance, or null
      * @param {String} panel the panel to be displayed
      * @param {Object} opts options to be passed to the panel
-     * @returns {Boolean} whether the IDisplayer is able to satisfy the request
+     * @returns {Boolean} whether the IDisplayManager is able to satisfy the request
      *  i.e. whether the display is free before the request and can be allocated to it
      * [-Public API-]
      */
