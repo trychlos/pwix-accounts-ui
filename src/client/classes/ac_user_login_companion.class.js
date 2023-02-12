@@ -3,9 +3,10 @@
  *
  * A companion class for the 'acUserLogin' Blaze template.
  * Implements the IDisplayRequester interface.
+ * 
+ * This acUserLoginCompanion class acts as a requester for all displayed templates, and take care
+ * of adressing the acUserLogin Blaze template as the event handler.
  */
-
-import { Random } from 'meteor/random';
 
 import { IDisplayRequester } from './idisplay_requester.interface.js';
 import { Interface } from './interface.class';
@@ -33,9 +34,6 @@ export class acUserLoginCompanion {
     // private data
     //
 
-    // a unique identifier for this instance
-    _id = null;
-
     // the acUserLogin template instance and its jQuery selector
     _instance = null;
     _jqSelector = null;
@@ -45,14 +43,6 @@ export class acUserLoginCompanion {
 
     // private methods
     //
-
-    /*
-     * @returns {String} A unique identifier
-     * [-IDisplayRequester implementation-]
-     */
-    _idisplayrequesterId(){
-        return this.id();
-    }
 
     /*
      * @returns {Object} the jQuery object which will receive the events
@@ -78,20 +68,18 @@ export class acUserLoginCompanion {
         const self = this;
         console.log( 'pwix:accounts instanciating acUserLoginCompanion', instance );
 
-        self._id = Random.id();
+        Interface.add( this, IDisplayRequester, {
+            v_target: this._idisplayrequesterTarget
+        });
+
         self._instance = instance;
-        self._jqSelector = '.acUserLogin#'+self._id;
+        self._jqSelector = '.acUserLogin#'+self.IDisplayRequester.id();
 
         // if the instance is named, then keep it to be usable later
-        const name = self._instance.AC.options.name();
+        const name = self.opts().name();
         if( name ){
             acUserLoginCompanion.NamedInstances.name = self;
         }
-
-        Interface.add( this, IDisplayRequester, {
-            v_id: this._idisplayrequesterId,
-            v_target: this._idisplayrequesterTarget
-        });
 
         return this;
     }
@@ -140,17 +128,9 @@ export class acUserLoginCompanion {
             }
         }
         if( data.panel ){
-            acPanel.validate( data.panel );
-            return pwiAccounts.Displayer.IDisplayManager.ask( this, data.panel, data );
+            return pwiAccounts.Displayer.IDisplayManager.ask( data.panel, this, data );
         }
         return false;
-    }
-
-    /**
-     * @returns {String} the unique identifier of this instance
-     */
-    id(){
-        return this._id;
     }
 
     /**

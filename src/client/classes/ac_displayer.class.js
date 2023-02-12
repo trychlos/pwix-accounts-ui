@@ -25,6 +25,7 @@ export class acDisplayer {
     //
 
     _errorMsg = new ReactiveVar( '' );
+    _title = new ReactiveVar( '' );
 
     // private methods
     //
@@ -64,10 +65,22 @@ export class acDisplayer {
      * @param {String} msg error msg
      * @returns {String} the current error message
      */
-    errorMsg( msg=null ){
-        if( msg !== null ){
+    errorMsg( msg ){
+        if( msg !== undefined ){
             this._errorMsg.set( msg );
         }
         return this._errorMsg.get();
+    }
+
+    /**
+     * Getter/Setter
+     * @param {String} title a new title for the modal
+     * @returns {String} the current title
+     */
+    title( title ){
+        if( title !== undefined ){
+            this._title.set( title );
+        }
+        return this._title.get();
     }
 }

@@ -4,9 +4,14 @@
  *  The interface that each display requester should implement.
  */
 
+import { Random } from 'meteor/random';
+
 export class IDisplayRequester {
 
     _instance = null;
+
+    // a random unique identifier for this instance
+    _id = null;
 
     /**
      * Constructor
@@ -16,6 +21,11 @@ export class IDisplayRequester {
     constructor( instance ){
         console.debug( 'IDisplayRequester instanciation' );
         this._instance = instance;
+
+        // allocate a new random unique identifier for this instance
+        //  may be overriden by the implementation through the v_id() method
+        this._id = Random.id();
+
         return this;
     }
 
@@ -24,16 +34,17 @@ export class IDisplayRequester {
        *** *************************************************************************************** */
 
     /**
-     * @returns {String} A IDisplayRequester unique identifier
+     * @returns {String} The IDisplayRequester unique identifier
      * [-implementation Api-]
      */
     v_id(){
-        return null;
+        return this._id;
     }
 
     /**
      * @summary Provides the events target.
      * @returns {Object} the jQuery object which acts as the receiver of the events.
+     *  Defaults is to send the messages to pwiAccounts.Displayer which implements the IEventManager interface.
      * [-implementation Api-]
      */
     v_target(){

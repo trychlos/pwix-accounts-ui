@@ -9,6 +9,7 @@
  * 
  * - global classes:
  *   > acDisplayer is a singleton attached to the global 'pwiAccounts' object, and maintains the display (aka the viewport) as a whole
+ *      it implements IDisplayManager and IEventManager interfaces
  *   > acUser is a singleton attached to the global 'pwiAccounts' object, and interfaces the user status.
  * 
  * - local classes:
@@ -22,20 +23,13 @@
  * a transition requires that. This is because all acUserLogin instances share the same required panel, which is
  * a design decision.
  * 
- * Note that you should only let the panels be displayed for one acUserLogin instance. Else, panels would be
- * displayed twice, or three or more times, and this would be a waste of resources, besides of the obviously
- * weird display.
- * 
- * The template is instanciated here (and potentially several times as explained above), and uniquely identified by its uuid.
- * The acShower and acUserLoginOptions objects are attached to this instance.
- * The instance is then passed as a parameter to each and every child template.
+ * The template is instanciated here (and potentially several times as explained above), and uniquely identified by the id of its companion class.
+ * The acUserLoginCompanion and acUserLoginOptions objects are attached to this instance.
+ * The companion class acts as a IDisplayRequester, and is then passed as a parameter to each and every child template.
  */
-
-import { v4 as uuidv4 } from 'uuid';
 
 import '../../../common/js/index.js';
 
-import { acShower } from '../../classes/ac_shower.class.js';
 import { acUserLoginCompanion } from '../../classes/ac_user_login_companion.class.js';
 import { acUserLoginOptions } from '../../classes/ac_user_login_options.class.js';
 
@@ -43,7 +37,6 @@ import '../../stylesheets/ac_accounts.less';
 
 import '../ac_dropdown/ac_dropdown.js';
 import '../ac_footer/ac_footer.js';
-import '../ac_modal/ac_modal.js';
 import '../ac_user_login/ac_user_login.js';
 
 import './acUserLogin.html';
@@ -53,9 +46,7 @@ Template.acUserLogin.onCreated( function(){
 
     self.AC = {
         companion: null,
-        display: null,      // to be obsoleted
         options: null,
-        uuid: uuidv4(),     // to be obsoleted
 
         // whether this template instance is to display a dropdown button ?
         hasDropdown(){
@@ -70,7 +61,7 @@ Template.acUserLogin.onCreated( function(){
         }
     };
 
-    console.log( 'pwix:accounts instanciating acUserLogin', self.AC.uuid );
+    console.log( 'pwix:accounts instanciating acUserLogin', self.AC.companion.id());
 
     // first instanciates the options manager
     self.AC.options = new acUserLoginOptions({
@@ -100,16 +91,10 @@ Template.acUserLogin.onRendered( function(){
     }, 15 );
 
     // setup the initial panel only when the template is rendered
-    //pwiAccounts.Displayer.asked( self.AC.options.initialPanel(), self.AC.uuid );
+    pwiAccounts.Displayer.IDisplayManager.ask( self.AC.options.initialPanel(), self.AC.companion );
 });
 
 Template.acUserLogin.helpers({
-
-    // provides the acUserLogin instance to the child template (will be available as 'dataContext.aculInstance' object)
-    // without this helper, the passed-in acUserLogin would have been available as just 'dataContext' (without any other subkey)
-    aculInstance(){
-        return Template.instance();
-    },
 
     // whether this template controls a logged/unlogged user button
     hasDropdown(){
@@ -118,12 +103,19 @@ Template.acUserLogin.helpers({
 
     // set a unique id on the acUserLogin div
     id(){
-        return Template.instance().AC.companion.id();
+        return Template.instance().AC.companion.IDisplayRequester.id();
     },
 
     // whether the display must be rendered as a modal one ?
     modal(){
         return Template.instance().AC.modal();
+    },
+
+    // provides the IDisplayRequester instance to the child templates
+    parms(){
+        return {
+            requester: Template.instance().AC.companion
+        }
     }
 });
 
@@ -219,65 +211,43 @@ Template.acUserLogin.events({
         return !instance.AC.companion.handleEvent( event, data );
     },
 
-    // transition advertising
-    //  let the message bubble up
-    'ac-panel-transition .acUserLogin'( event, instance, data ){
-        console.log( event, instance, data );
-        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
-            if( data.next !== AC_PANEL_NONE && instance.AC.options.renderMode() === AC_RENDER_MODAL ){
-                if( !pwiAccounts.Displayer.view()){
-                    const uuid = data.uuid || instance.AC.uuid;
-                    view = Blaze.renderWithData( Template.ac_modal, { template: 'ac_user_login', aculInstance: instance }, $( '.acUserLogin#'+uuid )[0] );
-                    pwiAccounts.Displayer.view( view );
-                }
-            }
-            return false;
-        }
-    },
-
-    // change the acShower rendering mode
+    // change the rendering mode
     'ac-render-modal .acUserLogin'( event, instance ){
-        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
-            console.log( event, instance );
-            instance.AC.options.renderMode( AC_RENDER_MODAL );
-            return false;
-        }
+        console.log( event, instance );
+        instance.AC.options.renderMode( AC_RENDER_MODAL );
+        return false;
     },
     'ac-render-div .acUserLogin'( event, instance ){
-        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
-            console.log( event, instance );
-            instance.AC.options.renderMode( AC_RENDER_DIV );
-            return false;
-        }
+        console.log( event, instance );
+        instance.AC.options.renderMode( AC_RENDER_DIV );
+        return false;
     },
 
     // set the modal title
     'ac-title .acUserLogin'( event, instance, data ){
-        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
-            console.log( event, instance, data );
-            instance.AC.display.modalTitle( data );
-            return false;
-        }
+        console.log( event, instance, data );
+        pwiAccounts.Displayer.title( data );
+        return false;
     },
 
     // application advertising of a change on the user
     //  let the message bubble up
-    'ac-user-changepwd .acUserLogin'( event, instance, email ){
-        console.log( 'ac-user-changepwd', email );
+    'ac-user-changepwd .acUserLogin'( event, instance, data ){
+        console.log( 'ac-user-changepwd', data );
     },
-    'ac-user-create .acUserLogin'( event, instance, email ){
-        console.log( 'ac-user-create', email );
+    'ac-user-create .acUserLogin'( event, instance, data ){
+        console.log( 'ac-user-create', data );
     },
-    'ac-user-login .acUserLogin'( event, instance, email ){
-        console.log( 'ac-user-login', email );
+    'ac-user-login .acUserLogin'( event, instance, data ){
+        console.log( 'ac-user-login', data );
     },
-    'ac-user-logout .acUserLogin'( event, instance, email ){
-        console.log( 'ac-user-logout', email );
+    'ac-user-logout .acUserLogin'( event, instance, data ){
+        console.log( 'ac-user-logout', data );
     },
-    'ac-user-resetasked .acUserLogin'( event, instance, email ){
-        console.log( 'ac-user-resetasked', email );
+    'ac-user-resetasked .acUserLogin'( event, instance, data ){
+        console.log( 'ac-user-resetasked', data );
     },
-    'ac-user-verifyasked .acUserLogin'( event, instance, email ){
-        console.log( 'ac-user-verifyasked', email );
+    'ac-user-verifyasked .acUserLogin'( event, instance, data ){
+        console.log( 'ac-user-verifyasked', data );
     }
 });

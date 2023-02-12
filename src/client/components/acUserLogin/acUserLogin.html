@@ -3,11 +3,11 @@
 
         <div class="display">
             {{#if hasDropdown }}
-                {{> ac_dropdown aculInstance=(aculInstance) }}
+                {{> ac_dropdown (parms) }}
             {{/if}}
 
             {{#unless modal }}
-                {{> ac_user_login aculInstance=(aculInstance) }}
+                {{> ac_user_login (parms) }}
             {{/unless}}
         </div>
 

@@ -77,14 +77,19 @@ export class IDisplayManager {
 
     /**
      * @summary Request for the display of the specified panel
-     * @param {IDisplayRequester} requester a IDisplayRequester instance, or null
      * @param {String} panel the panel to be displayed
+     * @param {IDisplayRequester} requester a IDisplayRequester instance, or null
      * @param {Object} opts options to be passed to the panel
      * @returns {Boolean} whether the IDisplayManager is able to satisfy the request
      *  i.e. whether the display is free before the request and can be allocated to it
      * [-Public API-]
      */
-    ask( requester, panel, opts ){
+    ask( panel, requester, opts ){
+        acPanel.validate( panel );
+        if( panel === AC_PANEL_NONE ){
+            this.free();
+            return true;
+        }
         if( requester && !( requester.IDisplayRequester && requester.IDisplayRequester instanceof IDisplayRequester )){
             throw new Error( 'not a IDisplayRequester instance', requester );
         }
@@ -93,7 +98,6 @@ export class IDisplayManager {
             console.log( 'request is refused as display is already used' );
             return false;
         }
-        acPanel.validate( panel );
         this.panel( panel );
         // the requester may be null if the caller doesn't care of receiving events
         this._requester = requester || ANONYMOUS;
