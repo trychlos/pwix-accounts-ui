@@ -136,47 +136,48 @@ Template.acUserLogin.events({
         let managed = false;
         switch( data.panel ){
             case AC_PANEL_CHANGEPWD:
-                const pwd1 = instance.$( '.ac-change-pwd .ac-old .ac-input' ).val().trim();
-                const pwd2 = instance.$( '.ac-change-pwd .ac-newone .ac-input' ).val().trim();
-                pwiAccounts.User.changePwd( pwd1, pwd2, data.requester );
+                const pwd1 = $( '.ac-change-pwd .ac-old .ac-input' ).val().trim();
+                const pwd2 = $( '.ac-change-pwd .ac-newone .ac-input' ).val().trim();
+                pwiAccounts.User.changePwd( pwd1, pwd2, instance.AC.companion );
                 managed = true;
                 break;
             case AC_PANEL_RESETASK:
-                mail = instance.$( '.ac-reset-ask .ac-input-email .ac-input' ).val().trim();
-                pwiAccounts.User.resetPwd( mail, data.requester );
+                console.log( 'element', $( '.ac-reset-ask' ));
+                mail = $( '.ac-reset-ask .ac-input-email .ac-input' ).val().trim();
+                pwiAccounts.User.resetAsk( mail, instance.AC.companion );
                 managed = true;
                 break;
             case AC_PANEL_SIGNIN:
                 // 'mail' here may be either an email address or a username
-                mail = instance.$( '.ac-signin .ac-input-userid .ac-input' ).val().trim();
-                password = instance.$( '.ac-signin .ac-input-password .ac-input' ).val().trim();
+                mail = $( '.ac-signin .ac-input-userid .ac-input' ).val().trim();
+                password = $( '.ac-signin .ac-input-password .ac-input' ).val().trim();
                 //console.log( 'mail',mail,'password', pwd );
-                pwiAccounts.User.loginWithPassword( mail, password, data.requester );
+                pwiAccounts.User.loginWithPassword( mail, password, instance.AC.companion );
                 managed = true;
                 break;
             case AC_PANEL_SIGNOUT:
-                pwiAccounts.User.logout( data.requester );
+                pwiAccounts.User.logout( instance.AC.companion );
                 managed = true;
                 break;
             case AC_PANEL_SIGNUP:
                 let options = {};
                 if( pwiAccounts.opts().haveUsername()){
-                    options.username = instance.$( '.ac-signup .ac-input-username .ac-input' ).val().trim();
+                    options.username = $( '.ac-signup .ac-input-username .ac-input' ).val().trim();
                 }
                 if( pwiAccounts.opts().haveEmailAddress()){
-                    options.email = instance.$( '.ac-signup .ac-input-email .ac-input' ).val().trim();
+                    options.email = $( '.ac-signup .ac-input-email .ac-input' ).val().trim();
                 }
-                options.password = instance.$( '.ac-signup .ac-newone .ac-input' ).val().trim();
+                options.password = $( '.ac-signup .ac-newone .ac-input' ).val().trim();
                 const autoConnect = instance.AC.options.signupAutoConnect();
                 console.log( 'found autoConnect='+autoConnect );
-                pwiAccounts.User.createUser( options, data.requester, autoConnect );
+                pwiAccounts.User.createUser( options, instance.AC.companion, autoConnect );
                 if( !autoConnect ){
                     $( event.currentTarget ).find( '.ac-signup' ).trigger( 'ac-clear' );
                 }
                 managed = true;
                 break;
             case AC_PANEL_VERIFYASK:
-                pwiAccounts.User.verifyMail( data.requester );
+                pwiAccounts.User.verifyMail( instance.AC.companion );
                 managed = true;
                 break;
         }
@@ -187,77 +188,9 @@ Template.acUserLogin.events({
     },
 
     'ac-display-error .acUserLogin'( event, instance, msg ){
-        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
-            console.log( event, instance, msg );
-            instance.AC.display.errorMsg( msg );
-            return false;
-        }
-    },
-
-    // change the current displayed template
-    'ac-panel .acUserLogin'( event, instance, panel ){
-        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
-            console.log( event, instance, panel );
-            pwiAccounts.Displayer.asked( panel, instance.AC.uuid );
-            return false;
-        }
-    },
-
-    // be specific on the requested displayed template
-    'ac-panel-none .acUserLogin'( event, instance ){
-        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
-            console.log( event, instance );
-            pwiAccounts.Displayer.asked( AC_PANEL_NONE );
-            return false;
-        }
-    },
-    'ac-panel-changepwd .acUserLogin'( event, instance ){
-        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
-            console.log( event, instance );
-            pwiAccounts.Displayer.asked( AC_PANEL_CHANGEPWD, instance.AC.uuid );
-            return false;
-        }
-    },
-    'ac-panel-resetask .acUserLogin'( event, instance ){
-        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
-            console.log( event, instance );
-            pwiAccounts.Displayer.asked( AC_PANEL_RESETASK, instance.AC.uuid );
-            return false;
-        }
-    },
-    'ac-panel-resetpwd .acUserLogin'( event, instance ){
-        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
-            console.log( event, instance );
-            pwiAccounts.Displayer.asked( AC_PANEL_RESETPWD, instance.AC.uuid );
-            return false;
-        }
-    },
-    'ac-panel-signin .acUserLogin'( event, instance ){
-        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
-            console.log( event, instance );
-            pwiAccounts.Displayer.asked( AC_PANEL_SIGNIN, instance.AC.uuid );
-            return false;
-        }
-    },
-    'ac-panel-signout .acUserLogin'( event, instance ){
-        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
-            pwiAccounts.Displayer.asked( AC_PANEL_SIGNOUT, instance.AC.uuid );
-            return  false;
-        }
-    },
-    'ac-panel-signup .acUserLogin'( event, instance ){
-        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
-            console.log( event, instance );
-            pwiAccounts.Displayer.asked( AC_PANEL_SIGNUP, instance.AC.uuid );
-            return false;
-        }
-    },
-    'ac-panel-verifyask .acUserLogin'( event, instance ){
-        if( pwiAccounts.Displayer.requesterAllowed( instance.AC.uuid )){
-            console.log( event, instance );
-            pwiAccounts.Displayer.asked( AC_PANEL_VERIFYASK, instance.AC.uuid );
-            return false;
-        }
+        console.log( event, instance, msg );
+        pwiAccounts.Displayer.IDisplayer.errorMsg( msg );
+        return false;
     },
 
     // usually sent from acMenuItems, including this requester and requested panel

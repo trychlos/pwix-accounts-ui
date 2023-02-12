@@ -185,7 +185,7 @@ export class acUser {
      * @param {String} email the entered mail address
      * @param {Object} target the target of the sent events
      */
-    resetPwd( email, target ){
+    resetAsk( email, target ){
         const self = this;
         Accounts.forgotPassword({ email: email }, ( err ) => {
             if( err ){

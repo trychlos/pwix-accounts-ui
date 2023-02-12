@@ -1,11 +1,11 @@
 /*
  * pwix:accounts/src/client/components/ac_reset_pwd/ac_reset_pwd.js
  *
- * Runs a modal dialog to let the user reset his/her password.
+ * Let the user reset his/her password.
  * Doesn't change the connection state.
  * 
- * Please note that this panel is run inside of a modal dialog, but OUTSIDE of any 'acUserLogin' template.
- * We so do NOT have any acShower information.
+ * Please note that this panel is run OUTSIDE of usual 'acUserLogin' flow.
+ * We so do NOT have any IDisplayRequester information.
  * 
  * Parms:
  * - user

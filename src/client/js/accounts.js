@@ -5,9 +5,13 @@ import { Accounts } from 'meteor/accounts-base';
 
 import { pwixBootbox } from 'meteor/pwix:bootbox';
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
+import { pwixModal } from 'meteor/pwix:modal';
 
 import '../../common/js/index.js';
 
+import { acPanel } from '../classes/ac_panel.class.js.js';
+
+import '../components/ac_footer/ac_footer.js';
 import '../components/ac_reset_pwd/ac_reset_pwd.js';
 
 //  when the user clicks on the two below links, the function is executed between
@@ -127,6 +131,15 @@ Accounts.onResetPasswordLink( function( token, done ){
     Meteor.callPromise( 'pwiAccounts.byResetToken', token )
         .then(( user ) => {
             if( user ){
+                const panel = AC_PANEL_RESETPWD;
+                pwixModal.run({
+                    mdTemplate: acPanel.template( panel ),
+                    mdTitle: acPanel.title( panel ),
+                    mdFooter: 'ac_footer',
+                    panel: panel,
+                    user: user
+                });
+                /*
                 Blaze.renderWithData( Template.ac_reset_pwd, { user: user, cb: ( passwd ) => {
                     Accounts.resetPassword( token, 'xxxxxx', ( err ) => {
                         if( err ){
@@ -144,6 +157,7 @@ Accounts.onResetPasswordLink( function( token, done ){
                         }
                     });
                 }}, $( 'body' )[0] );
+                */
             } else {
                 _resetExpired();
             }

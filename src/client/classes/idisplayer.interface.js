@@ -100,6 +100,11 @@ export class IDisplayer {
         //console.debug( 'IDisplayer.v_handler()', event, data );
         // some messages can be directly handled here
         switch( event.type ){
+            case 'ac-submit':
+                if( data.requester === null && this.requester === ANONYMOUS && this.panel() === AC_PANEL_RESETPWD ){
+                    
+                }
+                break;
             case 'md-modal-close':
                 this.free();
                 return;
@@ -185,7 +190,7 @@ export class IDisplayer {
      */
     trigger( event, parms={} ){
         acEvent.validate( event );
-        //console.log( event, _data );
+        //console.log( event, parms );
         $( 'body' ).trigger( event, parms );
     }
 }

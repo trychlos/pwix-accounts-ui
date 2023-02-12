@@ -8,6 +8,7 @@
 import { Tracker } from 'meteor/tracker';
 
 import { acDisplayer } from '../classes/ac_displayer.class.js';
+import { acAnonRequester } from '../classes/ac_anon_requester.class.js';
 import { acUser } from '../classes/ac_user.class.js';
 import { IDisplayer } from '../classes/idisplayer.interface.js';
 
@@ -19,6 +20,7 @@ _ready = {
 pwiAccounts = {
     ...pwiAccounts,
     ...{
+        AnonRequester: new acAnonRequester(),
         Displayer: new acDisplayer(),
         User: new acUser(),
 
@@ -34,6 +36,3 @@ pwiAccounts = {
         }
     }
 }
-
-console.log( 'pwiAccounts.Displayer instanceof acDisplayer', pwiAccounts.Displayer instanceof acDisplayer );
-console.log( 'pwiAccounts.Displayer instanceof IDisplayer', pwiAccounts.Displayer instanceof IDisplayer );
