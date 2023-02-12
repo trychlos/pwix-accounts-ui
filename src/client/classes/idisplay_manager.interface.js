@@ -21,15 +21,6 @@
  * 
  *  Anybody can request the display, and gains it. But only a IDisplayRequester will be able to get the events
  *  back.
- * 
- * Note about the event system
- * 
- *  We get tied here to jQuery event system, to keep compatibility with other packages.
- *  But we could also have used:
- *      document.body.dispatchEvent( new CustomEvent( event, { bubbles: true, detail: parms }));
- *  and then
- *      document.addEventListener( name, this.v_handler );
- *  with the inconvenience that addEventListener doesn't work with jQuery events :(
  */
 
 import { ReactiveVar } from 'meteor/reactive-var';
@@ -64,11 +55,6 @@ export class IDisplayManager {
         this._instance = instance;
         const self = this;
 
-        // install a general events handler
-        acEvent.enumerate(( name ) => {
-            $( document ).on( name, this.v_handler.bind( self ));
-        });
-
         // re-set modal title when panel changes
         Tracker.autorun(() => {
             const panel = self.panel();
@@ -84,39 +70,6 @@ export class IDisplayManager {
     /* *** ***************************************************************************************
        *** The implementation API, i.e; the functions the implementation may want to implement ***
        *** *************************************************************************************** */
-
-    /**
-     * @summary Common event handler
-     * @param {Object} event the jQuery event
-     * @param {Object} data the data associated to the event by the sender
-     *
-     *  Default is to redirect the event if possible:
-     *  - either because the event itself provides a requester information
-     *  - or because an identified requester as asked for the display
-     *
-     * [-implementation Api-]
-     */
-    v_handler( event, data ){
-        //console.debug( 'IDisplayManager.v_handler()', event, data );
-        // some messages can be directly handled here
-        switch( event.type ){
-            case 'ac-submit':
-                if( data.requester === null && this.requester === ANONYMOUS && this.panel() === AC_PANEL_RESETPWD ){
-                    
-                }
-                break;
-            case 'md-modal-close':
-                this.free();
-                return;
-        }
-        // if the event has a requester information, then redirect the former to the later
-        const requester = data.requester || this._requester;
-        //console.log( requester );
-        if( requester && requester.IDisplayRequester && requester.IDisplayRequester instanceof IDisplayRequester ){
-            //console.log( 'redirecting to', requester.IDisplayRequester.target());
-            requester.IDisplayRequester.target().trigger( event.type, data );
-        }
-    }
 
     /* *** ***************************************************************************************
        *** The public API, i.e; the API anyone may call to access the interface service        ***
@@ -179,18 +132,5 @@ export class IDisplayManager {
             this._panel.set( panel );
         }
         return this._panel.get();
-    }
-
-    /**
-     * @summary Send an event
-     * @param {String} event the name of the event, as known by acEvent.isKnown()
-     *  Additional arguments, if any, are sent as a data object associated to the event
-     *  So MUST be an object
-     * [-Public API-]
-     */
-    trigger( event, parms={} ){
-        acEvent.validate( event );
-        //console.log( event, parms );
-        $( 'body' ).trigger( event, parms );
     }
 }
