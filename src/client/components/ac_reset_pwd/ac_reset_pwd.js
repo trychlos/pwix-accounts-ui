@@ -64,12 +64,12 @@ Template.ac_reset_pwd.helpers({
 
     // the text before the old password
     textOne(){
-        return Template.instance().AC.text( 'TextOne' );
+        return Template.instance().AC.text( 'textOne' );
     },
 
     // the text between old and new passwords
     textTwo(){
-        return Template.instance().AC.text( 'TextTwo' );
+        return Template.instance().AC.text( 'textTwo' );
     },
 
     // modal title
@@ -94,6 +94,7 @@ Template.ac_reset_pwd.events({
 
     // on Submit button
     'ac-submit .ac-reset-pwd'( event, instance ){
+        console.log( event );
         const pwd = instance.$( '.ac-newone .ac-input-password input' ).val().trim();
         Template.currentData().cb( pwd );
     }

@@ -119,6 +119,10 @@ _resetExpired = function(){
     });
 }
 
+_resetPassword = function( token, password ){
+    console.log( '_resetPassword' );
+}
+
 Accounts.onResetPasswordLink( function( token, done ){
     //console.log( 'onResetPasswordLink token='+token );
     //console.log( 'Accounts._getPasswordResetTokenLifetimeMs', Accounts._getPasswordResetTokenLifetimeMs());
@@ -126,21 +130,27 @@ Accounts.onResetPasswordLink( function( token, done ){
     Meteor.callPromise( 'pwiAccounts.byResetToken', token )
         .then(( user ) => {
             if( user ){
-                pwiAccounts.AnonRequester.IDisplayRequester.ask( AC_PANEL_RESETPWD, { user: user, cb: ( passwd ) => {
-                    Accounts.resetPassword( token, passwd, ( err ) => {
-                        if( err ){
-                            console.error( err );
-                            _resetExpired();
-                        } else {
-                            pwixBootbox.alert({
-                                title: i18n.label( AC_I18N, 'user.resetpwd_title' ),
-                                message: i18n.label( AC_I18N, 'user.resetpwd_text' )
-                            });
-                            pwiAccounts.Displayer.IEventManager.trigger( 'c-user-resetdone-even', { email: user.services.password.reset.email });
-                            done();
-                        }
-                    });
-                }});
+                pwiAccounts.AnonRequester.IDisplayRequester.ask( AC_PANEL_RESETPWD, {
+                    user: user /*,
+                    token: token,
+                    cb: _resetPassword
+                    ( passwd ) => {
+                        Accounts.resetPassword( token, passwd, ( err ) => {
+                            if( err ){
+                                console.error( err );
+                                _resetExpired();
+                            } else {
+                                pwixBootbox.alert({
+                                    title: i18n.label( AC_I18N, 'user.resetpwd_title' ),
+                                    message: i18n.label( AC_I18N, 'user.resetpwd_text' )
+                                });
+                                pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-resetdone-even', { email: user.services.password.reset.email });
+                                done();
+                            }
+                        });
+                    }
+                        */
+                });
             } else {
                 _resetExpired();
             }

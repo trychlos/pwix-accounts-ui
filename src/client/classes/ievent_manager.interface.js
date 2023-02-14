@@ -92,6 +92,7 @@ export class IEventManager {
      * @summary Common event handler
      * @param {Object} event the jQuery event
      * @param {Object} data the data associated to the event by the sender
+     * @return {Boolean} 
      *  Default is to redirect the event if possible.
      * [-implementation Api-]
      */
@@ -115,7 +116,7 @@ export class IEventManager {
                 } else {
                     throw new Error( 'no IDisplayRequester found', data );
                 }
-                return;
+                return false;
 
             // an action has been done, and the application is informed
             //  let bubble the event, making sure we do not left an opened modal dialog
@@ -129,9 +130,10 @@ export class IEventManager {
             case 'ac-user-verifieddone-event':
                 //console.log( event, data );
                 pwixModal.close();
-                return;
+                return true;
 
             // if we have a ac-submit button which has triggered this ac-submit event, then we must have a current requester
+            //  to which we redirect the event
             case 'ac-submit':
                 requester = pwiAccounts.Displayer.IDisplayManager.requester();
                 if( requester && requester instanceof IDisplayRequester ){
@@ -142,11 +144,11 @@ export class IEventManager {
                 } else {
                     throw new Error( 'no current IDisplayRequester' );
                 }
-                return;
+                return false;
 
             case 'md-modal-close':
                 pwiAccounts.Displayer.IDisplayManager.free();
-                return;
+                return false;
         }
     }
 
