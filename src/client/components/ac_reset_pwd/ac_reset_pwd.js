@@ -5,13 +5,10 @@
  * Doesn't change the connection state.
  * 
  * Please note that this panel is run OUTSIDE of usual 'acUserLogin' flow.
- * We so do NOT have any IDisplayRequester information.
+ * We so do NOT have any particular IDisplayRequester information.
  * 
  * Parms:
  * - user
- * - cb a callback to be called on submit
- *   as provided to Accounts.onResetPasswordLink() function
- *   (see https://docs.meteor.com/api/passwords.html#Accounts-onResetPasswordLink).
  */
 
 import printf from 'printf';
@@ -27,7 +24,6 @@ Template.ac_reset_pwd.onCreated( function(){
     //console.log( self );
 
     self.AC = {
-        me: AC_PANEL_RESETPWD,
         passwordOk: new ReactiveVar( true ),
         twiceOk: new ReactiveVar( true ),
             
@@ -50,11 +46,6 @@ Template.ac_reset_pwd.onRendered( function(){
 });
 
 Template.ac_reset_pwd.helpers({
-    // footer buttons
-    me(){
-        return Template.instance().AC.me;
-    },
-
     // parameters for the password input
     parmTwice(){
         return {
@@ -64,18 +55,13 @@ Template.ac_reset_pwd.helpers({
 
     // the text before the old password
     textOne(){
-        return Template.instance().AC.text( 'textOne' );
+        return Template.instance().AC.text( 'TextOne' );
     },
 
     // the text between old and new passwords
     textTwo(){
-        return Template.instance().AC.text( 'textTwo' );
+        return Template.instance().AC.text( 'TextTwo' );
     },
-
-    // modal title
-    title(){
-        return pwiAccounts.Displayer.modalTitle( Template.instance().AC.me );
-    }
 });
 
 Template.ac_reset_pwd.events({

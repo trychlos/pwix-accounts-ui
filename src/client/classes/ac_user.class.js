@@ -82,7 +82,7 @@ export class acUser {
      * @param {String} newpwd the new password to be set
      * @param {Object} target the target of the sent events
      */
-    changePwd( oldpwd, newpwd ){
+    changePwd( oldpwd, newpwd, target ){
         const self = this;
         Accounts.changePassword( oldpwd, newpwd, ( err ) => {
             if( err ){

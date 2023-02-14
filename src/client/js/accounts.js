@@ -121,6 +121,20 @@ _resetExpired = function(){
 
 _resetPassword = function( token, password ){
     console.log( '_resetPassword' );
+    const pwd = $( '.ac-reset-pwd .ac-newone .ac-input-password input' ).val().trim();
+    Accounts.resetPassword( token, passwd, ( err ) => {
+        if( err ){
+            console.error( err );
+            this._resetExpired();
+        } else {
+            pwixBootbox.alert({
+                title: i18n.label( AC_I18N, 'user.resetpwd_title' ),
+                message: i18n.label( AC_I18N, 'user.resetpwd_text' )
+            });
+            pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-resetdone-even', { email: user.services.password.reset.email });
+            done();
+        }
+    });
 }
 
 Accounts.onResetPasswordLink( function( token, done ){
@@ -131,10 +145,10 @@ Accounts.onResetPasswordLink( function( token, done ){
         .then(( user ) => {
             if( user ){
                 pwiAccounts.AnonRequester.IDisplayRequester.ask( AC_PANEL_RESETPWD, {
-                    user: user /*,
-                    token: token,
-                    cb: _resetPassword
-                    ( passwd ) => {
+                    user: user,
+                    submitCallback: () => {
+                        const passwd = $( '.ac-reset-pwd .ac-newone .ac-input-password input' ).val().trim();
+                        console.log( 'passwd', passwd );
                         Accounts.resetPassword( token, passwd, ( err ) => {
                             if( err ){
                                 console.error( err );
@@ -144,12 +158,12 @@ Accounts.onResetPasswordLink( function( token, done ){
                                     title: i18n.label( AC_I18N, 'user.resetpwd_title' ),
                                     message: i18n.label( AC_I18N, 'user.resetpwd_text' )
                                 });
-                                pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-resetdone-even', { email: user.services.password.reset.email });
+                                pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-resetdone-event', { email: user.services.password.reset.email });
                                 done();
                             }
                         });
+                        pwixModal.close();
                     }
-                        */
                 });
             } else {
                 _resetExpired();

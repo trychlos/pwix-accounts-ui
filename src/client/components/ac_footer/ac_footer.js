@@ -5,6 +5,8 @@
  * 
  * Parms:
  *  - companion: a acUserLoginCompanion object, may be null
+ *  - submitCallback: if provided, a callback which will be called on .ac-submit button click
+ *      instead of triggering an 'ac-submit' event
  */
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 import { pwixModal } from 'meteor/pwix:modal';
@@ -62,6 +64,11 @@ Template.ac_footer.events({
     },
 
     'click .ac-submit'( event, instance ){
-        instance.$( event.currentTarget ).trigger( 'ac-submit' );
+        const submitCallback = Template.currentData().submitCallback;
+        if( submitCallback ){
+            submitCallback();
+        } else {
+            instance.$( event.currentTarget ).trigger( 'ac-submit' );
+        }
     }
 });

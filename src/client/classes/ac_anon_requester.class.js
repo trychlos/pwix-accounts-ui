@@ -77,7 +77,7 @@ export class acAnonRequester {
         });
 
         // install an event handler
-        $( document ).on( 'ac-submit', self._submit_handler.bind( self ));
+        //$( document ).on( 'ac-submit', self._submit_handler.bind( self ));
 
         return this;
     }
