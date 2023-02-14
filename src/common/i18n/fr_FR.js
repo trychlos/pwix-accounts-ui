@@ -107,6 +107,7 @@ pwiAccounts.i18n = {
             user: {
                 changepwd_error: 'Impossible de changer le mot de passe.',
                 changepwd_success: 'Mot de passe mis à jour avec succès',
+                resetask_credentials: 'Impossible d\'envoyer un lien de réinitialisation. Merci de vérifier l`adresse saisie',
                 resetask_error: 'Impossible d\'envoyer un lien de réinitialisation.',
                 resetask_success: 'Message envoyé avec succès',
                 resetpwd_error: 'Humm... Désolé, mais il semble que le jeton utilisé soit expiré.<br />Vous devez en redemander un nouveau.',

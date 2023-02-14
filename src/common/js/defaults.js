@@ -17,6 +17,7 @@ defaults = {
     common: {
         haveEmailAddress: AC_FIELD_MANDATORY,
         haveUsername: AC_FIELD_NONE,
+        informResetWrongEmail: AC_RESET_EMAILUNSENT,
         passwordLength: 8,
         passwordStrength: AC_PWD_MEDIUM,
         passwordTwice: true,

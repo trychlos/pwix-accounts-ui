@@ -5,11 +5,8 @@ import { Accounts } from 'meteor/accounts-base';
 
 import { pwixBootbox } from 'meteor/pwix:bootbox';
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
-import { pwixModal } from 'meteor/pwix:modal';
 
 import '../../common/js/index.js';
-
-import { acPanel } from '../classes/ac_panel.class.js';
 
 import '../components/ac_footer/ac_footer.js';
 import '../components/ac_reset_pwd/ac_reset_pwd.js';

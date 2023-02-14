@@ -106,6 +106,7 @@ pwiAccounts.i18n = {
             user: {
                 changepwd_error: 'Unable to change the password.',
                 changepwd_success: 'Password successfully changed',
+                resetask_credentials: 'Unable to send a reset link, please check your credentials',
                 resetask_error: 'Unable to send a reset link to the specified address',
                 resetask_success: 'Reset mail successfully sent',
                 resetpwd_title: 'Password reset',

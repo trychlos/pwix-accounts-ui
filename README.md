@@ -152,6 +152,23 @@ If this is the case, note that it would be a string security hole to let the app
 More, whatever be the requirements of the application, this later MUST take care of allowing needed fields in its schema.
 </td></tr>
 
+<table>
+<tr><td style="vertical-align:top;">
+informResetWrongEmail
+</td><td>
+Whether to inform the user that the email address he/she has entered when asking for resetting a password is not known of our users database.<br />
+Rationale:<br/>
+Meteor default is to return a '[403] Something went wrong. Please check your credentials.' error message.<br />
+Some security guys consider that returning such error would let a malicious user to check which email addresses are registered - or not - in the accounts database, so would lead to a potential confidentiality break.<br />
+This parameter let the application decide what to do:
+<ul>
+<li>AC_RESET_EMAILSENT: say the user that the email has been sucessfully sent, though this is not the case</li>
+<li>AC_RESET_EMAILUNSENT: say the user that the email cannot be sent, without any other reason</li>
+<li>AC_RESET_EMAILERROR: say the user that something went wrong (Meteor standard behavior).</li>
+</ul>
+Package default is to inform the user that email cannot be sent.<br />
+</td></tr>
+
 <tr><td style="vertical-align:top;">
 passwordLength
 </td><td>

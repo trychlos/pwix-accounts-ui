@@ -192,10 +192,22 @@ export class acUser {
         Accounts.forgotPassword({ email: email }, ( err ) => {
             if( err ){
                 console.error( err );
-                target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.resetask_error' ));
+                switch( pwiAccounts.opts().informResetWrongEmail()){
+                    case AC_RESET_EMAILSENT:
+                        tlTolert.success( i18n.label( AC_I18N, 'user.resetask_success' ));
+                        pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-resetasked-event', { email: email });
+                        break;
+
+                    case AC_RESET_EMAILUNSENT:
+                        target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.resetask_error' ));
+                        break;
+
+                    case AC_RESET_EMAILERROR:
+                        target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.resetask_credentials' ));
+                }
             } else {
                 tlTolert.success( i18n.label( AC_I18N, 'user.resetask_success' ));
-                pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-resetasked-event', Meteor.user());
+                pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-resetasked-event', { email: email });
             }
         });
     }

@@ -26,6 +26,13 @@ export class acOptionsConf extends pwixOptions.Options {
         AC_UI_JQUERY
     ];
 
+    // inform the user of a wrong email
+    static ResetWrongEmail = [
+        AC_RESET_EMAILSENT,
+        AC_RESET_EMAILUNSENT,
+        AC_RESET_EMAILERROR
+    ];
+
     // password strength
     static Strength = [
         AC_PWD_VERYWEAK,
@@ -78,6 +85,15 @@ export class acOptionsConf extends pwixOptions.Options {
      */
     haveUsername( value ){
         return this.getset_String_Fn_Object( 'haveUsername', value, { default: defaults.common.haveUsername, ref: acOptionsConf.Fields });
+    }
+
+    /**
+     * Getter/Setter
+     * @param {String|Function} value how to inform the user of a bad email address when asking for resetting a password
+     * @returns {String}
+     */
+    informResetWrongEmail( value ){
+        return this.getset_String_Fn_Object( 'informResetWrongEmail', value, { default: defaults.common.informResetWrongEmail, ref: acOptionsConf.ResetWrongEmail });
     }
 
     /**

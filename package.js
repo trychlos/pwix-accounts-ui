@@ -34,6 +34,9 @@ Package.onUse( function( api ){
         'AC_PWD_VERYSTRONG',
         'AC_RENDER_MODAL',
         'AC_RENDER_DIV',
+        'AC_RESET_EMAILSENT',
+        'AC_RESET_EMAILUNSENT',
+        'AC_RESET_EMAILERROR',
         'AC_UI_BOOTSTRAP',
         'AC_UI_JQUERY'
     ]);
