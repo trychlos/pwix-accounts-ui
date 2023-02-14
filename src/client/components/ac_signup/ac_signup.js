@@ -2,7 +2,7 @@
  * pwix:accounts/src/client/components/ac_signup/ac_signup.js
  * 
  * Parms:
- *  - requester: the acUserLoginCompanion object
+ *  - companion: the acUserLoginCompanion object
  */
 import '../../../common/js/index.js';
 
@@ -77,29 +77,29 @@ Template.ac_signup.helpers({
     // parameters for the password input
     parmTwice(){
         return {
-            aculInstance: this.aculInstance,
+            companion: this.companion,
             role: 'signup'
         };
     },
 
     // the text at the first place of the section (if username)
     textOne(){
-        return this.requester.opts().signupTextOne();
+        return this.companion.opts().signupTextOne();
     },
 
     // the text at the second place of the section (if email)
     textTwo(){
-        return this.requester.opts().signupTextTwo();
+        return this.companion.opts().signupTextTwo();
     },
 
     // the text at the third place of the section
     textThree(){
-        return this.requester.opts().signupTextThree();
+        return this.companion.opts().signupTextThree();
     },
 
     // the text at the fourth place of the section
     textFour(){
-        return this.requester.opts().signupTextFour();
+        return this.companion.opts().signupTextFour();
     }
 });
 

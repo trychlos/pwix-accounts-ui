@@ -121,16 +121,17 @@ export class acUserLoginCompanion {
      *  This returned value may be used by the caller to allow - or not - the default event handling...
      */
     handleEvent( event, data ){
-        if( data.requester && data.requester.IDisplayRequester && data.requester.IDisplayRequester instanceof IDisplayRequester ){
-            if( data.requester.IDisplayRequester.id() !== this.id()){
+        console.log( event, data );
+        if( data.requester && data.requester instanceof IDisplayRequester ){
+            if( data.requester.id() !== this.IDisplayRequester.id()){
                 console.log( 'cowardly refusing to handle an event for someone else', data, this );
                 return false;
             }
         }
-        if( data.panel ){
-            return pwiAccounts.Displayer.IDisplayManager.ask( data.panel, this, data );
+        if( !data.panel ){
+            throw new Error( 'expecting a panel, not found' );
         }
-        return false;
+        return data.requester.ask( data.panel,{ ...data, companion: this });
     }
 
     /**

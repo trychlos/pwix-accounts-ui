@@ -2,6 +2,9 @@
  * IDisplayRequester interface
  *
  *  The interface that each display requester should implement.
+ * 
+ *  It materializes the fact that the display is unique, and so must be asked for.
+ *  The IDIsplayManager will take care of only allowing the display if the display is free and a requester is identified.
  */
 
 import { Random } from 'meteor/random';
@@ -48,13 +51,23 @@ export class IDisplayRequester {
      * [-implementation Api-]
      */
     v_target(){
-        console.debug( 'IDisplayRequester.v_target()' );
         return null;
     }
 
     /* *** ***************************************************************************************
        *** The public API, i.e; the API anyone may call to access the interface service        ***
        *** *************************************************************************************** */
+
+    /**
+     * @summary ask for the display of a panel
+     * @param {String} panel the panel to be displayed
+     * @param {Object} parms the parms to be passed to the panel, may be undefined, null or empty
+     * @returns {Boolean} whether the request has been accepter by the IDisplayManager
+     * [-Public Api-]
+     */
+    ask( panel, parms={} ){
+        return pwiAccounts.Displayer.IDisplayManager.ask( panel, this, parms );
+    }
 
     /**
      * @returns {String} The IDisplayRequester unique identifier.

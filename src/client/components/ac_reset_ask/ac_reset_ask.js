@@ -2,7 +2,7 @@
  * pwix:accounts/src/client/components/ac_reset_ask/ac_reset_ask.js
  * 
  * Parms:
- *  - requester: the acUserLoginCompanion object
+ *  - companion: the acUserLoginCompanion object
 */
 import '../../../common/js/index.js';
 
@@ -35,12 +35,12 @@ Template.ac_reset_ask.helpers({
 
     // the text at the first place of the section
     textOne(){
-        return this.requester.opts().resetAskTextOne();
+        return this.companion.opts().resetAskTextOne();
     },
 
     // the text at the second place of the section
     textTwo(){
-        return this.requester.opts().resetAskTextTwo();
+        return this.companion.opts().resetAskTextTwo();
     }
 });
 

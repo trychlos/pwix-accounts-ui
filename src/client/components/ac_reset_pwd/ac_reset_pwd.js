@@ -10,15 +10,14 @@
  * Parms:
  * - user
  * - cb a callback to be called on submit
- * as provided to Accounts.onResetPasswordLink() function
- * (see https://docs.meteor.com/api/passwords.html#Accounts-onResetPasswordLink).
+ *   as provided to Accounts.onResetPasswordLink() function
+ *   (see https://docs.meteor.com/api/passwords.html#Accounts-onResetPasswordLink).
  */
 
 import printf from 'printf';
 
 import '../../../common/js/index.js';
 
-import '../ac_footer_buttons/ac_footer_buttons.js';
 import '../ac_twice_passwords/ac_twice_passwords.js';
 
 import './ac_reset_pwd.html';
@@ -31,15 +30,10 @@ Template.ac_reset_pwd.onCreated( function(){
         me: AC_PANEL_RESETPWD,
         passwordOk: new ReactiveVar( true ),
         twiceOk: new ReactiveVar( true ),
-
-        close(){
-            self.$( '.ac-reset-pwd .bs-modal' ).modal( 'hide' );
-            return false;
-        },
             
         text( label ){
             const item = 'resetPwd'+label;
-            const string = pwiAccounts._opts()[item]();
+            const string = pwiAccounts.opts()[item]();
             const user = self.data.user;
             return printf( string, user ? user.services.password.reset.email : '' );
         }
@@ -48,13 +42,6 @@ Template.ac_reset_pwd.onCreated( function(){
 
 Template.ac_reset_pwd.onRendered( function(){
     const self = this;
-
-    self.$( '.ac-reset-pwd .modal' ).modal( 'show' );
-
-    self.$( '.ac-reset-pwd .bs-modal' ).draggable({
-        handle: '.modal-header',
-        cursor: 'grab'
-    });
 
     self.autorun(() => {
         const btn = self.$( '.ac-reset-pwd .ac-submit' );
@@ -105,20 +92,9 @@ Template.ac_reset_pwd.events({
         instance.AC.twiceOk.set( data ? data.ok : false );
     },
 
-    // on Cancel button
-    'ac-button-cancel .ac-reset-pwd'( event, instance ){
-        return instance.AC.close();
-    },
-
     // on Submit button
-    'ac-button-submit .ac-reset-pwd'( event, instance ){
+    'ac-submit .ac-reset-pwd'( event, instance ){
         const pwd = instance.$( '.ac-newone .ac-input-password input' ).val().trim();
         Template.currentData().cb( pwd );
-        return instance.AC.close();
-    },
-
-    // remove the Blaze element from the DOM
-    'hidden.bs.modal .ac-reset-pwd'( event, instance ){
-        Blaze.remove( instance.view );
     }
 });

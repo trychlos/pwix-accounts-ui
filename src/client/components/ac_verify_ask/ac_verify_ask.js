@@ -2,7 +2,7 @@
  * pwix:accounts/src/client/components/ac_verify_ask/ac_verify_ask.js
  * 
  * Parms:
- *  - requester: the acUserLoginCompanion object
+ *  - companion: the acUserLoginCompanion object
  */
 
 import './ac_verify_ask.html';
@@ -15,6 +15,6 @@ Template.ac_verify_ask.helpers({
 
     // the text of the section
     textOne(){
-        return this.requester.opts().verifyAskTextOne();
+        return this.companion.opts().verifyAskTextOne();
     }
 });

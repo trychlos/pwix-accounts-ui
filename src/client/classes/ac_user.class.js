@@ -7,8 +7,6 @@
 import { Accounts } from 'meteor/accounts-base';
 import { Tracker } from 'meteor/tracker';
 
-import printf from 'printf';
-
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 import { tlTolert } from 'meteor/pwix:tolert';
 
@@ -84,7 +82,7 @@ export class acUser {
      * @param {String} newpwd the new password to be set
      * @param {Object} target the target of the sent events
      */
-    changePwd( oldpwd, newpwd, target ){
+    changePwd( oldpwd, newpwd ){
         const self = this;
         Accounts.changePassword( oldpwd, newpwd, ( err ) => {
             if( err ){
@@ -92,7 +90,7 @@ export class acUser {
                 target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.changepwd_error' ));
             } else {
                 tlTolert.success( i18n.label( AC_I18N, 'user.changepwd_success' ));
-                target.trigger( 'ac-user-changedpwd-event', { email: self.emailAddress()});
+                pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-changedpwd-event', Meteor.user());
             }
         });
     }
@@ -118,7 +116,7 @@ export class acUser {
                 } else {
                     //self.state( AC_LOGGED );
                     delete options.password;
-                    target.trigger( 'ac-user-created-event', options );
+                    pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-created-event', Meteor.user());
                 }
             });
         } else {
@@ -129,7 +127,7 @@ export class acUser {
                 } else {
                     tlTolert.success( i18n.label( AC_I18N, 'user.signup_success', options.email || options.username ));
                     delete options.password;
-                    target.trigger( 'ac-user-created-event', options );
+                    pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-created-event', options );
                 }
             });
         }
@@ -158,19 +156,18 @@ export class acUser {
                 console.error( err );
                 target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.signin_error' ));
             } else {
-                target.trigger( 'ac-user-signedin-event', { userid: userid });
+                pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-signedin-event', Meteor.user());
             }
         });
     }
 
     /**
      * Logout
-     * @param {Object} target the target of the sent events
      */
-    logout( target ){
-        const email = this.emailAddress();
+    logout(){
+        const user = Meteor.user();
         Meteor.logout();
-        target.trigger( 'ac-user-signedout-event', { email: email });
+        pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-signedout-event', user );
     }
 
     /**
@@ -184,6 +181,11 @@ export class acUser {
      * Send a mail to let the user reset his/her password
      * @param {String} email the entered mail address
      * @param {Object} target the target of the sent events
+     * 
+     * Note: if the asked email doesn't exist in the users database, then we receive an error message
+     *  [403] Something went wrong. Please check your credentials.
+     * This may create a security hole which let a malicious user to validate that such email address is or not registered in our application.
+     * So it is a package configuration to send back this error to the user, or to say him that an email has been sent (event if this is not true).
      */
     resetAsk( email, target ){
         const self = this;
@@ -193,7 +195,7 @@ export class acUser {
                 target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.resetask_error' ));
             } else {
                 tlTolert.success( i18n.label( AC_I18N, 'user.resetask_success' ));
-                target.trigger( 'ac-user-resetasked-event', { email: email });
+                pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-resetasked-event', Meteor.user());
             }
         });
     }
@@ -227,7 +229,7 @@ export class acUser {
             .then(( result ) => {
                 if( result ){
                     tlTolert.success( i18n.label( AC_I18N, 'user.verifyask_success' ));
-                    target.trigger( 'ac-user-verifyasked-event', { email: self.emailAddress()});
+                    pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-verifyasked-event', Meteor.user());
                 } else {
                     tlTolert.error( i18n.label( AC_I18N, 'user.verifyask_error' ));
                 }

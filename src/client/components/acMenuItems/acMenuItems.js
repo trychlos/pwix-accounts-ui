@@ -1,20 +1,25 @@
 /*
  * pwix:accounts/src/client/components/acMenuItems/acMenuItems.js
  *
- * This template is responsible to provide the dropdown menu items.
+ * This template is responsible to provide the dropdown menu items, either inside the ac_dropdown parent template,
+ * or as individual items inside of an application menu. In this later case, having a name is the pnly way for the
+ * application to be attached back to a specific 'acUserLogin' Blaze template instance.
  * 
  * Parms:
- *  - name (opt.) the name attributed by the application to this 'acUserLogin' instance
- * or
- *  - aculInstance: the acUserLogin template instance
+ *  - companion: the acUserLoginCompanion object, may be null
+ *  - name: the acUserLogin Blaze template instance name, may be null
  * 
- * From the application point of view, the name is at the time the only way to identify a specific
- * 'acUserLogin' instance, and thus to get the managing acShower.
+ * Each of these parm may be individually undefined, null or empty, but never both at the same time.
+ * Exactly one of these parms MUST be provided.
+ * 
+ * From the application point of view, the name is at the time the only way to identify 
  * 
  * From our point of view, 'acMenuItems' component display the available items as a dropdown menu.
  * Though we do our best to inherit from a 'acUserLogin' configuration, we will limit ourselves
  * to a standard menu if we do not find any willing-to 'acUserLogin' instance.
  */
+
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import '../../../common/js/index.js';
 
@@ -26,17 +31,31 @@ Template.acMenuItems.onCreated( function(){
     const self = this;
 
     self.AC = {
-        aculInstance: new ReactiveVar( null )
+        companion: new ReactiveVar( null ),
+        name: new ReactiveVar( null )
     };
 
-    // does our best to get a acUserLogin Blaze template instance which is expected to main a menu configuration
-    //  if not able to, then rely on standard options only
+    // do we have a companion ?
     self.autorun(() => {
-        const dataContext = Template.currentData();
-        if( Object.keys( dataContext ).includes( 'name' )){
-            self.AC.aculInstance.set( acUserLoginCompanion.byName( dataContext.name ));
-        } else {
-            self.AC.aculInstance.set( dataContext.aculInstance );
+        const companion = Template.currentData().companion;
+        if( companion ){
+            self.AC.companion.set( companion );
+        }
+    });
+
+    // do we have a name ?
+    self.autorun(() => {
+        const name = Template.currentData().name;
+        if( name ){
+            self.AC.name.set( name );
+        }
+    });
+
+    // if we have a name, then we also have a companion!
+    self.autorun(() => {
+        const name = self.AC.name.get();
+        if( name ){
+            self.AC.companion.set( acUserLoginCompanion.byName( name ));
         }
     });
 });
@@ -57,8 +76,7 @@ Template.acMenuItems.onRendered( function(){
     //  This solution, as a one-line jQuery which doesn't use Blaze helpers, works well.
     self.autorun(() => {
         const menu = self.$( '.acMenuItems' );
-        const aculInstance = self.AC.aculInstance.get();
-        const companion = aculInstance && aculInstance.AC ? aculInstance.AC.companion : null;
+        const companion = self.AC.companion.get();
         if( menu ){
             ddItems = [];
             if( companion ){
@@ -96,11 +114,12 @@ Template.acMenuItems.events({
         const msg = $( event.currentTarget ).attr( 'data-ac-msg' );
         if( msg ){
             console.log( 'triggering', msg );
-            //$( event.currentTarget ).trigger( msg );
-            const aculInstance = instance.AC.aculInstance.get();
-            const companion = aculInstance && aculInstance.AC ? aculInstance.AC.companion : null;
+            const companion = instance.AC.companion.get();
             const panel = $( event.currentTarget ).attr( 'data-ac-panel' );
-            pwiAccounts.Displayer.IDisplayManager.trigger( msg, { requester: companion, panel: panel });
+            // will bubble up to acUserLogin Blaze instance, or IEventManager.handler(), depending of which takes it first
+            // in a standard width display, acMenuItems are attached to an ac_dropdown, and acUserLogin Blaze template will manage them
+            // in a small display, items are attached to the application menu, so only IEventHandler will be able to handle the events
+            $( event.currentTarget ).trigger( msg, { requester: companion.IDisplayRequester, panel: panel });
         }
     }
 });

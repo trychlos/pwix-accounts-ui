@@ -4,38 +4,14 @@
  * Provides various buttons, to be displayed either in a modal footer, or in the bottom of a div.
  * 
  * Parms:
- *  - requester: the acUserLoginCompanion object, may be null when called from outside of the acUserLogin flow
- *  - panel: the displayed panel
+ *  - companion: a acUserLoginCompanion object, may be null
  */
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 import { pwixModal } from 'meteor/pwix:modal';
 
 import { acPanel } from '../../classes/ac_panel.class.js';
-import { IDisplayRequester } from '../../classes/idisplay_requester.interface.js';
 
 import './ac_footer.html';
-
-/*
-Template.ac_footer.onCreated( function(){
-    const self = this;
-
-    self.AC = {
-        panel: new ReactiveVar( null )
-    };
-
-    // make the panel a reactive var so that the footer is re-rendered on change
-    self.autorun(() => {
-        self.AC.panel.set( Template.currentData().panel );
-    });
-});
-
-
-Template.ac_footer.onRendered( function(){
-    const self = this;
-
-    // change the modal title when the panel change
-});
-*/
 
 Template.ac_footer.helpers({
 
@@ -55,7 +31,8 @@ Template.ac_footer.helpers({
 
     // whether to display this link
     haveLink( link ){
-        const ret = link.have && this.requester ? this.requester.opts()[link.have]() : link.have;
+        console.log( this );
+        const ret = link.have && this.companion ? this.companion.opts()[link.have]() : link.have;
         return ret;
     },
 
@@ -76,7 +53,6 @@ Template.ac_footer.helpers({
 Template.ac_footer.events({
 
     'click .ac-link'( event, instance ){
-        //console.log( event );
         const panel = instance.$( event.currentTarget ).find( 'a' ).attr( 'data-ac-target' );
         pwiAccounts.Displayer.IDisplayManager.panel( panel );
     },
@@ -86,10 +62,6 @@ Template.ac_footer.events({
     },
 
     'click .ac-submit'( event, instance ){
-        const requester = Template.currentData().requester;
-        const panel = Template.currentData().panel;
-        if( requester && requester.IDisplayRequester && requester.IDisplayRequester instanceof IDisplayRequester ){
-            requester.IDisplayRequester.target().trigger( 'ac-button-submit', { requester: requester, panel: panel });
-        }
+        instance.$( event.currentTarget ).trigger( 'ac-submit' );
     }
 });

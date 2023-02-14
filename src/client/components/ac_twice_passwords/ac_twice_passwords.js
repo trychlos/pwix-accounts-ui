@@ -7,11 +7,11 @@
  * 'ac-password-data' and 'ac-twice-data' messages.
  * 
  * Parms:
- *  - aculInstance: the acUserLogin template instance
+ *  - companion: the acUserLoginCompanion object
  *      Is undefined when invoked from ac_reset_pwd template
  *      Take care!
  *  - role: 'signup|change|reset'
- *      This happens to also be the prefix of the to-be-called acShower methods
+ *      This happens to also be the prefix of the to-be-called pwiAccounts options methods
  *      Do not change!
  *  - label: String, defaulting to 'Password'
  *  - placeholder1: String, defaulting to 'Enter your password'
@@ -48,10 +48,10 @@ Template.ac_twice_passwords.onCreated( function(){
 
     self.autorun(() => {
         const fn = Template.currentData().role + 'PasswordTwice';
-        const aculInstance = Template.currentData().aculInstance;
+        const companion = Template.currentData().companion;
         self.AC.twice.set( 
-            aculInstance && aculInstance.AC && aculInstance.AC.options[fn] ?
-                aculInstance.AC.options[fn]() : ( pwiAccounts.opts()[fn] ? pwiAccounts.opts()[fn]() : pwiAccounts.opts().passwordTwice()));
+            companion && companion.opts[fn] ?
+                companion.opts[fn]() : ( pwiAccounts.opts()[fn] ? pwiAccounts.opts()[fn]() : pwiAccounts.opts().passwordTwice()));
     });
 });
 

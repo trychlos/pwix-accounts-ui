@@ -2,7 +2,7 @@
  * pwix:accounts/src/client/components/ac_change_pwd/ac_change_pwd.js
  * 
  * Parms:
- *  - requester: the acUserLoginCompanion object
+ *  - companion: the acUserLoginCompanion object
  */
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
@@ -39,7 +39,7 @@ Template.ac_change_pwd.helpers({
     // parameters for the password input
     parmTwice(){
         return {
-            aculInstance: this.aculInstance,
+            companion: this.companion,
             role: 'change'
         };
     },
@@ -53,17 +53,17 @@ Template.ac_change_pwd.helpers({
 
     // the text before the old password
     textOne(){
-        return this.requester.opts().changePwdTextOne();
+        return this.companion.opts().changePwdTextOne();
     },
 
     // the text between old and new passwords
     textTwo(){
-        return this.requester.opts().changePwdTextTwo();
+        return this.companion.opts().changePwdTextTwo();
     },
 
     // the text after new passwords
     textThree(){
-        return this.requester.opts().changePwdTextThree();
+        return this.companion.opts().changePwdTextThree();
     }
 });
 

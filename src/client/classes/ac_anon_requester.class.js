@@ -37,7 +37,7 @@ export class acAnonRequester {
      */
     constructor(){
         const self = this;
-        console.log( 'pwix:accounts instanciating acAnonRequester', instance );
+        console.log( 'pwix:accounts instanciating acAnonRequester' );
 
         Interface.add( this, IDisplayRequester, {
         });

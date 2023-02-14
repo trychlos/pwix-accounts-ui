@@ -29,10 +29,7 @@ import { Tracker } from 'meteor/tracker';
 import { pwixModal } from 'meteor/pwix:modal';
 
 import { IDisplayRequester } from './idisplay_requester.interface.js';
-import { acEvent } from './ac_event.class.js';
 import { acPanel } from './ac_panel.class.js';
-
-ANONYMOUS = 'ANONYMOUS';
 
 export class IDisplayManager {
 
@@ -78,36 +75,41 @@ export class IDisplayManager {
     /**
      * @summary Request for the display of the specified panel
      * @param {String} panel the panel to be displayed
-     * @param {IDisplayRequester} requester a IDisplayRequester instance, or null
-     * @param {Object} opts options to be passed to the panel
+     * @param {IDisplayRequester} requester a IDisplayRequester instance
+     * @param {Object} parms the parms to be passed to the panel, may be undefined, null or empty
      * @returns {Boolean} whether the IDisplayManager is able to satisfy the request
      *  i.e. whether the display is free before the request and can be allocated to it
      * [-Public API-]
      */
-    ask( panel, requester, opts ){
+    ask( panel, requester, parms={} ){
+        console.debug( 'panel', panel, 'requester', requester, 'parms', parms );
         acPanel.validate( panel );
-        if( panel === AC_PANEL_NONE ){
-            this.free();
-            return true;
-        }
-        if( requester && !( requester.IDisplayRequester && requester.IDisplayRequester instanceof IDisplayRequester )){
+        if( !requester || !( requester instanceof IDisplayRequester )){
             throw new Error( 'not a IDisplayRequester instance', requester );
         }
-        // if we already have a requester for the display, then refuse the request
-        if( this._requester ){
-            console.log( 'request is refused as display is already used' );
+        // freeing the display (if asked by the same initial requester)
+        if( panel === AC_PANEL_NONE ){
+            if( !this._requester || this._requester.id() === requester.id()){
+                this.free();
+                return true;
+            } else {
+                console.log( 'refusing request of another IDisplayRequester' );
+                return false;
+            }
+        }
+        // if we already have a another requester for the display, then refuse the request
+        if( this._requester && this._requester.id() !== requester.id()){
+            console.log( 'refusing request as already used by another IDisplayRequester' );
             return false;
         }
         this.panel( panel );
-        // the requester may be null if the caller doesn't care of receiving events
-        this._requester = requester || ANONYMOUS;
+        this._requester = requester;
         // show the panel (at last...)
+        // modal template and title are set through the panel reactivity
         pwixModal.run({
-            mdTemplate: acPanel.template( panel ),
-            mdTitle: acPanel.title( panel ),
-            mdTarget : requester ? requester.IDisplayRequester.target() : null,
             mdFooter: 'ac_footer',
-            ...opts
+            requester: requester,
+            ...parms
         });
         return true;
     }
@@ -117,12 +119,9 @@ export class IDisplayManager {
      * [-Public API-]
      */
     free(){
-        if( !this._requester ){
-            console.log( 'no requester at the time' );
-        }
         console.log( 'freeing the display' );
         this._requester = null;
-        this.panel( null );
+        this.panel( AC_PANEL_NONE );
     }
 
     /**
@@ -136,5 +135,12 @@ export class IDisplayManager {
             this._panel.set( panel );
         }
         return this._panel.get();
+    }
+
+    /**
+     * @returns {IDisplayRequester} the current IDisplayRequester which has reserved the display
+     */
+    requester(){
+        return this._requester;
     }
 }

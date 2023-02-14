@@ -9,7 +9,7 @@ import { pwixModal } from 'meteor/pwix:modal';
 
 import '../../common/js/index.js';
 
-import { acPanel } from '../classes/ac_panel.class.js.js';
+import { acPanel } from '../classes/ac_panel.class.js';
 
 import '../components/ac_footer/ac_footer.js';
 import '../components/ac_reset_pwd/ac_reset_pwd.js';
@@ -66,9 +66,7 @@ Accounts.onEmailVerificationLink( function( token, done ){
                             title: i18n.label( AC_I18N, 'user.verify_title' ),
                             message: i18n.label( AC_I18N, 'user.verify_text' )
                         });
-                        // a special construction which answers to the special event listener attached to the document
-                        // see pwix:accounts/src/client/js/handlers.js
-                        document.body.dispatchEvent( new CustomEvent( 'ac-user-verifymail', { bubbles: true, detail: { email: email }}));
+                        pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-verifieddone-event', { email: email });
                         done();
                     }
                 });
@@ -131,17 +129,8 @@ Accounts.onResetPasswordLink( function( token, done ){
     Meteor.callPromise( 'pwiAccounts.byResetToken', token )
         .then(( user ) => {
             if( user ){
-                const panel = AC_PANEL_RESETPWD;
-                pwixModal.run({
-                    mdTemplate: acPanel.template( panel ),
-                    mdTitle: acPanel.title( panel ),
-                    mdFooter: 'ac_footer',
-                    panel: panel,
-                    user: user
-                });
-                /*
-                Blaze.renderWithData( Template.ac_reset_pwd, { user: user, cb: ( passwd ) => {
-                    Accounts.resetPassword( token, 'xxxxxx', ( err ) => {
+                pwiAccounts.AnonRequester.IDisplayRequester.ask( AC_PANEL_RESETPWD, { user: user, cb: ( passwd ) => {
+                    Accounts.resetPassword( token, passwd, ( err ) => {
                         if( err ){
                             console.error( err );
                             _resetExpired();
@@ -150,14 +139,11 @@ Accounts.onResetPasswordLink( function( token, done ){
                                 title: i18n.label( AC_I18N, 'user.resetpwd_title' ),
                                 message: i18n.label( AC_I18N, 'user.resetpwd_text' )
                             });
-                            // a special construction which answers to the special event listener attached to the document
-                            // see pwix:accounts/src/client/js/handlers.js
-                            document.body.dispatchEvent( new CustomEvent( 'ac-user-resetpwd', { bubbles: true, detail: { email: user.services.password.reset.email }}));
+                            pwiAccounts.Displayer.IEventManager.trigger( 'c-user-resetdone-even', { email: user.services.password.reset.email });
                             done();
                         }
                     });
-                }}, $( 'body' )[0] );
-                */
+                }});
             } else {
                 _resetExpired();
             }

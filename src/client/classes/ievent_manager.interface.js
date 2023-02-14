@@ -13,6 +13,8 @@
  *  with the inconvenience that addEventListener doesn't work with jQuery events :(
  */
 
+import { IDisplayRequester } from './idisplay_requester.interface.js';
+
 export class IEventManager {
 
     // static data
@@ -37,9 +39,28 @@ export class IEventManager {
         'ac-user-resetdone-event',
         'ac-user-verifyasked-event',
         'ac-user-verified-event',
+        // when submitting a modal not attached to any Blaze template event handler
+        'ac-submit',
         // when the modal is about to close
         'md-modal-close'
     ];
+
+    // static methods
+    //
+
+    /**
+     * @summary Validate an event name
+     * @param {String} event the event to be validated
+     * @throws {Error}
+     */
+    static validate( event ){
+        if( !event ){
+            throw new Error( 'empty event name' );
+        }
+        if( !IEventManager.Events.includes( event )){
+            throw new Error( 'unknon event', event );
+        }
+    }
 
     // the implementation instance
     _instance = null;
@@ -55,8 +76,9 @@ export class IEventManager {
         const self = this;
 
         // install a general events handler
-        IEventManager.Events(( name ) => {
-            $( document ).on( name, this.v_handler.bind( self ));
+        IEventManager.Events.every(( name ) => {
+            $( document ).on( name, self.v_handler.bind( self ));
+            return true;
         });
 
         return this;
@@ -74,24 +96,57 @@ export class IEventManager {
      * [-implementation Api-]
      */
     v_handler( event, data ){
-        //console.debug( 'IEventManager.v_handler()', event, data );
+        console.debug( 'IEventManager.v_handler()', event, data );
+        let requester;
+        let target;
         // some messages can be directly handled here
         switch( event.type ){
-            case 'ac-submit':
-                if( data.requester === null && this.requester === ANONYMOUS && this.panel() === AC_PANEL_RESETPWD ){
-                    
+            // a dropdown item ask for a panel
+            //  it must provide its IDisplayRequester instance
+            case 'ac-panel-changepwd-event':
+            case 'ac-panel-resetask-event':
+            case 'ac-panel-signin-event':
+            case 'ac-panel-signout-event':
+            case 'ac-panel-signup-event':
+            case 'ac-panel-verifyask-event':
+                requester = data.requester;
+                if( requester && requester instanceof IDisplayRequester ){
+                    requester.target().trigger( event.type, data );
+                } else {
+                    throw new Error( 'no IDisplayRequester found', data );
                 }
-                break;
-            case 'md-modal-close':
-                this.free();
                 return;
-        }
-        // if the event has a requester information, then redirect the former to the later
-        const requester = data.requester || this._requester;
-        //console.log( requester );
-        if( requester && requester.IDisplayRequester && requester.IDisplayRequester instanceof IDisplayRequester ){
-            //console.log( 'redirecting to', requester.IDisplayRequester.target());
-            requester.IDisplayRequester.target().trigger( event.type, data );
+
+            // an action has been done, and the application is informed
+            //  let bubble the event, making sure we do not left an opened modal dialog
+            case 'ac-user-changedpwd-event':
+            case 'ac-user-created-event':
+            case 'ac-user-signedin-event':
+            case 'ac-user-signedout-event':
+            case 'ac-user-resetasked-event':
+            case 'ac-user-resetdone-event':
+            case 'ac-user-verifyasked-event':
+            case 'ac-user-verifieddone-event':
+                //console.log( event, data );
+                pwixModal.close();
+                return;
+
+            // if we have a ac-submit button which has triggered this ac-submit event, then we must have a current requester
+            case 'ac-submit':
+                requester = pwiAccounts.Displayer.IDisplayManager.requester();
+                if( requester && requester instanceof IDisplayRequester ){
+                    target = requester.target();
+                    if( target ){
+                        target.trigger( event.type, data );
+                    }
+                } else {
+                    throw new Error( 'no current IDisplayRequester' );
+                }
+                return;
+
+            case 'md-modal-close':
+                pwiAccounts.Displayer.IDisplayManager.free();
+                return;
         }
     }
 
@@ -102,15 +157,11 @@ export class IEventManager {
     /**
      * @summary Send an event
      * @param {String} event the name of the event, as known by acEvent.isKnown()
-     *  Additional arguments, if any, are sent as a data object associated to the event
-     *  So MUST be an object
+     * @param {Object} Parms additional arguments, if any, to be sent as a data object associated to the event
      * [-Public API-]
      */
-    /*
     trigger( event, parms={} ){
-        acEvent.validate( event );
-        //console.log( event, parms );
+        IEventManager.validate( event );
         $( 'body' ).trigger( event, parms );
     }
-    */
 }

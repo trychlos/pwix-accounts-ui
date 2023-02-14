@@ -44,6 +44,8 @@ import './acUserLogin.html';
 Template.acUserLogin.onCreated( function(){
     const self = this;
 
+    // note for the maintainer: as the companion object is passed to each and every child template, all of them
+    //  is able to address this AC object, and tu ouse the below methods. Take care when changing something.
     self.AC = {
         companion: null,
         options: null,
@@ -61,8 +63,6 @@ Template.acUserLogin.onCreated( function(){
         }
     };
 
-    console.log( 'pwix:accounts instanciating acUserLogin', self.AC.companion.id());
-
     // first instanciates the options manager
     self.AC.options = new acUserLoginOptions({
         ...defaults.acUserLogin,
@@ -72,13 +72,11 @@ Template.acUserLogin.onCreated( function(){
     // instanciates our companion class
     self.AC.companion = new acUserLoginCompanion( self );
 
-    // instanciates the display manager
-    self.AC.display = new acShower( self );
+    console.log( 'pwix:accounts instanciating acUserLogin', self.AC.companion.IDisplayRequester.id());
 });
 
 Template.acUserLogin.onRendered( function(){
     const self = this;
-    console.log( 'onRendered', this );
 
     // make the acUserLoginCompanion 'ready' as soon as the DOM is itself ready
     //  thanks to Blaze rendering mechanisms, this toplevel template is the last to be rendered
@@ -91,7 +89,7 @@ Template.acUserLogin.onRendered( function(){
     }, 15 );
 
     // setup the initial panel only when the template is rendered
-    pwiAccounts.Displayer.IDisplayManager.ask( self.AC.options.initialPanel(), self.AC.companion );
+    self.AC.companion.IDisplayRequester.ask( self.AC.options.initialPanel());
 });
 
 Template.acUserLogin.helpers({
@@ -112,31 +110,38 @@ Template.acUserLogin.helpers({
     },
 
     // provides the IDisplayRequester instance to the child templates
+    //  if present, also provides the acUserLogin name
     parms(){
-        return {
-            requester: Template.instance().AC.companion
+        let o = {
+            companion: Template.instance().AC.companion
+        };
+        const name = o.companion.opts().name();
+        if( name ){
+            o.name = name;
         }
+        return o;
     }
 });
 
 Template.acUserLogin.events({
     // validate the current display
-    'ac-button-submit .acUserLogin'( event, instance, data ){
+    'ac-submit .acUserLogin'( event, instance, data ){
         console.log( event, instance, data );
         let mail = null;
         let password = null;
         let managed = false;
-        switch( data.panel ){
+        const panel = pwiAccounts.Displayer.IDisplayManager.panel();
+        switch( panel ){
             case AC_PANEL_CHANGEPWD:
                 const pwd1 = $( '.ac-change-pwd .ac-old .ac-input' ).val().trim();
                 const pwd2 = $( '.ac-change-pwd .ac-newone .ac-input' ).val().trim();
-                pwiAccounts.User.changePwd( pwd1, pwd2, instance.AC.companion );
+                pwiAccounts.User.changePwd( pwd1, pwd2, instance.AC.companion.IDisplayRequester.target());
                 managed = true;
                 break;
             case AC_PANEL_RESETASK:
                 console.log( 'element', $( '.ac-reset-ask' ));
                 mail = $( '.ac-reset-ask .ac-input-email .ac-input' ).val().trim();
-                pwiAccounts.User.resetAsk( mail, instance.AC.companion );
+                pwiAccounts.User.resetAsk( mail, instance.AC.companion.IDisplayRequester.target());
                 managed = true;
                 break;
             case AC_PANEL_SIGNIN:
@@ -144,11 +149,11 @@ Template.acUserLogin.events({
                 mail = $( '.ac-signin .ac-input-userid .ac-input' ).val().trim();
                 password = $( '.ac-signin .ac-input-password .ac-input' ).val().trim();
                 //console.log( 'mail',mail,'password', pwd );
-                pwiAccounts.User.loginWithPassword( mail, password, instance.AC.companion );
+                pwiAccounts.User.loginWithPassword( mail, password, instance.AC.companion.IDisplayRequester.target());
                 managed = true;
                 break;
             case AC_PANEL_SIGNOUT:
-                pwiAccounts.User.logout( instance.AC.companion );
+                pwiAccounts.User.logout();
                 managed = true;
                 break;
             case AC_PANEL_SIGNUP:
@@ -162,26 +167,23 @@ Template.acUserLogin.events({
                 options.password = $( '.ac-signup .ac-newone .ac-input' ).val().trim();
                 const autoConnect = instance.AC.options.signupAutoConnect();
                 console.log( 'found autoConnect='+autoConnect );
-                pwiAccounts.User.createUser( options, instance.AC.companion, autoConnect );
+                pwiAccounts.User.createUser( options, instance.AC.companion.IDisplayRequester.target(), autoConnect );
                 if( !autoConnect ){
                     $( event.currentTarget ).find( '.ac-signup' ).trigger( 'ac-clear' );
                 }
                 managed = true;
                 break;
             case AC_PANEL_VERIFYASK:
-                pwiAccounts.User.verifyMail( instance.AC.companion );
+                pwiAccounts.User.verifyMail( instance.AC.companion.IDisplayRequester.target());
                 managed = true;
                 break;
-        }
-        if( managed ){
-            pwixModal.close();
         }
         return !managed;
     },
 
     'ac-display-error .acUserLogin'( event, instance, msg ){
         console.log( event, instance, msg );
-        pwiAccounts.Displayer.IDisplayManager.errorMsg( msg );
+        pwiAccounts.Displayer.errorMsg( msg );
         return false;
     },
 
@@ -228,26 +230,5 @@ Template.acUserLogin.events({
         console.log( event, instance, data );
         pwiAccounts.Displayer.title( data );
         return false;
-    },
-
-    // application advertising of a change on the user
-    //  let the message bubble up
-    'ac-user-changepwd .acUserLogin'( event, instance, data ){
-        console.log( 'ac-user-changepwd', data );
-    },
-    'ac-user-create .acUserLogin'( event, instance, data ){
-        console.log( 'ac-user-create', data );
-    },
-    'ac-user-login .acUserLogin'( event, instance, data ){
-        console.log( 'ac-user-login', data );
-    },
-    'ac-user-logout .acUserLogin'( event, instance, data ){
-        console.log( 'ac-user-logout', data );
-    },
-    'ac-user-resetasked .acUserLogin'( event, instance, data ){
-        console.log( 'ac-user-resetasked', data );
-    },
-    'ac-user-verifyasked .acUserLogin'( event, instance, data ){
-        console.log( 'ac-user-verifyasked', data );
     }
 });

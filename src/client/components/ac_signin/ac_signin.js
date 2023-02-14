@@ -2,7 +2,7 @@
  * pwix:accounts/src/client/components/ac_signin/ac_signin.js
  * 
  * Parms:
- *  - requester: the acUserLoginCompanion object
+ *  - companion: the acUserLoginCompanion object
  */
 import '../../../common/js/index.js';
 
@@ -25,16 +25,16 @@ Template.ac_signin.helpers({
 
     // a description before the section
     textOne(){
-        return this.requester.opts().signinTextOne();
+        return this.companion.opts().signinTextOne();
     },
 
     // a description in the middle of the section
     textTwo(){
-        return this.requester.opts().signinTextTwo();
+        return this.companion.opts().signinTextTwo();
     },
 
     // a description at the endof the section
     textThree(){
-        return this.requester.opts().signinTextThree();
+        return this.companion.opts().signinTextThree();
     }
 });
