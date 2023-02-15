@@ -38,7 +38,7 @@ export class IEventManager {
         'ac-user-resetasked-event',
         'ac-user-resetdone-event',
         'ac-user-verifyasked-event',
-        'ac-user-verified-event',
+        'ac-user-verifieddone-event',
         // when submitting a modal not attached to any Blaze template event handler
         'ac-submit',
         // when the modal is about to close
@@ -58,7 +58,7 @@ export class IEventManager {
             throw new Error( 'empty event name' );
         }
         if( !IEventManager.Events.includes( event )){
-            throw new Error( 'unknon event', event );
+            throw new Error( 'unknown event', event );
         }
     }
 
@@ -110,7 +110,7 @@ export class IEventManager {
             case 'ac-panel-signup-event':
             case 'ac-panel-verifyask-event':
                 if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL_HANDLE ){
-                    console.log( 'pwix:accounts IEventManager handling', event.type );
+                    console.log( 'pwix:accounts IEventManager handling', event.type, data );
                 }
                 const requester = data.requester;
                 if( requester && requester instanceof IDisplayRequester ){
@@ -144,9 +144,12 @@ export class IEventManager {
             case 'ac-user-verifyasked-event':
             case 'ac-user-verifieddone-event':
                 if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_HANDLE ){
-                    console.log( 'pwix:accounts IEventManager handling', event.type );
+                    console.log( 'pwix:accounts IEventManager handling', event.type, data );
                 }
                 if( data.autoClose !== false ){
+                    if( pwiAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
+                        console.log( 'pwix:accounts IEventManager closing modal' );
+                    }
                     pwixModal.close();
                 }
         }
@@ -162,15 +165,20 @@ export class IEventManager {
      * [-implementation Api-]
      */
     v_handleSubmit( event, data ){
-        console.debug( 'IEventManager.v_handleSubmit()' );
         switch( event.type ){
             // if we have a ac-submit button which has triggered this ac-submit event, then we must have a current requester
             //  to which we redirect the event
             case 'ac-submit':
+                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_HANDLE ){
+                    console.log( 'pwix:accounts IEventManager handling', event.type, data );
+                }
                 const requester = pwiAccounts.Displayer.IDisplayManager.requester();
                 if( requester && requester instanceof IDisplayRequester ){
                     const target = requester.target();
                     if( target ){
+                        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_TRIGGER ){
+                            console.log( 'pwix:accounts IEventManager triggering', event.type, 'to', target, 'with', data );
+                        }
                         target.trigger( event.type, data );
                     }
                 } else {
@@ -189,9 +197,12 @@ export class IEventManager {
      * [-implementation Api-]
      */
     v_handleModal( event, data ){
-        console.debug( 'IEventManager.v_handleModal()' );
+        //console.debug( 'IEventManager.v_handleModal()' );
         switch( event.type ){
             case 'md-modal-close':
+                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
+                    console.log( 'pwix:accounts IEventManager handling', event.type );
+                }
                 pwiAccounts.Displayer.IDisplayManager.free();
                 return false;
         }
@@ -207,7 +218,7 @@ export class IEventManager {
      * [-implementation Api-]
      */
     v_handler( event, data ){
-        console.debug( 'IEventManager.v_handler()', event, data );
+        //console.debug( 'IEventManager.v_handler()', event, data );
         return this.v_handlePanel( event, data ) && this.v_handleUser( event, data ) &&
                 this.v_handleSubmit( event, data ) && this.v_handleUser( event, data ) && this.v_handleModal( event, data );
     }

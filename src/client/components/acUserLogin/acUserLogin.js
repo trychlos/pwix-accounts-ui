@@ -128,7 +128,9 @@ Template.acUserLogin.helpers({
 Template.acUserLogin.events({
     // validate the current display
     'ac-submit .acUserLogin'( event, instance, data ){
-        console.log( event, instance, data );
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_HANDLE ){
+            console.log( 'pwix:accounts acUserLogin handling', event.type, data );
+        }
         let mail = null;
         let password = null;
         let managed = false;

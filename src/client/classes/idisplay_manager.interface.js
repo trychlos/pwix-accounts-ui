@@ -113,6 +113,9 @@ export class IDisplayManager {
         this._requester = requester;
         // show the panel (at last...)
         // modal template and title are set through the panel reactivity
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
+            console.log( 'pwix:accounts IDisplayManager running modal' );
+        }
         pwixModal.run({
             mdFooter: 'ac_footer',
             requester: requester,

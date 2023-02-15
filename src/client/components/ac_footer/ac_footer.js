@@ -33,7 +33,6 @@ Template.ac_footer.helpers({
 
     // whether to display this link
     haveLink( link ){
-        console.log( this );
         const ret = link.have && this.companion ? this.companion.opts()[link.have]() : link.have;
         return ret;
     },
@@ -60,14 +59,23 @@ Template.ac_footer.events({
     },
 
     'click .ac-cancel'( event, instance ){
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
+            console.log( 'pwix:accounts ac_footer closing modal' );
+        }
         pwixModal.close();
     },
 
     'click .ac-submit'( event, instance ){
         const submitCallback = Template.currentData().submitCallback;
         if( submitCallback ){
+            if( pwiAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_TRIGGER ){
+                console.log( 'pwix:accounts ac_footer calling submitCallback()' );
+            }
             submitCallback();
         } else {
+            if( pwiAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_TRIGGER ){
+                console.log( 'pwix:accounts ac_footer triggering', 'ac-submit' );
+            }
             instance.$( event.currentTarget ).trigger( 'ac-submit' );
         }
     }

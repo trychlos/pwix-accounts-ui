@@ -63,7 +63,12 @@ Accounts.onEmailVerificationLink( function( token, done ){
                             title: i18n.label( AC_I18N, 'user.verify_title' ),
                             message: i18n.label( AC_I18N, 'user.verify_text' )
                         });
-                        pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-verifieddone-event', { email: email });
+                        const event = 'ac-user-verifieddone-event';
+                        const parms = { email: email };
+                        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+                            console.log( 'pwix:accounts triggering', event, parms );
+                        }
+                        pwiAccounts.Displayer.IEventManager.trigger( event, parms );
                         done();
                     }
                 });
@@ -119,24 +124,6 @@ _resetExpired = function(){
     });
 }
 
-_resetPassword = function( token, password ){
-    console.log( '_resetPassword' );
-    const pwd = $( '.ac-reset-pwd .ac-newone .ac-input-password input' ).val().trim();
-    Accounts.resetPassword( token, passwd, ( err ) => {
-        if( err ){
-            console.error( err );
-            this._resetExpired();
-        } else {
-            pwixBootbox.alert({
-                title: i18n.label( AC_I18N, 'user.resetpwd_title' ),
-                message: i18n.label( AC_I18N, 'user.resetpwd_text' )
-            });
-            pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-resetdone-even', { email: user.services.password.reset.email });
-            done();
-        }
-    });
-}
-
 Accounts.onResetPasswordLink( function( token, done ){
     //console.log( 'onResetPasswordLink token='+token );
     //console.log( 'Accounts._getPasswordResetTokenLifetimeMs', Accounts._getPasswordResetTokenLifetimeMs());
@@ -148,7 +135,6 @@ Accounts.onResetPasswordLink( function( token, done ){
                     user: user,
                     submitCallback: () => {
                         const passwd = $( '.ac-reset-pwd .ac-newone .ac-input-password input' ).val().trim();
-                        console.log( 'passwd', passwd );
                         Accounts.resetPassword( token, passwd, ( err ) => {
                             if( err ){
                                 console.error( err );
@@ -158,10 +144,18 @@ Accounts.onResetPasswordLink( function( token, done ){
                                     title: i18n.label( AC_I18N, 'user.resetpwd_title' ),
                                     message: i18n.label( AC_I18N, 'user.resetpwd_text' )
                                 });
-                                pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-resetdone-event', { email: user.services.password.reset.email });
+                                const event = 'ac-user-resetdone-event';
+                                const parms = { email: user.services.password.reset.email };
+                                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+                                    console.log( 'pwix:accounts triggering', event, parms );
+                                }
+                                pwiAccounts.Displayer.IEventManager.trigger( event, parms );
                                 done();
                             }
                         });
+                        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
+                            console.log( 'pwix:accounts IEventManager closing modal' );
+                        }
                         pwixModal.close();
                     }
                 });

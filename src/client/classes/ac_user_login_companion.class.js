@@ -123,7 +123,6 @@ export class acUserLoginCompanion {
      *  This returned value may be used by the caller to allow - or not - the default event handling...
      */
     handleEvent( event, data ){
-        console.log( event, data );
         if( data.requester && data.requester instanceof IDisplayRequester ){
             if( data.requester.id() !== this.IDisplayRequester.id()){
                 console.log( 'cowardly refusing to handle an event for someone else', data, this );

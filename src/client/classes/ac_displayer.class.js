@@ -34,10 +34,11 @@ export class acDisplayer {
      *  Reinitialize the error message and the title when the modal is closed
      */
     _idisplaymanagerHandleModal( event, data ){
-        console.debug( 'acDisplayer._idisplaymanagerHandleModal()' );
-        console.log( this );
         switch( event.type ){
             case 'md-modal-close':
+                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
+                    console.log( 'pwix:accounts acDisplayer handling', event.type );
+                }
                 this.errorMsg( '' );
                 this.title( '' );
                 // default behavior

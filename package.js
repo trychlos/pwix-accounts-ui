@@ -48,6 +48,8 @@ Package.onUse( function( api ){
         'AC_VERBOSE_PANEL_TRIGGER',
         'AC_VERBOSE_READY',
         'AC_VERBOSE_STARTUP',
+        'AC_VERBOSE_SUBMIT_HANDLE',
+        'AC_VERBOSE_SUBMIT_TRIGGER',
         'AC_VERBOSE_USER_HANDLE',
         'AC_VERBOSE_USER_TRIGGER'
     ]);
