@@ -66,6 +66,7 @@ export class acUser {
             return acUser.Singleton;
         }
 
+        // this is never displayed as object is instanciated before call to configure()
         if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
             console.log( 'pwix:accounts instanciating acUser' );
         }
@@ -92,7 +93,12 @@ export class acUser {
                 target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.changepwd_error' ));
             } else {
                 tlTolert.success( i18n.label( AC_I18N, 'user.changepwd_success' ));
-                pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-changedpwd-event', Meteor.user());
+                const event = 'ac-user-changedpwd-event';
+                const parms = Meteor.user()
+                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+                    console.log( 'pwix:accounts triggering', event, parms );
+                }
+                pwiAccounts.Displayer.IEventManager.trigger( event, parms );
             }
         });
     }
@@ -110,7 +116,8 @@ export class acUser {
      */
     createUser( options, target, autoClose=true, autoConnect=true ){
         const self = this;
-        console.log( options, 'autoClose='+autoClose, 'autoConnect='+autoConnect );
+        const event = 'ac-user-created-event';
+        let parms;
         if( autoConnect ){
             Accounts.createUser( options, ( err ) => {
                 if( err ){
@@ -119,7 +126,14 @@ export class acUser {
                 } else {
                     //self.state( AC_LOGGED );
                     delete options.password;
-                    pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-created-event', { ...Meteor.user(), autoClose: autoClose });
+                    parms = {
+                        ...Meteor.user(),
+                        autoClose: autoClose
+                    };
+                    if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+                        console.log( 'pwix:accounts triggering', event, parms );
+                    }
+                    pwiAccounts.Displayer.IEventManager.trigger( event, parms );
                 }
             });
         } else {
@@ -130,7 +144,14 @@ export class acUser {
                 } else {
                     tlTolert.success( i18n.label( AC_I18N, 'user.signup_success', options.email || options.username ));
                     delete options.password;
-                    pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-created-event', { ...options, autoClose: autoClose });
+                    parms = {
+                        ...options,
+                        autoClose: autoClose
+                    };
+                    if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+                        console.log( 'pwix:accounts triggering', event, parms );
+                    }
+                    pwiAccounts.Displayer.IEventManager.trigger( event, parms );
                 }
             });
         }
@@ -159,7 +180,12 @@ export class acUser {
                 console.error( err );
                 target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.signin_error' ));
             } else {
-                pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-signedin-event', Meteor.user());
+                const event = 'ac-user-signedin-event';
+                const parms = Meteor.user();
+                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+                    console.log( 'pwix:accounts triggering', event, parms );
+                }
+                pwiAccounts.Displayer.IEventManager.trigger( event, parms );
             }
         });
     }
@@ -168,9 +194,14 @@ export class acUser {
      * Logout
      */
     logout(){
-        const user = Meteor.user();
+        const user = { ...Meteor.user() };
         Meteor.logout();
-        pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-signedout-event', user );
+        const event = 'ac-user-signedout-event';
+        const parms = user;
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+            console.log( 'pwix:accounts triggering', event, parms );
+        }
+        pwiAccounts.Displayer.IEventManager.trigger( event, parms );
     }
 
     /**
@@ -190,6 +221,16 @@ export class acUser {
      * This may create a security hole which let a malicious user to validate that such email address is or not registered in our application.
      * So it is a package configuration to send back this error to the user, or to say him that an email has been sent (event if this is not true).
      */
+    _resetAskSuccess( email ){
+        tlTolert.success( i18n.label( AC_I18N, 'user.resetask_success' ));
+        const event = 'ac-user-resetasked-event';
+        const parms = { email: email };
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+            console.log( 'pwix:accounts triggering', event, parms );
+        }
+        pwiAccounts.Displayer.IEventManager.trigger( event, parms );
+    }
+
     resetAsk( email, target ){
         const self = this;
         Accounts.forgotPassword({ email: email }, ( err ) => {
@@ -197,8 +238,7 @@ export class acUser {
                 console.error( err );
                 switch( pwiAccounts.opts().informResetWrongEmail()){
                     case AC_RESET_EMAILSENT:
-                        tlTolert.success( i18n.label( AC_I18N, 'user.resetask_success' ));
-                        pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-resetasked-event', { email: email });
+                        this._resetAskSuccess( email );
                         break;
 
                     case AC_RESET_EMAILUNSENT:
@@ -209,8 +249,7 @@ export class acUser {
                         target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.resetask_credentials' ));
                 }
             } else {
-                tlTolert.success( i18n.label( AC_I18N, 'user.resetask_success' ));
-                pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-resetasked-event', { email: email });
+                this._resetAskSuccess( email );
             }
         });
     }
@@ -244,7 +283,12 @@ export class acUser {
             .then(( result ) => {
                 if( result ){
                     tlTolert.success( i18n.label( AC_I18N, 'user.verifyask_success' ));
-                    pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-verifyasked-event', Meteor.user());
+                    const event = 'ac-user-verifyasked-event';
+                    const parms = { ...Meteor.user() };
+                    if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+                        console.log( 'pwix:accounts triggering', event, parms );
+                    }
+                    pwiAccounts.Displayer.IEventManager.trigger( event, parms );
                 } else {
                     tlTolert.error( i18n.label( AC_I18N, 'user.verifyask_error' ));
                 }

@@ -113,13 +113,17 @@ Template.acMenuItems.events({
         //console.log( event );
         const msg = $( event.currentTarget ).attr( 'data-ac-msg' );
         if( msg ){
-            console.log( 'triggering', msg );
-            const companion = instance.AC.companion.get();
-            const panel = $( event.currentTarget ).attr( 'data-ac-panel' );
+            const parms = {
+                requester: instance.AC.companion.get().IDisplayRequester,
+                panel: $( event.currentTarget ).attr( 'data-ac-panel' )
+            };
+            if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL_TRIGGER ){
+                console.log( 'pwix:accounts acMenuItems triggering', msg, parms );
+            }
             // will bubble up to acUserLogin Blaze instance, or IEventManager.handler(), depending of which takes it first
             // in a standard width display, acMenuItems are attached to an ac_dropdown, and acUserLogin Blaze template will manage them
             // in a small display, items are attached to the application menu, so only IEventHandler will be able to handle the events
-            $( event.currentTarget ).trigger( msg, { requester: companion.IDisplayRequester, panel: panel });
+            $( event.currentTarget ).trigger( msg, parms );
         }
     }
 });

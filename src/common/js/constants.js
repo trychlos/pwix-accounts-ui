@@ -49,9 +49,16 @@ AC_UI_JQUERY = 'AC_UI_JQUERY';
 
 // verbosity level
 AC_VERBOSE_NONE = 0x00;
-AC_VERBOSE_CONFIGURE = 0x01 < 0;
-AC_VERBOSE_STARTUP = 0x01 < 1;
-AC_VERBOSE_INSTANCIATIONS = 0x01 < 2;
+AC_VERBOSE_CONFIGURE = 0x01 << 0;
+AC_VERBOSE_STARTUP = 0x01 << 1;
+AC_VERBOSE_INSTANCIATIONS = 0x01 << 2;
+AC_VERBOSE_READY = 0x01 << 3;           // when ready(), client-only
+AC_VERBOSE_IDPASK = 0x01 << 3;           // IDisplayManager ask()
+AC_VERBOSE_IDFREE = 0x01 << 4;           // IDisplayManager free()
+AC_VERBOSE_PANEL_TRIGGER = 0x01 << 5;
+AC_VERBOSE_PANEL_HANDLE = 0x01 << 6;
+AC_VERBOSE_USER_TRIGGER = 0x01 << 7;
+AC_VERBOSE_USER_HANDLE = 0x01 << 8;
 
 // non exported internal constant as i18n namespace
 AC_I18N = 'pwix:accounts'

@@ -38,6 +38,7 @@ export class acAnonRequester {
     constructor(){
         const self = this;
 
+        // this is never displayed as object is instanciated before call to configure()
         if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
             console.log( 'pwix:accounts instanciating acAnonRequester' );
         }

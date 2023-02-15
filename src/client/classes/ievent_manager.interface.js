@@ -100,7 +100,6 @@ export class IEventManager {
      * [-implementation Api-]
      */
     v_handlePanel( event, data ){
-        console.debug( 'IEventManager.v_handlePanel()' );
         switch( event.type ){
             // a dropdown item ask for a panel
             //  it must provide its IDisplayRequester instance
@@ -110,7 +109,10 @@ export class IEventManager {
             case 'ac-panel-signout-event':
             case 'ac-panel-signup-event':
             case 'ac-panel-verifyask-event':
-               const requester = data.requester;
+                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL_HANDLE ){
+                    console.log( 'pwix:accounts IEventManager handling', event.type );
+                }
+                const requester = data.requester;
                 if( requester && requester instanceof IDisplayRequester ){
                     requester.target().trigger( event.type, data );
                 } else {
@@ -130,7 +132,6 @@ export class IEventManager {
      * [-implementation Api-]
      */
     v_handleUser( event, data ){
-        console.debug( 'IEventManager.v_handleUser()' );
         switch( event.type ){
             // an action has been done, and the application is informed
             //  let bubble the event, making sure we do not left an opened modal dialog
@@ -142,6 +143,9 @@ export class IEventManager {
             case 'ac-user-resetdone-event':
             case 'ac-user-verifyasked-event':
             case 'ac-user-verifieddone-event':
+                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_HANDLE ){
+                    console.log( 'pwix:accounts IEventManager handling', event.type );
+                }
                 if( data.autoClose !== false ){
                     pwixModal.close();
                 }

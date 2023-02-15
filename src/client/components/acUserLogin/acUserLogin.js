@@ -72,7 +72,9 @@ Template.acUserLogin.onCreated( function(){
     // instanciates our companion class
     self.AC.companion = new acUserLoginCompanion( self );
 
-    console.log( 'pwix:accounts instanciating acUserLogin', self.AC.companion.IDisplayRequester.id());
+    if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+        console.log( 'pwix:accounts instanciating acUserLogin id='+self.AC.companion.IDisplayRequester.id());
+    }
 });
 
 Template.acUserLogin.onRendered( function(){
@@ -192,26 +194,44 @@ Template.acUserLogin.events({
     // usually sent from acMenuItems, including this requester and requested panel
     // Flow is: acMenuItems -> IDisplayManager -> here -> acUserLoginCompanion -> IDisplayManager
     'ac-panel-changepwd-event .acUserLogin'( event, instance, data ){
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL_HANDLE ){
+            console.log( 'pwix:accounts acUserLogin handling', event.type );
+        }
         return !instance.AC.companion.handleEvent( event, data );
     },
 
     'ac-panel-resetask-event .acUserLogin'( event, instance, data ){
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL_HANDLE ){
+            console.log( 'pwix:accounts acUserLogin handling', event.type );
+        }
         return !instance.AC.companion.handleEvent( event, data );
     },
 
     'ac-panel-signin-event .acUserLogin'( event, instance, data ){
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL_HANDLE ){
+            console.log( 'pwix:accounts acUserLogin handling', event.type );
+        }
         return !instance.AC.companion.handleEvent( event, data );
     },
 
     'ac-panel-signout-event .acUserLogin'( event, instance, data ){
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL_HANDLE ){
+            console.log( 'pwix:accounts acUserLogin handling', event.type );
+        }
         return !instance.AC.companion.handleEvent( event, data );
     },
 
     'ac-panel-signup-event .acUserLogin'( event, instance, data ){
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL_HANDLE ){
+            console.log( 'pwix:accounts acUserLogin handling', event.type );
+        }
         return !instance.AC.companion.handleEvent( event, data );
     },
 
     'ac-panel-verifyask-event .acUserLogin'( event, instance, data ){
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL_HANDLE ){
+            console.log( 'pwix:accounts acUserLogin handling', event.type );
+        }
         return !instance.AC.companion.handleEvent( event, data );
     },
 

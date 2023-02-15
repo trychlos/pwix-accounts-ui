@@ -85,7 +85,11 @@ export class IDisplayManager {
      * [-Public API-]
      */
     ask( panel, requester, parms={} ){
-        console.debug( 'panel', panel, 'requester', requester, 'parms', parms );
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_IDPASK ){
+            console.log( 'pwix:accounts IDisplayManager.ask() panel', panel );
+            console.log( 'pwix:accounts IDisplayManager.ask() requester', requester );
+            console.log( 'pwix:accounts IDisplayManager.ask() parms', parms );
+        }
         acPanel.validate( panel );
         if( !requester || !( requester instanceof IDisplayRequester )){
             throw new Error( 'not a IDisplayRequester instance', requester );
@@ -122,7 +126,9 @@ export class IDisplayManager {
      * [-Public API-]
      */
     free(){
-        console.log( 'freeing the display' );
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_IDPFREE ){
+            console.log( 'pwix:accounts IDisplayManager.free()' );
+        }
         this._requester = null;
         this.panel( AC_PANEL_NONE );
     }

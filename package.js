@@ -38,7 +38,18 @@ Package.onUse( function( api ){
         'AC_RESET_EMAILUNSENT',
         'AC_RESET_EMAILERROR',
         'AC_UI_BOOTSTRAP',
-        'AC_UI_JQUERY'
+        'AC_UI_JQUERY',
+        'AC_VERBOSE_NONE',
+        'AC_VERBOSE_CONFIGURE',
+        'AC_VERBOSE_IDPASK',
+        'AC_VERBOSE_IDPFREE',
+        'AC_VERBOSE_INSTANCIATIONS',
+        'AC_VERBOSE_PANEL_HANDLE',
+        'AC_VERBOSE_PANEL_TRIGGER',
+        'AC_VERBOSE_READY',
+        'AC_VERBOSE_STARTUP',
+        'AC_VERBOSE_USER_HANDLE',
+        'AC_VERBOSE_USER_TRIGGER'
     ]);
     api.mainModule( 'src/client/js/index.js', 'client' );
     api.mainModule( 'src/server/js/index.js', 'server' );

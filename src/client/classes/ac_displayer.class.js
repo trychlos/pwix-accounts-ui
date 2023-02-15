@@ -66,6 +66,7 @@ export class acDisplayer {
             return acDisplayer.Singleton;
         }
 
+        // this is never displayed as object is instanciated before call to configure()
         if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
             console.log( 'pwix:accounts instanciating acDisplayer' );
         }

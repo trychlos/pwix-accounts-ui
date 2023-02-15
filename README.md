@@ -255,8 +255,15 @@ verbosity
 The verbosity level as a OR-ed value of integerer constants:
 <ul><li>AC_VERBOSE_NONE</li><li>
 AC_VERBOSE_CONFIGURE</li>
+<li>AC_VERBOSE_IDPASK</li>
+<li>AC_VERBOSE_IDPFREE</li>
 <li>AC_VERBOSE_INSTANCIATIONS</li>
+<li>AC_VERBOSE_PANEL_HANDLE</li>
+<li>AC_VERBOSE_PANEL_TRIGGER</li>
+<li>AC_VERBOSE_READY</li>
 <li>AC_VERBOSE_STARTUP</li>
+<li>AC_VERBOSE_USER_HANDLE</li>
+<li>AC_VERBOSE_USER_TRIGGER</li>
 </ul>
 A function can be provided by the application for this parm. The function will be called without argument and MUST return a suitable value.<br />
 Defaults to AC_VERBOSE_CONFIGURE.

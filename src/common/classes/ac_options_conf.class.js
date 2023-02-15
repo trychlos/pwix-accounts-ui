@@ -67,7 +67,7 @@ export class acOptionsConf extends pwixOptions.Options {
     constructor( options ){
         super( options );
 
-        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+        if( pwiAccounts.opts() && pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
             console.log( 'pwix:accounts instanciating acOptionsConf' );
         }
 

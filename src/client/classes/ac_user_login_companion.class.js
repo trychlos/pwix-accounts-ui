@@ -157,7 +157,9 @@ export class acUserLoginCompanion {
      */
     ready( ready ){
         if( ready === true || ready === false ){
-            console.log( 'DOM ready', ready );
+            if( pwiAccounts.opts().verbosity() & AC_VERBOSE_READY ){
+                console.log( 'pwix:accounts acUserLoginCompanion DOM ready', ready );
+            }
             this._ready.set( ready );
         }
         return this._ready.get();
