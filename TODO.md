@@ -34,7 +34,7 @@
 |   40 | 2023- 1-31 | WARN zxcvbn not detected by checkNpmversions |
 |   41 | 2023- 2-11 | pwiAccounts.isEmailVerified() assert that the function is relevant and at is right place |
 |   42 | 2023- 2-11 | pwiAccounts.dropdownItems() assert that the function is relevant and at is right place |
-|   43 |  |  |
+|   44 |  |  |
 
 ---
 ## Done
@@ -103,6 +103,8 @@
 |      | 2023- 1-28 | done, replacing with (published) pwix-bootbox |
 |   38 | 2023- 1-27 | review acSelect: do not use Promise in helpers |
 |      | 2023- 1-29 | done |
+|   43 | 2023- 2-15 | update documentation with new event names |
+|      | 2023- 2-15 | done |
 
 ---
 P. Wieser

@@ -482,22 +482,18 @@ Default to none.
 Besides of initial configuration options, the behavior of the 'acUserLogin' template may be controlled
 via messages sent to the `<div class="acUserLogin">...</div>`.
 
-- ac-panel + `panel`
-
-    Displayer the requested panel
-
-- ac-panel-none
-- ac-panel-signin
-- ac-panel-signup
-- ac-panel-resetask
-- ac-panel-signout
-- ac-panel-changepwd
-- ac-panel-verifyask
+- `ac-panel-signin-event`
+- `ac-panel-signup-event`
+- `ac-panel-resetask-event`
+- `ac-panel-resetpwd-event`
+- `ac-panel-signout-event`
+- `ac-panel-changepwd-event`
+- `ac-panel-verifyask-event`
 
     Displayer the targeted panel
 
-- ac-render-modal
-- ac-render-div
+- `ac-render-modal`
+- `ac-render-div`
 
     Change the rendering mode
 
@@ -509,34 +505,19 @@ In the same time, the 'acUserLogin' template advertises of its contexts:
 
     Advertises of a panel transition, with previous and new panels
 
-- ac-user-changepwd + `emailAddress`
-- ac-user-create + `emailAddress`
-- ac-user-login + `userId`
-- ac-user-logout + `emailAddress`
-- ac-user-resetasked + `emailAddress`
-- ac-user-verifyasked + `emailAddress`
+- `ac-user-changepwd-event` + `emailAddress`
+- `ac-user-created-event` + `emailAddress`
+- `ac-user-signedin-event` + `userId`
+- `ac-user-signedout-event` + `emailAddress`
+- `ac-user-resetasked-event` + `emailAddress`
+- `ac-user-verifyasked-event` + `emailAddress`
 
     Advertises of a realized action on the user account
 
-- ac-hidden-modal
-- ac-shown-modal
-
-    When a modal has been hidden (resp. shown).<br />
-    The `.ac-modal` element is provided as a data on these two messages.
-
-- ac-password-data
-- ac-username-data
-- ac-email-data
-- ac-twice-data
-
-    Provides the current characteristics of the new password (resp. username, resp. email address, resp. double password fields) being inputed by the user.
-
 ### Messages sent on `body` element
 
-- ac-user-resetpwd + `emailAddress`
-- ac-user-verifymail + `emailAddress`
-
-    These messages are sent as `CustomEvent`s with ad-hoc details.
+- `ac-user-resetdone-event` + `emailAddress`
+- `ac-user-verifieddone-event` + `emailAddress`
 
 ## Advanced use cases
 
@@ -591,9 +572,24 @@ In the same time, the 'acUserLogin' template advertises of its contexts:
 - `AC_USERNAME`
 - `AC_EMAIL_ADDRESS`
 
+- `AC_VERBOSE_NONE`,
+- `AC_VERBOSE_CONFIGURE`,
+- `AC_VERBOSE_IDPASK`,
+- `AC_VERBOSE_IDPFREE`,
+- `AC_VERBOSE_INSTANCIATIONS`,
+- `AC_VERBOSE_PANEL_HANDLE`,
+- `AC_VERBOSE_PANEL_TRIGGER`,
+- `AC_VERBOSE_READY`,
+- `AC_VERBOSE_STARTUP`,
+- `AC_VERBOSE_SUBMIT_HANDLE`,
+- `AC_VERBOSE_SUBMIT_TRIGGER`,
+- `AC_VERBOSE_USER_HANDLE`,
+- `AC_VERBOSE_USER_TRIGGER`
+
+
 ### Exported templates
 
-Besides of the 'acUserLogin' template already invoked, the *accounts* package exports following templates:
+Besides of the `acUserLogin` template already invoked, the *accounts* package exports following templates:
 
 #### acMenuItems
 
@@ -604,16 +600,6 @@ The template expects to be called with one of these two parameters:
 - either a 'dialog' one, which must address an acShower instance, and is the way it is internally called by the package itself
 
 - or with a 'name' key which must address the name of a 'acUserLogin' instance.
-
-#### acSelect
-
-This template displays the list of the users, and let the application user's do a selection.
-
-The template expects to be called with one of these two parameters:
-
-- 'selection' must address a ReactiveVar, which is expected to contain the initial selecttion, and will return the final selection, as an array of `{ id: <id> }` objects
-
-- 'text' is an optional parameter which may address a ReactiveVar, which is expected to contain a HTML string to be displayed before the selection list; it defaults to none.
 
 ## References for advanced use cases
 

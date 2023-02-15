@@ -188,7 +188,7 @@ Template.acUserLogin.events({
     },
 
     'ac-display-error .acUserLogin'( event, instance, msg ){
-        console.log( event, instance, msg );
+        //console.log( event, instance, msg );
         pwiAccounts.Displayer.errorMsg( msg );
         return false;
     },
