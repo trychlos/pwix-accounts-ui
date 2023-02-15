@@ -66,15 +66,15 @@ Package.onTest( function( api ){
 
 function configure( api ){
     api.versionsFrom( '2.9.0' );
-    api.use( 'blaze-html-templates', 'client' );
-    api.use( 'deanius:promise', 'client' );
+    api.use( 'blaze-html-templates@2.0.0', 'client' );
+    api.use( 'deanius:promise@3.1.3', 'client' );
     api.use( 'ecmascript' );
     api.use( 'less@4.0.0', 'client' );
-    api.use( 'pwix:bootbox', 'client' );
-    api.use( 'pwix:i18n' );
-    api.use( 'pwix:layout', 'client' );
-    api.use( 'pwix:options' );
-    api.use( 'pwix:tolert', 'client' );
+    api.use( 'pwix:bootbox@1.0.0', 'client' );
+    api.use( 'pwix:i18n@1.0.0' );
+    api.use( 'pwix:layout@1.0.0', 'client' );
+    api.use( 'pwix:options@1.0.0' );
+    api.use( 'pwix:tolert@1.0.0', 'client' );
     api.use( 'random', 'client' );
     api.use( 'tmeasday:check-npm-versions@1.0.2', 'server' );
     api.addFiles( 'src/client/components/acMenuItems/acMenuItems.js', 'client' );
