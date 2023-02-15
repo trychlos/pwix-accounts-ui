@@ -47,5 +47,9 @@ AC_RESET_EMAILERROR = 'AC_RESET_EMAILERROR'
 AC_UI_BOOTSTRAP = 'AC_UI_BOOTSTRAP';
 AC_UI_JQUERY = 'AC_UI_JQUERY';
 
+// verbosity level
+AC_VERBOSE_NONE = 0x00;
+AC_VERBOSE_CONFIGURE = 0x01 < 0;
+
 // non exported internal constant as i18n namespace
 AC_I18N = 'pwix:accounts'

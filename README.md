@@ -1,4 +1,4 @@
-# accounts
+# pwix:accounts
 
 ## Summary
 
@@ -247,6 +247,15 @@ Accepted values are:
 AC_UI_JQUERY</li></ul>
 A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.<br />
 Defaults to AC_UI_BOOTSTRAP.
+</td></tr>
+
+<tr><td style="vertical-align:top;">
+verbosity
+</td><td>
+The verbosity level as a OR-ed value of integerer constants:
+<ul><li>AC_VERBOSE_NONE</li><li>
+AC_VERBOSE_CONFIGURE</li></ul>
+Defaults to AC_VERBOSE_CONFIGURE.
 </td></tr>
 </table>
 
@@ -639,7 +648,6 @@ Dependencies as of v 1.0.0:
     'bootstrap': '^5.2.1',
     'email-validator': '^2.0.4',
     'printf': '^0.6.1',
-    'uuid': '^9.0.0',
     'zxcvbn': '^4.4.2'
 ```
 
@@ -647,6 +655,10 @@ Each of these dependencies should be installed at application level:
 ```
     meteor npm install <package> --save
 ```
+
+## Translations
+
+New and updated translations are willingly accepted, and more than welcome. Just be kind enough to submit a PR on the [Github repository](https://github.com/trychlos/pwix-accounts/pulls).
 
 ---
 P. Wieser

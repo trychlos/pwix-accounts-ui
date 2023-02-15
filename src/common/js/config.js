@@ -19,9 +19,12 @@ pwiAccounts = {
      *  Should be *in same terms* called both by the client and the server.
      */
     configure: function( o ){
-        console.log( 'pwix:accounts configure() with', o );
         pwiAccounts._conf = { ...pwiAccounts._conf, ...o };
         pwiAccounts._opts = new acOptionsConf( pwiAccounts._conf );
+
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_CONFIGURE ){
+            console.log( 'pwix:accounts configure() with', o );
+        }
     },
 
     // internationalization

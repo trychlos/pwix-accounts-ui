@@ -2,10 +2,6 @@
  * pwix:accounts/src/common/js/functions.js
  */
 
-import { pwixI18n as i18n } from 'meteor/pwix:i18n';
-
-import { acOptionsConf } from '../classes/ac_options_conf.class.js';
-
 pwiAccounts = {
     ...pwiAccounts,
     ...{
