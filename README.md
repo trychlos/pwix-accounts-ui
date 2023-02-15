@@ -175,7 +175,7 @@ passwordLength
 The minimal required password length when setting a new password, either when creating a new account of when changing the password of an existing account.<br />
 The package doesn't hardcodes by itself a minimal 'minimal length', and so will accept even a minimal length of, say, 4 characters!<br />
 Default is eight (8) characters.<br/>
-A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.<br />
+A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
 <b>Please note that, for security reasons, you shouldn't set the minimal password length less than this default, unless you are absolutely sure of what you are doing.</b>
 </td></tr>
 
@@ -193,7 +193,7 @@ The estimated strength can take folloging values:
 <li>AC_PWD_VERYSTRONG: very unguessable, strong protection from offline slow-hash scenario (guesses >= 10^10)</li>
  </ul>
 The package doesn't hardcodes by itself a minimal 'required strength', and so will accept even a minimal length of, say, AC_PWD_VERYWEAK!<br />
-A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.<br />
+A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
 Default is AC_PWD_MEDIUM, which corresponds to somewhat guessable, i.e. can be a protection from unthrottled online attacks.<br />
 <b>Please note that, for security reasons, you shouldn't set the password required strength less than this default, unless you are absolutely sure of what you are doing.</b>
 </td></tr>
@@ -208,7 +208,7 @@ Unless otherwise specified, this option applies to both:
 <li>changing the user's password</li>
 <li>defining a new password after a reset</li>
  </ul>
-A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.<br />
+A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
 Possible values are true or false, defaulting to true.</b>
 </td></tr>
 
@@ -235,7 +235,7 @@ usernameLength
 The minimal required username length.<br />
 The package doesn't hardcodes by itself a minimal 'minimal length'.<br />
 Default is four (4) characters.<br/>
-A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.<br />
+A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
 </td></tr>
 
 <tr><td style="vertical-align:top;">
@@ -245,7 +245,7 @@ Indicates if dialogs are to be managed via the Bootstrap frontend toolkit or the
 Accepted values are:
 <ul><li>AC_UI_BOOTSTRAP</li><li>
 AC_UI_JQUERY</li></ul>
-A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.<br />
+A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
 Defaults to AC_UI_BOOTSTRAP.
 </td></tr>
 
@@ -254,7 +254,11 @@ verbosity
 </td><td>
 The verbosity level as a OR-ed value of integerer constants:
 <ul><li>AC_VERBOSE_NONE</li><li>
-AC_VERBOSE_CONFIGURE</li></ul>
+AC_VERBOSE_CONFIGURE</li>
+<li>AC_VERBOSE_INSTANCIATIONS</li>
+<li>AC_VERBOSE_STARTUP</li>
+</ul>
+A function can be provided by the application for this parm. The function will be called without argument and MUST return a suitable value.<br />
 Defaults to AC_VERBOSE_CONFIGURE.
 </td></tr>
 </table>

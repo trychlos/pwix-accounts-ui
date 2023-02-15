@@ -66,6 +66,11 @@ export class acOptionsConf extends pwixOptions.Options {
      */
     constructor( options ){
         super( options );
+
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+            console.log( 'pwix:accounts instanciating acOptionsConf' );
+        }
+
         return this;
     }
 
@@ -160,6 +165,15 @@ export class acOptionsConf extends pwixOptions.Options {
      */
     ui( value ){
         return this.getset_String_Fn_Object( 'ui', value, { default: defaults.common.preferredLabel, ref: acOptionsConf.Frontends });
+    }
+
+    /**
+     * Getter/Setter
+     * @param {Integer|Function} value the OR-ed integer which determines the verbosity level
+     * @returns {Integer}
+     */
+    verbosity( value ){
+        return this.getset_Integer_Fn( 'verbosity', value, { default: defaults.common.verbosity });
     }
 
     /**

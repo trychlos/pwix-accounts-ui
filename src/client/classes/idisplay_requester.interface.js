@@ -22,8 +22,11 @@ export class IDisplayRequester {
      * @returns {IDisplayRequester}
      */
     constructor( instance ){
-        console.debug( 'IDisplayRequester instanciation' );
         this._instance = instance;
+
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+            console.log( 'pwix:accounts instanciating IDisplayRequester interface' );
+        }
 
         // allocate a new random unique identifier for this instance
         //  may be overriden by the implementation through the v_id() method

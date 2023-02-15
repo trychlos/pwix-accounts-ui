@@ -50,6 +50,8 @@ AC_UI_JQUERY = 'AC_UI_JQUERY';
 // verbosity level
 AC_VERBOSE_NONE = 0x00;
 AC_VERBOSE_CONFIGURE = 0x01 < 0;
+AC_VERBOSE_STARTUP = 0x01 < 1;
+AC_VERBOSE_INSTANCIATIONS = 0x01 < 2;
 
 // non exported internal constant as i18n namespace
 AC_I18N = 'pwix:accounts'

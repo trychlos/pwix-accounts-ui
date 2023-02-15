@@ -66,7 +66,9 @@ export class acUser {
             return acUser.Singleton;
         }
 
-        //console.log( 'pwix:accounts instanciating new acUser' );
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+            console.log( 'pwix:accounts instanciating acUser' );
+        }
 
         Tracker.autorun(() => {
             this._stateSet( Meteor.userId() ? AC_LOGGED : AC_UNLOGGED );

@@ -6,40 +6,21 @@
  * Usage: Interface.add( object, interface, mapFns );
  * 
  * To be called from the implementing constructor.
+ * 
+ * This works by adding to the implementation instance:
+ * - a member interface which holds the methods
+ * - an array of the implemented interfaces.
+ * 
+ * Ex: if class A implements interface IB:
+ * - each A object will have a IB member, with A.IB instanceof IB
+ * - each A object will have a Interfaces member array, which will contain 'IB' (and other implemented interfaces)
+ * 
+ * TODO
+ *  1. once an object A has overriden an IB method, it cannot called again the default method; this would gain to be fixed in a future version.
+ *  2. this is a bit counter-intuitive that we do not have A instanceof IB, but we rather adapt to that
  */
 
 export class Interface {
-
-    /* iztiar-specific
-    static _published = false;
-
-    // an interface which is able to handle several configuration should be prepared to accept
-    //  configuration groups as '<iface>.<name>' - and so we should
-    static _getConfigurations( config, iface ){
-        let _found = [];
-        const _start = iface + '.';
-        Object.keys( config ).every(( k ) => {
-            if( k === iface ){
-                _found.push( k );
-            }
-            if( k.startsWith( _start )){
-                _found.push( k );
-            }
-            return true;
-        });
-        return _found;
-    }
-
-    // improve the displayed status
-    static _statusPart( instance ){
-        Msg.debug( 'Interface.statusPart()' );
-        const o = {
-            Interfaces: instance.Interfaces.sort()
-        };
-        //Msg.debug( 'Interface.statusPart()', o );
-        return Promise.resolve( o );
-    }
-    */
 
     /**
      * @param {Object} instance the instance of the class which wants implement the interface

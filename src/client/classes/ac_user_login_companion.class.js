@@ -65,7 +65,10 @@ export class acUserLoginCompanion {
      */
     constructor( instance ){
         const self = this;
-        console.log( 'pwix:accounts instanciating acUserLoginCompanion', instance );
+
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+            console.log( 'pwix:accounts instanciating acUserLoginCompanion' );
+        }
 
         Interface.add( this, IDisplayRequester, {
             v_target: this._idisplayrequesterTarget

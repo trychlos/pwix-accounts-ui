@@ -7,8 +7,6 @@
  * It targets the cases where we do not have any acUserLogin Blaze template instance.
  */
 
-import { Accounts } from 'meteor/accounts-base';
-
 import { IDisplayRequester } from './idisplay_requester.interface.js';
 import { Interface } from './interface.class';
 
@@ -39,7 +37,10 @@ export class acAnonRequester {
      */
     constructor(){
         const self = this;
-        console.log( 'pwix:accounts instanciating acAnonRequester' );
+
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+            console.log( 'pwix:accounts instanciating acAnonRequester' );
+        }
 
         Interface.add( this, IDisplayRequester, {
         });

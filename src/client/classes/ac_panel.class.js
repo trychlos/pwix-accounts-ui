@@ -150,6 +150,11 @@ export class acPanel {
      * @returns {acPanel}
      */
     constructor(){
+
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+            console.log( 'pwix:accounts instanciating acPanel' );
+        }
+
         return this;
     }
 }

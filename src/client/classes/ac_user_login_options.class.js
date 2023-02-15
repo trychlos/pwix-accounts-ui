@@ -54,7 +54,11 @@ export class acUserLoginOptions extends pwixOptions.Options {
      */
     constructor( options ){
         super( options );
-        console.log( 'pwix:accounts instanciating acUserLoginOptions', options );
+
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+            console.log( 'pwix:accounts instanciating acUserLoginOptions' );
+        }
+
         return this;
     }
 

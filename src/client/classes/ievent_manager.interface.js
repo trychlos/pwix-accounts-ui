@@ -71,9 +71,12 @@ export class IEventManager {
      * @returns {IEventManager}
      */
     constructor( instance ){
-        console.debug( 'IEventManager instanciation' );
         this._instance = instance;
         const self = this;
+
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+            console.log( 'pwix:accounts instanciating IEventManager interface' );
+        }
 
         // install a general events handler
         IEventManager.Events.every(( name ) => {

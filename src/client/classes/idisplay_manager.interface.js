@@ -48,9 +48,12 @@ export class IDisplayManager {
      * @returns {IDisplayManager}
      */
     constructor( instance ){
-        console.debug( 'IDisplayManager instanciation' );
         this._instance = instance;
         const self = this;
+
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+            console.log( 'pwix:accounts instanciating IDisplayManager interface' );
+        }
 
         // re-set modal title when panel changes
         Tracker.autorun(() => {

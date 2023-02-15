@@ -65,7 +65,10 @@ export class acDisplayer {
             console.log( 'pwix:accounts returning already instanciated acDisplayer' );
             return acDisplayer.Singleton;
         }
-        console.log( 'pwix:accounts instanciating new acDisplayer' );
+
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+            console.log( 'pwix:accounts instanciating acDisplayer' );
+        }
 
         Interface.add( this, IDisplayManager, {
         });
