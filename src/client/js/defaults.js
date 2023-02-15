@@ -17,10 +17,8 @@ import { pwixI18n as i18n } from 'meteor/pwix:i18n';
  * Properties
  * 
  * - panel: the panel to be displayed at item activation
- *          the function pwiAccounts.Displayer.asked() may be called with this argument
- * 
  * - msgaction: the message to be triggered for simulating the item activation
- *          under the hood, the message handler just calls pwiAccounts.Displayer.asked() with the corresponding argument
+ *          under the hood, the message handler just requests the specified panel with the corresponding argument
  */
 _stdMenuItems = {
     AC_LOGGED: [

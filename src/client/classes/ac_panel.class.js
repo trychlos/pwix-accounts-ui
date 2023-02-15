@@ -136,12 +136,6 @@ export class acPanel {
     // private data
     //
 
-    // what is the current displayed template ?
-    _panel = new ReactiveVar( null );
-    _previous = new ReactiveVar( null );
-    _view = new ReactiveVar( null );
-    _requester = new ReactiveVar( null );
-
     // private methods
     //
 
@@ -153,78 +147,9 @@ export class acPanel {
 
     /**
      * Constructor
-     * @param {String} panel the panel to initialize with, defaulting to 'AC_PANEL_NONE'
      * @returns {acPanel}
      */
-    constructor( panel=AC_PANEL_NONE ){
-
-        if( acPanel.Singleton ){
-            console.log( 'pwix:accounts returning already instanciated acPanel' );
-            return acPanel.Singleton;
-        }
-
-        //console.log( 'pwix:accounts instanciating new acPanel' );
-
-        this.asked( panel );
-
-        acPanel.Singleton = this;
+    constructor(){
         return this;
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String} panel the requested panel
-     * @param {String} uuid the uuid identifier of the requester acUserLogin object
-     * @returns {String} the currently (maybe newly ?) requested panel
-     */
-    asked( panel, uuid ){
-        if( panel ){
-            const previous = this._panel.get();
-            if( Object.keys( acPanel.Panels ).includes( panel ) && panel !== previous ){
-                // manage reservations
-                if( panel === AC_PANEL_NONE ){
-                    this._requester.set( null );
-                } else if( uuid ){
-                    this._requester.set( uuid );
-                } else {
-                    console.errror( 'requester not identified' );
-                }
-                // trigger the transition
-                console.log( 'pwix:accounts triggering transition from '+previous+' to '+panel+' (uuid='+uuid+')' );
-                $( '.acUserLogin' ).trigger( 'ac-panel-transition', { previous: previous, next: panel, requester: uuid || null });
-                this._panel.set( panel );
-                this._previous.set( previous );
-            }
-        }
-        return this._panel.get();
-    }
-
-    /**
-     * @returns {String} the previous panel
-     */
-    previous(){
-        return this._previous.get();
-    }
-
-    /**
-     * @param {String} uuid the identifier of the willing-to acUserLogin template instance
-     * @returns {Boolean} whether this instance is allowed to handle the request
-     */
-    requesterAllowed( uuid ){
-        const requester = this._requester.get();
-        return !requester || requester === uuid;
-    }
-
-    /**
-     * Getter/Setter
-     * @param {Object} view the just created view
-     * @returns {Object} the current view
-     */
-    view( view ){
-        //console.log( arguments );
-        if( view || arguments.length === 1 ){
-            this._view.set( view );
-        }
-        return this._view.get();
     }
 }

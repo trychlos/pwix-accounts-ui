@@ -23,7 +23,6 @@ Template.ac_user_login.helpers({
     },
 
     template(){
-        //console.log( pwiAccounts.Displayer.template( pwiAccounts.Displayer.asked()));
         return pwiAccounts.Displayer.template( pwiAccounts.Displayer.IDisplayManager.panel());
     }
 });
