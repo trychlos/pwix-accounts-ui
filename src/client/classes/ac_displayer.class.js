@@ -30,6 +30,25 @@ export class acDisplayer {
     // private methods
     //
 
+    /*
+     *  Reinitialize the error message and the title when the modal is closed
+     */
+    _idisplaymanagerHandleModal( event, data ){
+        console.debug( 'acDisplayer._idisplaymanagerHandleModal()' );
+        console.log( this );
+        switch( event.type ){
+            case 'md-modal-close':
+                this.errorMsg( '' );
+                this.title( '' );
+                // default behavior
+                pwiAccounts.Displayer.IDisplayManager.free();
+                return false;
+                // as this call is actually a loop
+                //return this.IEventManager.v_handleModal( event, data );
+        }
+        return true;
+    }
+
     // public data
     //
 
@@ -52,6 +71,7 @@ export class acDisplayer {
         });
 
         Interface.add( this, IEventManager, {
+            v_handleModal: this._idisplaymanagerHandleModal
         });
 
         acDisplayer.Singleton = this;

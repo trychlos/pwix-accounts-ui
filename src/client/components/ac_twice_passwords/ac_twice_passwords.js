@@ -28,7 +28,7 @@ import './ac_twice_passwords.html';
 
 Template.ac_twice_passwords.onCreated( function(){
     const self = this;
-    //console.log( self );
+    console.log( self );
 
     self.AC = {
         twice: new ReactiveVar( false ),

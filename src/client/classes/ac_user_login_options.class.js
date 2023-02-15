@@ -262,6 +262,15 @@ export class acUserLoginOptions extends pwixOptions.Options {
 
     /**
      * Getter/Setter
+     * @param {Boolean|Function} flag whether to auto-close the modal after having created a new account
+     * @returns {Boolean}
+     */
+    signupAutoClose( flag ){
+        return this.getset_Bool_Fn( 'signupAutoClose', flag, { default: defaults.acUserLogin.signupAutoClose });
+    }
+
+    /**
+     * Getter/Setter
      * @param {Boolean|Function} flag whether to auto-connect a newly created account
      * @returns {Boolean}
      */

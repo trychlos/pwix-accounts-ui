@@ -423,6 +423,14 @@ Values: true|false, defaulting to true.
 </td></tr>
 
 <tr><td style="vertical-align:top;">
+signupAutoClose
+</td><td>
+Whether to auto-close the modal after having created a new user.<br />
+A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
+Values: true|false, defaulting to true.
+</td></tr>
+
+<tr><td style="vertical-align:top;">
 signupAutoConnect
 </td><td>
 Whether to auto-connect a newly created account.<br />

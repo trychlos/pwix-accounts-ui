@@ -26,38 +26,6 @@ export class acAnonRequester {
     // private methods
     //
 
-    /*
-    'ac-submit '( event, instance ){
-    }
-    */
-    
-    /*
-     * pwiAccounts manages all its modal through a combination of pwixModal (attached to the body) and ac_footer.
-     * As a consequence, the displayed panel cannot intercept - nor manage - the buttons events.
-     * We have to deal here we the validation of ac_reset_pwd panel.
-     */
-    _submit_handler( event, data ){
-        console.debug( '_submit_handler()', event, data );
-        switch( event.type ){
-            case 'ac-submit':
-                const pwd = $( '.ac-reset-pwd .ac-newone .ac-input-password input' ).val().trim();
-                Accounts.resetPassword( token, passwd, ( err ) => {
-                    if( err ){
-                        console.error( err );
-                        this._resetExpired();
-                    } else {
-                        pwixBootbox.alert({
-                            title: i18n.label( AC_I18N, 'user.resetpwd_title' ),
-                            message: i18n.label( AC_I18N, 'user.resetpwd_text' )
-                        });
-                        pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-resetdone-even', { email: user.services.password.reset.email });
-                        done();
-                    }
-                });
-                break;
-        }
-    }
-
     // public data
     //
 
@@ -75,9 +43,6 @@ export class acAnonRequester {
 
         Interface.add( this, IDisplayRequester, {
         });
-
-        // install an event handler
-        //$( document ).on( 'ac-submit', self._submit_handler.bind( self ));
 
         return this;
     }

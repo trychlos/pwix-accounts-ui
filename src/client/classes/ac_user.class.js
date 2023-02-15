@@ -103,11 +103,12 @@ export class acUser {
      * We have to rely on pwiAccounts.fn.validatePassword() for that.
      * @param {Object} options as expected by Accounts.createUser
      * @param {Object} target the target of the sent events
+     * @param {Boolean} autoClose whether to automatically close the modal on successful creation
      * @param {Boolean} autoConnect whether to automatically login the newly created user
      */
-    createUser( options, target, autoConnect=true ){
+    createUser( options, target, autoClose=true, autoConnect=true ){
         const self = this;
-        console.log( options, 'autoConnect='+autoConnect );
+        console.log( options, 'autoClose='+autoClose, 'autoConnect='+autoConnect );
         if( autoConnect ){
             Accounts.createUser( options, ( err ) => {
                 if( err ){
@@ -116,7 +117,7 @@ export class acUser {
                 } else {
                     //self.state( AC_LOGGED );
                     delete options.password;
-                    pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-created-event', Meteor.user());
+                    pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-created-event', { ...Meteor.user(), autoClose: autoClose });
                 }
             });
         } else {
@@ -127,7 +128,7 @@ export class acUser {
                 } else {
                     tlTolert.success( i18n.label( AC_I18N, 'user.signup_success', options.email || options.username ));
                     delete options.password;
-                    pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-created-event', options );
+                    pwiAccounts.Displayer.IEventManager.trigger( 'ac-user-created-event', { ...options, autoClose: autoClose });
                 }
             });
         }

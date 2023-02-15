@@ -89,7 +89,7 @@ Template.acUserLogin.onRendered( function(){
     }, 15 );
 
     // setup the initial panel only when the template is rendered
-    self.AC.companion.IDisplayRequester.ask( self.AC.options.initialPanel());
+    self.AC.companion.IDisplayRequester.ask( self.AC.options.initialPanel(), { companion: self.AC.companion });
 });
 
 Template.acUserLogin.helpers({
@@ -165,11 +165,13 @@ Template.acUserLogin.events({
                     options.email = $( '.ac-signup .ac-input-email .ac-input' ).val().trim();
                 }
                 options.password = $( '.ac-signup .ac-newone .ac-input' ).val().trim();
+                const autoClose = instance.AC.options.signupAutoClose();
+                console.log( 'found autoClose='+autoClose );
                 const autoConnect = instance.AC.options.signupAutoConnect();
                 console.log( 'found autoConnect='+autoConnect );
-                pwiAccounts.User.createUser( options, instance.AC.companion.IDisplayRequester.target(), autoConnect );
-                if( !autoConnect ){
-                    $( event.currentTarget ).find( '.ac-signup' ).trigger( 'ac-clear' );
+                pwiAccounts.User.createUser( options, instance.AC.companion.IDisplayRequester.target(), autoClose, autoConnect );
+                if( !autoClose ){
+                    $( '.ac-signup' ).trigger( 'ac-clear' );
                 }
                 managed = true;
                 break;

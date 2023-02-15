@@ -89,18 +89,15 @@ export class IEventManager {
        *** *************************************************************************************** */
 
     /**
-     * @summary Common event handler
+     * @summary Handle 'ac-panel' events
      * @param {Object} event the jQuery event
      * @param {Object} data the data associated to the event by the sender
-     * @return {Boolean} 
+     * @return {Boolean} false to stop the propagation (usually because the event has been handled)
      *  Default is to redirect the event if possible.
      * [-implementation Api-]
      */
-    v_handler( event, data ){
-        console.debug( 'IEventManager.v_handler()', event, data );
-        let requester;
-        let target;
-        // some messages can be directly handled here
+    v_handlePanel( event, data ){
+        console.debug( 'IEventManager.v_handlePanel()' );
         switch( event.type ){
             // a dropdown item ask for a panel
             //  it must provide its IDisplayRequester instance
@@ -110,14 +107,28 @@ export class IEventManager {
             case 'ac-panel-signout-event':
             case 'ac-panel-signup-event':
             case 'ac-panel-verifyask-event':
-                requester = data.requester;
+               const requester = data.requester;
                 if( requester && requester instanceof IDisplayRequester ){
                     requester.target().trigger( event.type, data );
                 } else {
                     throw new Error( 'no IDisplayRequester found', data );
                 }
                 return false;
+        }
+        return true;
+    }
 
+    /**
+     * @summary Handle 'ac-user' events
+     * @param {Object} event the jQuery event
+     * @param {Object} data the data associated to the event by the sender
+     * @return {Boolean} false to stop the propagation (usually because the event has been handled)
+     *  Close the modal when original event has been successfully handled.
+     * [-implementation Api-]
+     */
+    v_handleUser( event, data ){
+        console.debug( 'IEventManager.v_handleUser()' );
+        switch( event.type ){
             // an action has been done, and the application is informed
             //  let bubble the event, making sure we do not left an opened modal dialog
             case 'ac-user-changedpwd-event':
@@ -128,16 +139,30 @@ export class IEventManager {
             case 'ac-user-resetdone-event':
             case 'ac-user-verifyasked-event':
             case 'ac-user-verifieddone-event':
-                //console.log( event, data );
-                pwixModal.close();
-                return true;
+                if( data.autoClose !== false ){
+                    pwixModal.close();
+                }
+        }
+        return true;
+    }
 
+    /**
+     * @summary Handle 'ac-submit' event
+     * @param {Object} event the jQuery event
+     * @param {Object} data the data associated to the event by the sender
+     * @return {Boolean} false to stop the propagation (usually because the event has been handled)
+     *  Try to redirect to the requester.
+     * [-implementation Api-]
+     */
+    v_handleSubmit( event, data ){
+        console.debug( 'IEventManager.v_handleSubmit()' );
+        switch( event.type ){
             // if we have a ac-submit button which has triggered this ac-submit event, then we must have a current requester
             //  to which we redirect the event
             case 'ac-submit':
-                requester = pwiAccounts.Displayer.IDisplayManager.requester();
+                const requester = pwiAccounts.Displayer.IDisplayManager.requester();
                 if( requester && requester instanceof IDisplayRequester ){
-                    target = requester.target();
+                    const target = requester.target();
                     if( target ){
                         target.trigger( event.type, data );
                     }
@@ -145,11 +170,39 @@ export class IEventManager {
                     throw new Error( 'no current IDisplayRequester' );
                 }
                 return false;
+        }
+        return true;
+    }
 
+    /**
+     * @summary Handle modal events
+     * @param {Object} event the jQuery event
+     * @param {Object} data the data associated to the event by the sender
+     * @return {Boolean} false to stop the propagation (usually because the event has been handled)
+     * [-implementation Api-]
+     */
+    v_handleModal( event, data ){
+        console.debug( 'IEventManager.v_handleModal()' );
+        switch( event.type ){
             case 'md-modal-close':
                 pwiAccounts.Displayer.IDisplayManager.free();
                 return false;
         }
+        return true;
+    }
+
+    /**
+     * @summary Common event handler
+     * @param {Object} event the jQuery event
+     * @param {Object} data the data associated to the event by the sender
+     * @return {Boolean} false to stop the propagation (usually because the event has been handled)
+     *  Default is to redirect the event if possible.
+     * [-implementation Api-]
+     */
+    v_handler( event, data ){
+        console.debug( 'IEventManager.v_handler()', event, data );
+        return this.v_handlePanel( event, data ) && this.v_handleUser( event, data ) &&
+                this.v_handleSubmit( event, data ) && this.v_handleUser( event, data ) && this.v_handleModal( event, data );
     }
 
     /* *** ***************************************************************************************

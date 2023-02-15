@@ -167,6 +167,7 @@ defaults = {
             signinLink: true,
             signupLink: true,
             resetLink: true,
+            signupAutoClose: true,
             signupAutoConnect: true,
             name: ''
         }
