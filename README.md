@@ -2,9 +2,11 @@
 
 ## Important caution
 
-As of v 1.x, pwix:accounts package relies on dynamically got class names from an Interface class. This behavior doesn't support the minification process of Metor as long as no supported option is provided to prevent class names mangling at minification time.
+As of v 1.x, pwix:accounts package relies on dynamically got class names from an `Interface` class. This behavior doesn't support the minification process of Metor as long as no supported option is provided to prevent class names mangling at minification time.
 
 _Note_ I do not say that there is no solution at this issue. But several PRs, and sometines several years old, stay unanswered or - worse - refused. As of 2.10, Meteor doesn't provide to my knowledge any supported way to provide some options to terser minificater.
+
+The workaround I use these days is to just `meteor remove standard-minifier-js`. Where the minified production bundle size were 60MB, the non-minified version becomes 64MB. I consider that this is reasonable to keep my `Interface` class.
 
 See also `maintainer/README.md` for some details.
 
