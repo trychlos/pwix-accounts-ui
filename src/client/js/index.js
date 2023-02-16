@@ -7,5 +7,4 @@ import './accounts.js';
 import './config.js';
 import './defaults.js';
 import './functions.js';
-import './handlers.js';
 import './startup.js';
