@@ -1,7 +1,7 @@
 /*
  * pwix:accounts/src/client/js/config.js
  *
- * - attach the acDisplayer singleton as Displayer to pwiAccounts
+ * - attach the acDisplayManager singleton to pwiAccounts
  * - attach the acUser singleton as User to pwiAccounts
  */
 
@@ -9,6 +9,7 @@ import { Tracker } from 'meteor/tracker';
 
 import { acDisplayer } from '../classes/ac_displayer.class.js';
 import { acAnonRequester } from '../classes/ac_anon_requester.class.js';
+import { acDisplayManager } from '../classes/ac_display_manager.class.js';
 import { acUser } from '../classes/ac_user.class.js';
 
 _ready = {
@@ -19,8 +20,10 @@ _ready = {
 pwiAccounts = {
     ...pwiAccounts,
     ...{
-        AnonRequester: new acAnonRequester(),
-        Displayer: new acDisplayer(),
+        AnonRequester: new acAnonRequester(),   // to be obsoleted
+        Displayer: new acDisplayer(),           // to be obsoleted
+
+        DisplayManager: new acDisplayManager(),
         User: new acUser(),
 
         /**

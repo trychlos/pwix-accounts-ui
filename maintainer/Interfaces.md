@@ -1,8 +1,8 @@
-# pwix:accounts - maintainer/README
+# pwix:accounts - maintainer/Interfaces
 
 ## Interface usage
 
-The usage of Interface in pwix:accounts package implies the use of dynamically attributed class names.
+The usage of Interface in `pwix:accounts` package implies the use of dynamically attributed class names.
 
 This works well in development environment.
 
@@ -11,7 +11,13 @@ This implies that the Interface philosophy based on class names no more works.
 
 We so MUST find a way to not modify these classes names, or to give up with Interface usage in Meteor application (which would be the very last option).
 
-As of 2023- 2-15 and Meteor 2.10, a work-around is to build the deployed bundle with the `--debug` flag.
+As of 2023- 2-15 and Meteor 2.10, a temporary work-around is to build the deployed bundle with the `--debug` flag.
+
+As of 2023- 2-19 and Meteor 2.10, the only found work-around is to just build the bundle without any minification. Unfortunately this option applies to the whole application.
+
+So decision is taken to get rid of the Interfaces, and come back to the good old DOM components system (todo #45).
+
+The interface code is nonetheless kept in `interfaces` git branch.
 
 ### Minification in Meteor
 
@@ -108,3 +114,27 @@ So, minifying - and all the above hard work, is just there to gain 4MB, just a b
 - [`minifier-js`](https://github.com/meteor/meteor/tree/master/packages/minifier-js)
 
 - [`Terser`](https://github.com/terser/terser)
+
+## Why Interfaces are a good system ?
+
+Interfaces let us put together all related methods, whatever be the implementation class, while leaving to this same implementation class the implementation details.
+
+After having written many thousands of lines of code in C, C++, or using the GLib and GObject Gnome libraries, I have built myself the philosophy that:
+
+- classes should hold the object data
+
+- while interfaces gather the methods.
+
+This way, the classes are much more easier to design, as we only look at which data go to which class.
+
+And the interfaces may be developped as needed, most probably each interface implemented by several classes.
+
+The produced code appears to me more clearer. For example, you do not pass a class instance to a method when you are only interested by the interface it implements. Just pass the interface object, and that's done.
+
+There are nonetheless one inconvenience as this may lead the developer to design many very small interfaces, so this may add some boilerplate code to the whole.
+
+IMHO, this inconvenient is small regarding the much more clear code we obtain.
+
+---
+P. Wieser
+- Last updated on 2023, Feb. 19th.

@@ -131,7 +131,7 @@ Accounts.onResetPasswordLink( function( token, done ){
     Meteor.callPromise( 'pwiAccounts.byResetToken', token )
         .then(( user ) => {
             if( user ){
-                pwiAccounts.AnonRequester.IDisplayRequester.ask( AC_PANEL_RESETPWD, {
+                pwiAccounts.DisplayManager.ask( AC_PANEL_RESETPWD, null, {
                     user: user,
                     submitCallback: () => {
                         const passwd = $( '.ac-reset-pwd .ac-newone .ac-input-password input' ).val().trim();

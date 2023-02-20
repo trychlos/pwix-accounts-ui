@@ -7,7 +7,7 @@
  * 
  * Parms:
  *  - companion: the acUserLoginCompanion object, may be null
- *  - name: the acUserLogin Blaze template instance name, may be null
+ *  - name: the acUserLogin Blaze template instance name, may be null or undefined
  * 
  * Each of these parm may be individually undefined, null or empty, but never both at the same time.
  * Exactly one of these parms MUST be provided.
@@ -114,7 +114,7 @@ Template.acMenuItems.events({
         const msg = $( event.currentTarget ).attr( 'data-ac-msg' );
         if( msg ){
             const parms = {
-                requester: instance.AC.companion.get().IDisplayRequester,
+                companion: instance.AC.companion.get(),
                 panel: $( event.currentTarget ).attr( 'data-ac-panel' )
             };
             if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL_TRIGGER ){
@@ -123,7 +123,9 @@ Template.acMenuItems.events({
             // will bubble up to acUserLogin Blaze instance, or IEventManager.handler(), depending of which takes it first
             // in a standard width display, acMenuItems are attached to an ac_dropdown, and acUserLogin Blaze template will manage them
             // in a small display, items are attached to the application menu, so only IEventHandler will be able to handle the events
-            $( event.currentTarget ).trigger( msg, parms );
+            // this all depends of the target
+            const target = instance.AC.companion.get().target() || $( event.currentTarget );
+            target.trigger( msg, parms );
         }
     }
 });

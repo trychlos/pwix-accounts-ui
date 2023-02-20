@@ -8,24 +8,16 @@
  * This behavior relies on several classes:
  * 
  * - global classes:
- *   > acDisplayer is a singleton attached to the global 'pwiAccounts' object, and maintains the display (aka the viewport) as a whole
- *      it implements IDisplayManager and IEventManager interfaces
+ *   > acDisplayµµManager is a singleton attached to the global 'pwiAccounts' object, and maintains the display (aka the viewport) as a whole
  *   > acUser is a singleton attached to the global 'pwiAccounts' object, and interfaces the user status.
  * 
  * - local classes:
  *   > acUserLoginOptions the configuration options provided by the caller (or their defaults)
- *   > acUserLoginCompanion a companion class which glues together this Blaze template instance with classes and interfaces
- * 
- * - acShower is attached to each and every 'acUserLogin' template, and manages the display of the fields
-
- *
- * Even if the logged (resp. unlogged) buttons are not displayed, the underlying panels can still be activated when
- * a transition requires that. This is because all acUserLogin instances share the same required panel, which is
- * a design decision.
+ *   > acUserLoginCompanion a companion class which glues together this Blaze template instance with other classes
  * 
  * The template is instanciated here (and potentially several times as explained above), and uniquely identified by the id of its companion class.
  * The acUserLoginCompanion and acUserLoginOptions objects are attached to this instance.
- * The companion class acts as a IDisplayRequester, and is then passed as a parameter to each and every child template.
+ * The companion class acts as a display requester, and is then passed as a parameter to each and every child template.
  */
 
 import '../../../common/js/index.js';
@@ -48,19 +40,7 @@ Template.acUserLogin.onCreated( function(){
     //  is able to address this AC object, and tu ouse the below methods. Take care when changing something.
     self.AC = {
         companion: null,
-        options: null,
-
-        // whether this template instance is to display a dropdown button ?
-        hasDropdown(){
-            const state = pwiAccounts.User.state();
-            return ( state === AC_LOGGED && self.AC.options.loggedButtonAction() !== AC_ACT_HIDDEN )
-                || ( state === AC_UNLOGGED && self.AC.options.unloggedButtonAction() !== AC_ACT_HIDDEN );
-        },
-
-        // whether rendering as a <div>...</div> or as a modal ?
-        modal(){
-            return self.AC.options.renderMode() === 'AC_RENDER_MODAL';
-        }
+        options: null
     };
 
     // first instanciates the options manager
@@ -73,7 +53,7 @@ Template.acUserLogin.onCreated( function(){
     self.AC.companion = new acUserLoginCompanion( self );
 
     if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
-        console.log( 'pwix:accounts instanciating acUserLogin id='+self.AC.companion.IDisplayRequester.id());
+        console.log( 'pwix:accounts instanciating acUserLogin id='+self.AC.companion.id());
     }
 });
 
@@ -90,28 +70,31 @@ Template.acUserLogin.onRendered( function(){
         }
     }, 15 );
 
+    // set the event target
+    self.AC.companion.target( self.$( self.AC.companion.jqSelector()));
+
     // setup the initial panel only when the template is rendered
-    self.AC.companion.IDisplayRequester.ask( self.AC.options.initialPanel(), { companion: self.AC.companion });
+    pwiAccounts.DisplayManager.ask( self.AC.options.initialPanel(), self.AC.companion.id(), self.AC.options );
 });
 
 Template.acUserLogin.helpers({
 
     // whether this template controls a logged/unlogged user button
     hasDropdown(){
-        return Template.instance().AC.hasDropdown();
+        return Template.instance().AC.companion.hasDropdown();
     },
 
     // set a unique id on the acUserLogin div
     id(){
-        return Template.instance().AC.companion.IDisplayRequester.id();
+        return Template.instance().AC.companion.id();
     },
 
     // whether the display must be rendered as a modal one ?
     modal(){
-        return Template.instance().AC.modal();
+        return Template.instance().AC.companion.modal();
     },
 
-    // provides the IDisplayRequester instance to the child templates
+    // provides the acUserLoginCompanion instance to the child templates
     //  if present, also provides the acUserLogin name
     parms(){
         let o = {
@@ -139,13 +122,13 @@ Template.acUserLogin.events({
             case AC_PANEL_CHANGEPWD:
                 const pwd1 = $( '.ac-change-pwd .ac-old .ac-input' ).val().trim();
                 const pwd2 = $( '.ac-change-pwd .ac-newone .ac-input' ).val().trim();
-                pwiAccounts.User.changePwd( pwd1, pwd2, instance.AC.companion.IDisplayRequester.target());
+                pwiAccounts.User.changePwd( pwd1, pwd2, instance.AC.companion.target());
                 managed = true;
                 break;
             case AC_PANEL_RESETASK:
                 console.log( 'element', $( '.ac-reset-ask' ));
                 mail = $( '.ac-reset-ask .ac-input-email .ac-input' ).val().trim();
-                pwiAccounts.User.resetAsk( mail, instance.AC.companion.IDisplayRequester.target());
+                pwiAccounts.User.resetAsk( mail, instance.AC.companion.target());
                 managed = true;
                 break;
             case AC_PANEL_SIGNIN:
@@ -153,7 +136,7 @@ Template.acUserLogin.events({
                 mail = $( '.ac-signin .ac-input-userid .ac-input' ).val().trim();
                 password = $( '.ac-signin .ac-input-password .ac-input' ).val().trim();
                 //console.log( 'mail',mail,'password', pwd );
-                pwiAccounts.User.loginWithPassword( mail, password, instance.AC.companion.IDisplayRequester.target());
+                pwiAccounts.User.loginWithPassword( mail, password, instance.AC.companion.target());
                 managed = true;
                 break;
             case AC_PANEL_SIGNOUT:
@@ -173,14 +156,14 @@ Template.acUserLogin.events({
                 console.log( 'found autoClose='+autoClose );
                 const autoConnect = instance.AC.options.signupAutoConnect();
                 console.log( 'found autoConnect='+autoConnect );
-                pwiAccounts.User.createUser( options, instance.AC.companion.IDisplayRequester.target(), autoClose, autoConnect );
+                pwiAccounts.User.createUser( options, instance.AC.companion.target(), autoClose, autoConnect );
                 if( !autoClose ){
                     $( '.ac-signup' ).trigger( 'ac-clear' );
                 }
                 managed = true;
                 break;
             case AC_PANEL_VERIFYASK:
-                pwiAccounts.User.verifyMail( instance.AC.companion.IDisplayRequester.target());
+                pwiAccounts.User.verifyMail( instance.AC.companion.target());
                 managed = true;
                 break;
         }

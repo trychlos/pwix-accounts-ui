@@ -10,10 +10,6 @@
 
 |   Id | Date       | Description and comment(s) |
 | ---: | :---       | :---                       |
-|    1 | 2023- 1-20 | be able to define a specific format for a form in some situations |
-|      |            | use case: have a specific form when defining the first account of an application |
-|      | 2023- 1-21 | rather build each panel dynamically from configuration options |
-|      | 2023- 1-25 | or not !?? |
 |    2 | 2023- 1-20 | provides a button with a configurable label 'login with Zimbra' |
 |    3 | 2023- 1-20 | provides a button to connect to the future chosen identity manager |
 |    8 | 2023- 1-21 | develop a small SPA application to provide tests for the package |
@@ -32,15 +28,22 @@
 |      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
 |   39 | 2023- 1-31 | WARN email-validator not detected by checkNpmversions |
 |   40 | 2023- 1-31 | WARN zxcvbn not detected by checkNpmversions |
-|   41 | 2023- 2-11 | pwiAccounts.isEmailVerified() assert that the function is relevant and at is right place |
 |   42 | 2023- 2-11 | pwiAccounts.dropdownItems() assert that the function is relevant and at is right place |
-|   44 |  |  |
+|   44 | 2023- 2-18 | obsolete isEmailVerified() function, has been duplicated in pwix:accounts-tools |
+|   45 | 2023- 2-19 | obsolete the interfaces and come back to the good old system of DOM components - see rationale in maintainer/Interfaces.md |
+|   46 | 2023- 2-19 | rename AC_I18N to ACI18N |
+|   47 |  |  |
 
 ---
 ## Done
 
 |   Id | Date       | Description and comment(s) |
 | ---: | :---       | :---                       |
+|    1 | 2023- 1-20 | be able to define a specific format for a form in some situations |
+|      |            | use case: have a specific form when defining the first account of an application |
+|      | 2023- 1-21 | rather build each panel dynamically from configuration options |
+|      | 2023- 1-25 | or not !?? |
+|      | 2023- 2-19 | This use case is supposed to be solved by the acUserLogin philosophy - so obsolete this item |
 |    4 | 2023- 1-20 | honor haveEmailAddress, haveUsername |
 |      | 2023- 1-25 | signup: done |
 |      | 2023- 1-25 | signin: done |
@@ -103,6 +106,8 @@
 |      | 2023- 1-28 | done, replacing with (published) pwix-bootbox |
 |   38 | 2023- 1-27 | review acSelect: do not use Promise in helpers |
 |      | 2023- 1-29 | done |
+|   41 | 2023- 2-11 | pwiAccounts.isEmailVerified() assert that the function is relevant and at is right place |
+|      | 2023- 2-19 | obsoleted by #44 |
 |   43 | 2023- 2-15 | update documentation with new event names |
 |      | 2023- 2-15 | done |
 

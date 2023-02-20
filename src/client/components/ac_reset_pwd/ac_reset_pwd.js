@@ -5,7 +5,7 @@
  * Doesn't change the connection state.
  * 
  * Please note that this panel is run OUTSIDE of usual 'acUserLogin' flow.
- * We so do NOT have any particular IDisplayRequester information.
+ * We so do NOT have any particular acUserLogin information.
  * 
  * Parms:
  * - user

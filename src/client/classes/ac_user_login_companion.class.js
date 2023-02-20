@@ -2,14 +2,12 @@
  * pwix:accounts/src/client/classes/ac_user_login_companion.class.js
  *
  * A companion class for the 'acUserLogin' Blaze template.
- * Implements the IDisplayRequester interface.
  * 
- * This acUserLoginCompanion class acts as a requester for all displayed templates, and take care
+ * This acUserLoginCompanion class acts as the requester for all displayed templates, and take care
  * of adressing the acUserLogin Blaze template as the event handler.
  */
 
-import { IDisplayRequester } from './idisplay_requester.interface.js';
-import { Interface } from './interface.class';
+import { Random } from 'meteor/random';
 
 export class acUserLoginCompanion {
 
@@ -27,11 +25,14 @@ export class acUserLoginCompanion {
      * @returns {acUserLoginCompanion} the corresponding acUserLoginCompanion instance, or null
      */
     static byName( name ){
-        return acUserLoginCompanion.NamedInstances.name || null;
+        return acUserLoginCompanion.NamedInstances[name] || null;
     }
 
     // private data
     //
+
+    // a random unique identifier for this instance
+    _id = null;
 
     // the acUserLogin template instance and its jQuery selector
     _instance = null;
@@ -39,6 +40,9 @@ export class acUserLoginCompanion {
 
     // whether the DOM is ready
     _ready = new ReactiveVar( false );
+
+    // the events target
+    _target = null;
 
     // private methods
     //
@@ -70,12 +74,12 @@ export class acUserLoginCompanion {
             console.log( 'pwix:accounts instanciating acUserLoginCompanion' );
         }
 
-        Interface.add( this, IDisplayRequester, {
-            v_target: this._idisplayrequesterTarget
-        });
+        // allocate a new random unique identifier for this instance
+        //  may be overriden by the implementation through the v_id() method
+        self._id = Random.id();
 
         self._instance = instance;
-        self._jqSelector = '.acUserLogin#'+self.IDisplayRequester.id();
+        self._jqSelector = '.acUserLogin#'+self.id();
 
         // if the instance is named, then keep it to be usable later
         const name = self.opts().name();
@@ -92,9 +96,9 @@ export class acUserLoginCompanion {
     dynItemsAfter(){
         switch( pwiAccounts.User.state()){
             case AC_LOGGED:
-                return this._instance.AC.options.loggedItemsAfter();
+                return this.opts().loggedItemsAfter();
             case AC_UNLOGGED:
-                return this._instance.AC.options.unloggedItemsAfter();
+                return this.opts().unloggedItemsAfter();
         }
         return [];
     }
@@ -105,9 +109,9 @@ export class acUserLoginCompanion {
     dynItemsBefore(){
         switch( pwiAccounts.User.state()){
             case AC_LOGGED:
-                return this._instance.AC.options.loggedItemsBefore();
+                return this.opts().loggedItemsBefore();
             case AC_UNLOGGED:
-                return this._instance.AC.options.unloggedItemsBefore();
+                return this.opts().unloggedItemsBefore();
         }
         return [];
     }
@@ -136,10 +140,34 @@ export class acUserLoginCompanion {
     }
 
     /**
+     * @returns {Boolean} whether this acUserLogin template should display a dropdown menu
+     */
+    hasDropdown(){
+        const state = pwiAccounts.User.state();
+        return ( state === AC_LOGGED && this.opts().loggedButtonAction() !== AC_ACT_HIDDEN )
+            || ( state === AC_UNLOGGED && this.opts().unloggedButtonAction() !== AC_ACT_HIDDEN );
+    }
+
+    /**
+     * @returns {String} The acUserLoginCompanion unique identifier
+     *  Also acts as the requester identifier
+     */
+    id(){
+        return this._id;
+    }
+
+    /**
      * @returns {Object} the jQuery selector for this instance
      */
     jqSelector(){
         return this._jqSelector;
+    }
+
+    /**
+     * @returns {Boolean} whether the panels must be rendered as modals
+     */
+    modal(){
+        return this.opts().renderMode() === 'AC_RENDER_MODAL';
     }
 
     /**
@@ -162,5 +190,17 @@ export class acUserLoginCompanion {
             this._ready.set( ready );
         }
         return this._ready.get();
+    }
+
+    /**
+     * Getter/Setter
+     * @summary Provides/set the events target.
+     * @returns {Object} the jQuery object which acts as the receiver of the event.
+     */
+    target( target ){
+        if( target !== undefined ){
+            this._target = target;
+        }
+        return this._target;
     }
 }
