@@ -153,10 +153,6 @@ Accounts.onResetPasswordLink( function( token, done ){
                                 done();
                             }
                         });
-                        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
-                            console.log( 'pwix:accounts closing modal' );
-                        }
-                        pwixModal.close();
                     }
                 });
             } else {

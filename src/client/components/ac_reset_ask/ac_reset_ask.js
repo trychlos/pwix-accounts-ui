@@ -2,9 +2,10 @@
  * pwix:accounts/src/client/components/ac_reset_ask/ac_reset_ask.js
  * 
  * Parms:
- *  - companion: the acUserLoginCompanion object
-*/
-import '../../../common/js/index.js';
+ *  - requester: the acUserLoginCompanion object
+ */
+
+import { acUserLoginCompanion } from '../../classes/ac_user_login_companion.class.js';
 
 import '../ac_input_email/ac_input_email.js';
 
@@ -16,6 +17,14 @@ Template.ac_reset_ask.onCreated( function(){
     self.AC = {
         emailOk: new ReactiveVar( true ) 
     };
+
+    // check that requester is a acUserLoginCompanion
+    self.autorun(() => {
+        const requester = Template.currentData().requester;
+        if( requester && !( requester instanceof acUserLoginCompanion )){
+            throw new Error( 'expected acUserLoginCompanion, found', requester );
+        }
+    });
 });
 
 Template.ac_reset_ask.onRendered( function(){
@@ -30,17 +39,17 @@ Template.ac_reset_ask.onRendered( function(){
 Template.ac_reset_ask.helpers({
     // error message
     errorMsg(){
-        return pwiAccounts.Displayer.errorMsg();
+        return pwiAccounts.DisplayManager.errorMsg();
     },
 
     // the text at the first place of the section
     textOne(){
-        return this.companion.opts().resetAskTextOne();
+        return this.requester.opts().resetAskTextOne();
     },
 
     // the text at the second place of the section
     textTwo(){
-        return this.companion.opts().resetAskTextTwo();
+        return this.requester.opts().resetAskTextTwo();
     }
 });
 

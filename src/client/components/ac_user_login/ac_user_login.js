@@ -4,6 +4,9 @@
  * Parms:
  *  - companion: the acUserLoginCompanion object
  */
+
+import { acPanel } from '../../classes/ac_panel.class.js';
+
 import '../../../common/js/index.js';
 
 import '../ac_change_pwd/ac_change_pwd.js';
@@ -23,6 +26,6 @@ Template.ac_user_login.helpers({
     },
 
     template(){
-        return pwiAccounts.Displayer.template( pwiAccounts.Displayer.IDisplayManager.panel());
+        return acPanel.template( pwiAccounts.DisplayManager.panel());
     }
 });

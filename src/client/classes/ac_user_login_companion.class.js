@@ -9,6 +9,7 @@
 
 import { Random } from 'meteor/random';
 
+
 export class acUserLoginCompanion {
 
     // static data
@@ -48,12 +49,66 @@ export class acUserLoginCompanion {
     //
 
     /*
-     * @returns {Object} the jQuery object which will receive the events
-     * [-IDisplayRequester implementation-]
+     * @returns {Boolean} whether we have successfully managed the event
      */
-    _idisplayrequesterTarget(){
-        //console.debug( 'acUserLoginCompanion._idisplayrequesterTarget()' );
-        return this.ready() ? this._instance.$( this.jqSelector()) : null;
+    _handleSubmitEvent( event, data ){
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_HANDLE ){
+            console.log( 'pwix:accounts acUserLoginCompanion handling', event.type, data );
+        }
+        let mail = null;
+        let password = null;
+        let managed = false;
+        const panel = pwiAccounts.DisplayManager.panel();
+        switch( panel ){
+            case AC_PANEL_CHANGEPWD:
+                const pwd1 = $( '.ac-change-pwd .ac-old .ac-input' ).val().trim();
+                const pwd2 = $( '.ac-change-pwd .ac-newone .ac-input' ).val().trim();
+                pwiAccounts.User.changePwd( pwd1, pwd2, this.target());
+                managed = true;
+                break;
+            case AC_PANEL_RESETASK:
+                //console.log( 'element', $( '.ac-reset-ask' ));
+                mail = $( '.ac-reset-ask .ac-input-email .ac-input' ).val().trim();
+                pwiAccounts.User.resetAsk( mail, this.target());
+                managed = true;
+                break;
+            case AC_PANEL_SIGNIN:
+                // 'mail' here may be either an email address or a username
+                mail = $( '.ac-signin .ac-input-userid .ac-input' ).val().trim();
+                password = $( '.ac-signin .ac-input-password .ac-input' ).val().trim();
+                //console.log( 'mail',mail,'password', pwd );
+                pwiAccounts.User.loginWithPassword( mail, password, this.target());
+                managed = true;
+                break;
+            case AC_PANEL_SIGNOUT:
+                pwiAccounts.User.logout();
+                managed = true;
+                break;
+            case AC_PANEL_SIGNUP:
+                let options = {};
+                if( pwiAccounts.opts().haveUsername()){
+                    options.username = $( '.ac-signup .ac-input-username .ac-input' ).val().trim();
+                }
+                if( pwiAccounts.opts().haveEmailAddress()){
+                    options.email = $( '.ac-signup .ac-input-email .ac-input' ).val().trim();
+                }
+                options.password = $( '.ac-signup .ac-newone .ac-input' ).val().trim();
+                const autoClose = this.opts().signupAutoClose();
+                console.log( 'found autoClose='+autoClose );
+                const autoConnect = this.opts().signupAutoConnect();
+                console.log( 'found autoConnect='+autoConnect );
+                pwiAccounts.User.createUser( options, this.target(), autoClose, autoConnect );
+                if( !autoClose ){
+                    $( '.ac-signup' ).trigger( 'ac-clear' );
+                }
+                managed = true;
+                break;
+            case AC_PANEL_VERIFYASK:
+                pwiAccounts.User.verifyMail( this.target());
+                managed = true;
+                break;
+        }
+        return !managed;
     }
 
     // public data
@@ -124,19 +179,37 @@ export class acUserLoginCompanion {
      * @param {String} event the event type
      * @param {Object} data the associated data
      * @returns {Boolean} whether we have successfully managed this event
-     *  This returned value may be used by the caller to allow - or not - the default event handling...
+     *  This returned value may be used by the caller to allow - or not - the event propagation...
      */
     handleEvent( event, data ){
-        if( data.requester && data.requester instanceof IDisplayRequester ){
-            if( data.requester.id() !== this.IDisplayRequester.id()){
-                console.log( 'cowardly refusing to handle an event for someone else', data, this );
-                return false;
-            }
+        /*
+        if( data.requester && ( !data.requester.id || ( data.requester.id() !== this.id()))){
+            console.log( 'cowardly refusing to handle an event for someone else', data, this );
+            return false;
         }
-        if( !data.panel ){
-            throw new Error( 'expecting a panel, not found' );
+        */
+        switch( event.type ){
+            // message sent by dropdown items (ac_menu_items)
+            //  data is { requester, panel }
+            case 'ac-panel-changepwd-event':
+            case 'ac-panel-resetask-event':
+            case 'ac-panel-signin-event':
+            case 'ac-panel-signout-event':
+            case 'ac-panel-signup-event':
+            case 'ac-panel-verifyask-event':
+                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL_HANDLE ){
+                    console.log( 'pwix:accounts acUserLoginCompanion handling', event.type, data );
+                }
+                if( !data.panel ){
+                    throw new Error( 'expecting a panel, not found' );
+                }
+                return pwiAccounts.DisplayManager.ask( data.panel, this, data );
+
+            // message sent from ac_footer
+            //  no data is expected
+            case 'ac-submit':
+                return this._handleSubmitEvent( event, data );
         }
-        return data.requester.ask( data.panel,{ ...data, companion: this });
     }
 
     /**

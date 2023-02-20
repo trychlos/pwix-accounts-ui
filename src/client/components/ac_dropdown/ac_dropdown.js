@@ -7,10 +7,11 @@
  * 
  * Parms:
  *  - companion: the acUserLoginCompanion object
- *  - name: the acUserLogin Blaze template instance name, may be null
  */
 
 import '../../../common/js/index.js';
+
+import '../ac_menu_items/ac_menu_items.js';
 
 import './ac_dropdown.html';
 

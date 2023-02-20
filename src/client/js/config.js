@@ -7,8 +7,6 @@
 
 import { Tracker } from 'meteor/tracker';
 
-import { acDisplayer } from '../classes/ac_displayer.class.js';
-import { acAnonRequester } from '../classes/ac_anon_requester.class.js';
 import { acDisplayManager } from '../classes/ac_display_manager.class.js';
 import { acEventManager } from '../classes/ac_event_manager.class.js';
 import { acUser } from '../classes/ac_user.class.js';
@@ -21,9 +19,6 @@ _ready = {
 pwiAccounts = {
     ...pwiAccounts,
     ...{
-        AnonRequester: new acAnonRequester(),   // to be obsoleted
-        Displayer: new acDisplayer(),           // to be obsoleted
-
         DisplayManager: new acDisplayManager(),
         EventManager: new acEventManager(),
         User: new acUser(),

@@ -65,7 +65,7 @@ export class acDisplayManager {
             const panel = self.panel();
             if( panel ){
                 pwixModal.setTitle( acPanel.title( panel ));
-                pwixModal.setBody( acPanel.body( panel ));
+                pwixModal.setBody( acPanel.template( panel ));
             }
         });
 
@@ -76,14 +76,16 @@ export class acDisplayManager {
     /**
      * @summary Request for the display of the specified panel
      * @param {String} panel the panel to be displayed
-     * @param {*} requester any object instance
+     * @param {Object} requester any object instance
      *  if null, then will be set to ANONYMOUS
+     *  else should implement id() and target() methods
      * @param {Object} parms the parms to be passed to the panel, may be undefined, null or empty
      * @returns {Boolean} whether the acDisplayManager is able to satisfy the request
      *  i.e. whether the display is free before the request and can be allocated to it
      */
     ask( panel, requester, parms={} ){
         if( pwiAccounts.opts().verbosity() & AC_VERBOSE_IDPASK ){
+            console.log( 'pwix:accounts acDisplayManager.ask() self', this );
             console.log( 'pwix:accounts acDisplayManager.ask() panel', panel );
             console.log( 'pwix:accounts acDisplayManager.ask() requester', requester );
             console.log( 'pwix:accounts acDisplayManager.ask() parms', parms );
@@ -92,31 +94,23 @@ export class acDisplayManager {
         if( !requester ){
             requester = ANONYMOUS;
         }
-        if( panel === AC_PANEL_NONE ){
-            // if nobody has the display then do nothing
-            if( !this._requester ){
-                return true;
-            // releasing the display (if asked by the same initial requester)
-            } else if( this._requester === requester ){
-                this.release();
-                return true;
-            } else {
-                console.log( 'refusing request of another requester' );
-                return false;
-            }
-        }
         // if we already have a another requester for the display, then refuse the request
-        if( this._requester !== requester ){
+        if( this._requester && ( this._requester !== requester || this._requester.id() !== requester.id())){
             console.log( 'refusing request as already used by another requester' );
             return false;
         }
-        this.panel( panel );
-        this._requester = requester;
+        // asking for AC_PANEL_NONE is same than releasing
+        if( panel === AC_PANEL_NONE ){
+            this.release();
+            return true;
+        }
         // show the panel (at last...)
         // modal template and title are set through the panel reactivity
         if( pwiAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
-            console.log( 'pwix:accounts acDisplayManager run the modal' );
+            console.log( 'pwix:accounts acDisplayManager run the modal', parms );
         }
+        this.panel( panel );
+        this._requester = requester;
         pwixModal.run({
             mdFooter: 'ac_footer',
             requester: requester,
@@ -144,7 +138,7 @@ export class acDisplayManager {
      *  This is called by acEventManager
      * @param {Object} event the jQuery event
      * @param {Object} data the data associated to the event by the sender
-     * @return {Boolean} false to stop the propagation (usually because the event has been handled)
+     * @return {Boolean} true if the message has been successfully handled
      */
     handleModal( event, data ){
         switch( event.type ){
@@ -155,9 +149,9 @@ export class acDisplayManager {
                 this.errorMsg( '' );
                 this.title( '' );
                 pwiAccounts.DisplayManager.release();
-                return false;
+                return true;
         }
-        return true;
+        return false;
     }
 
     /**

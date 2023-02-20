@@ -7,7 +7,7 @@
  * 'ac-password-data' and 'ac-twice-data' messages.
  * 
  * Parms:
- *  - companion: the acUserLoginCompanion object
+ *  - requester: the acUserLoginCompanion object
  *      Is undefined when invoked from ac_reset_pwd template
  *      Take care!
  *  - role: 'signup|change|reset'
@@ -48,10 +48,10 @@ Template.ac_twice_passwords.onCreated( function(){
 
     self.autorun(() => {
         const fn = Template.currentData().role + 'PasswordTwice';
-        const companion = Template.currentData().companion;
+        const requester = Template.currentData().requester;
         self.AC.twice.set( 
-            companion && companion.opts[fn] ?
-                companion.opts[fn]() : ( pwiAccounts.opts()[fn] ? pwiAccounts.opts()[fn]() : pwiAccounts.opts().passwordTwice()));
+            requester && requester.opts[fn] ?
+            requester.opts[fn]() : ( pwiAccounts.opts()[fn] ? pwiAccounts.opts()[fn]() : pwiAccounts.opts().passwordTwice()));
     });
 });
 

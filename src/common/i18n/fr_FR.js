@@ -111,7 +111,7 @@ pwiAccounts.i18n = {
                 resetask_error: 'Impossible d\'envoyer un lien de réinitialisation.',
                 resetask_success: 'Message envoyé avec succès',
                 resetpwd_error: 'Humm... Désolé, mais il semble que le jeton utilisé soit expiré.<br />Vous devez en redemander un nouveau.',
-                resetpwd_text: 'Bonjour,<br />Votre mot de passe a été réinitilisé avec succès.<br />Vous êtes automatiquement connecté au site.',
+                resetpwd_text: 'Bonjour,<br />Votre mot de passe a été réinitialisé avec succès.<br />Vous êtes automatiquement connecté au site.',
                 resetpwd_title: 'Réinitialisation du mot de passe',
                 signin_error: 'L\'adresse de messagerie et/ou le mot de passe sont invalides. Merci de bien vouloir les vérifier.\nEn cas de doute, vous pouvez vous rapprocher de notre administrateur.',
                 signup_error: 'Impossible de créer ce nouveau compte.',

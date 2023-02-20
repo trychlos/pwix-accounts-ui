@@ -41,7 +41,7 @@ export class acEventManager {
         // when submitting a modal not attached to any Blaze template event handler
         'ac-submit',
         // when the modal is about to close
-        'md-modal-close'
+        'md-close'
     ];
 
     // static methods
@@ -65,16 +65,32 @@ export class acEventManager {
     //
 
     /*
+     * @summary Handle modal events
+     * @param {Object} event the jQuery event
+     * @param {Object} data the data associated to the event by the sender
+     * @return {Boolean} false to stop the propagation (usually because the event has been handled)
+     *  Here, let the event bubble up
+     */
+    _handleModal( event, data ){
+        switch( event.type ){
+            case 'md-close':
+                pwiAccounts.DisplayManager.handleModal( event, data );
+                break;
+        }
+        return true;
+    }
+
+    /*
      * @summary Handle 'ac-panel' events
      * @param {Object} event the jQuery event
      * @param {Object} data the data associated to the event by the sender
      * @return {Boolean} false to stop the propagation (usually because the event has been handled)
-     *  Default is to redirect the event if possible.
+     *  Here, let the event bubble up
      */
     _handlePanel( event, data ){
         switch( event.type ){
             // a dropdown item ask for a panel
-            //  it must provide its IDisplayRequester instance
+            //  as these events are triggered from standard dropdown items, they should convey a acUserLoginCompanion
             case 'ac-panel-changepwd-event':
             case 'ac-panel-resetask-event':
             case 'ac-panel-signin-event':
@@ -85,12 +101,38 @@ export class acEventManager {
                     console.log( 'pwix:accounts acEventManager handling', event.type, data );
                 }
                 const requester = data.requester;
-                if( requester && requester.target ){
-                    requester.target().trigger( event.type, data );
+                if( requester && requester.handleEvent ){
+                    requester.handleEvent( event, data );
                 } else {
-                    throw new Error( 'no requester found', data );
+                    throw new Error( 'exepcted acUserLoginCompanion, found', requester );
                 }
-                return false;
+        }
+        return true;
+    }
+
+    /*
+     * @summary Handle 'ac-submit' event
+     * @param {Object} event the jQuery event
+     * @param {Object} data the data associated to the event by the sender
+     * @return {Boolean} false to stop the propagation (usually because the event has been handled)
+     *  Here, let the event bubble up.
+     */
+    _handleSubmit( event, data ){
+        switch( event.type ){
+            // if we have a ac-submit button which has triggered this ac-submit event,
+            //  then we must have a current requester capable of handling this event
+            //  no data is expected
+            case 'ac-submit':
+                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_HANDLE ){
+                    console.log( 'pwix:accounts acEventManager handling', event.type, data );
+                }
+                console.log( pwiAccounts.DisplayManager );
+                const requester = pwiAccounts.DisplayManager.requester();
+                if( requester && requester.handleEvent ){
+                    requester.handleEvent( event, data );
+                } else {
+                    console.error( 'no capable requester' );
+                }
         }
         return true;
     }
@@ -117,62 +159,12 @@ export class acEventManager {
                 if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_HANDLE ){
                     console.log( 'pwix:accounts acEventManager handling', event.type, data );
                 }
-                if( data.autoClose !== false ){
+                if( data.autoClose !== false && pwixModal.count()){
                     if( pwiAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
                         console.log( 'pwix:accounts acEventManager closing modal' );
                     }
                     pwixModal.close();
                 }
-        }
-        return true;
-    }
-
-    /*
-     * @summary Handle 'ac-submit' event
-     * @param {Object} event the jQuery event
-     * @param {Object} data the data associated to the event by the sender
-     * @return {Boolean} false to stop the propagation (usually because the event has been handled)
-     *  Try to redirect to the requester.
-     */
-    _handleSubmit( event, data ){
-        switch( event.type ){
-            // if we have a ac-submit button which has triggered this ac-submit event, then we must have a current requester
-            //  to which we redirect the event
-            case 'ac-submit':
-                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_HANDLE ){
-                    console.log( 'pwix:accounts acEventManager handling', event.type, data );
-                }
-                const requester = pwiAccounts.DisplayManager.requester();
-                let done = false;
-                if( requester && requester.target ){
-                    const target = requester.target();
-                    if( target ){
-                        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_TRIGGER ){
-                            console.log( 'pwix:accounts acEventManager triggering', event.type, 'to', target, 'with', data );
-                        }
-                        target.trigger( event.type, data );
-                        done = true;
-                    }
-                }
-                if( !done ){
-                    throw new Error( 'no current requester' );
-                }
-                return false;
-        }
-        return true;
-    }
-
-    /*
-     * @summary Handle modal events
-     * @param {Object} event the jQuery event
-     * @param {Object} data the data associated to the event by the sender
-     * @return {Boolean} false to stop the propagation (usually because the event has been handled)
-     */
-    _handleModal( event, data ){
-        switch( event.type ){
-            case 'md-close':
-                pwiAccounts.DisplayManager.handleModal( event, data );
-                break;
         }
         return true;
     }
@@ -186,7 +178,7 @@ export class acEventManager {
      */
     _handler( event, data ){
         return this._handlePanel( event, data ) && this._handleUser( event, data ) &&
-                this._handleSubmit( event, data ) && this._handleUser( event, data ) && this._handleModal( event, data );
+                this._handleSubmit( event, data ) && this._handleModal( event, data );
     }
 
     /**
@@ -220,7 +212,7 @@ export class acEventManager {
 
     /**
      * @summary Send an event
-     * @param {String} event the name of the event, as known by acEvent.isKnown()
+     * @param {String} event the name of the event, as known by acEvent
      * @param {Object} Parms additional arguments, if any, to be sent as a data object associated to the event
      */
     trigger( event, parms={} ){

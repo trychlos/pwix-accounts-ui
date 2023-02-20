@@ -2,14 +2,27 @@
  * pwix:accounts/src/client/components/ac_signin/ac_signin.js
  * 
  * Parms:
- *  - companion: the acUserLoginCompanion object
+ *  - requester: the acUserLoginCompanion object
  */
-import '../../../common/js/index.js';
+
+import { acUserLoginCompanion } from '../../classes/ac_user_login_companion.class.js';
 
 import '../ac_input_userid/ac_input_userid.js';
 import '../ac_input_password/ac_input_password.js';
 
 import './ac_signin.html';
+
+Template.ac_signin.onCreated( function(){
+    const self = this;
+
+    // check that requester is a acUserLoginCompanion
+    self.autorun(() => {
+        const requester = Template.currentData().requester;
+        if( requester && !( requester instanceof acUserLoginCompanion )){
+            throw new Error( 'expected acUserLoginCompanion, found', requester );
+        }
+    });
+});
 
 Template.ac_signin.onRendered( function(){
     const self = this;
@@ -20,21 +33,21 @@ Template.ac_signin.helpers({
     // error message
     //  here, the only error is when server doesn't validate the credentials
     errorMsg(){
-        return pwiAccounts.Displayer.errorMsg();
+        return pwiAccounts.DisplayManager.errorMsg();
     },
 
     // a description before the section
     textOne(){
-        return this.companion.opts().signinTextOne();
+        return this.requester.opts().signinTextOne();
     },
 
     // a description in the middle of the section
     textTwo(){
-        return this.companion.opts().signinTextTwo();
+        return this.requester.opts().signinTextTwo();
     },
 
     // a description at the endof the section
     textThree(){
-        return this.companion.opts().signinTextThree();
+        return this.requester.opts().signinTextThree();
     }
 });

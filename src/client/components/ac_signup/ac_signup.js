@@ -2,9 +2,10 @@
  * pwix:accounts/src/client/components/ac_signup/ac_signup.js
  * 
  * Parms:
- *  - companion: the acUserLoginCompanion object
+ *  - requester: the acUserLoginCompanion object
  */
-import '../../../common/js/index.js';
+
+import { acUserLoginCompanion } from '../../classes/ac_user_login_companion.class.js';
 
 import '../ac_input_email/ac_input_email.js';
 import '../ac_input_password/ac_input_password.js';
@@ -16,7 +17,7 @@ import './ac_signup.html';
 
 Template.ac_signup.onCreated( function(){
     const self = this;
-    //console.log( 'onCreated', this, Template.currentData());
+    console.log( 'onCreated', this, Template.currentData());
 
     self.AC = {
         emailOk: new ReactiveVar( true ),
@@ -44,6 +45,14 @@ Template.ac_signup.onCreated( function(){
             self.$( 'input' ).first().focus();
         }
     };
+
+    // check that requester is a acUserLoginCompanion
+    self.autorun(() => {
+        const requester = Template.currentData().requester;
+        if( requester && !( requester instanceof acUserLoginCompanion )){
+            throw new Error( 'expected acUserLoginCompanion, found', requester );
+        }
+    });
 });
 
 Template.ac_signup.onRendered( function(){
@@ -61,7 +70,7 @@ Template.ac_signup.helpers({
     // error message
     errorMsg(){
         // even if we have no message at all, we keep at least one blank line
-        return pwiAccounts.Displayer.errorMsg();
+        return pwiAccounts.DisplayManager.errorMsg();
     },
 
     // whether email address is permitted
@@ -77,29 +86,29 @@ Template.ac_signup.helpers({
     // parameters for the password input
     parmTwice(){
         return {
-            companion: this.companion,
+            requester: this.requester,
             role: 'signup'
         };
     },
 
     // the text at the first place of the section (if username)
     textOne(){
-        return this.companion.opts().signupTextOne();
+        return this.requester.opts().signupTextOne();
     },
 
     // the text at the second place of the section (if email)
     textTwo(){
-        return this.companion.opts().signupTextTwo();
+        return this.requester.opts().signupTextTwo();
     },
 
     // the text at the third place of the section
     textThree(){
-        return this.companion.opts().signupTextThree();
+        return this.requester.opts().signupTextThree();
     },
 
     // the text at the fourth place of the section
     textFour(){
-        return this.companion.opts().signupTextFour();
+        return this.requester.opts().signupTextFour();
     }
 });
 

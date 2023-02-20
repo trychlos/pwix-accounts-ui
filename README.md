@@ -226,7 +226,7 @@ Possible values are true or false, defaulting to true.</b>
 resetPwdTextOne<br />
 resetPwdTextTwo
 </td><td style="vertical-align:top;">
-Displayers personalization<br/>
+Display personalization<br/>
 These options let the application provides its own content before the input fields of the corresponding panel.<br />
 Value is expected to be a string which contains HTML code, or a function which returns such a string.
 </td></tr>
@@ -439,7 +439,7 @@ signupTextThree<br />
 signupTextFour<br />
 verifyAskTextOne
 </td><td style="vertical-align:top;">
-Displayers personalization<br/>
+Display personalization<br/>
 These options let the application provides its own content before the input fields of the corresponding panel.<br />
 Value is expected to be a string which contains HTML code, or a function which returns such a string.
 </td></tr>
@@ -500,7 +500,7 @@ via messages sent to the `<div class="acUserLogin">...</div>`.
 - `ac-panel-changepwd-event`
 - `ac-panel-verifyask-event`
 
-    Displayer the targeted panel
+    Display the targeted panel
 
 - `ac-render-modal`
 - `ac-render-div`
@@ -605,11 +605,9 @@ Besides of the `acUserLogin` template already invoked, the *accounts* package ex
 
 This template displays the list of `<li>...</li>` items of the menu to be displayed regarding the current connection state.
 
-The template expects to be called with one of these two parameters:
+The template expects to be called with one parameter:
 
-- either a 'dialog' one, which must address an acShower instance, and is the way it is internally called by the package itself
-
-- or with a 'name' key which must address the name of a 'acUserLogin' instance.
+- a '`name`' key which must address the same name of the corresponding '`acUserLogin`' instance.
 
 ## References for advanced use cases
 

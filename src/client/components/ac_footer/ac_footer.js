@@ -4,7 +4,7 @@
  * Provides various buttons, to be displayed either in a modal footer, or in the bottom of a div.
  * 
  * Parms:
- *  - companion: a acUserLoginCompanion object, may be null
+ *  - requester: ANONYMOUS or a acUserLoginCompanion object
  *  - submitCallback: if provided, a callback which will be called on .ac-submit button click
  *      instead of triggering an 'ac-submit' event
  */
@@ -28,12 +28,12 @@ Template.ac_footer.helpers({
 
     // returns the ordered list of buttons to be displayed depending of the currently displayed template
     buttons(){
-        return acPanel.buttons( pwiAccounts.Displayer.IDisplayManager.panel());
+        return acPanel.buttons( pwiAccounts.DisplayManager.panel());
     },
 
     // whether to display this link
     haveLink( link ){
-        const ret = link.have && this.companion ? this.companion.opts()[link.have]() : link.have;
+        const ret = link.have && ( this.requester && this.requester !== ANONYMOUS ) ? this.requester.opts()[link.have]() : link.have;
         return ret;
     },
 
@@ -47,7 +47,7 @@ Template.ac_footer.helpers({
 
     // returns the ordered list of links to be displayed depending of the current state
     links(){
-        return acPanel.links( pwiAccounts.Displayer.IDisplayManager.panel());
+        return acPanel.links( pwiAccounts.DisplayManager.panel());
     }
 });
 
@@ -55,7 +55,7 @@ Template.ac_footer.events({
 
     'click .ac-link'( event, instance ){
         const panel = instance.$( event.currentTarget ).find( 'a' ).attr( 'data-ac-target' );
-        pwiAccounts.Displayer.IDisplayManager.panel( panel );
+        pwiAccounts.DisplayManager.panel( panel );
     },
 
     'click .ac-cancel'( event, instance ){
