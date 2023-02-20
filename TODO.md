@@ -30,7 +30,6 @@
 |   40 | 2023- 1-31 | WARN zxcvbn not detected by checkNpmversions |
 |   42 | 2023- 2-11 | pwiAccounts.dropdownItems() assert that the function is relevant and at is right place |
 |   44 | 2023- 2-18 | obsolete isEmailVerified() function, has been duplicated in pwix:accounts-tools |
-|   45 | 2023- 2-19 | obsolete the interfaces and come back to the good old system of DOM components - see rationale in maintainer/Interfaces.md |
 |   46 | 2023- 2-19 | rename AC_I18N to ACI18N |
 |   47 |  |  |
 
@@ -110,6 +109,8 @@
 |      | 2023- 2-19 | obsoleted by #44 |
 |   43 | 2023- 2-15 | update documentation with new event names |
 |      | 2023- 2-15 | done |
+|   45 | 2023- 2-19 | obsolete the interfaces and come back to the good old system of DOM components - see rationale in maintainer/Interfaces.md |
+|      | 2023- 2-20 | done |
 
 ---
 P. Wieser

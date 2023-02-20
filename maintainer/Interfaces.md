@@ -1,31 +1,59 @@
 # pwix:accounts - maintainer/Interfaces
 
-## Interface usage
+## Why Interfaces ?
 
-The usage of Interface in `pwix:accounts` package implies the use of dynamically attributed class names.
+According to the current religions, interfaces are a contract between entities.
 
-This works well in development environment.
+From my coder point of view, interfaces are a way to structure my code, putting data in one side, say in classes, and grouping methods by themes in these damned interfaces. At least, this is the philosophy I forged myself after several thousands lines of code with C, C++, and GLib and GObject Gnome libraries.
+
+This way, the classes are much more easier to design, as we only look at which data go to which class.
+
+And the interfaces may be developped as needed, most probably each interface being implemented by more than one classes.
+
+The produced code appears to me more clearer, and much more structured. For example, you do not pass a class instance to a method when you are only interested by the interface it implements. Just pass the interface object, and you're done.
+
+There are nonetheless one inconvenience as this may lead the developer to design many small interfaces, so this may add some boilerplate code to the whole.
+
+IMHO, this inconvenient is small regarding the much more clear code we obtain.
+
+So the first released version 1.0.0 of `pwix:accounts` make use of interfaces. Work great in development environment, but do not pass the minification phase.
+
+## Why not interfaces ?
+
+The interface class as I have coded it implies the use of dynamically attributed class names.
 
 But when building the production bundle, Meteor applies a minification process which - in particular - leads to classes names mangling (renaming).
 This implies that the Interface philosophy based on class names no more works.
 
-We so MUST find a way to not modify these classes names, or to give up with Interface usage in Meteor application (which would be the very last option).
+I know about Meteor, but some Google searches clearly show that many if not all Web frameworks apply this same or equivalent minification process. And there are countless SO questions about how to disable name mangling, how to prevent this or that, and so on...
 
-As of 2023- 2-15 and Meteor 2.10, a temporary work-around is to build the deployed bundle with the `--debug` flag.
+In my own Meteor case:
 
-As of 2023- 2-19 and Meteor 2.10, the only found work-around is to just build the bundle without any minification. Unfortunately this option applies to the whole application.
+- there is no way (no way I have found at least) to prevent the class name mangling without deep refacturing the standard.
 
-So decision is taken to get rid of the Interfaces, and come back to the good old DOM components system (todo #45).
+    This may explain by Meteor philosophy (I read it once, but no more find it at the moment): Meteor is not really configurable: no JSON or YML file to patch to make the work, but all the work is made through paackages installation. Want another way of building ? Just install another package, and that's all. 
 
-The interface code is nonetheless kept in `interfaces` git branch.
+- a first work-around is to build the deployed bundle with the `--debug` flag
 
-### Minification in Meteor
+- another workaround is to just build the bundle without any minification by removing the js minifier package. Unfortunately this option applies to the whole application.
+
+## And now ?
+
+I publish the `pwix:accounts` package because I have worked a lot on it, and hope that someone will find it useful. Ideally, hope that someone will help me to improve it.
+
+So I do not believe this is a good idea to publish a package and say: "Caution, you cannot use it the usual way, and you have to accept to get rid of some other benefits".
+
+So I take the decision to get rid of the Interfaces, and come back to the good old classes components system (todo #45).
+
+The interface code is nonetheless kept locally in an `interfaces` git branch.
+
+## Minification in Meteor
 
 Meteor makes use of `standard-minifier-js` package to process the minification of JS files.
 
-Under the hood, Meteor is saif to use `UglyfyJS`, but - as of Meteor 2.10.0 - UglifyJS is said deprecated for the benefit of `Terser`.
+Under the hood, Meteor is said to use `UglyfyJS`, but - as of Meteor 2.10.0 - UglifyJS is said deprecated for the benefit of `Terser`.
 
-See [/home/pierre/.meteor/packages/standard-minifier-js/.2.8.1.103pr0l.sq1a++os+web.browser+web.browser.legacy+web.cordova/plugin.minifyStdJS.os/npm/node_modules/meteor/minifier-js/node_modules/terser/bin/uglifyjs](/home/pierre/.meteor/packages/standard-minifier-js/.2.8.1.103pr0l.sq1a++os+web.browser+web.browser.legacy+web.cordova/plugin.minifyStdJS.os/npm/node_modules/meteor/minifier-js/node_modules/terser/bin/uglifyjs)
+See [~/.meteor/packages/standard-minifier-js/.2.8.1.103pr0l.sq1a++os+web.browser+web.browser.legacy+web.cordova/plugin.minifyStdJS.os/npm/node_modules/meteor/minifier-js/node_modules/terser/bin/uglifyjs](~/.meteor/packages/standard-minifier-js/.2.8.1.103pr0l.sq1a++os+web.browser+web.browser.legacy+web.cordova/plugin.minifyStdJS.os/npm/node_modules/meteor/minifier-js/node_modules/terser/bin/uglifyjs)
 
 ### Our tests
 
@@ -114,26 +142,6 @@ So, minifying - and all the above hard work, is just there to gain 4MB, just a b
 - [`minifier-js`](https://github.com/meteor/meteor/tree/master/packages/minifier-js)
 
 - [`Terser`](https://github.com/terser/terser)
-
-## Why Interfaces are a good system ?
-
-Interfaces let us put together all related methods, whatever be the implementation class, while leaving to this same implementation class the implementation details.
-
-After having written many thousands of lines of code in C, C++, or using the GLib and GObject Gnome libraries, I have built myself the philosophy that:
-
-- classes should hold the object data
-
-- while interfaces gather the methods.
-
-This way, the classes are much more easier to design, as we only look at which data go to which class.
-
-And the interfaces may be developped as needed, most probably each interface implemented by several classes.
-
-The produced code appears to me more clearer. For example, you do not pass a class instance to a method when you are only interested by the interface it implements. Just pass the interface object, and that's done.
-
-There are nonetheless one inconvenience as this may lead the developer to design many very small interfaces, so this may add some boilerplate code to the whole.
-
-IMHO, this inconvenient is small regarding the much more clear code we obtain.
 
 ---
 P. Wieser
