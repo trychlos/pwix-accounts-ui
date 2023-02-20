@@ -120,7 +120,7 @@ Template.acMenuItems.events({
             if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL_TRIGGER ){
                 console.log( 'pwix:accounts acMenuItems triggering', msg, parms );
             }
-            // will bubble up to acUserLogin Blaze instance, or IEventManager.handler(), depending of which takes it first
+            // will bubble up to acUserLogin Blaze instance, or EventManager.handler(), depending of which takes it first
             // in a standard width display, acMenuItems are attached to an ac_dropdown, and acUserLogin Blaze template will manage them
             // in a small display, items are attached to the application menu, so only IEventHandler will be able to handle the events
             // this all depends of the target

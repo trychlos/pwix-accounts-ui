@@ -98,7 +98,7 @@ export class acUser {
                 if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
                     console.log( 'pwix:accounts triggering', event, parms );
                 }
-                pwiAccounts.Displayer.IEventManager.trigger( event, parms );
+                pwiAccounts.EventManager.trigger( event, parms );
             }
         });
     }
@@ -133,7 +133,7 @@ export class acUser {
                     if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
                         console.log( 'pwix:accounts triggering', event, parms );
                     }
-                    pwiAccounts.Displayer.IEventManager.trigger( event, parms );
+                    pwiAccounts.EventManager.trigger( event, parms );
                 }
             });
         } else {
@@ -151,7 +151,7 @@ export class acUser {
                     if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
                         console.log( 'pwix:accounts triggering', event, parms );
                     }
-                    pwiAccounts.Displayer.IEventManager.trigger( event, parms );
+                    pwiAccounts.EventManager.trigger( event, parms );
                 }
             });
         }
@@ -185,7 +185,7 @@ export class acUser {
                 if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
                     console.log( 'pwix:accounts triggering', event, parms );
                 }
-                pwiAccounts.Displayer.IEventManager.trigger( event, parms );
+                pwiAccounts.EventManager.trigger( event, parms );
             }
         });
     }
@@ -201,7 +201,7 @@ export class acUser {
         if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
             console.log( 'pwix:accounts triggering', event, parms );
         }
-        pwiAccounts.Displayer.IEventManager.trigger( event, parms );
+        pwiAccounts.EventManager.trigger( event, parms );
     }
 
     /**
@@ -228,7 +228,7 @@ export class acUser {
         if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
             console.log( 'pwix:accounts triggering', event, parms );
         }
-        pwiAccounts.Displayer.IEventManager.trigger( event, parms );
+        pwiAccounts.EventManager.trigger( event, parms );
     }
 
     resetAsk( email, target ){
@@ -288,7 +288,7 @@ export class acUser {
                     if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
                         console.log( 'pwix:accounts triggering', event, parms );
                     }
-                    pwiAccounts.Displayer.IEventManager.trigger( event, parms );
+                    pwiAccounts.EventManager.trigger( event, parms );
                 } else {
                     tlTolert.error( i18n.label( AC_I18N, 'user.verifyask_error' ));
                 }

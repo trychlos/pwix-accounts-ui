@@ -68,7 +68,7 @@ Accounts.onEmailVerificationLink( function( token, done ){
                         if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
                             console.log( 'pwix:accounts triggering', event, parms );
                         }
-                        pwiAccounts.Displayer.IEventManager.trigger( event, parms );
+                        pwiAccounts.EventManager.trigger( event, parms );
                         done();
                     }
                 });
@@ -149,12 +149,12 @@ Accounts.onResetPasswordLink( function( token, done ){
                                 if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
                                     console.log( 'pwix:accounts triggering', event, parms );
                                 }
-                                pwiAccounts.Displayer.IEventManager.trigger( event, parms );
+                                pwiAccounts.EventManager.trigger( event, parms );
                                 done();
                             }
                         });
                         if( pwiAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
-                            console.log( 'pwix:accounts IEventManager closing modal' );
+                            console.log( 'pwix:accounts closing modal' );
                         }
                         pwixModal.close();
                     }
