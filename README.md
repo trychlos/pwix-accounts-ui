@@ -526,6 +526,14 @@ In the same time, the 'acUserLogin' template advertises of its contexts:
 
 ### Exported methods
 
+- `pwiAccounts.dropdownItems()`
+
+    A client-only method which returns the list of standard dropdown items, depending of the current user connection state.
+
+    The returned value is an array where each item is a HTML string '`<a>...</a>`'.
+
+    A reactive data source.
+
 - `pwiAccounts.ready()`
 
     A client-only method which advertises when the package has been successfully initialized.
