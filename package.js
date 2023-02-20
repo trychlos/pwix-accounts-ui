@@ -37,8 +37,6 @@ Package.onUse( function( api ){
         'AC_RESET_EMAILSENT',
         'AC_RESET_EMAILUNSENT',
         'AC_RESET_EMAILERROR',
-        'AC_UI_BOOTSTRAP',
-        'AC_UI_JQUERY',
         'AC_VERBOSE_NONE',
         'AC_VERBOSE_CONFIGURE',
         'AC_VERBOSE_IDPASK',

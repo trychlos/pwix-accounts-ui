@@ -25,7 +25,6 @@ defaults = {
         resetPwdTextTwo: '',
         resetPasswordTwice: _passwordTwice,
         usernameLength: 4,
-        ui: AC_UI_BOOTSTRAP,
         verbosity: AC_VERBOSE_CONFIGURE
     }
 };

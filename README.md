@@ -249,17 +249,6 @@ A function can be provided by the application for this parm. The function will b
 </td></tr>
 
 <tr><td style="vertical-align:top;">
-ui
-</td><td>
-Indicates if dialogs are to be managed via the Bootstrap frontend toolkit or the jQuery UI ad-hoc widget.<br/>
-Accepted values are:
-<ul><li>AC_UI_BOOTSTRAP</li><li>
-AC_UI_JQUERY</li></ul>
-A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
-Defaults to AC_UI_BOOTSTRAP.
-</td></tr>
-
-<tr><td style="vertical-align:top;">
 verbosity
 </td><td>
 The verbosity level as a OR-ed value of integerer constants:
@@ -507,7 +496,7 @@ via messages sent to the `<div class="acUserLogin">...</div>`.
 
     Change the rendering mode
 
-### Messages sent on `acUserLogin` element
+### Messages sent on `body` element
 
 In the same time, the 'acUserLogin' template advertises of its contexts:
 
@@ -523,8 +512,6 @@ In the same time, the 'acUserLogin' template advertises of its contexts:
 - `ac-user-verifyasked-event` + `emailAddress`
 
     Advertises of a realized action on the user account
-
-### Messages sent on `body` element
 
 - `ac-user-resetdone-event` + `emailAddress`
 - `ac-user-verifieddone-event` + `emailAddress`
@@ -575,9 +562,6 @@ In the same time, the 'acUserLogin' template advertises of its contexts:
 
 - `AC_RENDER_MODAL`
 - `AC_RENDER_DIV`
-
-- `AC_UI_BOOTSTRAP`
-- `AC_UI_JQUERY`
 
 - `AC_USERNAME`
 - `AC_EMAIL_ADDRESS`
@@ -641,7 +625,7 @@ the required informations.
 When the application chooses to hide the logged/unlogged button depending of the size of the device,
 it should apply its media query on the 'display' div class, which is a direct child of the 'acUserLogin' one.
 
-This way, the 'acUserLogin' div is kept active, and continues to receive the messages.
+This way, the 'acUserLogin' div is kept active, and continues to receive and handle the messages.
 
 ## NPM peer dependencies
 
@@ -649,7 +633,7 @@ Starting with v 1.0.0, and in accordance with advices from [the Meteor Guide](ht
 
 Instead we check npm versions of installed packages at runtime, on server startup, in development environment.
 
-Dependencies as of v 1.0.0:
+Dependencies as of v 1.1.0:
 ```
     '@popperjs/core': '^2.11.6',
     'bootstrap': '^5.2.1',
@@ -669,4 +653,4 @@ New and updated translations are willingly accepted, and more than welcome. Just
 
 ---
 P. Wieser
-- Last updated on 2023, Jan. 27th
+- Last updated on 2023, Feb. 20th

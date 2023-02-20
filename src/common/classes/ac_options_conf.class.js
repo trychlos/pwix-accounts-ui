@@ -20,12 +20,6 @@ export class acOptionsConf extends pwixOptions.Options {
         AC_FIELD_MANDATORY
     ];
 
-    // user interface frontends
-    static Frontends = [
-        AC_UI_BOOTSTRAP,
-        AC_UI_JQUERY
-    ];
-
     // inform the user of a wrong email
     static ResetWrongEmail = [
         AC_RESET_EMAILSENT,
@@ -156,15 +150,6 @@ export class acOptionsConf extends pwixOptions.Options {
      */
     resetPasswordTwice( twice ){
         return this.getset_Bool_Fn( 'resetPasswordTwice', twice, { default: defaults.common.resetPasswordTwice });
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Function} value the user interface frontend when managing modal dialogs
-     * @returns {String}
-     */
-    ui( value ){
-        return this.getset_String_Fn_Object( 'ui', value, { default: defaults.common.preferredLabel, ref: acOptionsConf.Frontends });
     }
 
     /**
