@@ -139,7 +139,7 @@ export class acUserLoginCompanion {
         // if the instance is named, then keep it to be usable later
         const name = self.opts().name();
         if( name ){
-            acUserLoginCompanion.NamedInstances.name = self;
+            acUserLoginCompanion.NamedInstances[name] = self;
         }
 
         return this;
