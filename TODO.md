@@ -24,6 +24,7 @@
 |      | 2023- 1-29 | implies to define a new dropdown item and a new panel |
 |   28 | 2023- 1-25 | have a profile dialog with all change options |
 |      | 2023- 1-29 | implies to define a new dropdown item and a new panel |
+|      | 2023- 2-20 | export components as acUserPanel (the panel) and acUserModal (a modal dialog which contains the panel) |
 |   29 | 2023- 1-26 | manage several email addresses per user |
 |      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
 |   39 | 2023- 1-31 | WARN email-validator not detected by checkNpmversions |
