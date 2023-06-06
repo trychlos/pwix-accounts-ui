@@ -133,3 +133,5 @@ pwiAccounts.i18n = {
         }
     }
 };
+
+pwiAccounts.i18n.fr = pwiAccounts.i18n.fr_FR;

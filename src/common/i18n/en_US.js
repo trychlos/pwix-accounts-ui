@@ -131,3 +131,5 @@ pwiAccounts.i18n = {
         }
     }
 };
+
+pwiAccounts.i18n.en = pwiAccounts.i18n.en_US;
