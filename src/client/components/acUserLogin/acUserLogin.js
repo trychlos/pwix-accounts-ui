@@ -12,11 +12,11 @@
  *   > acUser is a singleton attached to the global 'pwiAccounts' object, and interfaces the user status.
  * 
  * - local classes:
- *   > acUserLoginOptions the configuration options provided by the caller (or their defaults)
+ *   > acCompanionOptions the configuration options provided by the caller (or their defaults)
  *   > acCompanion a companion class which glues together this Blaze template instance with other classes
  * 
  * The template is instanciated here (and potentially several times as explained above), and uniquely identified by the id of its companion class.
- * The acCompanion and acUserLoginOptions objects are attached to this instance.
+ * The acCompanion and acCompanionOptions objects are attached to this instance.
  * The companion class acts as a display requester, and is then passed as a parameter to each and every child template.
  */
 

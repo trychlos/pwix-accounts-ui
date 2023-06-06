@@ -11,7 +11,7 @@
 import { Random } from 'meteor/random';
 import { Tracker } from 'meteor/tracker';
 
-import { acUserLoginOptions } from './ac_user_login_options.class.js';
+import { acCompanionOptions } from './ac_companion_options.class.js';
 
 export class acCompanion {
 
@@ -142,7 +142,7 @@ export class acCompanion {
         self._instance = instance;
         self._jqSelector = '.acUserLogin#'+self.id();
 
-        self._options = new acUserLoginOptions({
+        self._options = new acCompanionOptions({
             ...defaults.acUserLogin,
             ...context
         });
@@ -255,7 +255,7 @@ export class acCompanion {
     }
 
     /**
-     * @returns {Object} the acUserLoginOptions from the acUserLogin Blaze template instance
+     * @returns {Object} the acCompanionOptions from the acUserLogin Blaze template instance
      */
     opts(){
         return this._options;
