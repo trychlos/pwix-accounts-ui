@@ -2,7 +2,7 @@
  * pwix:accounts/src/client/components/ac_change_pwd/ac_change_pwd.js
  * 
  * Parms:
- *  - requester: the acCompanion object
+ *  - companion: the acCompanion object
  */
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
@@ -20,11 +20,11 @@ Template.ac_change_pwd.onCreated( function(){
         twiceOk: new ReactiveVar( true )
     };
 
-    // check that requester is a acCompanion
+    // check that companion is a acCompanion
     self.autorun(() => {
-        const requester = Template.currentData().requester;
-        if( requester && !( requester instanceof acCompanion )){
-            throw new Error( 'expected acCompanion, found', requester );
+        const companion = Template.currentData().companion;
+        if( companion && !( companion instanceof acCompanion )){
+            throw new Error( 'expected acCompanion, found', companion );
         }
     });
 });
@@ -47,7 +47,7 @@ Template.ac_change_pwd.helpers({
     // parameters for the password input
     parmTwice(){
         return {
-            requester: this.requester,
+            companion: this.companion,
             role: 'change'
         };
     },
@@ -61,17 +61,17 @@ Template.ac_change_pwd.helpers({
 
     // the text before the old password
     textOne(){
-        return this.requester.opts().changePwdTextOne();
+        return this.companion.opts().changePwdTextOne();
     },
 
     // the text between old and new passwords
     textTwo(){
-        return this.requester.opts().changePwdTextTwo();
+        return this.companion.opts().changePwdTextTwo();
     },
 
     // the text after new passwords
     textThree(){
-        return this.requester.opts().changePwdTextThree();
+        return this.companion.opts().changePwdTextThree();
     }
 });
 

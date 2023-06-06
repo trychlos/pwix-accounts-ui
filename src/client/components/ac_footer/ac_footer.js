@@ -4,7 +4,7 @@
  * Provides various buttons, to be displayed either in a modal footer, or in the bottom of a div.
  * 
  * Parms:
- *  - requester: ANONYMOUS or a acCompanion object
+ *  - companion: ANONYMOUS or a acCompanion object
  *  - submitCallback: if provided, a callback which will be called on .ac-submit button click
  *      instead of triggering an 'ac-submit' event
  */
@@ -33,7 +33,7 @@ Template.ac_footer.helpers({
 
     // whether to display this link
     haveLink( link ){
-        const ret = link.have && ( this.requester && this.requester !== ANONYMOUS ) ? this.requester.opts()[link.have]() : link.have;
+        const ret = link.have && ( this.companion && this.companion !== ANONYMOUS ) ? this.companion.opts()[link.have]() : link.have;
         return ret;
     },
 

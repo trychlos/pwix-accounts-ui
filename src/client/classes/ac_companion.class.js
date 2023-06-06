@@ -153,6 +153,7 @@ export class acCompanion {
             acCompanion.NamedInstances[name] = self;
         }
 
+        console.debug( self );
         return this;
     }
 
@@ -235,6 +236,9 @@ export class acCompanion {
      */
     hasDropdown(){
         const state = pwiAccounts.User.state();
+        //console.debug( 'state', state );
+        //console.debug( 'this.opts().loggedButtonAction()', this.opts().loggedButtonAction());
+        //console.debug( 'this.opts().unloggedButtonAction()', this.opts().unloggedButtonAction());
         return ( state === AC_LOGGED && this.opts().loggedButtonAction() !== AC_ACT_HIDDEN )
             || ( state === AC_UNLOGGED && this.opts().unloggedButtonAction() !== AC_ACT_HIDDEN );
     }

@@ -2,7 +2,7 @@
  * pwix:accounts/src/client/components/ac_reset_ask/ac_reset_ask.js
  * 
  * Parms:
- *  - requester: the acCompanion object
+ *  - companion: the acCompanion object
  */
 
 import { acCompanion } from '../../classes/ac_companion.class.js';
@@ -18,11 +18,11 @@ Template.ac_reset_ask.onCreated( function(){
         emailOk: new ReactiveVar( true ) 
     };
 
-    // check that requester is a acCompanion
+    // check that companion is a acCompanion
     self.autorun(() => {
-        const requester = Template.currentData().requester;
-        if( requester && !( requester instanceof acCompanion )){
-            throw new Error( 'expected acCompanion, found', requester );
+        const companion = Template.currentData().companion;
+        if( companion && !( companion instanceof acCompanion )){
+            throw new Error( 'expected acCompanion, found', companion );
         }
     });
 });
@@ -44,12 +44,12 @@ Template.ac_reset_ask.helpers({
 
     // the text at the first place of the section
     textOne(){
-        return this.requester.opts().resetAskTextOne();
+        return this.companion.opts().resetAskTextOne();
     },
 
     // the text at the second place of the section
     textTwo(){
-        return this.requester.opts().resetAskTextTwo();
+        return this.companion.opts().resetAskTextTwo();
     }
 });
 

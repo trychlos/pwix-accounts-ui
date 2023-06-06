@@ -2,7 +2,7 @@
  * pwix:accounts/src/client/components/ac_signin/ac_signin.js
  * 
  * Parms:
- *  - requester: the acCompanion object
+ *  - companion: the acCompanion object
  */
 
 import { acCompanion } from '../../classes/ac_companion.class.js';
@@ -15,11 +15,11 @@ import './ac_signin.html';
 Template.ac_signin.onCreated( function(){
     const self = this;
 
-    // check that requester is a acCompanion
+    // check that companion is a acCompanion
     self.autorun(() => {
-        const requester = Template.currentData().requester;
-        if( requester && !( requester instanceof acCompanion )){
-            throw new Error( 'expected acCompanion, found', requester );
+        const companion = Template.currentData().companion;
+        if( companion && !( companion instanceof acCompanion )){
+            throw new Error( 'expected acCompanion, found', companion );
         }
     });
 });
@@ -38,16 +38,16 @@ Template.ac_signin.helpers({
 
     // a description before the section
     textOne(){
-        return this.requester.opts().signinTextOne();
+        return this.companion.opts().signinTextOne();
     },
 
     // a description in the middle of the section
     textTwo(){
-        return this.requester.opts().signinTextTwo();
+        return this.companion.opts().signinTextTwo();
     },
 
     // a description at the endof the section
     textThree(){
-        return this.requester.opts().signinTextThree();
+        return this.companion.opts().signinTextThree();
     }
 });

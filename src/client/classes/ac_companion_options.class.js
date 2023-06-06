@@ -8,6 +8,8 @@ import { pwixOptions } from 'meteor/pwix:options';
 
 import { acPanel } from './ac_panel.js';
 
+import '../../common/js/index.js';
+
 export class acCompanionOptions extends pwixOptions.Options {
 
     // static data
