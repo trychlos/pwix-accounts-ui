@@ -9,8 +9,8 @@
  */
 
 import { Random } from 'meteor/random';
-import { Tracker } from 'meteor/tracker';
 
+import { acCompanionDom } from './ac_companion_dom.class.js';
 import { acCompanionOptions } from './ac_companion_options.class.js';
 
 export class acCompanion {
@@ -35,18 +35,17 @@ export class acCompanion {
     // private data
     //
 
-    // a random unique identifier for this instance
+    // the acUserLogin template instance
+    _instance = null;
+
+    // a random unique identifier alolcated by this acCompanion for this instance
     _id = null;
 
-    // the acUserLogin template instance and its unique jQuery selector
-    _instance = null;
-    _jqSelector = null;
+    // the DOM companion class
+    _dom = null;
 
     // the configuration options passed by the application to the acUserLogin Blaze template
     _options = null;
-
-    // whether the DOM is ready
-    _ready = new ReactiveVar( false );
 
     // the events target
     _target = null;
@@ -140,12 +139,13 @@ export class acCompanion {
         self._id = Random.id();
 
         self._instance = instance;
-        self._jqSelector = '.acUserLogin#'+self.id();
 
         self._options = new acCompanionOptions({
             ...defaults.acUserLogin,
             ...context
         });
+
+        self._dom = new acCompanionDom( self );
 
         // if the instance is named, then keep it to be usable later
         const name = self.opts().name();
@@ -154,6 +154,13 @@ export class acCompanion {
         }
 
         return this;
+    }
+
+    /**
+     * @returns {acCompanionDom} the acCompanionDom which manages our DOM
+     */
+    dom(){
+        return this._dom;
     }
 
     /**
@@ -241,10 +248,17 @@ export class acCompanion {
     }
 
     /**
+     * @returns {acUserLogin} the acUserLogin Blaze template
+     */
+    instance(){
+        return this._instance;
+    }
+
+    /**
      * @returns {Object} the jQuery selector for this instance
      */
     jqSelector(){
-        return this._jqSelector;
+        return this._dom.jqSelector();
     }
 
     /**
@@ -259,21 +273,6 @@ export class acCompanion {
      */
     opts(){
         return this._options;
-    }
-
-    /**
-     * Getter/Setter
-     * @param {Boolean} ready whether the DOM is ready
-     * @returns {Boolean}
-     */
-    ready( ready ){
-        if( ready === true || ready === false ){
-            if( pwiAccounts.opts().verbosity() & AC_VERBOSE_READY ){
-                console.log( 'pwix:accounts acCompanion DOM ready', ready );
-            }
-            this._ready.set( ready );
-        }
-        return this._ready.get();
     }
 
     /**

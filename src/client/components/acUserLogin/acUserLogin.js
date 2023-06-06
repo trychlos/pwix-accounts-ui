@@ -36,11 +36,8 @@ Template.acUserLogin.onCreated( function(){
     const self = this;
 
     self.AC = {
-        companion: null
+        companion: new acCompanion( self, Template.currentData())
     };
-
-    // instanciates our companion class
-    self.AC.companion = new acCompanion( self, Template.currentData());
 
     if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
         console.log( 'pwix:accounts instanciating acUserLogin id='+self.AC.companion.id());
@@ -50,21 +47,8 @@ Template.acUserLogin.onCreated( function(){
 Template.acUserLogin.onRendered( function(){
     const self = this;
 
-    // make the acCompanion 'ready' as soon as the DOM is itself ready
-    //  thanks to Blaze rendering mechanisms, this toplevel template is the last to be rendered
-    const intervalId = setInterval(() => {
-        const div = self.$( self.AC.companion.jqSelector());
-        if( div.length > 0 ){
-            self.AC.companion.ready( true );
-            clearInterval( intervalId );
-        }
-    }, 15 );
-
-    // set the event target
-    self.AC.companion.target( self.$( self.AC.companion.jqSelector()));
-
-    // setup the initial panel only when the template is rendered
-    pwiAccounts.DisplayManager.ask( self.AC.options.initialPanel(), self.AC.companion, self.AC.options );
+    // setup the initial panel when the template is rendered
+    pwiAccounts.DisplayManager.ask( self.AC.companion.opts().initialPanel(), self.AC.companion );
 });
 
 Template.acUserLogin.helpers({
@@ -105,12 +89,12 @@ Template.acUserLogin.events({
     // change the rendering mode
     'ac-render-modal .acUserLogin'( event, instance ){
         console.log( event, instance );
-        instance.AC.options.renderMode( AC_RENDER_MODAL );
+        instance.AC.companion().opts().renderMode( AC_RENDER_MODAL );
         return false;
     },
     'ac-render-div .acUserLogin'( event, instance ){
         console.log( event, instance );
-        instance.AC.options.renderMode( AC_RENDER_DIV );
+        instance.AC.companion().opts().renderMode( AC_RENDER_DIV );
         return false;
     },
 

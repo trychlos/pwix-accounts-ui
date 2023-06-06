@@ -1,0 +1,98 @@
+/*
+ * pwix:accounts/src/client/classes/ac_companion_dom.class.js
+ *
+ * A companion class for DOM management.
+ */
+
+import { ReactiveVar } from 'meteor/reactive-var';
+
+export class acCompanionDom {
+
+    // static data
+    //
+
+    // private data
+    //
+
+    // the acCompanion master class
+    _companion = null;
+
+    // a unique jQuery selector for the acUserLogin Blaze template
+    _jqSelector = null;
+
+    // whether the DOM is ready
+    _ready = new ReactiveVar( false );
+
+    // public data
+    //
+
+    // static methods
+    //
+
+    // private methods
+    //
+
+    // public methods
+    //
+
+    /**
+     * Constructor
+     * @param {acCompanion} companion the acCompanion instance
+     * @returns {acCompanionDom} this instance
+     */
+    constructor( companion ){
+        const self = this;
+
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+            console.log( 'pwix:accounts instanciating acCompanionDom' );
+        }
+
+        self._companion = companion;
+
+        // compute the unique jQuery selector for the acUserLogin Blaze template instance
+        self._jqSelector = '.acUserLogin#' + self.companion().id();
+
+        // make the acCompanion 'ready' as soon as the DOM is itself ready
+        //  thanks to Blaze rendering mechanisms, the toplevel acUserLogin template is the last to be rendered
+        //  and thanks to Javascript, this doesn't block the normal code flow
+        const intervalId = setInterval(() => {
+            const div = self.companion().instance().$( self.jqSelector());
+            if( div.length > 0 ){
+                self.ready( true );
+                self.companion().target( div )
+                clearInterval( intervalId );
+            }
+        }, 20 );
+
+        return this;
+    }
+
+    /**
+     * @returns {acCompanion} the master acCompanion
+     */
+    companion(){
+        return this._companion;
+    }
+
+    /**
+     * @returns {jQuery} the unique jQuery selector for our acUserLogin Blaze template
+     */
+    jqSelector(){
+        return this._jqSelector;
+    }
+
+    /**
+     * Getter/Setter
+     * @param {Boolean} ready whether the DOM is ready
+     * @returns {Boolean}
+     */
+    ready( ready ){
+        if( ready === true || ready === false ){
+            if( pwiAccounts.opts().verbosity() & AC_VERBOSE_READY ){
+                console.log( 'pwix:accounts acCompanionDom ready', ready );
+            }
+            this._ready.set( ready );
+        }
+        return this._ready.get();
+    }
+}
