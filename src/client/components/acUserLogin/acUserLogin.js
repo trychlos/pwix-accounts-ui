@@ -23,7 +23,6 @@
 import '../../../common/js/index.js';
 
 import { acCompanion } from '../../classes/ac_companion.class.js';
-import { acUserLoginOptions } from '../../classes/ac_user_login_options.class.js';
 
 import '../../stylesheets/ac_accounts.less';
 
@@ -36,21 +35,12 @@ import './acUserLogin.html';
 Template.acUserLogin.onCreated( function(){
     const self = this;
 
-    // note for the maintainer: as the companion object is passed to each and every child template, all of them
-    //  is able to address this AC object, and tu ouse the below methods. Take care when changing something.
     self.AC = {
-        companion: null,
-        options: null
+        companion: null
     };
 
-    // first instanciates the options manager
-    self.AC.options = new acUserLoginOptions({
-        ...defaults.acUserLogin,
-        ...Template.currentData()
-    });
-
     // instanciates our companion class
-    self.AC.companion = new acCompanion( self );
+    self.AC.companion = new acCompanion( self, Template.currentData());
 
     if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
         console.log( 'pwix:accounts instanciating acUserLogin id='+self.AC.companion.id());

@@ -3,12 +3,15 @@
  *
  * A companion class for the 'acUserLogin' Blaze template.
  * 
- * This acCompanion class acts as the requester for all displayed templates, and take care
- * of adressing the acUserLogin Blaze template as the event handler.
+ * This acCompanion class holds the configuration options of the template,
+ *  acts as the requester for all displayed templates, and take care
+ *  of adressing the acUserLogin Blaze template as the event handler.
  */
 
 import { Random } from 'meteor/random';
+import { Tracker } from 'meteor/tracker';
 
+import { acUserLoginOptions } from './ac_user_login_options.class.js';
 
 export class acCompanion {
 
@@ -35,9 +38,12 @@ export class acCompanion {
     // a random unique identifier for this instance
     _id = null;
 
-    // the acUserLogin template instance and its jQuery selector
+    // the acUserLogin template instance and its unique jQuery selector
     _instance = null;
     _jqSelector = null;
+
+    // the configuration options passed by the application to the acUserLogin Blaze template
+    _options = null;
 
     // whether the DOM is ready
     _ready = new ReactiveVar( false );
@@ -120,9 +126,10 @@ export class acCompanion {
     /**
      * Constructor
      * @param {acUserLogin} instance the acUserLogin Blaze template instance
+     * @param {Object} context the template context at runtime
      * @returns {acCompanion}
      */
-    constructor( instance ){
+    constructor( instance, context ){
         const self = this;
 
         if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
@@ -130,11 +137,15 @@ export class acCompanion {
         }
 
         // allocate a new random unique identifier for this instance
-        //  may be overriden by the implementation through the v_id() method
         self._id = Random.id();
 
         self._instance = instance;
         self._jqSelector = '.acUserLogin#'+self.id();
+
+        self._options = new acUserLoginOptions({
+            ...defaults.acUserLogin,
+            ...context
+        });
 
         // if the instance is named, then keep it to be usable later
         const name = self.opts().name();
@@ -247,7 +258,7 @@ export class acCompanion {
      * @returns {Object} the acUserLoginOptions from the acUserLogin Blaze template instance
      */
     opts(){
-        return this._instance.AC.options;
+        return this._options;
     }
 
     /**
