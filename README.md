@@ -34,12 +34,12 @@ However, *accounts* is fully configurable and is able to provide different user 
 
 ## How does it work ?
 
-The main *accounts* user interface is the 'acUserLogin' template.
+The main *accounts* user interface is the `acUserLogin` template.
 
-In its default configuration, the 'acUserLogin' template provides the full login workflow through beautiful Bootstrap modal dialogs.
+In its default configuration, the `acUserLogin` template provides the full login workflow through beautiful Bootstrap modal dialogs.
 See [the most simple user](#the-most-simple-usage) later.
 
-*accounts* adds to this standard behavior the capability to call 'acUserLogin' several times, each time with a different configuration, so that the package is able to nicely handle different running contexts.
+*accounts* adds to this standard behavior the capability to call `acUserLogin` several times, each time with a different configuration, so that the package is able to nicely handle different running contexts.
 
 As some example use cases, we can evoke:
 
@@ -49,7 +49,7 @@ As some example use cases, we can evoke:
 
 - reusing *accounts* user interface to let a user create account for another one, or for many other ones.
 
-Please note that, though several 'acUserLogin' templates can be instanciated by the application, and display different things or answer to different use cases, all these instances actually share a single connection state. Their interfaces are always kept consistent.
+Please note that, though several `acUserLogin` templates can be instanciated by the application, and display different things or answer to different use cases, all these instances actually share a single connection state. Their interfaces are always kept consistent.
 
 Last, this *accounts* package is able to fully configure the Meteor Accounts system it relies on, so that the application may fully subcontract the Meteor Accounts configuration to the package.
 
@@ -65,11 +65,11 @@ Just insert the template into your component `{{> acUserLogin }}` and:
 
 That's all, folks!
 
-Out of the box, and without any configuration, the 'acUserLogin' template provides all the needed plumbing for managing the login/logout workflows, including the handling of the reset and verification links.
+Out of the box, and without any configuration, the `acUserLogin` template provides all the needed plumbing for managing the login/logout workflows, including the handling of the reset and verification links.
 
 ## Default synoptic
 
-All the behavior and the dynamics are managed through the 'acUserLogin' template.
+All the behavior and the dynamics are managed through the `acUserLogin` template.
 
 This template organizes itself to show a modal (or a div, see later) adapted to the various situations:
 
@@ -106,7 +106,7 @@ This template organizes itself to show a modal (or a div, see later) adapted to 
 - when the user is logged in, and after he/she has clicked the 'Change password' button
     - display a modal (resp. a div) to let him/she change his/her credentials
 
-Additionnally, the master 'acUserLogin' template, and all the underlying infrastructure, takes care of:
+Additionnally, the master `acUserLogin` template, and all the underlying infrastructure, takes care of:
 
 - verifying the mail adress
     - send a mail to the address with a link
@@ -118,403 +118,163 @@ Additionnally, the master 'acUserLogin' template, and all the underlying infrast
     - the sent link has a limited lifetime
     - when activated, the link redirect to a dedicated panel on the site which let the user enter his/her new credentials.
 
-## Configuration
+## Configuring
 
-*accounts* is configurable as a package, which let the application set parameters which apply to the whole package.
+The package's behavior can be configured through a call to the `pwiAccounts.configure()` method, with just a single javascript object argument, which itself should only contains the options you want override.
 
-acUserLogin template has itself a large set of configuration parameters, which let the application configure how each 'acUserLogin' instance is to be used.
+Known configuration options are:
 
-### Configuring accounts
+- `haveEmailAddress`
+- `haveUsername`
 
-The *accounts* package is configured by just calling `pwiAccounts.configure()` method, with an object containing the keys (and values) the application wishes change.
+    Whether the user accounts are to be configured with or without a username (resp. an email address), and whether it is optional or mandatory.
 
-Please note that this `pwiAccounts.configure()` method MUST be called in the same terms both by the client and the server.
+    For each of these terms, possible values are:
 
-One more time, this configuration applies to the whole package, and so is common to each and every 'acUserLogin' template instance.
+    - `AC_FIELD_NONE`: the field is not displayed nor considered
+    - `AC_FIELD_OPTIONAL`: the input field is proposed to the user, but may be left empty
+    - `AC_FIELD_MANDATORY`: the input field must be filled by the user
 
-<table>
-<tr><td style="vertical-align:top;">
-haveEmailAddress<br />
-haveUsername
-</td><td>
-Whether the user accounts are to be configured with or without a username (resp. an email address), and whether it is optional or mandatory.<br />
-For each of these terms, possible values are:
-<ul><li>AC_FIELD_NONE: the field is not displayed nor considered</li>
-<li>AC_FIELD_OPTIONAL: the input field is proposed to the user, but may be left empty</li>
-<li>AC_FIELD_MANDATORY: the input field must be filled by the user</li></ul>
-At least one of these fields MUST be set as AC_FLD_MANDATORY. Else, the default value will be applied.<br />
-A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.<br />
-Defaut values are:
-<ul><li>haveMailAddress: AC_FIELD_MANDATORY</li>
-<li>haveUsername: AC_FIELD_NONE</li></ul>
-Please be conscious that some features of your application may want display the identifier of a user.
-If this is the case, note that it would be a string security hole to let the application display a verified email address as this would be some sort of spam magnet!<br />
-More, whatever be the requirements of the application, this later MUST take care of allowing needed fields in its schema.
-</td></tr>
+    At least one of these fields MUST be set as `AC_FIELD_MANDATORY`. Else, the default value will be applied.
 
-<table>
-<tr><td style="vertical-align:top;">
-informResetWrongEmail
-</td><td>
-Whether to inform the user that the email address he/she has entered when asking for resetting a password is not known of our users database.<br />
-Rationale:<br/>
-Meteor default is to return a '[403] Something went wrong. Please check your credentials.' error message.<br />
-Some security guys consider that returning such error would let a malicious user to check which email addresses are registered - or not - in the accounts database, so would lead to a potential confidentiality break.<br />
-This parameter let the application decide what to do:
-<ul>
-<li>AC_RESET_EMAILSENT: say the user that the email has been sucessfully sent, though this is not the case</li>
-<li>AC_RESET_EMAILUNSENT: say the user that the email cannot be sent, without any other reason</li>
-<li>AC_RESET_EMAILERROR: say the user that something went wrong (Meteor standard behavior).</li>
-</ul>
-Package default is to inform the user that email cannot be sent.<br />
-</td></tr>
+    A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.
 
-<tr><td style="vertical-align:top;">
-passwordLength
-</td><td>
-The minimal required password length when setting a new password, either when creating a new account of when changing the password of an existing account.<br />
-The package doesn't hardcodes by itself a minimal 'minimal length', and so will accept even a minimal length of, say, 4 characters!<br />
-Default is eight (8) characters.<br/>
-A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
-<b>Please note that, for security reasons, you shouldn't set the minimal password length less than this default, unless you are absolutely sure of what you are doing.</b>
-</td></tr>
+    Defaut values are:
 
-<tr><td style="vertical-align:top;">
-passwordStrength
-</td><td>
-The minimal required password strength when setting a new password, either when creating a new account of when changing the password of an existing account.<br />
-<i>accounts</i> makes use of <a href="https://www.npmjs.com/package/zxcvbn">zxcvbn</a> package to estimate the strength of entered passwords.
-The estimated strength can take folloging values:
-<ul>
-<li>AC_PWD_VERYWEAK: too guessable, risky password (guesses < 10^3)</li>
-<li>AC_PWD_WEAK: very guessable, protection from throttled online attacks (guesses < 10^6)</li>
-<li>AC_PWD_MEDIUM: somewhat guessable, protection from unthrottled online attacks (guesses < 10^8)</li>
-<li>AC_PWD_STRONG: safely unguessable, moderate protection from offline slow-hash scenario (guesses < 10^10)</li>
-<li>AC_PWD_VERYSTRONG: very unguessable, strong protection from offline slow-hash scenario (guesses >= 10^10)</li>
- </ul>
-The package doesn't hardcodes by itself a minimal 'required strength', and so will accept even a minimal length of, say, AC_PWD_VERYWEAK!<br />
-A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
-Default is AC_PWD_MEDIUM, which corresponds to somewhat guessable, i.e. can be a protection from unthrottled online attacks.<br />
-<b>Please note that, for security reasons, you shouldn't set the password required strength less than this default, unless you are absolutely sure of what you are doing.</b>
-</td></tr>
+    - `haveMailAddress`: `AC_FIELD_MANDATORY`
+    - `haveUsername`: `AC_FIELD_NONE`
 
-<tr><td style="vertical-align:top;">
-passwordTwice
-</td><td>
-Whether a new password has to be entered twice.<br />
-Unless otherwise specified, this option applies to both:
-<ul>
-<li>defining a new account</li>
-<li>changing the user's password</li>
-<li>defining a new password after a reset</li>
- </ul>
-A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
-Possible values are true or false, defaulting to true.</b>
-</td></tr>
+    Please be conscious that some features of your application may want display the identifier of a user.   
+    If this is the case, note that it would be a string security hole to let the application display a verified email address as this would be some sort of spam magnet!
+    More, whatever be the requirements of the application, this later MUST take care of allowing needed fields in its schema.
 
-<tr><td style="vertical-align:top;">
-resetPwdTextOne<br />
-resetPwdTextTwo
-</td><td style="vertical-align:top;">
-Display personalization<br/>
-These options let the application provides its own content before the input fields of the corresponding panel.<br />
-Value is expected to be a string which contains HTML code, or a function which returns such a string.
-</td></tr>
+- `informResetWrongEmail`
 
-<tr><td style="vertical-align:top;">
-resetPasswordTwice
-</td><td>
-Whether to request the user to enter twice the password when resetting for an existing account.<br />
-A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
-The possible values are true or false, defaulting to the value of the <code>passwordTwice</code> package configuration.
-</td></tr>
+    Whether to inform the user that the email address he/she has entered when asking for resetting a password is not known of our users database.
 
-<tr><td style="vertical-align:top;">
-usernameLength
-</td><td>
-The minimal required username length.<br />
-The package doesn't hardcodes by itself a minimal 'minimal length'.<br />
-Default is four (4) characters.<br/>
-A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
-</td></tr>
+    Rationale:
 
-<tr><td style="vertical-align:top;">
-verbosity
-</td><td>
-The verbosity level as a OR-ed value of integerer constants:
-<ul><li>AC_VERBOSE_NONE</li><li>
-AC_VERBOSE_CONFIGURE</li>
-<li>AC_VERBOSE_IDPASK</li>
-<li>AC_VERBOSE_IDPFREE</li>
-<li>AC_VERBOSE_INSTANCIATIONS</li>
-<li>AC_VERBOSE_PANEL_HANDLE</li>
-<li>AC_VERBOSE_PANEL_TRIGGER</li>
-<li>AC_VERBOSE_READY</li>
-<li>AC_VERBOSE_STARTUP</li>
-<li>AC_VERBOSE_SUBMIT_HANDLE</li>
-<li>AC_VERBOSE_SUBMIT_TRIGGER</li>
-<li>AC_VERBOSE_USER_HANDLE</li>
-<li>AC_VERBOSE_USER_TRIGGER</li>
-</ul>
-A function can be provided by the application for this parm. The function will be called without argument and MUST return a suitable value.<br />
-Defaults to AC_VERBOSE_CONFIGURE.
-</td></tr>
-</table>
+    Meteor default is to return a [403] Something went wrong. Please check your credentials.' error message.
 
-### Configuring acUserLogin
+    Some security guys consider that returning such error would let a malicious user to check which email addresses are registered - or not - in the accounts database, so would lead to a potential confidentiality break.
 
-This template is the main interaction way between the application and this *accounts* package.
+    This parameter let the application decide what to do:
 
-Thanks to its numerous options, the 'acUserLogin' template may be called several times and is able to answer to
-many different situations: each 'acUserLogin' instance is independently configurable so that it will display or
-not the expected dialogs.
+    - `AC_RESET_EMAILSENT`: say the user that the email has been sucessfully sent, though this is not the case
+    - `AC_RESET_EMAILUNSENT`: say the user that the email cannot be sent, without any other reason
+    - `AC_RESET_EMAILERROR`: say the user that something went wrong (Meteor standard behavior).
 
-Nonetheless, all the instanciated 'acUserLogin' instances share a same singleton object which manages the current
-logged/unlogged connection state. Thanks to this singleton, all the instanciated 'acUserLogin' instances share this common
-status, event if they are able to display different things, and provide a consistent user experience.
+    Package default is to inform the user that email cannot be sent.
 
-The template expects to be called with a single configuration object parameter, or maybe nothing at all if all the defaults are to be used.
-Even when providing a configuration object, as all keys are optional, this object can be just empty.
+- `passwordLength`
 
-Please note that each and every 'acUserLogin' instance has its own configuration.
+    The minimal required password length when setting a new password, either when creating a new account of when changing the password of an existing account.
 
-<table>
-<tr><td style="vertical-align:top;">
-loggedButtonAction<br />
-unloggedButtonAction
-</td><td>
-The action triggered when the user clicks on the button.<br />
-Possible values ares:
-<ul><li>AC_ACT_HIDDEN: the button is not displayed at all</li>
-<li>AC_ACT_NONE: the button is displayed, but not activable (this is a false button, just a label with the appearance of a button)</li>
-<li>AC_ACT_DROPDOWN: the button opens a dropdown menu,</li>
-<li>AC_ACT_BUBBLE: the *accounts* event handler will do nothing, and let the event bubble up to the application</li></ul>
-A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
-Default is AC_ACT_DROPDOWN.
-</td></tr>
+    The package doesn't hardcodes by itself a minimal 'minimal length', and so will accept even a minimal length of, say, 4 characters!
 
-<tr><td style="vertical-align:top;">
-loggedButtonClass<br />
-unloggedButtonClass
-</td><td>
-Classes to be added to a displayed button.<br />
-Only applies if the button is shown (cf. loggedButtonAction, unloggedButtonAction parms).<br />
-The provided value is expected to be a string, or a function which takes no argument and returns a string.</li></ul>
-Defaults to:<br />
-<ul><li>empty when unlogged (no added class)</li>
-<li>'dropdown-toggle' when logged;<br />
-in conjonction with default loggedButtonContent, the effect is to display the user email address with a small down-arrow after the text.</li></ul>
-</td></tr>
+    Default is eight (8) characters.
 
-<tr><td style="vertical-align:top;">
-loggedButtonContent<br />
-unloggedButtonContent
-</td><td>
-The content to be displayed in the shown button.<br />
-Only applies if the button is visible (cf. loggedButtonAction, unloggedButtonAction parms).<br />
-The content is expected to be a HTML string to be inserted in place of the default value;
-this HTML string may (should ?) also embeds needed class names and other styles.
-The provided value is expected to be this content, either as a string or a function which takes no argument and returns the content string.<br />
-Defaults to:<br/>
-<ul><li>
-a '<code>&lt;span class="fa-regular fa-fw fa-user"&gt;&lt;/span&gt;</code>' HTML string when unlogged</li><li>
-the 'preferredButton' value when logged.</li></ul>
-</td></tr>
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
 
-<tr><td style="vertical-align:top;">
-loggedItems<br />
-unloggedItems
-</td><td>
-Items to be displayed in replacement of the standard ones.<br/>
-Only applies if a dropdown menu is to be opened as the button action<br />
-Value: a single HTML string which is expected to be the '<code>&lt;li&gt;...&lt;/li&gt;</code>' inner HTML,
-or an array of such strings, or a function which takes no argument and returns a single HTML string or an array.<br />
-Default: standard items.
-</td></tr>
+    **Please note that, for security reasons, you shouldn't set the minimal password length less than this default, unless you are absolutely sure of what you are doing.**
 
-<tr><td style="vertical-align:top;">
-loggedItemsAfter<br />
-unloggedItemsAfter
-</td><td>
-Items to be added after the standard items of the dropdown menu.<br/>
-Only applies if a dropdown menu is to be opened as the button action<br />
-Value: a single HTML string which is expected to be the '<code>&lt;li&gt;...&lt;/li&gt;</code>' inner HTML,
-or an array of such strings, or a function which takes no argument and returns a single HTML string or an array.<br />
-Default: none.
-<ul><li>
-</li></ul>
-</td></tr>
+- `passwordStrength`
 
-<tr><td style="vertical-align:top;">
-loggedItemsBefore<br />
-unloggedItemsBefore
-</td><td>
-Items to be added before the standard items of the dropdown menu.<br/>
-Only applies if a dropdown menu is to be opened as the button action<br />
-Value: a single HTML string which is expected to be the <code>&lt;li&gt;...&lt;/li&gt;</code> inner HTML,
-or an array of such strings, or a function which takes no argument and returns a single HTML string or an array.<br />
-Default: none.
-</td></tr>
+    The minimal required password strength when setting a new password, either when creating a new account of when changing the password of an existing account.
 
-<tr><td style="vertical-align:top;">
-renderMode
-</td><td>
-When displayed, whether the template is rendered as a modal dialog of its own, or inside a <code>&lt;div&gt;...&lt;/div&gt;</code>
-provided by the application (where the template has been inserted).<br />
-Possible values are:
-<ul><li>AC_RENDER_MODAL</li>
-<li>AC_RENDER_DIV</li></ul>
-A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
-Default is AC_RENDER_MODAL: when visible, the template is rendered as a modal dialog.<br />
-Whatever be the initial choice, the application may still change the rendering mode via the messages:
-<ul><li><code>ac-render-modal</code>
-</li><li><code>ac-render-div</code>.</li></ul>
-</td></tr>
+    `pwix:accounts` makes use of the [zxcvbn](https://www.npmjs.com/package/zxcvbn) package to estimate the strength of entered passwords. The estimated strength can take folloging values:
 
-<tr><td style="vertical-align:top;">
-signupPasswordTwice<br />
-changePasswordTwice
-</td><td>
-Whether to request the user to enter twice the password of a newly created account, or the new password of an existing account.<br />
-A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
-The possible values are true or false, defaulting to the value of the <code>passwordTwice</code> package configuration.
-</td></tr>
+    - `AC_PWD_VERYWEAK`: too guessable, risky password (guesses < 10^3)
+    - `AC_PWD_WEAK`: very guessable, protection from throttled online attacks (guesses < 10^6)
+    - `AC_PWD_MEDIUM`: somewhat guessable, protection from unthrottled online attacks (guesses < 10^8)
+    - `AC_PWD_STRONG`: safely unguessable, moderate protection from offline slow-hash scenario (guesses < 10^10)
+    - `AC_PWD_VERYSTRONG`: very unguessable, strong protection from offline slow-hash scenario (guesses >= 10^10)
 
-<tr><td style="vertical-align:top;">
-</td><td>
-Through the 'acUserLogin' template, the application may also use this package to display any of the *accounts* panels, outside of
-the normal login/logout workflow. This is accomplished by configuring for displaying a single panel.
-</td></tr>
+    The package doesn't hardcodes by itself a minimal 'required strength', and so will accept even a minimal length of, say, `AC_PWD_VERYWEAK`!
 
-<tr><td style="vertical-align:top;">
-initialPanel
-</td><td>
-Designates the panel to be initially displayed when this 'acUserLogin' template is instanciated.<br />
-Possible values are:
-<ul><li>AC_PANEL_NONE</li>
-<li>AC_PANEL_SIGNIN</li>
-<li>AC_PANEL_SIGNUP</li>
-<li>AC_PANEL_RESETASK</li>
-<li>AC_PANEL_SIGNOUT</li>
-<li>AC_PANEL_CHANGEPWD</li>
-<li>AC_PANEL_VERIFYASK</li></ul>
-A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
-Default: AC_PANEL_NONE
-</td></tr>
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
 
-<tr><td style="vertical-align:top;">
-changePwdTextOne<br />
-changePwdTextTwo<br />
-changePwdTextThree<br />
-resetAskTextOne<br />
-resetAskTextTwo<br />
-signinTextOne<br />
-signinTextTwo<br />
-signinTextThree<br />
-signoutTextOne<br />
-signupTextOne<br />
-signupTextTwo<br />
-signupTextThree<br />
-signupTextFour<br />
-verifyAskTextOne
-</td><td style="vertical-align:top;">
-Display personalization<br/>
-These options let the application provides its own content before the input fields of the corresponding panel.<br />
-Value is expected to be a string which contains HTML code, or a function which returns such a string.
-</td></tr>
+    Default is `AC_PWD_MEDIUM`, which corresponds to somewhat guessable, i.e. can be a protection from unthrottled online attacks.
 
-<tr><td style="vertical-align:top;">
-signinLink<br />
-signupLink<br />
-resetLink
-</td><td style="vertical-align:top;">
-Whether to display the relevant link in the bottom of the relevant panels.<br />
-A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
-Values: true|false, defaulting to true.
-</td></tr>
+    **Please note that, for security reasons, you shouldn't set the password required strength less than this default, unless you are absolutely sure of what you are doing.**
 
-<tr><td style="vertical-align:top;">
-signupAutoClose
-</td><td>
-Whether to auto-close the modal after having created a new user.<br />
-A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
-Values: true|false, defaulting to true.
-</td></tr>
+- `passwordTwice`
 
-<tr><td style="vertical-align:top;">
-signupAutoConnect
-</td><td>
-Whether to auto-connect a newly created account.<br />
-A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
-Values: true|false, defaulting to true.
-</td></tr>
+    Whether a new password has to be entered twice.
 
-<tr><td style="vertical-align:top;">
-</td><td>
-As a convenience for an application which would wish make use of several 'acUserLogin' templates, each one may be named
-(obviously uniquely), and internal configuration may later be get via the pwiAccounts methods, accessing it via the
-attributed name.
-</td></tr>
+    Unless otherwise specified, this option applies to both:
 
-<tr><td style="vertical-align:top;">
-name
-</td><td>
-An optional, though unique when set, name attributed by the application to *this* 'acUserLogin' instance.<br />
-Value: any string.<br />
-A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.<br />
-Default to none.
-</td></tr>
-</table>
+    - defining a new account
+    - changing the user's password
+    - defining a new password after a reset
 
-### Messages sendable to acUserLogin
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
 
-Besides of initial configuration options, the behavior of the 'acUserLogin' template may be controlled
-via messages sent to the `<div class="acUserLogin">...</div>`.
+    Possible values are `true` or `false`, defaulting to `true`.
 
-- `ac-panel-signin-event`
-- `ac-panel-signup-event`
-- `ac-panel-resetask-event`
-- `ac-panel-resetpwd-event`
-- `ac-panel-signout-event`
-- `ac-panel-changepwd-event`
-- `ac-panel-verifyask-event`
+- `resetPwdTextOne`
+- `resetPwdTextTwo`
 
-    Display the targeted panel
+    Display personalization
 
-- `ac-render-modal`
-- `ac-render-div`
+    These options let the application provides its own content before the input fields of the corresponding panel.
 
-    Change the rendering mode
+    Value is expected to be a string which contains HTML code, or a function which returns such a string.
 
-### Messages sent on `body` element
+- `resetPasswordTwice`
 
-In the same time, the 'acUserLogin' template advertises of its contexts:
+    Whether to request the user to enter twice the password when resetting for an existing account.
 
-- ac-panel-transition + { previous, next }
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
 
-    Advertises of a panel transition, with previous and new panels
+    The possible values are `true` or `false`, defaulting to the value of the `passwordTwice` package configuration.
 
-- `ac-user-changepwd-event` + `emailAddress`
-- `ac-user-created-event` + `emailAddress`
-- `ac-user-signedin-event` + `userId`
-- `ac-user-signedout-event` + `emailAddress`
-- `ac-user-resetasked-event` + `emailAddress`
-- `ac-user-verifyasked-event` + `emailAddress`
+- `usernameLength`
 
-    Advertises of a realized action on the user account
+    The minimal required username length.
 
-- `ac-user-resetdone-event` + `emailAddress`
-- `ac-user-verifieddone-event` + `emailAddress`
+    The package doesn't hardcodes by itself a minimal 'minimal length'.
 
-## Advanced use cases
+    Default is four (4) characters.
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+
+- `verbosity`
+
+    The verbosity level as:
+    
+    - `AC_VERBOSE_NONE`
+    
+    or a OR-ed value of integerer constants:
+
+    - `AC_VERBOSE_CONFIGURE`
+    - `AC_VERBOSE_IDPASK`
+    - `AC_VERBOSE_IDPFREE`
+    - `AC_VERBOSE_INSTANCIATIONS`
+    - `AC_VERBOSE_PANEL_HANDLE`
+    - `AC_VERBOSE_PANEL_TRIGGER`
+    - `AC_VERBOSE_READY`
+    - `AC_VERBOSE_STARTUP`
+    - `AC_VERBOSE_SUBMIT_HANDLE`
+    - `AC_VERBOSE_SUBMIT_TRIGGER`
+    - `AC_VERBOSE_USER_HANDLE`
+    - `AC_VERBOSE_USER_TRIGGER`
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return a suitable value.
+    
+    Defaults to `AC_VERBOSE_CONFIGURE`.
+
+Please note that `pwiAccounts.configure()` method should be called in the same terms both in client and server sides.
+
+Remind too that Meteor packages are instanciated at application level. They are so only configurable once, or, in other words, only one instance has to be or can be configured. Addtionnal calls to `pwiAccounts.configure()` will just override the previous one. You have been warned: **only the application should configure a package**.
 
 ## What does the package provide ?
 
-### Exported objects
+### `pwiAccounts`
 
-- `pwiAccounts`
+The globally exported object.
 
-### Exported methods
+### Methods
 
 - `pwiAccounts.dropdownItems()`
 
@@ -530,7 +290,7 @@ In the same time, the 'acUserLogin' template advertises of its contexts:
 
     A reactive data source.
 
-### Exported constants
+### Constants
 
 - `AC_LOGGED`
 - `AC_UNLOGGED`
@@ -578,18 +338,268 @@ In the same time, the 'acUserLogin' template advertises of its contexts:
 - `AC_VERBOSE_USER_HANDLE`,
 - `AC_VERBOSE_USER_TRIGGER`
 
-
-### Exported templates
+### Blaze components
 
 Besides of the `acUserLogin` template already invoked, the *accounts* package exports following templates:
 
-#### acMenuItems
+#### `acMenuItems`
 
 This template displays the list of `<li>...</li>` items of the menu to be displayed regarding the current connection state.
 
 The template expects to be called with one parameter:
 
 - a '`name`' key which must address the same name of the corresponding '`acUserLogin`' instance.
+
+#### `acUserLogin`
+
+This template is the main interaction way between the application and this `pwix:accounts` package.
+
+Thanks to its numerous options, the `acUserLogin` template may be called several times and is able to answer to
+many different situations: each `acUserLogin` instance is independently configurable so that it will display or
+not the expected dialogs.
+
+Nonetheless, all the instanciated `acUserLogin` instances share a same singleton object which manages the current
+logged/unlogged connection state. Thanks to this singleton, all the instanciated `acUserLogin` instances share this common
+status, event if they are able to display different things, and provide a consistent user experience.
+
+The template expects to be called with a single configuration object parameter, or maybe nothing at all if all the defaults are to be used.
+Even when providing a configuration object, as all keys are optional, this object can be just empty.
+
+- `loggedButtonAction`
+- `unloggedButtonAction`
+
+    The action triggered when the user clicks on the button.
+
+    Possible values ares:
+
+    - `AC_ACT_HIDDEN`: the button is not displayed at all
+    - `AC_ACT_NONE`: the button is displayed, but not activable (this is a false button, just a label with the appearance of a button)<
+    - `AC_ACT_DROPDOWN`: the button opens a dropdown menu,
+    - `AC_ACT_BUBBLE`: the *accounts* event handler will do nothing, and let the event bubble up to the application
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+
+    Default is `AC_ACT_DROPDOWN`.
+
+- `loggedButtonClass`
+- `unloggedButtonClass`
+
+    Classes to be added to a displayed button.
+
+    Only applies if the button is shown (cf. `loggedButtonAction` and `unloggedButtonAction` parms).
+    
+    The provided value is expected to be a string, or a function which takes no argument and returns a string.
+
+    Defaults to:
+
+    - empty when unlogged (no added class)
+    - 'dropdown-toggle' when logged;
+
+    in conjonction with default `loggedButtonContent`, the effect is to display the user email address with a small down-arrow after the text.
+
+- `loggedButtonContent`
+- `unloggedButtonContent`
+
+    The content to be displayed in the shown button.
+
+    Only applies if the button is visible (cf. `loggedButtonAction` and, `unloggedButtonAction` parms)
+
+    The content is expected to be a HTML string to be inserted in place of the default value;
+    this HTML string may (should ?) also embeds needed class names and other styles.
+    The provided value is expected to be this content, either as a string or a function which takes no argument and returns the content string.
+
+    Defaults to:
+
+    - a `<span class="fa-regular fa-fw fa-user">` HTML string when unlogged
+    - the `preferredButton` value when logged.
+
+- `loggedItems`
+- `unloggedItems`
+
+    Items to be displayed in replacement of the standard ones.
+
+    Only applies if a dropdown menu is to be opened as the button action.
+
+    Value: a single HTML string which is expected to be the `<li>...</li>` inner HTML,
+    or an array of such strings, or a function which takes no argument and returns a single HTML string or an array.
+
+    Default: standard items.
+
+- `loggedItemsAfter`
+- `unloggedItemsAfter`
+
+    Items to be added after the standard items of the dropdown menu.
+
+    Only applies if a dropdown menu is to be opened as the button action.
+
+    Value: a single HTML string which is expected to be the `<li>...</li>` inner HTML,
+    or an array of such strings, or a function which takes no argument and returns a single HTML string or an array.
+
+    Default: none.
+
+- `loggedItemsBefore`
+- `unloggedItemsBefore`
+
+    Items to be added before the standard items of the dropdown menu.
+
+    Only applies if a dropdown menu is to be opened as the button action.
+
+    Value: a single HTML string which is expected to be the `<li>...</li>` inner HTML,
+    or an array of such strings, or a function which takes no argument and returns a single HTML string or an array.
+
+    Default: none.
+
+- `renderMode`
+
+    When displayed, whether the template is rendered as a modal dialog of its own, or inside a `<div>...</div>`
+    provided by the application (where the template has been inserted).
+
+    Possible values are:
+
+    - `AC_RENDER_MODAL`
+    - `AC_RENDER_DIV`
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+
+    Default is `AC_RENDER_MODAL`: when visible, the template is rendered as a modal dialog.
+
+    Whatever be the initial choice, the application may still change the rendering mode via the messages:
+
+    - `ac-render-modal`
+    - `ac-render-div`
+
+- `signupPasswordTwice`
+- `changePasswordTwice`
+
+    Whether to request the user to enter twice the password of a newly created account, or the new password of an existing account.
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+
+    The possible values are `true` or `false`, defaulting to the value of the `passwordTwice` package configuration.
+
+- `initialPanel`
+
+    Through the `acUserLogin` template, the application may also use this package to display any of the *accounts* panels, outside of
+    the normal login/logout workflow. This is accomplished by configuring for displaying a single panel.
+
+    This parameter designates the panel to be initially displayed when this `acUserLogin` template is instanciated.
+
+    Possible values are:
+
+    - `AC_PANEL_NONE`
+    - `AC_PANEL_SIGNIN`
+    - `AC_PANEL_SIGNUP`
+    - `AC_PANEL_RESETASK`
+    - `AC_PANEL_SIGNOUT`
+    - `AC_PANEL_CHANGEPWD`
+    - `AC_PANEL_VERIFYASK`
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+
+    Default: `AC_PANEL_NONE`
+
+- `changePwdTextOne`
+- `changePwdTextTwo`
+- `changePwdTextThree`
+- `resetAskTextOne`
+- `resetAskTextTwo`
+- `signinTextOne`
+- `signinTextTwo`
+- `signinTextThree`
+- `signoutTextOne`
+- `signupTextOne`
+- `signupTextTwo`
+- `signuTextThree`
+- `signupTextFour`
+- `verifyAskTextOne`
+
+    Display personalization.
+
+    These options let the application provides its own content before the input fields of the corresponding panel.
+
+    Value is expected to be a string which contains HTML code, or a function which returns such a string.
+
+- `signinLink`
+- `signupLink`
+- `resetLink`
+
+    Whether to display the relevant link in the bottom of the relevant panels.
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+
+    Values: `true`|`false`, defaulting to `true`.
+
+- `signupAutoClose`
+
+    Whether to auto-close the modal after having created a new user.
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+
+    Values: `true`|`false`, defaulting to `true`.
+
+- `signupAutoConnect`
+
+    Whether to auto-connect a newly created account.
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+
+    Values: `true`|`false`, defaulting to `true`.
+
+- `name`
+
+    As a convenience for an application which would wish make use of several `acUserLogin` templates, each one may be named
+    (obviously uniquely), and internal configuration may later be get via the pwiAccounts methods, accessing it via the
+    attributed name.
+
+    `name` is an optional, though unique when set, name attributed by the application to *this* `acUserLogin` instance.
+
+    Value: any string.
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+
+    Default to none.
+
+### Messages sendable to acUserLogin
+
+Besides of initial configuration options, the behavior of the `acUserLogin` template may be controlled
+via messages sent to the `<div class="acUserLogin">...</div>`.
+
+- `ac-panel-signin-event`
+- `ac-panel-signup-event`
+- `ac-panel-resetask-event`
+- `ac-panel-resetpwd-event`
+- `ac-panel-signout-event`
+- `ac-panel-changepwd-event`
+- `ac-panel-verifyask-event`
+
+    Display the targeted panel
+
+- `ac-render-modal`
+- `ac-render-div`
+
+    Change the rendering mode
+
+### Messages sent on `body` element
+
+In the same time, the `acUserLogin` template advertises of its contexts:
+
+- ac-panel-transition + { previous, next }
+
+    Advertises of a panel transition, with previous and new panels
+
+- `ac-user-changepwd-event` + `emailAddress`
+- `ac-user-created-event` + `emailAddress`
+- `ac-user-signedin-event` + `userId`
+- `ac-user-signedout-event` + `emailAddress`
+- `ac-user-resetasked-event` + `emailAddress`
+- `ac-user-verifyasked-event` + `emailAddress`
+
+    Advertises of a realized action on the user account
+
+- `ac-user-resetdone-event` + `emailAddress`
+- `ac-user-verifieddone-event` + `emailAddress`
+
+## Advanced use cases
 
 ## References for advanced use cases
 
@@ -621,9 +631,9 @@ the required informations.
 ### Media queries
 
 When the application chooses to hide the logged/unlogged button depending of the size of the device,
-it should apply its media query on the 'display' div class, which is a direct child of the 'acUserLogin' one.
+it should apply its media query on the 'display' div class, which is a direct child of the `acUserLogin` one.
 
-This way, the 'acUserLogin' div is kept active, and continues to receive and handle the messages.
+This way, the `acUserLogin` div is kept active, and continues to receive and handle the messages.
 
 ## NPM peer dependencies
 
