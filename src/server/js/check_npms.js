@@ -18,4 +18,6 @@ checkNpmVersions({
     'email-validator': '^2.0.4',
     'printf': '^0.6.1',
     'zxcvbn': '^4.4.2'
-    }, 'pwix:accounts' );
+},
+    'pwix:accounts'
+);
