@@ -255,13 +255,6 @@ export class acCompanion {
     }
 
     /**
-     * @returns {Object} the jQuery selector for this instance
-     */
-    jqSelector(){
-        return this._dom.jqSelector();
-    }
-
-    /**
      * @returns {Boolean} whether the panels must be rendered as modals
      */
     modal(){

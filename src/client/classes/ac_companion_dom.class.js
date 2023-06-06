@@ -17,9 +17,6 @@ export class acCompanionDom {
     // the acCompanion master class
     _companion = null;
 
-    // a unique jQuery selector for the acUserLogin Blaze template
-    _jqSelector = null;
-
     // whether the DOM is ready
     _ready = new ReactiveVar( false );
 
@@ -50,13 +47,13 @@ export class acCompanionDom {
         self._companion = companion;
 
         // compute the unique jQuery selector for the acUserLogin Blaze template instance
-        self._jqSelector = '.acUserLogin#' + self.companion().id();
+        const _jqSelector = '.acUserLogin#' + self.companion().id();
 
         // make the acCompanion 'ready' as soon as the DOM is itself ready
         //  thanks to Blaze rendering mechanisms, the toplevel acUserLogin template is the last to be rendered
         //  and thanks to Javascript, this doesn't block the normal code flow
         const intervalId = setInterval(() => {
-            const div = self.companion().instance().$( self.jqSelector());
+            const div = self.companion().instance().$( _jqSelector );
             if( div.length > 0 ){
                 self.ready( true );
                 self.companion().target( div )
@@ -72,13 +69,6 @@ export class acCompanionDom {
      */
     companion(){
         return this._companion;
-    }
-
-    /**
-     * @returns {jQuery} the unique jQuery selector for our acUserLogin Blaze template
-     */
-    jqSelector(){
-        return this._jqSelector;
     }
 
     /**
