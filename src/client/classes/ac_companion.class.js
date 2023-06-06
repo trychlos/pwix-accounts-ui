@@ -153,7 +153,7 @@ export class acCompanion {
             acCompanion.NamedInstances[name] = self;
         }
 
-        console.debug( self );
+        //console.debug( self );
         return this;
     }
 

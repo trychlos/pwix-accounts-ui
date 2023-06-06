@@ -79,7 +79,7 @@ export class acDisplayManager {
      * @param {Object} requester any object instance
      *  if null, then will be set to ANONYMOUS
      *  else should implement id() and target() methods
-     * @param {Object} parms the parms to be passed to the panel, may be undefined, null or empty
+     * @param {Object} parms the optional parms to be passed as a data context to the panel template
      * @returns {Boolean} whether the acDisplayManager is able to satisfy the request
      *  i.e. whether the display is free before the request and can be allocated to it
      */

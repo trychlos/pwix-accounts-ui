@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/components/ac_user_login/ac_user_login.js
+ * pwix:accounts/src/client/components/ac_render_div/ac_render_div.js
  * 
  * Parms:
  *  - companion: the acCompanion object
@@ -16,15 +16,14 @@ import '../ac_signout/ac_signout.js';
 import '../ac_signup/ac_signup.js';
 import '../ac_verify_ask/ac_verify_ask.js';
 
-import './ac_user_login.html';
+import './ac_render_div.html';
 
-Template.ac_user_login.helpers({
+Template.ac_render_div.onCreated( function(){
+    console.debug( this );
+    console.debug( Template.currentData());
+});
 
-    // whether to display as a modal dialog ?
-    modal(){
-        return this.companion.opts().renderMode() === AC_RENDER_MODAL;
-    },
-
+Template.ac_render_div.helpers({
     template(){
         return acPanel.template( pwiAccounts.DisplayManager.panel());
     }

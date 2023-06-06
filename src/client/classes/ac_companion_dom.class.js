@@ -46,21 +46,6 @@ export class acCompanionDom {
 
         self._companion = companion;
 
-        // compute the unique jQuery selector for the acUserLogin Blaze template instance
-        const _jqSelector = '.acUserLogin#' + self.companion().id();
-
-        // make the acCompanion 'ready' as soon as the DOM is itself ready
-        //  thanks to Blaze rendering mechanisms, the toplevel acUserLogin template is the last to be rendered
-        //  and thanks to Javascript, this doesn't block the normal code flow
-        const intervalId = setInterval(() => {
-            const div = self.companion().instance().$( _jqSelector );
-            if( div.length > 0 ){
-                self.ready( true );
-                self.companion().target( div )
-                clearInterval( intervalId );
-            }
-        }, 20 );
-
         return this;
     }
 
@@ -84,5 +69,27 @@ export class acCompanionDom {
             this._ready.set( ready );
         }
         return this._ready.get();
+    }
+
+    /**
+     * @summary wait for the DOM be ready
+     */
+    waitForDom(){
+        const self = this;
+
+        // compute the unique jQuery selector for the acUserLogin Blaze template instance
+        const _jqSelector = '.acUserLogin#' + self.companion().id();
+
+        // make the acCompanion 'ready' as soon as the DOM is itself ready
+        //  thanks to Blaze rendering mechanisms, the toplevel acUserLogin template is the last to be rendered
+        //  and thanks to Javascript, this doesn't block the normal code flow
+        const intervalId = setInterval(() => {
+            const div = self.companion().instance().$( _jqSelector );
+            if( div.length > 0 ){
+                self.ready( true );
+                self.companion().target( div )
+                clearInterval( intervalId );
+            }
+        }, 20 );
     }
 }

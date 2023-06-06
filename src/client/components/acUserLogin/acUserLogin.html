@@ -2,13 +2,17 @@
     <div class="acUserLogin" id="{{ id }}">
 
         <div class="display">
+
             {{#if hasDropdown }}
                 {{> ac_dropdown (parms) }}
             {{/if}}
 
-            {{#unless modal }}
-                {{> ac_user_login (parms) }}
-            {{/unless}}
+            {{#if modal }}
+                {{> ac_render_modal (parms) }}
+            {{else}}
+                {{> ac_render_div (parms) }}
+            {{/if}}
+
         </div>
 
     </div>

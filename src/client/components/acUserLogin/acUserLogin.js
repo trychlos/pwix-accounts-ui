@@ -28,7 +28,7 @@ import '../../stylesheets/ac_accounts.less';
 
 import '../ac_dropdown/ac_dropdown.js';
 import '../ac_footer/ac_footer.js';
-import '../ac_user_login/ac_user_login.js';
+import '../ac_render_div/ac_render_div.js';
 
 import './acUserLogin.html';
 
@@ -45,10 +45,7 @@ Template.acUserLogin.onCreated( function(){
 });
 
 Template.acUserLogin.onRendered( function(){
-    const self = this;
-
-    // setup the initial panel when the template is rendered
-    pwiAccounts.DisplayManager.ask( self.AC.companion.opts().initialPanel(), self.AC.companion );
+    this.AC.companion.dom().waitForDom();
 });
 
 Template.acUserLogin.helpers({
@@ -75,6 +72,13 @@ Template.acUserLogin.helpers({
         return {
             companion: Template.instance().AC.companion
         };
+    },
+
+    // run the panel as a modal
+    runModal(){
+        console.debug( 'running modal' );
+        const AC = Template.instance().AC;
+        pwiAccounts.DisplayManager.ask( AC.companion.opts().initialPanel(), AC.companion );
     }
 });
 
