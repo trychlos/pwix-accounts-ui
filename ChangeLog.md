@@ -8,6 +8,8 @@ Release date: xxx
 
 - Bump pwix:layout dependency to v 1.2.0
 
+- Bump pwix:i18n dependency to v 1.3.0
+
 ### 1.1.0
 
 Release date: 2023- 2-20
@@ -26,4 +28,4 @@ Release date: 2023- 1-27
 
 ---
 P. Wieser
-- Last updated on 2023, Feb. 20th
+- Last updated on 2023, June 6th
