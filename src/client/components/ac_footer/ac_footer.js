@@ -11,7 +11,7 @@
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 import { pwixModal } from 'meteor/pwix:modal';
 
-import { acPanel } from '../../classes/ac_panel.class.js';
+import { acPanel } from '../../classes/ac_panel.js';
 
 import './ac_footer.html';
 

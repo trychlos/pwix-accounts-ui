@@ -1,16 +1,13 @@
 /*
- * /src/client/classes/ac_panel.class.js
+ * /src/client/classes/ac_panel.js
  */
 
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
-export class acPanel {
-
-    // static data
-    //
+export const acPanel = {
 
     // the known panels
-    static Panels = {
+    Panels: {
         AC_PANEL_NONE: {
         },
         AC_PANEL_CHANGEPWD: {
@@ -80,18 +77,15 @@ export class acPanel {
             modal_title: { i18n: 'verify_ask.modal_title' },
             template: 'ac_verify_ask'
         }
-    };
-
-    // static methods
-    //
+    },
 
     /**
      * @param {String} name the name of the panel
      * @returns {Array} the ordered list of buttons to be displayed for this panel
      */
-    static buttons( name ){
+    buttons: function( name ){
         return acPanel.Panels[name] ? acPanel.Panels[name].buttons || [] : [];
-    }
+    },
 
     /**
      * @param {String} name the name of the panel
@@ -99,32 +93,32 @@ export class acPanel {
      * Note that whether these links will be actually displayed also depends of configuration options
      *  which are not managed here.
      */
-    static links( name ){
+    links: function( name ){
         return acPanel.Panels[name] ? acPanel.Panels[name].links || [] : [];
-    }
+    },
 
     /**
      * @param {String} name the name of the panel
      * @returns {String} the Blaze template which implements the panel, or empty
      */
-    static template( name ){
+    template: function( name ){
         return acPanel.Panels[name] ? acPanel.Panels[name].template || '' : '';
-    }
+    },
 
     /**
      * @param {String} name the name of the panel
      * @returns {String} the localized title of the modal which implements the panel, or empty
      */
-    static title( name ){
+    title: function( name ){
         const o = acPanel.Panels[name] ? acPanel.Panels[name].modal_title || null : null;
         return o ? i18n.label( AC_I18N, o.i18n ) : '';
-    }
+    },
 
     /**
      * Validate that the provided panel is a valid one, i.e. a known, non-empty, string.
      * @throws {Error}
      */
-    static validate( panel ){
+    validate: function( panel ){
         if( !panel ){
             throw new Error( 'empty panel name' );
         }
@@ -132,29 +126,4 @@ export class acPanel {
             throw new Error( 'unknown panel', panel );
         }
     }
-
-    // private data
-    //
-
-    // private methods
-    //
-
-    // public data
-    //
-
-    // public methods
-    //
-
-    /**
-     * Constructor
-     * @returns {acPanel}
-     */
-    constructor(){
-
-        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
-            console.log( 'pwix:accounts instanciating acPanel' );
-        }
-
-        return this;
-    }
-}
+};

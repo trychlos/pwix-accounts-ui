@@ -5,7 +5,7 @@
  *  - companion: the acCompanion object
  */
 
-import { acPanel } from '../../classes/ac_panel.class.js';
+import { acPanel } from '../../classes/ac_panel.js';
 
 import '../../../common/js/index.js';
 

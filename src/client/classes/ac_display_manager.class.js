@@ -22,7 +22,7 @@ import { Tracker } from 'meteor/tracker';
 
 import { pwixModal } from 'meteor/pwix:modal';
 
-import { acPanel } from './ac_panel.class.js';
+import { acPanel } from './ac_panel.js';
 
 export class acDisplayManager {
 

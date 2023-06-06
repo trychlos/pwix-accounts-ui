@@ -6,7 +6,7 @@
 
 import { pwixOptions } from 'meteor/pwix:options';
 
-import { acPanel } from './ac_panel.class.js';
+import { acPanel } from './ac_panel.js';
 
 export class acCompanionOptions extends pwixOptions.Options {
 
