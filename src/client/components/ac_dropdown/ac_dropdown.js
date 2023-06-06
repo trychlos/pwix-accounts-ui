@@ -6,7 +6,7 @@
  * - or (not exclusive) when no user is logged, and the 'unloggedButtonAction' is not hidden.
  * 
  * Parms:
- *  - companion: the acUserLoginCompanion object
+ *  - companion: the acCompanion object
  */
 
 import '../../../common/js/index.js';

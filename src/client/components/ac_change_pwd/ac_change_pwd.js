@@ -2,11 +2,11 @@
  * pwix:accounts/src/client/components/ac_change_pwd/ac_change_pwd.js
  * 
  * Parms:
- *  - requester: the acUserLoginCompanion object
+ *  - requester: the acCompanion object
  */
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
-import { acUserLoginCompanion } from '../../classes/ac_user_login_companion.class.js';
+import { acCompanion } from '../../classes/ac_companion.class.js';
 
 import '../ac_input_password/ac_input_password.js';
 
@@ -20,11 +20,11 @@ Template.ac_change_pwd.onCreated( function(){
         twiceOk: new ReactiveVar( true )
     };
 
-    // check that requester is a acUserLoginCompanion
+    // check that requester is a acCompanion
     self.autorun(() => {
         const requester = Template.currentData().requester;
-        if( requester && !( requester instanceof acUserLoginCompanion )){
-            throw new Error( 'expected acUserLoginCompanion, found', requester );
+        if( requester && !( requester instanceof acCompanion )){
+            throw new Error( 'expected acCompanion, found', requester );
         }
     });
 });

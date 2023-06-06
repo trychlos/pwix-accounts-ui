@@ -56,7 +56,7 @@ In the detail:
 
 - this is so the panel which triggers the '`ac-xxxx`' events to the `acUserLogin` template.
 
-The `acUserLogin` template is associated to the `acUserLoginCompanion` and `acUserLoginOptions` classes which take care of of the global interactions with the template.
+The `acUserLogin` template is associated to the `acCompanion` and `acUserLoginOptions` classes which take care of of the global interactions with the template.
 
 ---
 P. Wieser

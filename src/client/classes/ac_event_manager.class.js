@@ -90,7 +90,7 @@ export class acEventManager {
     _handlePanel( event, data ){
         switch( event.type ){
             // a dropdown item ask for a panel
-            //  as these events are triggered from standard dropdown items, they should convey a acUserLoginCompanion
+            //  as these events are triggered from standard dropdown items, they should convey a acCompanion
             case 'ac-panel-changepwd-event':
             case 'ac-panel-resetask-event':
             case 'ac-panel-signin-event':
@@ -104,7 +104,7 @@ export class acEventManager {
                 if( requester && requester.handleEvent ){
                     requester.handleEvent( event, data );
                 } else {
-                    throw new Error( 'exepcted acUserLoginCompanion, found', requester );
+                    throw new Error( 'exepcted acCompanion, found', requester );
                 }
         }
         return true;

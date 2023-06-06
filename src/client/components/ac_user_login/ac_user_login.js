@@ -2,7 +2,7 @@
  * pwix:accounts/src/client/components/ac_user_login/ac_user_login.js
  * 
  * Parms:
- *  - companion: the acUserLoginCompanion object
+ *  - companion: the acCompanion object
  */
 
 import { acPanel } from '../../classes/ac_panel.class.js';

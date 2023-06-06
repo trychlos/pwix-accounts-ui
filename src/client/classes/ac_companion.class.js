@@ -1,16 +1,16 @@
 /*
- * pwix:accounts/src/client/classes/ac_user_login_companion.class.js
+ * pwix:accounts/src/client/classes/ac_companion.class.js
  *
  * A companion class for the 'acUserLogin' Blaze template.
  * 
- * This acUserLoginCompanion class acts as the requester for all displayed templates, and take care
+ * This acCompanion class acts as the requester for all displayed templates, and take care
  * of adressing the acUserLogin Blaze template as the event handler.
  */
 
 import { Random } from 'meteor/random';
 
 
-export class acUserLoginCompanion {
+export class acCompanion {
 
     // static data
     //
@@ -23,10 +23,10 @@ export class acUserLoginCompanion {
 
     /**
      * @param {String} name the searched name
-     * @returns {acUserLoginCompanion} the corresponding acUserLoginCompanion instance, or null
+     * @returns {acCompanion} the corresponding acCompanion instance, or null
      */
     static byName( name ){
-        return acUserLoginCompanion.NamedInstances[name] || null;
+        return acCompanion.NamedInstances[name] || null;
     }
 
     // private data
@@ -53,7 +53,7 @@ export class acUserLoginCompanion {
      */
     _handleSubmitEvent( event, data ){
         if( pwiAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_HANDLE ){
-            console.log( 'pwix:accounts acUserLoginCompanion handling', event.type, data );
+            console.log( 'pwix:accounts acCompanion handling', event.type, data );
         }
         let mail = null;
         let password = null;
@@ -120,13 +120,13 @@ export class acUserLoginCompanion {
     /**
      * Constructor
      * @param {acUserLogin} instance the acUserLogin Blaze template instance
-     * @returns {acUserLoginCompanion}
+     * @returns {acCompanion}
      */
     constructor( instance ){
         const self = this;
 
         if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
-            console.log( 'pwix:accounts instanciating acUserLoginCompanion' );
+            console.log( 'pwix:accounts instanciating acCompanion' );
         }
 
         // allocate a new random unique identifier for this instance
@@ -139,7 +139,7 @@ export class acUserLoginCompanion {
         // if the instance is named, then keep it to be usable later
         const name = self.opts().name();
         if( name ){
-            acUserLoginCompanion.NamedInstances[name] = self;
+            acCompanion.NamedInstances[name] = self;
         }
 
         return this;
@@ -198,7 +198,7 @@ export class acUserLoginCompanion {
             case 'ac-panel-signup-event':
             case 'ac-panel-verifyask-event':
                 if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL_HANDLE ){
-                    console.log( 'pwix:accounts acUserLoginCompanion handling', event.type, data );
+                    console.log( 'pwix:accounts acCompanion handling', event.type, data );
                 }
                 if( !data.panel ){
                     throw new Error( 'expecting a panel, not found' );
@@ -222,7 +222,7 @@ export class acUserLoginCompanion {
     }
 
     /**
-     * @returns {String} The acUserLoginCompanion unique identifier
+     * @returns {String} The acCompanion unique identifier
      *  Also acts as the requester identifier
      */
     id(){
@@ -258,7 +258,7 @@ export class acUserLoginCompanion {
     ready( ready ){
         if( ready === true || ready === false ){
             if( pwiAccounts.opts().verbosity() & AC_VERBOSE_READY ){
-                console.log( 'pwix:accounts acUserLoginCompanion DOM ready', ready );
+                console.log( 'pwix:accounts acCompanion DOM ready', ready );
             }
             this._ready.set( ready );
         }

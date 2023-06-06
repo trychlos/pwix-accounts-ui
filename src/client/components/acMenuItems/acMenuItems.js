@@ -7,12 +7,12 @@
  * Parms:
  *  - name: the acUserLogin Blaze template instance name
  * 
- * This template is just a go-between to be able to identify the acUserLoginCompanion object from the name, up to the ac_menu_items template.
+ * This template is just a go-between to be able to identify the acCompanion object from the name, up to the ac_menu_items template.
  */
 
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { acUserLoginCompanion } from '../../classes/ac_user_login_companion.class.js';
+import { acCompanion } from '../../classes/ac_companion.class.js';
 
 import '../ac_menu_items/ac_menu_items.js';
 
@@ -26,7 +26,7 @@ Template.acMenuItems.onCreated( function(){
         name: new ReactiveVar( null )
     };
 
-    // find the acUserLoginCompanion by its name
+    // find the acCompanion by its name
     self.autorun(() => {
         const name = Template.currentData().name;
         if( name ){
@@ -38,18 +38,18 @@ Template.acMenuItems.onCreated( function(){
     self.autorun(() => {
         const name = self.AC.name.get();
         if( name ){
-            const companion = acUserLoginCompanion.byName( name );
+            const companion = acCompanion.byName( name );
             if( companion ){
                 self.AC.companion.set( companion );
             } else {
-                throw new Error( 'unable to find acUserLoginCompanion by name', name );
+                throw new Error( 'unable to find acCompanion by name', name );
             }
         }
     });
 });
 
 Template.acMenuItems.helpers({
-    // provide the acUserLoginCompanion to ac_menu_items
+    // provide the acCompanion to ac_menu_items
     parms(){
         return {
             companion: Template.instance().AC.companion.get()

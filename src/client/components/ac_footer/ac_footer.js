@@ -4,7 +4,7 @@
  * Provides various buttons, to be displayed either in a modal footer, or in the bottom of a div.
  * 
  * Parms:
- *  - requester: ANONYMOUS or a acUserLoginCompanion object
+ *  - requester: ANONYMOUS or a acCompanion object
  *  - submitCallback: if provided, a callback which will be called on .ac-submit button click
  *      instead of triggering an 'ac-submit' event
  */

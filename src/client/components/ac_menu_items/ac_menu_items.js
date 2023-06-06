@@ -5,10 +5,10 @@
  * or as individual items inside of an application menu.
  * 
  * Parms:
- *  - companion: the acUserLoginCompanion object
+ *  - companion: the acCompanion object
  */
 
-import { acUserLoginCompanion } from '../../classes/ac_user_login_companion.class.js';
+import { acCompanion } from '../../classes/ac_companion.class.js';
 
 import './ac_menu_items.html';
 
@@ -17,7 +17,7 @@ Template.ac_menu_items.onRendered( function(){
     //console.log( self, Template.currentData());
 
     // a small note for the maintainer!
-    //  the acUserLoginCompanion dynItemsBefore/Standard/After() returns the button content as a HTML string
+    //  the acCompanion dynItemsBefore/Standard/After() returns the button content as a HTML string
     //  first try has been to use a triple-braces helper '{{{ buttonContent }}}' to feed the data into the DOM
     //  it happens that this doesn't work as each content update seems to be added to the previous content
     //  visual effect is for example to have several user icons :(
@@ -30,8 +30,8 @@ Template.ac_menu_items.onRendered( function(){
     self.autorun(() => {
         const menu = self.$( '.ac-menu-items' );
         const companion = Template.currentData().companion;
-        if( companion && !( companion instanceof acUserLoginCompanion )){
-            throw new Error( 'expected a acUserLoginCompanion, found', companion );
+        if( companion && !( companion instanceof acCompanion )){
+            throw new Error( 'expected a acCompanion, found', companion );
         }
         if( menu ){
             ddItems = [];

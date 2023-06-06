@@ -13,16 +13,16 @@
  * 
  * - local classes:
  *   > acUserLoginOptions the configuration options provided by the caller (or their defaults)
- *   > acUserLoginCompanion a companion class which glues together this Blaze template instance with other classes
+ *   > acCompanion a companion class which glues together this Blaze template instance with other classes
  * 
  * The template is instanciated here (and potentially several times as explained above), and uniquely identified by the id of its companion class.
- * The acUserLoginCompanion and acUserLoginOptions objects are attached to this instance.
+ * The acCompanion and acUserLoginOptions objects are attached to this instance.
  * The companion class acts as a display requester, and is then passed as a parameter to each and every child template.
  */
 
 import '../../../common/js/index.js';
 
-import { acUserLoginCompanion } from '../../classes/ac_user_login_companion.class.js';
+import { acCompanion } from '../../classes/ac_companion.class.js';
 import { acUserLoginOptions } from '../../classes/ac_user_login_options.class.js';
 
 import '../../stylesheets/ac_accounts.less';
@@ -50,7 +50,7 @@ Template.acUserLogin.onCreated( function(){
     });
 
     // instanciates our companion class
-    self.AC.companion = new acUserLoginCompanion( self );
+    self.AC.companion = new acCompanion( self );
 
     if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
         console.log( 'pwix:accounts instanciating acUserLogin id='+self.AC.companion.id());
@@ -60,7 +60,7 @@ Template.acUserLogin.onCreated( function(){
 Template.acUserLogin.onRendered( function(){
     const self = this;
 
-    // make the acUserLoginCompanion 'ready' as soon as the DOM is itself ready
+    // make the acCompanion 'ready' as soon as the DOM is itself ready
     //  thanks to Blaze rendering mechanisms, this toplevel template is the last to be rendered
     const intervalId = setInterval(() => {
         const div = self.$( self.AC.companion.jqSelector());
@@ -81,6 +81,7 @@ Template.acUserLogin.helpers({
 
     // whether this template controls a logged/unlogged user button
     hasDropdown(){
+        //console.debug( 'hasDropdown', Template.instance().AC.companion.hasDropdown());
         return Template.instance().AC.companion.hasDropdown();
     },
 
@@ -91,10 +92,11 @@ Template.acUserLogin.helpers({
 
     // whether the display must be rendered as a modal one ?
     modal(){
+        //console.debug( 'isModal', Template.instance().AC.companion.modal());
         return Template.instance().AC.companion.modal();
     },
 
-    // provides the acUserLoginCompanion instance to the child templates
+    // provides the acCompanion instance to the child templates
     parms(){
         return {
             companion: Template.instance().AC.companion
