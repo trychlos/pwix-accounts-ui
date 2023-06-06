@@ -111,11 +111,6 @@ export class acDisplayManager {
         }
         this.panel( panel );
         this._requester = requester;
-        pwixModal.run({
-            mdFooter: 'ac_footer',
-            requester: requester,
-            ...parms
-        });
         return true;
     }
 

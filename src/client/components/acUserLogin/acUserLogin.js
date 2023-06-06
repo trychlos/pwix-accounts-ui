@@ -29,6 +29,14 @@ import '../../stylesheets/ac_accounts.less';
 import '../ac_dropdown/ac_dropdown.js';
 import '../ac_footer/ac_footer.js';
 import '../ac_render_div/ac_render_div.js';
+import '../ac_render_modal/ac_render_modal.js';
+
+import '../ac_change_pwd/ac_change_pwd.js';
+import '../ac_reset_ask/ac_reset_ask.js';
+import '../ac_signin/ac_signin.js';
+import '../ac_signout/ac_signout.js';
+import '../ac_signup/ac_signup.js';
+import '../ac_verify_ask/ac_verify_ask.js';
 
 import './acUserLogin.html';
 
@@ -45,7 +53,13 @@ Template.acUserLogin.onCreated( function(){
 });
 
 Template.acUserLogin.onRendered( function(){
-    this.AC.companion.dom().waitForDom();
+    const self = this;
+
+    // make the acCompanionDom ready
+    self.AC.companion.dom().waitForDom();
+
+    // request the display
+    pwiAccounts.DisplayManager.ask( self.AC.companion.opts().initialPanel(), self.AC.companion );
 });
 
 Template.acUserLogin.helpers({
@@ -72,13 +86,6 @@ Template.acUserLogin.helpers({
         return {
             companion: Template.instance().AC.companion
         };
-    },
-
-    // run the panel as a modal
-    runModal(){
-        console.debug( 'running modal' );
-        const AC = Template.instance().AC;
-        pwiAccounts.DisplayManager.ask( AC.companion.opts().initialPanel(), AC.companion );
     }
 });
 

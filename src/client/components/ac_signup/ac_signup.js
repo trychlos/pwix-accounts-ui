@@ -53,9 +53,6 @@ Template.ac_signup.onCreated( function(){
             throw new Error( 'expected acCompanion, found', companion );
         }
     });
-
-    console.debug( this );
-    console.debug( Template.currentData());
 });
 
 Template.ac_signup.onRendered( function(){
