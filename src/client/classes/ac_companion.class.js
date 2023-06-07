@@ -279,7 +279,6 @@ export class acCompanion {
      * @param {Object} opts the template data context at runtime
      */
     setOptions( opts ){
-        console.log( 'setOptions' );
         this._options.set( this._default_options( opts ));
     }
 

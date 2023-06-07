@@ -17,7 +17,7 @@ import './ac_signup.html';
 
 Template.ac_signup.onCreated( function(){
     const self = this;
-    console.log( 'onCreated', this, Template.currentData());
+    //console.debug( 'onCreated', this, Template.currentData());
 
     self.AC = {
         emailOk: new ReactiveVar( true ),
