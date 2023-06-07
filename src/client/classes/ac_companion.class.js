@@ -47,6 +47,13 @@ export class acCompanion {
     // the configuration options passed by the application to the acUserLogin Blaze template
     _options = null;
 
+    _default_options( opts ){
+        return {
+            ...defaults.acUserLogin,
+            ...opts
+        };
+    }
+
     // the events target
     _target = null;
 
@@ -125,7 +132,7 @@ export class acCompanion {
     /**
      * Constructor
      * @param {acUserLogin} instance the acUserLogin Blaze template instance
-     * @param {Object} context the template context at runtime
+     * @param {Object} context optional template data context at runtime
      * @returns {acCompanion}
      */
     constructor( instance, context ){
@@ -137,15 +144,9 @@ export class acCompanion {
 
         // allocate a new random unique identifier for this instance
         self._id = Random.id();
-
         self._instance = instance;
-
-        self._options = new acCompanionOptions({
-            ...defaults.acUserLogin,
-            ...context
-        });
-
         self._dom = new acCompanionDom( self );
+        self._options = new acCompanionOptions( self, this._default_options( context ));
 
         // if the instance is named, then keep it to be usable later
         const name = self.opts().name();
@@ -270,6 +271,16 @@ export class acCompanion {
      */
     opts(){
         return this._options;
+    }
+
+    /**
+     * Rationale: when options are passed through a template data context, then we must be able to reset them
+     *  when they change - Hence, we cannot just pass them in the constructor, but must have a dedicated method
+     * @param {Object} opts the template data context at runtime
+     */
+    setOptions( opts ){
+        console.log( 'setOptions' );
+        this._options.set( this._default_options( opts ));
     }
 
     /**

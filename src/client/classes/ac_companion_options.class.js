@@ -35,6 +35,9 @@ export class acCompanionOptions extends pwixOptions.Options {
     // private data
     //
 
+    // the master companion
+    _companion = null;
+
     // private methods
     //
 
@@ -51,11 +54,14 @@ export class acCompanionOptions extends pwixOptions.Options {
      * In some case where the expected value is a string, the base class also can accept an object with 'i18n' key.
      * All options are accepted as long as the corresponding getter/setter method exists in this derived class.
      * 
-     * @param {Object} options the options to be managed
+     * @param {acCompanion} companion
+     * @param {Object} options
      * @returns {acCompanionOptions}
      */
-    constructor( options ){
+    constructor( companion, options ){
         super( options );
+
+        this._companion = companion;
 
         if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
             console.log( 'pwix:accounts instanciating acCompanionOptions' );

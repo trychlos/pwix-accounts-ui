@@ -6,8 +6,11 @@
 
     Release date: xxx
 
-    - Bump pwix:layout dependency to v 1.2.0
+    - acUserLogin: add new 'haveCancelButton' configuration parameter
+
     - Bump pwix:i18n dependency to v 1.3.0
+    - Bump pwix:layout dependency to v 1.2.0
+    - Bump pwix:options dependency to v 1.3.0
 
 ### 1.1.0
 

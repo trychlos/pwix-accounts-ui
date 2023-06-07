@@ -50,6 +50,10 @@ Template.acUserLogin.onCreated( function(){
     if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
         console.log( 'pwix:accounts instanciating acUserLogin id='+self.AC.companion.id());
     }
+
+    self.autorun(() => {
+        self.AC.companion.setOptions( Template.currentData());
+    });
 });
 
 Template.acUserLogin.onRendered( function(){
