@@ -10,10 +10,47 @@
  */
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 import { pwixModal } from 'meteor/pwix:modal';
+import { ReactiveVar } from 'meteor/reactive-var';
 
+import { acCompanion } from '../../classes/ac_companion.class.js';
 import { acPanel } from '../../classes/ac_panel.js';
 
 import './ac_footer.html';
+
+Template.ac_footer.onCreated( function(){
+    const self = this;
+
+    self.AC = {
+        companion: null,
+        buttons: new ReactiveVar( acPanel.buttons( pwiAccounts.DisplayManager.panel()))
+    };
+
+    // get companion
+    self.autorun(() => {
+        const companion = Template.currentData().companion;
+        if( companion && companion instanceof acCompanion ){
+            self.AC.companion = companion;
+        }
+    });
+
+    // build an adapted buttons list
+    self.autorun(() => {
+        if( self.AC.companion ){
+            const haveCancelButton = self.AC.companion.opts().haveCancelButton();
+            //console.debug( 'haveCancelButton', haveCancelButton );
+            let _buttons = [];
+            acPanel.buttons( pwiAccounts.DisplayManager.panel()).every(( btn ) => {
+                //console.debug( btn.class );
+                //console.debug( btn.class.includes( 'ac-cancel' ));
+                if( !btn.class.includes( 'ac-cancel' ) || haveCancelButton ){
+                    _buttons.push( btn );
+                }
+                return true;
+            });
+            self.AC.buttons.set( _buttons );
+        }
+    });
+});
 
 Template.ac_footer.helpers({
 
@@ -28,7 +65,7 @@ Template.ac_footer.helpers({
 
     // returns the ordered list of buttons to be displayed depending of the currently displayed template
     buttons(){
-        return acPanel.buttons( pwiAccounts.DisplayManager.panel());
+        return Template.instance().AC.buttons.get();
     },
 
     // whether to display this link

@@ -105,6 +105,15 @@ export class acCompanionOptions extends pwixOptions.Options {
 
     /**
      * Getter/Setter
+     * @param {Boolean|Function} flag whether to display a 'Cancel' button
+     * @returns {Boolean}
+     */
+    haveCancelButton( flag ){
+        return this.getset_Bool_Fn( 'haveCancelButton', flag, { default: defaults.acUserLogin.haveCancelButton });
+    }
+
+    /**
+     * Getter/Setter
      * @param {String|Function} panel the initial panel to be displayed
      * @returns {String} the initial panel
      */

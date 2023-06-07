@@ -420,6 +420,14 @@ Even when providing a configuration object, as all keys are optional, this objec
     - `ac-render-modal`
     - `ac-render-div`
 
+- `haveCancelButton`
+
+    Whether a `Cancel` button must be proposed.
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+
+    Values: `true`|`false`, defaulting to `true`.
+
 - `signupPasswordTwice`
 - `changePasswordTwice`
 

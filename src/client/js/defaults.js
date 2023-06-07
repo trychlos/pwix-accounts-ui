@@ -145,6 +145,7 @@ defaults = {
             loggedItemsBefore: [],
             unloggedItemsBefore: [],
             renderMode: AC_RENDER_MODAL,
+            haveCancelButton: true,
             signupPasswordTwice: _passwordTwice,
             changePasswordTwice: _passwordTwice,
             initialPanel: AC_PANEL_NONE,
