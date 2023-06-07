@@ -126,7 +126,7 @@ export class acEventManager {
                 if( pwiAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_HANDLE ){
                     console.log( 'pwix:accounts acEventManager handling', event.type, data );
                 }
-                console.log( pwiAccounts.DisplayManager );
+                //console.debug( pwiAccounts.DisplayManager );
                 const requester = pwiAccounts.DisplayManager.requester();
                 if( requester && requester.handleEvent ){
                     requester.handleEvent( event, data );

@@ -33,6 +33,7 @@ defaults = {
         resetPwdTextOne: { namespace: AC_I18N, i18n: 'reset_pwd.textOne' },
         resetPwdTextTwo: '',
         resetPasswordTwice: _passwordTwice,
+        sendVerificationEmail: true,
         usernameLength: 4,
         verbosity: AC_VERBOSE_CONFIGURE
     }

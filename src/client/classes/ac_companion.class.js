@@ -98,17 +98,17 @@ export class acCompanion {
                 break;
             case AC_PANEL_SIGNUP:
                 let options = {};
-                if( pwiAccounts.opts().haveUsername()){
+                if( pwiAccounts.opts().haveUsername() !== AC_FIELD_NONE ){
                     options.username = $( '.ac-signup .ac-input-username .ac-input' ).val().trim();
                 }
-                if( pwiAccounts.opts().haveEmailAddress()){
+                if( pwiAccounts.opts().haveEmailAddress() !== AC_FIELD_NONE ){
                     options.email = $( '.ac-signup .ac-input-email .ac-input' ).val().trim();
                 }
                 options.password = $( '.ac-signup .ac-newone .ac-input' ).val().trim();
                 const autoClose = this.opts().signupAutoClose();
-                console.log( 'found autoClose='+autoClose );
+                //console.debug( 'found autoClose='+autoClose );
                 const autoConnect = this.opts().signupAutoConnect();
-                console.log( 'found autoConnect='+autoConnect );
+                //console.debug( 'found autoConnect='+autoConnect );
                 pwiAccounts.User.createUser( options, this.target(), autoClose, autoConnect );
                 if( !autoClose ){
                     $( '.ac-signup' ).trigger( 'ac-clear' );

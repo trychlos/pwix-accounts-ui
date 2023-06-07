@@ -145,6 +145,15 @@ export class acOptionsConf extends pwixOptions.Options {
 
     /**
      * Getter/Setter
+     * @param {Boolean|Function} flag whether we want an email verification be sent on user creation
+     * @returns {Boolean}
+     */
+    sendVerificationEmail( flag ){
+        return this.getset_Bool_Fn( 'sendVerificationEmail', flag, { default: defaults.common.sendVerificationEmail });
+    }
+
+    /**
+     * Getter/Setter
      * @param {Boolean|Function} twice whether we want use two password input fields when resetting a user's password.
      * @returns {Boolean}
      */

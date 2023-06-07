@@ -116,42 +116,52 @@ export class acUser {
      */
     createUser( options, target, autoClose=true, autoConnect=true ){
         const self = this;
-        const event = 'ac-user-created-event';
-        let parms;
-        if( autoConnect ){
-            Accounts.createUser( options, ( err ) => {
-                if( err ){
-                    console.error( err );
-                    target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.signup_error' ));
-                } else {
-                    //self.state( AC_LOGGED );
-                    delete options.password;
-                    parms = {
-                        ...Meteor.user(),
-                        autoClose: autoClose
-                    };
-                    if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
-                        console.log( 'pwix:accounts triggering', event, parms );
+        // the error handler
+        const _errorFn = function( err ){
+            console.error( err );
+            target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.signup_error' ));
+        };
+        // the success handler
+        const _successFn = function(){
+            tlTolert.success( i18n.label( AC_I18N, 'user.signup_success', options.email || options.username ));
+            delete options.password;
+            const parms = {
+                ...Meteor.user(),
+                options: { ...options },
+                autoClose: autoClose,
+                autoConnect: autoConnect
+            };
+            const event = 'ac-user-created-event';
+            if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+                console.log( 'pwix:accounts triggering', event, parms );
+            }
+            pwiAccounts.EventManager.trigger( event, parms );
+            // send a verification mail if asked for
+            if( options.email && pwiAccounts.opts().sendVerificationEmail()){
+                Meteor.call( 'pwiAccounts.sendVerificationEmailByEmail', options.email, ( err, res ) => {
+                    if( err ){
+                        console.error( err );
                     }
-                    pwiAccounts.EventManager.trigger( event, parms );
+                });
+            }
+        };
+        // the main code
+        if( autoConnect ){
+            Accounts.createUser( options, ( err, res ) => {
+                if( err ){
+                    _errorFn( err );
+                } else {
+                    _successFn();
+                    tlTolert.success( i18n.label( AC_I18N, 'user.signup_autoconnect' ));
                 }
             });
         } else {
             Meteor.call( 'pwiAccounts.createUser', options, ( err, res ) => {
                 if( err ){
-                    console.error( err );
-                    target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.signup_error' ));
+                    _errorFn( err );
                 } else {
-                    tlTolert.success( i18n.label( AC_I18N, 'user.signup_success', options.email || options.username ));
-                    delete options.password;
-                    parms = {
-                        ...options,
-                        autoClose: autoClose
-                    };
-                    if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
-                        console.log( 'pwix:accounts triggering', event, parms );
-                    }
-                    pwiAccounts.EventManager.trigger( event, parms );
+                    _successFn();
+                    tlTolert.success( i18n.label( AC_I18N, 'user.signup_noconnect' ));
                 }
             });
         }

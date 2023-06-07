@@ -6,6 +6,7 @@
 
     Release date: xxx
 
+    - pwiAccounts: add new 'sendVerificationEmail' configuration parameter
     - acUserLogin: add new 'haveCancelButton' configuration parameter
 
     - Bump pwix:i18n dependency to v 1.3.0

@@ -229,6 +229,14 @@ Known configuration options are:
 
     The possible values are `true` or `false`, defaulting to the value of the `passwordTwice` package configuration.
 
+- `sendVerificationEmail`
+
+    Whether to send a verification email to each newly created user.
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+
+    The possible values are `true` or `false`, defaulting to `true`.
+
 - `usernameLength`
 
     The minimal required username length.
@@ -492,6 +500,8 @@ Even when providing a configuration object, as all keys are optional, this objec
 - `signupAutoClose`
 
     Whether to auto-close the modal after having created a new user.
+
+    A typical use case would be to let an administrator create successively several user accounts.
 
     A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
 

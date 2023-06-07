@@ -115,6 +115,8 @@ pwiAccounts.i18n = {
                 signin_error: 'Invalid mail address and/or password. Please check your credentials. In case of doubt, please contact our administrator.',
                 signup_error: 'Unable to create this new account',
                 signup_success: 'New account %s successfully created',
+                signup_autoconnect: 'New account has been automatically connected',
+                signup_noconnect: 'Account is not connected',
                 verify_error: 'Humm... Sorry, but it seems your token has expired.<br />You have to re-ask for a new verification link.',
                 verify_text: 'Hi.<br />Your mail is now verified.<br />You can participate (and enjoy).',
                 verify_title: 'Mail verification',
