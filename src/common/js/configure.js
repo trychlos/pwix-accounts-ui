@@ -1,41 +1,57 @@
 /*
- * pwix:accounts/src/common/js/config.js
+ * pwix:accounts/src/common/js/configure.js
  *
  * Just define the object here.
  */
 
 import { acOptionsConf } from '../classes/ac_options_conf.class.js';
 
-//console.log( 'pwix:accounts/src/common/js/config.js defining globally exported pwiAccounts object' );
+/**
+ * @summarry Runtime configuration getter
+ * @locus Anywhere
+ * @returns {acOptionsConf} the runtime configuration object
+ */
+pwiAccounts.opts = function(){
+    return pwiAccounts._opts;
+};
 
-pwiAccounts = {
-    _conf: {},
-    _opts: null,
+/*
+ * a function to return the 'passwordTwice' package default value
+ */
+function _passwordTwice(){
+    return pwiAccounts._opts ? pwiAccounts.opts().passwordTwice() : true;
+}
 
-    /**
-     * @summary Package configuration
-     * @locus Anywhere
-     * @param {Object} o the runtime configuration of the package
-     *  Should be *in same terms* called both by the client and the server.
-     */
-    configure: function( o ){
-        pwiAccounts._conf = { ...pwiAccounts._conf, ...o };
-        pwiAccounts._opts = new acOptionsConf( pwiAccounts._conf );
+defaults = {
+    common: {
+        haveEmailAddress: AC_FIELD_MANDATORY,
+        haveUsername: AC_FIELD_NONE,
+        informResetWrongEmail: AC_RESET_EMAILUNSENT,
+        passwordLength: 8,
+        passwordStrength: AC_PWD_MEDIUM,
+        passwordTwice: true,
+        resetPwdTextOne: { namespace: AC_I18N, i18n: 'reset_pwd.textOne' },
+        resetPwdTextTwo: '',
+        resetPasswordTwice: _passwordTwice,
+        usernameLength: 4,
+        verbosity: AC_VERBOSE_CONFIGURE
+    }
+};
 
-        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_CONFIGURE ){
-            console.log( 'pwix:accounts configure() with', o );
-        }
-    },
+pwiAccounts._conf = { ...defaults.common };
+pwiAccounts._opts = new acOptionsConf( pwiAccounts._conf );
 
-    // internationalization
-    i18n: {},
+/**
+ * @summary Package configuration
+ * @locus Anywhere
+ * @param {Object} o the runtime configuration of the package
+ *  Should be *in same terms* called both by the client and the server.
+ */
+pwiAccounts.configure = function( o ){
+    pwiAccounts._conf = { ...defaults.common, ...o };
+    pwiAccounts._opts.set( pwiAccounts._conf );
 
-    /**
-     * @summarry Runtime configuration getter
-     * @locus Anywhere
-     * @returns {acOptionsConf} the runtime configuration object
-     */
-    opts(){
-        return pwiAccounts._opts;
+    if( pwiAccounts.opts().verbosity() & AC_VERBOSE_CONFIGURE ){
+        console.log( 'pwix:accounts configure() with', o );
     }
 };
