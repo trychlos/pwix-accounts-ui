@@ -74,7 +74,7 @@ export class acOptionsConf extends pwixOptions.Options {
      * @returns {String}
      */
     haveEmailAddress( value ){
-        return this.getset_String_Fn_Object( 'haveEmailAddress', value, { default: defaults.common.haveEmailAddress, ref: acOptionsConf.Fields });
+        return this.getset_String_Fn( 'haveEmailAddress', value, { default: defaults.common.haveEmailAddress, ref: acOptionsConf.Fields });
     }
 
     /**
@@ -83,7 +83,7 @@ export class acOptionsConf extends pwixOptions.Options {
      * @returns {String}
      */
     haveUsername( value ){
-        return this.getset_String_Fn_Object( 'haveUsername', value, { default: defaults.common.haveUsername, ref: acOptionsConf.Fields });
+        return this.getset_String_Fn( 'haveUsername', value, { default: defaults.common.haveUsername, ref: acOptionsConf.Fields });
     }
 
     /**
@@ -92,7 +92,34 @@ export class acOptionsConf extends pwixOptions.Options {
      * @returns {String}
      */
     informResetWrongEmail( value ){
-        return this.getset_String_Fn_Object( 'informResetWrongEmail', value, { default: defaults.common.informResetWrongEmail, ref: acOptionsConf.ResetWrongEmail });
+        return this.getset_String_Fn( 'informResetWrongEmail', value, { default: defaults.common.informResetWrongEmail, ref: acOptionsConf.ResetWrongEmail });
+    }
+
+    /**
+     * Getter/Setter
+     * @param {Boolean|Function} flag whether we want display a confirmation dialog box on email verification done.
+     * @returns {Boolean}
+     */
+    onVerifiedEmailBox( flag ){
+        return this.getset_Bool_Fn( 'onVerifiedEmailBox', flag, { default: defaults.common.onVerifiedEmailBox });
+    }
+
+    /**
+     * Getter/Setter
+     * @param {Object|Function} text the title of the displayed confirmation dialog box
+     * @returns {String}
+     */
+    onVerifiedEmailTitle( text ){
+        return this.getset_String_Fn_Object( 'onVerifiedEmailTitle', text, { default: defaults.common.onVerifiedEmailTitle });
+    }
+
+    /**
+     * Getter/Setter
+     * @param {Object|Function} text the content of the displayed confirmation dialog box
+     * @returns {String}
+     */
+    onVerifiedEmailMessage( text ){
+        return this.getset_String_Fn_Object( 'onVerifiedEmailMessage', text, { default: defaults.common.onVerifiedEmailMessage });
     }
 
     /**
@@ -112,7 +139,7 @@ export class acOptionsConf extends pwixOptions.Options {
      * @returns {String}
      */
     passwordStrength( value ){
-        return this.getset_String_Fn_Object( 'passwordStrength', value, { default: defaults.common.passwordStrength, ref: acOptionsConf.Strength });
+        return this.getset_String_Fn( 'passwordStrength', value, { default: defaults.common.passwordStrength, ref: acOptionsConf.Strength });
     }
 
     /**

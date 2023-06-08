@@ -59,10 +59,12 @@ Accounts.onEmailVerificationLink( function( token, done ){
                         console.error( err );
                         _verifyExpired();
                     } else {
-                        pwixBootbox.alert({
-                            title: i18n.label( AC_I18N, 'user.verify_title' ),
-                            message: i18n.label( AC_I18N, 'user.verify_text' )
-                        });
+                        if( pwiAccounts.opts().onVerifiedEmailBox()){
+                            pwixBootbox.alert({
+                                title: pwiAccounts.opts().onVerifiedEmailTitle(),
+                                message: pwiAccounts.opts().onVerifiedEmailMessage()
+                            });
+                        }
                         const event = 'ac-user-verifieddone-event';
                         const parms = { email: email };
                         if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){

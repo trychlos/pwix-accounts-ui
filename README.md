@@ -166,6 +166,30 @@ Known configuration options are:
 
     Package default is to inform the user that email cannot be sent.
 
+- `onVerifiedEmailBox`
+
+    Whether to display a modal dialog box to confirm to the user that his email has been rightly validated.
+
+    Defaults to `true`.
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+
+- `onVerifiedEmailTitle`
+- `onVerifiedEmailMessage`
+
+    These two parameters define the content of the modal dialog box displayed to the user that his email has been rightly validated.
+
+    They are only considered if `onVerifiedEmailBox` is `true`.
+
+    Expected data are objects of the form `{ namespace: <namespace>, i18n: <i18n.key> }`
+
+    Default values are respectively:
+
+    - `{ namespace: AC_I18N, i18n: 'user.verify_title' }` for `onVerifiedEmailTitle` parameter
+    - `{ namespace: AC_I18N, i18n: 'user.verify_text' }` for `onVerifiedEmailMessage` parameter.
+
+    A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.
+
 - `passwordLength`
 
     The minimal required password length when setting a new password, either when creating a new account of when changing the password of an existing account.
