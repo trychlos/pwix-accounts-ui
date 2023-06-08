@@ -119,8 +119,7 @@ pwiAccounts.i18n = {
                 signup_autoconnect: 'Le nouveau compte a été automatiquement connecté',
                 signup_noconnect: 'Le compte n\'est pas connecté',
                 verify_error: 'Humm... Désolé, mais il semble que le jeton utilisé soit expiré.<br />Vous devez en redemander un nouveau.',
-                verify_text: 'Bonjour,<br />Votre adresse de messagerie est maintenant considérée comme vérifiée.<br />'
-                    +'Vous pouvez participer aux forums (et en profiter).',
+                verify_text: 'Bonjour,<br />Votre adresse de messagerie est maintenant considérée comme vérifiée.',
                 verify_title: 'Vérification de l\'adresse de messagerie',
                 verifyask_error: 'Humm... Désolé, mais il semble que je ne sois pas dans la possibilité de vous envoyer un message. Merci de bien vouloir ré-essayer un peu plus tard.',
                 verifyask_success: 'Message envoyé avec succès',
