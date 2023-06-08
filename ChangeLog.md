@@ -9,6 +9,9 @@
     - pwiAccounts: add new 'sendVerificationEmail' configuration parameter
     - acUserLogin: add new 'haveCancelButton' configuration parameter
 
+    - Fix 'DIV' render mode
+    - Fix mandatory indicator on email address
+
     - Bump pwix:i18n dependency to v 1.3.0
     - Bump pwix:layout dependency to v 1.2.0
     - Bump pwix:options dependency to v 1.3.0

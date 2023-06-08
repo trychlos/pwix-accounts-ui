@@ -36,24 +36,24 @@ pwiAccounts.i18n = {
                 resetask: 'Réinitialiser mon mot de passe'
             },
             input_email: {
-                label: 'Adresse de messagerie',
+                label: 'Adresse de messagerie :',
                 placeholder: 'Saisissez votre adresse de messagerie (ex.: nom@example.com)',
                 already_exists: 'L\'adresse de messagerie existe déjà',
                 invalid: 'L\'adresse de messagerie est invalide'
             },
             input_password: {
-                label: 'Mot de passe',
+                label: 'Mot de passe :',
                 placeholder: 'Saisissez votre mot de passe',
                 strength: 'Sécurité',
                 too_short: 'Le mot de passe est trop court',
                 too_weak: 'Le mot de passe est trop faible'
             },
             input_userid: {
-                label: 'Identifiant',
+                label: 'Identifiant :',
                 placeholder: 'Saisissez votre nom d\'utilisateur ou votre adresse de messagerie'
             },
             input_username: {
-                label: 'Nom d\'utilisateur',
+                label: 'Nom d\'utilisateur :',
                 placeholder: 'Saisissez votre nom d\'utilisateur',
                 already_exists: 'Le nom d\'utilisateur est déjà utilisé',
                 too_short: 'Le nom d\'utilisateur est trop court'
@@ -93,7 +93,7 @@ pwiAccounts.i18n = {
                 modal_title: 'Créer un nouveau compte'
             },
             twice_passwords: {
-                label: 'Mot de passe',
+                label: 'Mot de passe :',
                 placeholder1: 'Saisissez votre mot de passe',
                 placeholder2: 'Saisissez à nouveau votre mot de passe',
                 password_different: 'Les mots de passe sont différents'

@@ -553,7 +553,7 @@ via messages sent to the `<div class="acUserLogin">...</div>`.
 
 In the same time, the `acUserLogin` template advertises of its contexts:
 
-- ac-panel-transition + { previous, next }
+- `ac-panel-transition` + `{ previous, next }`
 
     Advertises of a panel transition, with previous and new panels
 

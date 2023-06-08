@@ -1,5 +1,8 @@
 /*
  * /src/client/classes/ac_panel.js
+ *
+ * A reference object of known panels.
+ * The dynamics between the panels is actually managed by the acDisplayManager.
  */
 
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';

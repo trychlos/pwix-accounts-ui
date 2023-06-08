@@ -285,6 +285,7 @@ export class acCompanion {
     /**
      * Getter/Setter
      * @summary Provides/set the events target.
+     *  We are talking of our acUserLogin div, which may be the target of some events (notably for example error messages)
      * @returns {Object} the jQuery object which acts as the receiver of the event.
      */
     target( target ){

@@ -62,7 +62,7 @@ Template.acUserLogin.onRendered( function(){
     // make the acCompanionDom ready
     self.AC.companion.dom().waitForDom();
 
-    // request the display
+    // ask for the display
     pwiAccounts.DisplayManager.ask( self.AC.companion.opts().initialPanel(), self.AC.companion );
 });
 

@@ -12,6 +12,11 @@
  *  ask at any time to display a dialog to interact with the user.
  *  In order these dialogs do not overlap each other and lead to a poor user experience, this class make sure
  *  that only one dialog is showed at any time, and who has requested it.
+ *
+ *  Usage:
+ *  Whoever wants the display has to ask() for it.
+ *  - the method will refuse it, and return false, if another requester is already displaying something
+ *  - else the method setup the current panel and return true.
  * 
  *  This class declares itself as a common event handler for events which bubble until the body,
  *  and so happens to be a potential central (re-)distribution point of the events.

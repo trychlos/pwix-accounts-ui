@@ -134,7 +134,7 @@ Template.ac_input_email.helpers({
     // whether the username is marked as mandatory ?
     //  true if field is required and new account
     mandatory(){
-        return this.new && pwiAccounts.opts().haveUsername() === AC_FIELD_MANDATORY;
+        return this.new && pwiAccounts.opts().haveEmailAddress() === AC_FIELD_MANDATORY;
     },
 
     // returns the translated string

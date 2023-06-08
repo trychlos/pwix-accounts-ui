@@ -36,24 +36,24 @@ pwiAccounts.i18n = {
                 resetask: 'Reset my password'
             },
             input_email: {
-                label: 'Mail address',
+                label: 'Mail address:',
                 placeholder: 'Enter your email address, e.g. name@example.com',
                 already_exists: 'Email address already known',
                 invalid: 'Invalid email address'
             },
             input_password: {
-                label: 'Password',
+                label: 'Password:',
                 placeholder: 'Enter your password',
                 strength: 'Strength',
                 too_short: 'Too short password',
                 too_weak: 'Too weak password'
             },
             input_userid: {
-                label: 'Identifier',
+                label: 'Identifier:',
                 placeholder: 'Enter your username or your email address'
             },
             input_username: {
-                label: 'Username',
+                label: 'Username:',
                 placeholder: 'Enter your username',
                 too_short: 'Too short username',
                 already_exists: 'Username already in use'
@@ -92,7 +92,7 @@ pwiAccounts.i18n = {
                 modal_title: 'Sign up for a new account'
             },
             twice_passwords: {
-                label: 'Password',
+                label: 'Password:',
                 placeholder1: 'Enter a password',
                 placeholder2: 'Re-enter the password',
                 password_different: 'Passwords are different'
