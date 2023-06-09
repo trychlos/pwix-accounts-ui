@@ -43,6 +43,7 @@ _verifyExpired = function(){
 
 Accounts.onEmailVerificationLink( function( token, done ){
     //console.log( 'onEmailVerificationLink' );
+    //console.log( 'document.URL', document.URL );
     Meteor.callPromise( 'pwiAccounts.byEmailVerificationToken', token )
         .then(( user ) => {
             if( user ){
@@ -62,7 +63,8 @@ Accounts.onEmailVerificationLink( function( token, done ){
                         if( pwiAccounts.opts().onVerifiedEmailBox()){
                             pwixBootbox.alert({
                                 title: pwiAccounts.opts().onVerifiedEmailTitle(),
-                                message: pwiAccounts.opts().onVerifiedEmailMessage()
+                                message: pwiAccounts.opts().onVerifiedEmailMessage(),
+                                cb: pwiAccounts.opts().onVerifiedEmailCb()
                             });
                         }
                         const event = 'ac-user-verifieddone-event';

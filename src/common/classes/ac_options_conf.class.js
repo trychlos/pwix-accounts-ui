@@ -106,11 +106,11 @@ export class acOptionsConf extends pwixOptions.Options {
 
     /**
      * Getter/Setter
-     * @param {Object|Function} text the title of the displayed confirmation dialog box
-     * @returns {String}
+     * @param {Function} fn a callback function
+     * @returns {Function}
      */
-    onVerifiedEmailTitle( text ){
-        return this.getset_String_Fn_Object( 'onVerifiedEmailTitle', text, { default: defaults.common.onVerifiedEmailTitle });
+    onVerifiedEmailCb( fn ){
+        return this.getset_Fn( 'onVerifiedEmailCb', fn, { default: defaults.common.onVerifiedEmailCb });
     }
 
     /**
@@ -120,6 +120,15 @@ export class acOptionsConf extends pwixOptions.Options {
      */
     onVerifiedEmailMessage( text ){
         return this.getset_String_Fn_Object( 'onVerifiedEmailMessage', text, { default: defaults.common.onVerifiedEmailMessage });
+    }
+
+    /**
+     * Getter/Setter
+     * @param {Object|Function} text the title of the displayed confirmation dialog box
+     * @returns {String}
+     */
+    onVerifiedEmailTitle( text ){
+        return this.getset_String_Fn_Object( 'onVerifiedEmailTitle', text, { default: defaults.common.onVerifiedEmailTitle });
     }
 
     /**

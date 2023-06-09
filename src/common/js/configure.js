@@ -30,6 +30,7 @@ defaults = {
         onVerifiedEmailBox: true,
         onVerifiedEmailTitle: { namespace: AC_I18N, i18n: 'user.verify_title' },
         onVerifiedEmailMessage: { namespace: AC_I18N, i18n: 'user.verify_text' },
+        onVerifiedEmailCb: null,
         passwordLength: 8,
         passwordStrength: AC_PWD_MEDIUM,
         passwordTwice: true,
