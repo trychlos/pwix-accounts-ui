@@ -123,13 +123,16 @@ export class acDisplayManager {
     handleModal( event, data ){
         switch( event.type ){
             case 'md-close':
-                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
-                    console.log( 'pwix:accounts acDisplayManager handling', event.type );
+                const panel = this.panel();
+                if( panel && panel !== AC_PANEL_NONE ){
+                    if( pwiAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
+                        console.log( 'pwix:accounts acDisplayManager handling', event.type );
+                    }
+                    this.errorMsg( '' );
+                    this.title( '' );
+                    pwiAccounts.DisplayManager.release();
+                    return true;
                 }
-                this.errorMsg( '' );
-                this.title( '' );
-                pwiAccounts.DisplayManager.release();
-                return true;
         }
         return false;
     }
