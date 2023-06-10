@@ -7,6 +7,8 @@
 
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
+import '../../common/js/constants.js';
+
 export const acPanel = {
 
     // the known panels

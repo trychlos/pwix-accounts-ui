@@ -17,15 +17,9 @@
  *  Whoever wants the display has to ask() for it.
  *  - the method will refuse it, and return false, if another requester is already displaying something
  *  - else the method setup the current panel and return true.
- * 
- *  This class declares itself as a common event handler for events which bubble until the body,
- *  and so happens to be a potential central (re-)distribution point of the events.
  */
 
 import { ReactiveVar } from 'meteor/reactive-var';
-import { Tracker } from 'meteor/tracker';
-
-import { pwixModal } from 'meteor/pwix:modal';
 
 import { acPanel } from './ac_panel.js';
 
@@ -65,15 +59,6 @@ export class acDisplayManager {
             console.log( 'pwix:accounts instanciating acDisplayManager' );
         }
 
-        // re-set modal title when panel changes
-        Tracker.autorun(() => {
-            const panel = self.panel();
-            if( panel ){
-                pwixModal.setTitle( acPanel.title( panel ));
-                pwixModal.setBody( acPanel.template( panel ));
-            }
-        });
-
         acDisplayManager.Singleton = this;
         return this;
     }
@@ -89,7 +74,7 @@ export class acDisplayManager {
      *  i.e. whether the display is free before the request and can be allocated to it
      */
     ask( panel, requester, parms={} ){
-        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_IDPASK ){
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_DISP_MANAGER ){
             console.log( 'pwix:accounts acDisplayManager.ask() self', this );
             console.log( 'pwix:accounts acDisplayManager.ask() panel', panel );
             console.log( 'pwix:accounts acDisplayManager.ask() requester', requester );
@@ -108,11 +93,6 @@ export class acDisplayManager {
         if( panel === AC_PANEL_NONE ){
             this.release();
             return true;
-        }
-        // show the panel (at last...)
-        // modal template and title are set through the panel reactivity
-        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
-            console.log( 'pwix:accounts acDisplayManager run the modal', parms );
         }
         this.panel( panel );
         this._requester = requester;
@@ -135,7 +115,7 @@ export class acDisplayManager {
 
     /**
      * @summary Handle modal events
-     *  This is called by acEventManager
+     *  This is called by acEventManager as an event forwarding
      * @param {Object} event the jQuery event
      * @param {Object} data the data associated to the event by the sender
      * @return {Boolean} true if the message has been successfully handled
@@ -171,7 +151,7 @@ export class acDisplayManager {
      * @summary Release the current requester
      */
     release(){
-        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_IDPFREE ){
+        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_DISP_MANAGER ){
             console.log( 'pwix:accounts acDisplayManager.release()' );
         }
         this._requester = null;

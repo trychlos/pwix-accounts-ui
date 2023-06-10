@@ -6,7 +6,7 @@
                 {{#each link in links }}
                     {{#if haveLink link }}
                         <div class="ac-link">
-                            <a href="#" data-ac-target="{{ linkTarget link }}">{{ linkLabel link }}</a>
+                            <a href="#" data-ac-target="{{ link.target }}">{{ linkLabel link }}</a>
                         </div>
                     {{/if}}
                 {{/each}}

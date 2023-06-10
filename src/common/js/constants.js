@@ -49,9 +49,9 @@ AC_VERBOSE_CONFIGURE      = 0x01 <<  0;
 AC_VERBOSE_STARTUP        = 0x01 <<  1;
 AC_VERBOSE_INSTANCIATIONS = 0x01 <<  2;
 AC_VERBOSE_READY          = 0x01 <<  3;     // when ready(), client-only
-AC_VERBOSE_IDPASK         = 0x01 <<  4;     // IDisplayManager ask()
-AC_VERBOSE_IDFREE         = 0x01 <<  5;     // IDisplayManager free()
-AC_VERBOSE_PANEL_TRIGGER  = 0x01 <<  6;
+AC_VERBOSE_DISP_MANAGER   = 0x01 <<  4;
+// 5
+AC_VERBOSE_PANEL          = 0x01 <<  6;
 AC_VERBOSE_PANEL_HANDLE   = 0x01 <<  7;
 AC_VERBOSE_USER_TRIGGER   = 0x01 <<  8;
 AC_VERBOSE_USER_HANDLE    = 0x01 <<  9;

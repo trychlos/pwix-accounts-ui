@@ -277,14 +277,24 @@ Known configuration options are:
     
     - `AC_VERBOSE_NONE`
     
-    or a OR-ed value of integerer constants:
+    or an OR-ed value of integer constants:
 
     - `AC_VERBOSE_CONFIGURE`
-    - `AC_VERBOSE_IDPASK`
-    - `AC_VERBOSE_IDPFREE`
+
+        Trace configuration operations
+
+    - `AC_VERBOSE_DISP_MANAGER`
+
+        Trace `DisplayManager` methods
+
     - `AC_VERBOSE_INSTANCIATIONS`
-    - `AC_VERBOSE_PANEL_HANDLE`
-    - `AC_VERBOSE_PANEL_TRIGGER`
+
+        Trace class instanciations
+
+    - `AC_VERBOSE_PANEL`
+
+        Trace panel changes
+
     - `AC_VERBOSE_READY`
     - `AC_VERBOSE_STARTUP`
     - `AC_VERBOSE_SUBMIT_HANDLE`
@@ -629,11 +639,11 @@ In the same time, the `acUserLogin` template advertises of its contexts:
 
 - `AC_VERBOSE_NONE`,
 - `AC_VERBOSE_CONFIGURE`,
-- `AC_VERBOSE_IDPASK`,
+- `AC_VERBOSE_DISP_MANAGER`,
 - `AC_VERBOSE_IDPFREE`,
 - `AC_VERBOSE_INSTANCIATIONS`,
 - `AC_VERBOSE_PANEL_HANDLE`,
-- `AC_VERBOSE_PANEL_TRIGGER`,
+- `AC_VERBOSE_PANEL`,
 - `AC_VERBOSE_READY`,
 - `AC_VERBOSE_STARTUP`,
 - `AC_VERBOSE_SUBMIT_HANDLE`,

@@ -193,6 +193,7 @@ export class acCompanion {
 
     /**
      * @summary A generic event handler for acUserLogin
+     *  This is called by acEventManager as an event forwarding
      *  If the provided data contains a requester, we can check that we are actually the right target
      *  If the provided data contains a panel, we have to ask for the display of this panel
      *  Else...
@@ -202,12 +203,10 @@ export class acCompanion {
      *  This returned value may be used by the caller to allow - or not - the event propagation...
      */
     handleEvent( event, data ){
-        /*
-        if( data.requester && ( !data.requester.id || ( data.requester.id() !== this.id()))){
-            console.log( 'cowardly refusing to handle an event for someone else', data, this );
+        if( data && data.requester && ( !data.requester.id || ( data.requester.id() !== this.id()))){
+            console.error( 'cowardly refusing to handle an event for someone else', data, this );
             return false;
         }
-        */
         switch( event.type ){
             // message sent by dropdown items (ac_menu_items)
             //  data is { requester, panel }
@@ -217,13 +216,13 @@ export class acCompanion {
             case 'ac-panel-signout-event':
             case 'ac-panel-signup-event':
             case 'ac-panel-verifyask-event':
-                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL_HANDLE ){
+                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL ){
                     console.log( 'pwix:accounts acCompanion handling', event.type, data );
                 }
                 if( !data.panel ){
                     throw new Error( 'expecting a panel, not found' );
                 }
-                return pwiAccounts.DisplayManager.ask( data.panel, this, data );
+                return pwiAccounts.DisplayManager.ask( data.panel, this );
 
             // message sent from ac_footer
             //  no data is expected

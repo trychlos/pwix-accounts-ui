@@ -89,19 +89,22 @@ export class acEventManager {
      */
     _handlePanel( event, data ){
         switch( event.type ){
-            // a dropdown item ask for a panel
-            //  as these events are triggered from standard dropdown items, they should convey a acCompanion
+            // a dropdown item asks for a panel
+            //  as these events are triggered from standard dropdown items, they should convey an acCompanion
             case 'ac-panel-changepwd-event':
             case 'ac-panel-resetask-event':
             case 'ac-panel-signin-event':
             case 'ac-panel-signout-event':
             case 'ac-panel-signup-event':
             case 'ac-panel-verifyask-event':
-                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL_HANDLE ){
+                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL ){
                     console.log( 'pwix:accounts acEventManager handling', event.type, data );
                 }
                 const requester = data.requester;
                 if( requester && requester.handleEvent ){
+                    if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL ){
+                        console.log( 'pwix:accounts acEventManager forwarding to requester' );
+                    }
                     requester.handleEvent( event, data );
                 } else {
                     throw new Error( 'exepcted acCompanion, found', requester );

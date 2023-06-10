@@ -70,16 +70,13 @@ Template.ac_footer.helpers({
 
     // whether to display this link
     haveLink( link ){
+        //console.debug( link );
         const ret = link.have && ( this.companion && this.companion !== ANONYMOUS ) ? this.companion.opts()[link.have]() : link.have;
         return ret;
     },
 
     linkLabel( link ){
         return link.key && link.key.length ? i18n.label( AC_I18N, 'buttons.'+link.key ) : '';
-    },
-
-    linkTarget( link ){
-        return link.target;
     },
 
     // returns the ordered list of links to be displayed depending of the current state
@@ -92,6 +89,7 @@ Template.ac_footer.events({
 
     'click .ac-link'( event, instance ){
         const panel = instance.$( event.currentTarget ).find( 'a' ).attr( 'data-ac-target' );
+        //console.debug( panel );
         pwiAccounts.DisplayManager.panel( panel );
     },
 
