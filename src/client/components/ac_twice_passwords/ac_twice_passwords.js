@@ -11,7 +11,7 @@
  *      Is undefined when invoked from ac_reset_pwd template
  *      Take care!
  *  - role: 'signup|change|reset'
- *      This happens to also be the prefix of the to-be-called pwiAccounts options methods
+ *      This happens to also be the prefix of the to-be-called pwixAccounts options methods
  *      Do not change!
  *  - label: String, defaulting to 'Password'
  *  - placeholder1: String, defaulting to 'Enter your password'
@@ -51,7 +51,7 @@ Template.ac_twice_passwords.onCreated( function(){
         const companion = Template.currentData().companion;
         self.AC.twice.set( 
             companion && companion.opts[fn] ?
-            companion.opts[fn]() : ( pwiAccounts.opts()[fn] ? pwiAccounts.opts()[fn]() : pwiAccounts.opts().passwordTwice()));
+            companion.opts[fn]() : ( pwixAccounts.opts()[fn] ? pwixAccounts.opts()[fn]() : pwixAccounts.opts().passwordTwice()));
     });
 });
 

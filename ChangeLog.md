@@ -6,10 +6,10 @@
 
     Release date: xxx
 
-    - pwiAccounts: add new 'onVerifiedEmailBox' configuration parameter
-    - pwiAccounts: add new 'onVerifiedEmailTitle' configuration parameter
-    - pwiAccounts: add new 'onVerifiedEmailMessage' configuration parameter
-    - pwiAccounts: add new 'sendVerificationEmail' configuration parameter
+    - pwixAccounts: add new 'onVerifiedEmailBox' configuration parameter
+    - pwixAccounts: add new 'onVerifiedEmailTitle' configuration parameter
+    - pwixAccounts: add new 'onVerifiedEmailMessage' configuration parameter
+    - pwixAccounts: add new 'sendVerificationEmail' configuration parameter
     - acUserLogin: add new 'haveCancelButton' configuration parameter
 
     - Fix 'DIV' render mode

@@ -74,7 +74,7 @@ export class acEventManager {
     _handleModal( event, data ){
         switch( event.type ){
             case 'md-close':
-                pwiAccounts.DisplayManager.handleModal( event, data );
+                pwixAccounts.DisplayManager.handleModal( event, data );
                 break;
         }
         return true;
@@ -97,12 +97,12 @@ export class acEventManager {
             case 'ac-panel-signout-event':
             case 'ac-panel-signup-event':
             case 'ac-panel-verifyask-event':
-                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL ){
+                if( pwixAccounts.opts().verbosity() & AC_VERBOSE_PANEL ){
                     console.log( 'pwix:accounts acEventManager handling', event.type, data );
                 }
                 const requester = data.requester;
                 if( requester && requester.handleEvent ){
-                    if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL ){
+                    if( pwixAccounts.opts().verbosity() & AC_VERBOSE_PANEL ){
                         console.log( 'pwix:accounts acEventManager forwarding to requester' );
                     }
                     requester.handleEvent( event, data );
@@ -126,11 +126,11 @@ export class acEventManager {
             //  then we must have a current requester capable of handling this event
             //  no data is expected
             case 'ac-submit':
-                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_HANDLE ){
+                if( pwixAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_HANDLE ){
                     console.log( 'pwix:accounts acEventManager handling', event.type, data );
                 }
-                //console.debug( pwiAccounts.DisplayManager );
-                const requester = pwiAccounts.DisplayManager.requester();
+                //console.debug( pwixAccounts.DisplayManager );
+                const requester = pwixAccounts.DisplayManager.requester();
                 if( requester && requester.handleEvent ){
                     requester.handleEvent( event, data );
                 } else {
@@ -159,11 +159,11 @@ export class acEventManager {
             case 'ac-user-resetdone-event':
             case 'ac-user-verifyasked-event':
             case 'ac-user-verifieddone-event':
-                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_HANDLE ){
+                if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER_HANDLE ){
                     console.log( 'pwix:accounts acEventManager handling', event.type, data );
                 }
                 if( data.autoClose !== false && pwixModal.count()){
-                    if( pwiAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
+                    if( pwixAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
                         console.log( 'pwix:accounts acEventManager closing modal' );
                     }
                     pwixModal.close();
@@ -191,7 +191,7 @@ export class acEventManager {
     constructor( instance ){
 
         if( acEventManager.Singleton ){
-            if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+            if( pwixAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
                 console.log( 'pwix:accounts returning already instanciated acEventManager singleton' );
             }
             return acEventManager.Singleton;
@@ -199,7 +199,7 @@ export class acEventManager {
 
         const self = this;
 
-        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
             console.log( 'pwix:accounts instanciating acEventManager' );
         }
 

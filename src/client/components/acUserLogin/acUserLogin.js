@@ -8,8 +8,8 @@
  * This behavior relies on several classes:
  * 
  * - global classes:
- *   > acDisplayManager is a singleton attached to the global 'pwiAccounts' object, and maintains the display (aka the viewport) as a whole
- *   > acUser is a singleton attached to the global 'pwiAccounts' object, and interfaces the user status.
+ *   > acDisplayManager is a singleton attached to the global 'pwixAccounts' object, and maintains the display (aka the viewport) as a whole
+ *   > acUser is a singleton attached to the global 'pwixAccounts' object, and interfaces the user status.
  * 
  * - local classes:
  *   > acCompanionOptions the configuration options provided by the caller (or their defaults)
@@ -47,7 +47,7 @@ Template.acUserLogin.onCreated( function(){
         companion: new acCompanion( self, Template.currentData())
     };
 
-    if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+    if( pwixAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
         console.log( 'pwix:accounts instanciating acUserLogin id='+self.AC.companion.id());
     }
 
@@ -63,7 +63,7 @@ Template.acUserLogin.onRendered( function(){
     self.AC.companion.dom().waitForDom();
 
     // ask for the display
-    pwiAccounts.DisplayManager.ask( self.AC.companion.opts().initialPanel(), self.AC.companion );
+    pwixAccounts.DisplayManager.ask( self.AC.companion.opts().initialPanel(), self.AC.companion );
 });
 
 Template.acUserLogin.helpers({
@@ -97,7 +97,7 @@ Template.acUserLogin.events({
 
     'ac-display-error .acUserLogin'( event, instance, msg ){
         //console.log( event, instance, msg );
-        pwiAccounts.DisplayManager.errorMsg( msg );
+        pwixAccounts.DisplayManager.errorMsg( msg );
         return false;
     },
 
@@ -116,7 +116,7 @@ Template.acUserLogin.events({
     // set the modal title
     'ac-title .acUserLogin'( event, instance, data ){
         console.log( event, instance, data );
-        pwiAccounts.DisplayManager.title( data );
+        pwixAccounts.DisplayManager.title( data );
         return false;
     }
 });

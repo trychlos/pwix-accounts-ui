@@ -19,42 +19,42 @@ _cleanUser = function ( user ){
 };
 
 Meteor.methods({
-    // All pwiAccounts.byXxxx methods return a user object without the crypted password nor the profile
+    // All pwixAccounts.byXxxx methods return a user object without the crypted password nor the profile
 
     // find a user by his email address
-    'pwiAccounts.byEmailAddress'( email ){
-        //console.debug( 'pwiAccounts.byEmailAddress' );
+    'pwixAccounts.byEmailAddress'( email ){
+        //console.debug( 'pwixAccounts.byEmailAddress' );
         return _cleanUser( Accounts.findUserByEmail( email ));
     },
 
     // find a user by his internal (mongo) identifier
-    'pwiAccounts.byId'( id ){
-        //console.debug( 'pwiAccounts.byId' );
+    'pwixAccounts.byId'( id ){
+        //console.debug( 'pwixAccounts.byId' );
         return _cleanUser( Meteor.users.findOne({ _id: id }));
     },
 
     // find the user who holds the given reset password token
-    'pwiAccounts.byResetToken'( token ){
-        //console.debug( 'pwiAccounts.byResetToken' );
+    'pwixAccounts.byResetToken'( token ){
+        //console.debug( 'pwixAccounts.byResetToken' );
         return _cleanUser( Meteor.users.findOne({ 'services.password.reset.token': token },{ 'services.password.reset': 1 }));
     },
 
     // find a user by his username
-    'pwiAccounts.byUsername'( username ){
-        //console.debug( 'pwiAccounts.byUsername' );
+    'pwixAccounts.byUsername'( username ){
+        //console.debug( 'pwixAccounts.byUsername' );
         return _cleanUser( Accounts.findUserByUsername( username ));
     },
 
     // find the user who holds the given email verification token
-    'pwiAccounts.byEmailVerificationToken'( token ){
-        //console.debug( 'pwiAccounts.byEmailVerificationToken' );
+    'pwixAccounts.byEmailVerificationToken'( token ){
+        //console.debug( 'pwixAccounts.byEmailVerificationToken' );
         return _cleanUser( Meteor.users.findOne({ 'services.email.verificationTokens': { $elemMatch: { token: token }}},{ 'services.email':1 }));
     },
 
     // create a user without auto login
     // https://docs.meteor.com/api/passwords.html#Accounts-createUser
     // called on the server, this methods returns the new account id
-    'pwiAccounts.createUser'( options ){
+    'pwixAccounts.createUser'( options ){
         return Accounts.createUser( options );
     },
 
@@ -65,11 +65,11 @@ Meteor.methods({
     //  - token
     //  - url
     //  - options
-    'pwiAccounts.sendVerificationEmail'( id ){
+    'pwixAccounts.sendVerificationEmail'( id ){
         return Accounts.sendVerificationEmail( id );
     },
 
-    'pwiAccounts.sendVerificationEmailByEmail'( email ){
+    'pwixAccounts.sendVerificationEmailByEmail'( email ){
         const u = Accounts.findUserByEmail( email );
         //console.debug( u );
         if( u ){

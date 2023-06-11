@@ -49,13 +49,13 @@ export class acDisplayManager {
         const self = this;
 
         if( acDisplayManager.Singleton ){
-            if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+            if( pwixAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
                 console.log( 'pwix:accounts returning already instanciated acDisplayManager singleton' );
             }
             return acDisplayManager.Singleton;
         }
 
-        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
             console.log( 'pwix:accounts instanciating acDisplayManager' );
         }
 
@@ -74,7 +74,7 @@ export class acDisplayManager {
      *  i.e. whether the display is free before the request and can be allocated to it
      */
     ask( panel, requester, parms={} ){
-        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_DISP_MANAGER ){
+        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_DISP_MANAGER ){
             console.log( 'pwix:accounts acDisplayManager.ask() self', this );
             console.log( 'pwix:accounts acDisplayManager.ask() panel', panel );
             console.log( 'pwix:accounts acDisplayManager.ask() requester', requester );
@@ -125,12 +125,12 @@ export class acDisplayManager {
             case 'md-close':
                 const panel = this.panel();
                 if( panel && panel !== AC_PANEL_NONE ){
-                    if( pwiAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
+                    if( pwixAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
                         console.log( 'pwix:accounts acDisplayManager handling', event.type );
                     }
                     this.errorMsg( '' );
                     this.title( '' );
-                    pwiAccounts.DisplayManager.release();
+                    pwixAccounts.DisplayManager.release();
                     return true;
                 }
         }
@@ -154,7 +154,7 @@ export class acDisplayManager {
      * @summary Release the current requester
      */
     release(){
-        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_DISP_MANAGER ){
+        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_DISP_MANAGER ){
             console.log( 'pwix:accounts acDisplayManager.release()' );
         }
         this._requester = null;

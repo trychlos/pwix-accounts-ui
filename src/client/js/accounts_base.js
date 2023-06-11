@@ -45,7 +45,7 @@ _verifyExpired = function(){
 Accounts.onEmailVerificationLink( function( token, done ){
     //console.log( 'onEmailVerificationLink' );
     //console.log( 'document.URL', document.URL );
-    Meteor.callPromise( 'pwiAccounts.byEmailVerificationToken', token )
+    Meteor.callPromise( 'pwixAccounts.byEmailVerificationToken', token )
         .then(( user ) => {
             if( user ){
                 let email = null;
@@ -61,19 +61,19 @@ Accounts.onEmailVerificationLink( function( token, done ){
                         console.error( err );
                         _verifyExpired();
                     } else {
-                        if( pwiAccounts.opts().onVerifiedEmailBox()){
+                        if( pwixAccounts.opts().onVerifiedEmailBox()){
                             pwixBootbox.alert({
-                                title: pwiAccounts.opts().onVerifiedEmailTitle(),
-                                message: pwiAccounts.opts().onVerifiedEmailMessage(),
-                                cb: pwiAccounts.opts().onVerifiedEmailCb()
+                                title: pwixAccounts.opts().onVerifiedEmailTitle(),
+                                message: pwixAccounts.opts().onVerifiedEmailMessage(),
+                                cb: pwixAccounts.opts().onVerifiedEmailCb()
                             });
                         }
                         const event = 'ac-user-verifieddone-event';
                         const parms = { email: email };
-                        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+                        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
                             console.log( 'pwix:accounts triggering', event, parms );
                         }
-                        pwiAccounts.EventManager.trigger( event, parms );
+                        pwixAccounts.EventManager.trigger( event, parms );
                         done();
                     }
                 });
@@ -133,10 +133,10 @@ Accounts.onResetPasswordLink( function( token, done ){
     //console.log( 'onResetPasswordLink token='+token );
     //console.log( 'Accounts._getPasswordResetTokenLifetimeMs', Accounts._getPasswordResetTokenLifetimeMs());
     //console.log( 'onResetPasswordLink', Meteor.user());
-    Meteor.callPromise( 'pwiAccounts.byResetToken', token )
+    Meteor.callPromise( 'pwixAccounts.byResetToken', token )
         .then(( user ) => {
             if( user ){
-                pwiAccounts.DisplayManager.ask( AC_PANEL_RESETPWD, null, {
+                pwixAccounts.DisplayManager.ask( AC_PANEL_RESETPWD, null, {
                     user: user,
                     submitCallback: () => {
                         const passwd = $( '.ac-reset-pwd .ac-newone .ac-input-password input' ).val().trim();
@@ -151,10 +151,10 @@ Accounts.onResetPasswordLink( function( token, done ){
                                 });
                                 const event = 'ac-user-resetdone-event';
                                 const parms = { email: user.services.password.reset.email };
-                                if( pwiAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+                                if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
                                     console.log( 'pwix:accounts triggering', event, parms );
                                 }
-                                pwiAccounts.EventManager.trigger( event, parms );
+                                pwixAccounts.EventManager.trigger( event, parms );
                                 done();
                             }
                         });

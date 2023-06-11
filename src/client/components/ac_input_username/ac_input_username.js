@@ -30,14 +30,14 @@ Template.ac_input_username.onCreated( function(){
             let val = self.AC.inputField.val().trim();
             promise = promise
                 .then(() => {
-                    if( ok && val.length && val.length < pwiAccounts.opts().usernameLength()){
+                    if( ok && val.length && val.length < pwixAccounts.opts().usernameLength()){
                         ok = false;
                         self.AC.errorMsg.set( self.AC.i18n( 'too_short' ));
                     }
                     return ok;
                 })
                 .then(() => {
-                    return ok && val.length ? Meteor.callPromise( 'pwiAccounts.byUsername', val ) : ok;
+                    return ok && val.length ? Meteor.callPromise( 'pwixAccounts.byUsername', val ) : ok;
                 })
                 .then(( res, err ) => {
                     if( ok && val.length ){
@@ -54,7 +54,7 @@ Template.ac_input_username.onCreated( function(){
                 })
                 .then(() => {
                     if( ok && !val.length ){
-                        ok = pwiAccounts.opts().haveUsername() === AC_FIELD_OPTIONAL;
+                        ok = pwixAccounts.opts().haveUsername() === AC_FIELD_OPTIONAL;
                         self.AC.errorMsg.set( '' );
                     }
                     return ok;
@@ -107,7 +107,7 @@ Template.ac_input_username.helpers({
     // whether the username is marked as mandatory ?
     //  true if field is required and new account
     mandatory(){
-        return this.new && pwiAccounts.opts().haveUsername() === AC_FIELD_MANDATORY;
+        return this.new && pwixAccounts.opts().haveUsername() === AC_FIELD_MANDATORY;
     },
 
     // returns the keyed translated string

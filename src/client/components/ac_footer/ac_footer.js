@@ -22,7 +22,7 @@ Template.ac_footer.onCreated( function(){
 
     self.AC = {
         companion: null,
-        buttons: new ReactiveVar( acPanel.buttons( pwiAccounts.DisplayManager.panel()))
+        buttons: new ReactiveVar( acPanel.buttons( pwixAccounts.DisplayManager.panel()))
     };
 
     // get companion
@@ -39,7 +39,7 @@ Template.ac_footer.onCreated( function(){
             const haveCancelButton = self.AC.companion.opts().haveCancelButton();
             //console.debug( 'haveCancelButton', haveCancelButton );
             let _buttons = [];
-            acPanel.buttons( pwiAccounts.DisplayManager.panel()).every(( btn ) => {
+            acPanel.buttons( pwixAccounts.DisplayManager.panel()).every(( btn ) => {
                 //console.debug( btn.class );
                 //console.debug( btn.class.includes( 'ac-cancel' ));
                 if( !btn.class.includes( 'ac-cancel' ) || haveCancelButton ){
@@ -81,7 +81,7 @@ Template.ac_footer.helpers({
 
     // returns the ordered list of links to be displayed depending of the current state
     links(){
-        return acPanel.links( pwiAccounts.DisplayManager.panel());
+        return acPanel.links( pwixAccounts.DisplayManager.panel());
     }
 });
 
@@ -90,11 +90,11 @@ Template.ac_footer.events({
     'click .ac-link'( event, instance ){
         const panel = instance.$( event.currentTarget ).find( 'a' ).attr( 'data-ac-target' );
         //console.debug( panel );
-        pwiAccounts.DisplayManager.panel( panel );
+        pwixAccounts.DisplayManager.panel( panel );
     },
 
     'click .ac-cancel'( event, instance ){
-        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
+        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
             console.log( 'pwix:accounts ac_footer closing modal' );
         }
         pwixModal.close();
@@ -103,12 +103,12 @@ Template.ac_footer.events({
     'click .ac-submit'( event, instance ){
         const submitCallback = Template.currentData().submitCallback;
         if( submitCallback ){
-            if( pwiAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_TRIGGER ){
+            if( pwixAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_TRIGGER ){
                 console.log( 'pwix:accounts ac_footer calling submitCallback()' );
             }
             submitCallback();
         } else {
-            if( pwiAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_TRIGGER ){
+            if( pwixAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_TRIGGER ){
                 console.log( 'pwix:accounts ac_footer triggering', 'ac-submit' );
             }
             instance.$( event.currentTarget ).trigger( 'ac-submit' );

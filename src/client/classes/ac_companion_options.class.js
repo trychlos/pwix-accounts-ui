@@ -63,7 +63,7 @@ export class acCompanionOptions extends pwixOptions.Options {
 
         this._companion = companion;
 
-        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
             console.log( 'pwix:accounts instanciating acCompanionOptions' );
         }
 

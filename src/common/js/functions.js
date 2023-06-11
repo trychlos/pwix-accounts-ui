@@ -2,8 +2,8 @@
  * pwix:accounts/src/common/js/functions.js
  */
 
-pwiAccounts = {
-    ...pwiAccounts,
+pwixAccounts = {
+    ...pwixAccounts,
     ...{
         // this has been obsoleted as of v 1.1.0
         //  kept here to have a next function template

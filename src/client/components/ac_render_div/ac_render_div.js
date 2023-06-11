@@ -11,6 +11,6 @@ import './ac_render_div.html';
 
 Template.ac_render_div.helpers({
     template(){
-        return acPanel.template( pwiAccounts.DisplayManager.panel());
+        return acPanel.template( pwixAccounts.DisplayManager.panel());
     }
 });

@@ -11,15 +11,15 @@ import { acOptionsConf } from '../classes/ac_options_conf.class.js';
  * @locus Anywhere
  * @returns {acOptionsConf} the runtime configuration object
  */
-pwiAccounts.opts = function(){
-    return pwiAccounts._opts;
+pwixAccounts.opts = function(){
+    return pwixAccounts._opts;
 };
 
 /*
  * a function to return the 'passwordTwice' package default value
  */
 function _passwordTwice(){
-    return pwiAccounts._opts ? pwiAccounts.opts().passwordTwice() : true;
+    return pwixAccounts._opts ? pwixAccounts.opts().passwordTwice() : true;
 }
 
 defaults = {
@@ -43,8 +43,8 @@ defaults = {
     }
 };
 
-pwiAccounts._conf = { ...defaults.common };
-pwiAccounts._opts = new acOptionsConf( pwiAccounts._conf );
+pwixAccounts._conf = { ...defaults.common };
+pwixAccounts._opts = new acOptionsConf( pwixAccounts._conf );
 
 /**
  * @summary Package configuration
@@ -52,11 +52,11 @@ pwiAccounts._opts = new acOptionsConf( pwiAccounts._conf );
  * @param {Object} o the runtime configuration of the package
  *  Should be *in same terms* called both by the client and the server.
  */
-pwiAccounts.configure = function( o ){
-    pwiAccounts._conf = { ...defaults.common, ...o };
-    pwiAccounts._opts.set( pwiAccounts._conf );
+pwixAccounts.configure = function( o ){
+    pwixAccounts._conf = { ...defaults.common, ...o };
+    pwixAccounts._opts.set( pwixAccounts._conf );
 
-    if( pwiAccounts.opts().verbosity() & AC_VERBOSE_CONFIGURE ){
+    if( pwixAccounts.opts().verbosity() & AC_VERBOSE_CONFIGURE ){
         console.log( 'pwix:accounts configure() with', o );
     }
 };

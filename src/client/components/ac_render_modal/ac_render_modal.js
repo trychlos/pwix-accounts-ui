@@ -16,8 +16,8 @@ Template.ac_render_modal.onCreated( function(){
 
     // trace panel changes
     self.autorun(() => {
-        const panel = pwiAccounts.DisplayManager.panel();
-        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_PANEL ){
+        const panel = pwixAccounts.DisplayManager.panel();
+        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_PANEL ){
             console.log( 'panel', panel );
         }
     });
@@ -25,9 +25,9 @@ Template.ac_render_modal.onCreated( function(){
     // whether we have to open a new dialog ?
     //  one should NEVER directly set the panel value - the right way is to DisplayManager.ask()
     self.autorun(() => {
-        const panel = pwiAccounts.DisplayManager.panel();
+        const panel = pwixAccounts.DisplayManager.panel();
         if( panel && panel !== AC_PANEL_NONE && pwixModal.count() === 0 ){
-            if( pwiAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
+            if( pwixAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
                 console.log( 'pwix:accounts ac_render_modal run the '+panel+' modal' );
             }
             pwixModal.run({
@@ -44,7 +44,7 @@ Template.ac_render_modal.onCreated( function(){
     // whether we want close the current modal ?
     //  one should NEVER directly set the AC_PANEL_NONE - the right way is to DisplayManager.release()
     self.autorun(() => {
-        const panel = pwiAccounts.DisplayManager.panel();
+        const panel = pwixAccounts.DisplayManager.panel();
         if( !panel || panel === AC_PANEL_NONE ){
             if( pwixModal.count() > 0 ){
                 pwixModal.close();
@@ -54,7 +54,7 @@ Template.ac_render_modal.onCreated( function(){
 
     // update title and body
     self.autorun(() => {
-        const panel = pwiAccounts.DisplayManager.panel();
+        const panel = pwixAccounts.DisplayManager.panel();
         if( panel && panel !== AC_PANEL_NONE ){
             pwixModal.setTitle( acPanel.title( panel ));
             pwixModal.setBody( acPanel.template( panel ));

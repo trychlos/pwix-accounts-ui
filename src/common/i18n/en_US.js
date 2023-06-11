@@ -2,8 +2,8 @@
  * pwix:accounts/src/common/i18n/en_US.js
  */
 
-pwiAccounts.i18n = {
-    ...pwiAccounts.i18n,
+pwixAccounts.i18n = {
+    ...pwixAccounts.i18n,
     ...{
         en_US: {
             buttons: {
@@ -134,4 +134,4 @@ pwiAccounts.i18n = {
     }
 };
 
-pwiAccounts.i18n.en = pwiAccounts.i18n.en_US;
+pwixAccounts.i18n.en = pwixAccounts.i18n.en_US;

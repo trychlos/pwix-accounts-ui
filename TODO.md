@@ -105,9 +105,9 @@
 |      | 2023- 1-28 | done, replacing with (published) pwix-bootbox |
 |   38 | 2023- 1-27 | review acSelect: do not use Promise in helpers |
 |      | 2023- 1-29 | done |
-|   41 | 2023- 2-11 | pwiAccounts.isEmailVerified() assert that the function is relevant and at is right place |
+|   41 | 2023- 2-11 | pwixAccounts.isEmailVerified() assert that the function is relevant and at is right place |
 |      | 2023- 2-19 | obsoleted by #44 |
-|   42 | 2023- 2-11 | pwiAccounts.dropdownItems() assert that the function is relevant and at is right place |
+|   42 | 2023- 2-11 | pwixAccounts.dropdownItems() assert that the function is relevant and at is right place |
 |      | 2023- 2-20 | Yes, as this method is published |
 |   43 | 2023- 2-15 | update documentation with new event names |
 |      | 2023- 2-15 | done |

@@ -45,7 +45,7 @@ Template.ac_input_email.onCreated( function(){
                     return ok;
                 })
                 .then(() => {
-                    return ok && self.AC.checkNew.get() && val.length ? Meteor.callPromise( 'pwiAccounts.byEmailAddress', val ) : ok;
+                    return ok && self.AC.checkNew.get() && val.length ? Meteor.callPromise( 'pwixAccounts.byEmailAddress', val ) : ok;
                 })
                 .then(( res, err ) => {
                     if( ok && self.AC.checkNew.get() && val.length ){
@@ -62,7 +62,7 @@ Template.ac_input_email.onCreated( function(){
                 })
                 .then(() => {
                     if( ok && !val.length ){
-                        ok = pwiAccounts.opts().haveEmailAddress() === AC_FIELD_OPTIONAL;
+                        ok = pwixAccounts.opts().haveEmailAddress() === AC_FIELD_OPTIONAL;
                         self.AC.errorMsg.set( '' );
                     }
                     return ok;
@@ -134,7 +134,7 @@ Template.ac_input_email.helpers({
     // whether the username is marked as mandatory ?
     //  true if field is required and new account
     mandatory(){
-        return this.new && pwiAccounts.opts().haveEmailAddress() === AC_FIELD_MANDATORY;
+        return this.new && pwixAccounts.opts().haveEmailAddress() === AC_FIELD_MANDATORY;
     },
 
     // returns the translated string

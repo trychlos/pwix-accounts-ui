@@ -40,7 +40,7 @@ export class acCompanionDom {
     constructor( companion ){
         const self = this;
 
-        if( pwiAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
             console.log( 'pwix:accounts instanciating acCompanionDom' );
         }
 
@@ -63,7 +63,7 @@ export class acCompanionDom {
      */
     ready( ready ){
         if( ready === true || ready === false ){
-            if( pwiAccounts.opts().verbosity() & AC_VERBOSE_READY ){
+            if( pwixAccounts.opts().verbosity() & AC_VERBOSE_READY ){
                 console.log( 'pwix:accounts acCompanionDom ready', ready );
             }
             this._ready.set( ready );

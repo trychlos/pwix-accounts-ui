@@ -10,8 +10,8 @@ _dropdownItems = {
     items: []
 };
 
-pwiAccounts = {
-    ...pwiAccounts,
+pwixAccounts = {
+    ...pwixAccounts,
     ...{
         /**
          * @locus Client
@@ -26,10 +26,10 @@ pwiAccounts = {
                 _dropdownItems.dep = new Tracker.Dependency();
                 _dropdownItems.dep.depend();
             }
-            const state = pwiAccounts.User.state();
+            const state = pwixAccounts.User.state();
             if( state !== _dropdownItems.state ){
                 _dropdownItems.state = state;
-                _dropdownItems.items = _buildStandardItems( _stdMenuItems[pwiAccounts.User.state()]); //_getMenuItems();
+                _dropdownItems.items = _buildStandardItems( _stdMenuItems[pwixAccounts.User.state()]); //_getMenuItems();
                 _dropdownItems.dep.changed();
             }
             //console.log( _dropdownItems );

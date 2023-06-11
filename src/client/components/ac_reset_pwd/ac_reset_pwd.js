@@ -29,7 +29,7 @@ Template.ac_reset_pwd.onCreated( function(){
             
         text( label ){
             const item = 'resetPwd'+label;
-            const string = pwiAccounts.opts()[item]();
+            const string = pwixAccounts.opts()[item]();
             const user = self.data.user;
             return printf( string, user ? user.services.password.reset.email : '' );
         }

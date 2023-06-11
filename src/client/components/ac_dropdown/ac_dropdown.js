@@ -62,7 +62,7 @@ Template.ac_dropdown.onRendered( function(){
     btn = self.$( '.ac-dropdown button' );
 
     self.autorun(() => {
-        if( self.AC.hasDropdown( pwiAccounts.User.state())){
+        if( self.AC.hasDropdown( pwixAccounts.User.state())){
             btn.attr( 'data-bs-toggle', 'dropdown' );
             btn.attr( 'data-bs-auto-close', 'true' );
             btn.attr( 'aria-expanded', 'false' );
@@ -85,7 +85,7 @@ Template.ac_dropdown.onRendered( function(){
     //  This solution, as a one-line jQuery which doesn't use Blaze helpers, works well.
     self.autorun(() => {
         //console.log( 'btnContent autorun' );
-        btn.html( self.AC.btnContent( pwiAccounts.User.state()));
+        btn.html( self.AC.btnContent( pwixAccounts.User.state()));
     });
 });
 
@@ -95,15 +95,15 @@ Template.ac_dropdown.helpers({
     //  note that the 'dropdown-toggle' bootstrap class displays the down-arrow ':after' the label
     buttonClass(){
         //console.log( 'buttonClass helper' );
-        return Template.instance().AC.btnClass( pwiAccounts.User.state());
+        return Template.instance().AC.btnClass( pwixAccounts.User.state());
     },
 
     // whether we have to manage a dropdown menu
     dropdown(){
-        return Template.instance().AC.hasDropdown( pwiAccounts.User.state()) ? 'dropdown' : '';
+        return Template.instance().AC.hasDropdown( pwixAccounts.User.state()) ? 'dropdown' : '';
     },
 
     hasDropdown(){
-        return Template.instance().AC.hasDropdown( pwiAccounts.User.state());
+        return Template.instance().AC.hasDropdown( pwixAccounts.User.state());
     }
 });

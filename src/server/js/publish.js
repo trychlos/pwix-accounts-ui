@@ -11,7 +11,7 @@ Meteor.publish( null, function(){
 
 // a special publication which let a selection per email
 //  just provide objects { id, email, verified }
-Meteor.publish( 'pwiAccounts.byEmail', function(){
+Meteor.publish( 'pwixAccounts.byEmail', function(){
     const self = this;
     const collectionName = 'users';
     const query = { selector:{}, options:{}};

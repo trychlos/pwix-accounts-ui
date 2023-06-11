@@ -24,7 +24,7 @@ Template.ac_verify_ask.onCreated( function(){
 Template.ac_verify_ask.helpers({
     // error message
     errorMsg(){
-        return pwiAccounts.DisplayManager.errorMsg();
+        return pwixAccounts.DisplayManager.errorMsg();
     },
 
     // the text of the section
