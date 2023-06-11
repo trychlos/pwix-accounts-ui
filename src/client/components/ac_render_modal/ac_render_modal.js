@@ -18,7 +18,7 @@ Template.ac_render_modal.onCreated( function(){
     self.autorun(() => {
         const panel = pwixAccounts.DisplayManager.panel();
         if( pwixAccounts.opts().verbosity() & AC_VERBOSE_PANEL ){
-            console.log( 'panel', panel );
+            console.log( 'pwixAccounts.panel()', panel );
         }
     });
 
