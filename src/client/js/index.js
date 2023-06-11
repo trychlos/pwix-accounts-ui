@@ -3,8 +3,8 @@
  */
 import '../../common/js/index.js';
 
-import './accounts.js';
-import './config.js';
+import './accounts_base.js';
+import './accounts_obj.js';
 import './defaults.js';
 import './functions.js';
-import './startup.js';
+import './ready.js';

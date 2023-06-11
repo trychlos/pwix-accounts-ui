@@ -1,5 +1,6 @@
 /*
- * /src/client.js/accounts.js
+ * /src/client.js/accounts_base
+.js
  */
 import { Accounts } from 'meteor/accounts-base';
 
