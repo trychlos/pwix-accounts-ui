@@ -39,7 +39,7 @@ defaults = {
         resetPasswordTwice: _passwordTwice,
         sendVerificationEmail: true,
         usernameLength: 4,
-        verbosity: AC_VERBOSE_CONFIGURE
+        verbosity: AC_VERBOSE_NONE
     }
 };
 

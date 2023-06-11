@@ -304,7 +304,7 @@ Known configuration options are:
 
     A function can be provided by the application for this parm. The function will be called without argument and MUST return a suitable value.
     
-    Defaults to `AC_VERBOSE_CONFIGURE`.
+    Defaults to `AC_VERBOSE_NONE`.
 
 Please note that `pwiAccounts.configure()` method should be called in the same terms both in client and server sides.
 
