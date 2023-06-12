@@ -46,8 +46,7 @@ Package.onUse( function( api ){
         'AC_VERBOSE_STARTUP',
         'AC_VERBOSE_SUBMIT_HANDLE',
         'AC_VERBOSE_SUBMIT_TRIGGER',
-        'AC_VERBOSE_USER_HANDLE',
-        'AC_VERBOSE_USER_TRIGGER'
+        'AC_VERBOSE_USER'
     ]);
     api.mainModule( 'src/client/js/index.js', 'client' );
     api.mainModule( 'src/server/js/index.js', 'server' );

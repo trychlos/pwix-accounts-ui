@@ -159,7 +159,7 @@ export class acEventManager {
             case 'ac-user-resetdone-event':
             case 'ac-user-verifyasked-event':
             case 'ac-user-verifieddone-event':
-                if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER_HANDLE ){
+                if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER ){
                     console.log( 'pwix:accounts acEventManager handling', event.type, data );
                 }
                 if( data.autoClose !== false && pwixModal.count()){

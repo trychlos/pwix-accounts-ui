@@ -95,7 +95,7 @@ export class acUser {
                 tlTolert.success( i18n.label( I18N, 'user.changepwd_success' ));
                 const event = 'ac-user-changedpwd-event';
                 const parms = Meteor.user()
-                if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+                if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER ){
                     console.log( 'pwix:accounts triggering', event, parms );
                 }
                 pwixAccounts.EventManager.trigger( event, parms );
@@ -132,7 +132,7 @@ export class acUser {
                 autoConnect: autoConnect
             };
             const event = 'ac-user-created-event';
-            if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+            if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER ){
                 console.log( 'pwix:accounts triggering', event, parms );
             }
             pwixAccounts.EventManager.trigger( event, parms );
@@ -192,7 +192,7 @@ export class acUser {
             } else {
                 const event = 'ac-user-signedin-event';
                 const parms = Meteor.user();
-                if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+                if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER ){
                     console.log( 'pwix:accounts triggering', event, parms );
                 }
                 pwixAccounts.EventManager.trigger( event, parms );
@@ -208,7 +208,7 @@ export class acUser {
         Meteor.logout();
         const event = 'ac-user-signedout-event';
         const parms = user;
-        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER ){
             console.log( 'pwix:accounts triggering', event, parms );
         }
         pwixAccounts.EventManager.trigger( event, parms );
@@ -235,7 +235,7 @@ export class acUser {
         tlTolert.success( i18n.label( I18N, 'user.resetask_success' ));
         const event = 'ac-user-resetasked-event';
         const parms = { email: email };
-        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER ){
             console.log( 'pwix:accounts triggering', event, parms );
         }
         pwixAccounts.EventManager.trigger( event, parms );
@@ -295,7 +295,7 @@ export class acUser {
                     tlTolert.success( i18n.label( I18N, 'user.verifyask_success' ));
                     const event = 'ac-user-verifyasked-event';
                     const parms = { ...Meteor.user() };
-                    if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+                    if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER ){
                         console.log( 'pwix:accounts triggering', event, parms );
                     }
                     pwixAccounts.EventManager.trigger( event, parms );

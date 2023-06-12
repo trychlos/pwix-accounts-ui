@@ -70,7 +70,7 @@ Accounts.onEmailVerificationLink( function( token, done ){
                         }
                         const event = 'ac-user-verifieddone-event';
                         const parms = { email: email };
-                        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+                        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER ){
                             console.log( 'pwix:accounts triggering', event, parms );
                         }
                         pwixAccounts.EventManager.trigger( event, parms );
@@ -151,7 +151,7 @@ Accounts.onResetPasswordLink( function( token, done ){
                                 });
                                 const event = 'ac-user-resetdone-event';
                                 const parms = { email: user.services.password.reset.email };
-                                if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
+                                if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER ){
                                     console.log( 'pwix:accounts triggering', event, parms );
                                 }
                                 pwixAccounts.EventManager.trigger( event, parms );

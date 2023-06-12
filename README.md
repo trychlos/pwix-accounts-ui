@@ -311,8 +311,10 @@ Known configuration options are:
     - `AC_VERBOSE_STARTUP`
     - `AC_VERBOSE_SUBMIT_HANDLE`
     - `AC_VERBOSE_SUBMIT_TRIGGER`
-    - `AC_VERBOSE_USER_HANDLE`
-    - `AC_VERBOSE_USER_TRIGGER`
+
+    - `AC_VERBOSE_USER`
+
+        Trace user-related events trigerring and handling.
 
     A function can be provided by the application for this parm. The function will be called without argument and MUST return a suitable value.
     
@@ -665,8 +667,7 @@ In the same time, the `acUserLogin` template advertises of its contexts:
 - `AC_VERBOSE_STARTUP`,
 - `AC_VERBOSE_SUBMIT_HANDLE`,
 - `AC_VERBOSE_SUBMIT_TRIGGER`,
-- `AC_VERBOSE_USER_HANDLE`,
-- `AC_VERBOSE_USER_TRIGGER`
+- `AC_VERBOSE_USER`
 
 ## Advanced use cases
 
