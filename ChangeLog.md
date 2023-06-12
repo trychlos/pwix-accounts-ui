@@ -2,6 +2,12 @@
 
 ## ChangeLog
 
+### 1.2.1
+
+    Release date: 2023- 6-12
+
+    - Update release date
+
 ### 1.2.0
 
     Release date: 2023- 6-12
