@@ -660,7 +660,6 @@ In the same time, the `acUserLogin` template advertises of its contexts:
 - `AC_VERBOSE_DISP_MANAGER`,
 - `AC_VERBOSE_IDPFREE`,
 - `AC_VERBOSE_INSTANCIATIONS`,
-- `AC_VERBOSE_PANEL_HANDLE`,
 - `AC_VERBOSE_PANEL`,
 - `AC_VERBOSE_READY`,
 - `AC_VERBOSE_STARTUP`,

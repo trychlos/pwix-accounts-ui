@@ -8,6 +8,7 @@
 
     - Add screenshots to the documentation
     - Provide new pwixAccounts.i18n.namespace() method to let anyone improve the i18n translations (todo #49)
+    - Remove unused AC_VERBOSE_PANEL_HANDLE constant
 
 ### 1.2.1
 
