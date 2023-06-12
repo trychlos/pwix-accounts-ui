@@ -55,7 +55,7 @@ Template.ac_change_pwd.helpers({
     // params to old password
     labelOld(){
         return {
-            label: i18n.label( AC_I18N, 'change_pwd.old_label' )
+            label: i18n.label( I18N, 'change_pwd.old_label' )
         }
     },
 

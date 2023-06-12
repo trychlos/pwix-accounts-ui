@@ -37,8 +37,8 @@ import '../components/ac_reset_pwd/ac_reset_pwd.js';
 
 _verifyExpired = function(){
     pwixBootbox.alert({
-        title: i18n.label( AC_I18N, 'user.verify_title' ),
-        message: i18n.label( AC_I18N, 'user.verify_error' )
+        title: i18n.label( I18N, 'user.verify_title' ),
+        message: i18n.label( I18N, 'user.verify_error' )
     });
 }
 
@@ -124,8 +124,8 @@ Accounts.onEmailVerificationLink( function( token, done ){
 
 _resetExpired = function(){
     pwixBootbox.alert({
-        title: i18n.label( AC_I18N, 'user.resetpwd_title' ),
-        message: i18n.label( AC_I18N, 'user.resetpwd_error' )
+        title: i18n.label( I18N, 'user.resetpwd_title' ),
+        message: i18n.label( I18N, 'user.resetpwd_error' )
     });
 }
 
@@ -146,8 +146,8 @@ Accounts.onResetPasswordLink( function( token, done ){
                                 _resetExpired();
                             } else {
                                 pwixBootbox.alert({
-                                    title: i18n.label( AC_I18N, 'user.resetpwd_title' ),
-                                    message: i18n.label( AC_I18N, 'user.resetpwd_text' )
+                                    title: i18n.label( I18N, 'user.resetpwd_title' ),
+                                    message: i18n.label( I18N, 'user.resetpwd_text' )
                                 });
                                 const event = 'ac-user-resetdone-event';
                                 const parms = { email: user.services.password.reset.email };

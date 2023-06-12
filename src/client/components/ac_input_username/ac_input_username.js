@@ -68,7 +68,7 @@ Template.ac_input_username.onCreated( function(){
 
         // provides a translated label
         i18n( key ){
-            return i18n.label( AC_I18N, 'input_username.'+key );
+            return i18n.label( I18N, 'input_username.'+key );
         },
 
         // reinitialize the form

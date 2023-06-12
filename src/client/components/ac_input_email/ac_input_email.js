@@ -76,7 +76,7 @@ Template.ac_input_email.onCreated( function(){
 
         // provides a translated label
         i18n( key ){
-            return i18n.label( AC_I18N, 'input_email.'+key );
+            return i18n.label( I18N, 'input_email.'+key );
         },
 
         // reinitialize the form

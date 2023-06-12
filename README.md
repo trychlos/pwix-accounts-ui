@@ -197,8 +197,8 @@ Known configuration options are:
 
     Default values are respectively:
 
-    - `{ namespace: AC_I18N, i18n: 'user.verify_title' }` for `onVerifiedEmailTitle` parameter
-    - `{ namespace: AC_I18N, i18n: 'user.verify_text' }` for `onVerifiedEmailMessage` parameter.
+    - `{ namespace: I18N, i18n: 'user.verify_title' }` for `onVerifiedEmailTitle` parameter
+    - `{ namespace: I18N, i18n: 'user.verify_text' }` for `onVerifiedEmailMessage` parameter.
 
     A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.
 

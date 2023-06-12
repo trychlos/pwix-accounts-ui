@@ -68,7 +68,7 @@ Template.ac_input_password.onCreated( function(){
 
         // provides a translated label
         i18n( key ){
-            return i18n.label( AC_I18N, 'input_password.'+key );
+            return i18n.label( I18N, 'input_password.'+key );
         },
 
         // reinitialize the form

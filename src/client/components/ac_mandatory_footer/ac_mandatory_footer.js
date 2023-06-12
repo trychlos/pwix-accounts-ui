@@ -11,6 +11,6 @@ import './ac_mandatory_footer.html';
 Template.ac_mandatory_footer.helpers({
     // mandatory fields
     mandatory_label(){
-        return i18n.label( AC_I18N, 'user.mandatory_fields' );
+        return i18n.label( I18N, 'user.mandatory_fields' );
     }
 });

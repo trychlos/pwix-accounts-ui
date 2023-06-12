@@ -106,7 +106,7 @@ _buildStandardItems = function( source ){
         html += '" href="#" data-ac-msg="'+it.msgaction+'" data-ac-panel="'+it.panel+'"';
         html += '>';
         html += '<span class="fa-solid fa-fw '+it.faicon+'"></span>';
-        html += '<p>'+i18n.label( AC_I18N, 'features.'+it.labelkey )+'</p>';
+        html += '<p>'+i18n.label( I18N, 'features.'+it.labelkey )+'</p>';
         html += '</a>'
         result.push( html );
         return true;
@@ -152,17 +152,17 @@ defaults = {
             changePwdTextOne: '',
             changePwdTextTwo: '',
             changePwdTextThree: '',
-            resetAskTextOne: { namespace: AC_I18N, i18n: 'reset_ask.textOne' },
+            resetAskTextOne: { namespace: I18N, i18n: 'reset_ask.textOne' },
             resetAskTextTwo: '',
             signinTextOne: '',
             signinTextTwo: '',
             signinTextThree: '',
-            signoutTextOne: { namespace: AC_I18N, i18n: 'signout.textOne' },
+            signoutTextOne: { namespace: I18N, i18n: 'signout.textOne' },
             signupTextOne: '',
             signupTextTwo: '',
             signupTextThree: '',
             signupTextFour: '',
-            verifyAskTextOne: { namespace: AC_I18N, i18n: 'verify_ask.textOne' },
+            verifyAskTextOne: { namespace: I18N, i18n: 'verify_ask.textOne' },
             signinLink: true,
             signupLink: true,
             resetLink: true,

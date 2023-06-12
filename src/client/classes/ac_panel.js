@@ -116,7 +116,7 @@ export const acPanel = {
      */
     title: function( name ){
         const o = acPanel.Panels[name] ? acPanel.Panels[name].modal_title || null : null;
-        return o ? i18n.label( AC_I18N, o.i18n ) : '';
+        return o ? i18n.label( I18N, o.i18n ) : '';
     },
 
     /**

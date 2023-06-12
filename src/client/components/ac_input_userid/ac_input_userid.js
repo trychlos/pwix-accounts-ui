@@ -21,6 +21,6 @@ Template.ac_input_userid.helpers({
 
     // returns the translated string
     text( key ){
-        return Object.keys( this ).includes( key ) ? this[key] : i18n.label( AC_I18N, 'input_userid.'+key );
+        return Object.keys( this ).includes( key ) ? this[key] : i18n.label( I18N, 'input_userid.'+key );
     }
 });

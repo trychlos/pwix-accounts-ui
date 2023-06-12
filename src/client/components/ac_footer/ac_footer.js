@@ -60,7 +60,7 @@ Template.ac_footer.helpers({
     },
 
     btnLabel( btn ){
-        return btn.key && btn.key.length ? i18n.label( AC_I18N, 'buttons.'+btn.key ) : '';
+        return btn.key && btn.key.length ? i18n.label( I18N, 'buttons.'+btn.key ) : '';
     },
 
     // returns the ordered list of buttons to be displayed depending of the currently displayed template
@@ -76,7 +76,7 @@ Template.ac_footer.helpers({
     },
 
     linkLabel( link ){
-        return link.key && link.key.length ? i18n.label( AC_I18N, 'buttons.'+link.key ) : '';
+        return link.key && link.key.length ? i18n.label( I18N, 'buttons.'+link.key ) : '';
     },
 
     // returns the ordered list of links to be displayed depending of the current state

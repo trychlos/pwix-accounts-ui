@@ -90,9 +90,9 @@ export class acUser {
         Accounts.changePassword( oldpwd, newpwd, ( err ) => {
             if( err ){
                 console.error( err );
-                target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.changepwd_error' ));
+                target.trigger( 'ac-display-error', i18n.label( I18N, 'user.changepwd_error' ));
             } else {
-                tlTolert.success( i18n.label( AC_I18N, 'user.changepwd_success' ));
+                tlTolert.success( i18n.label( I18N, 'user.changepwd_success' ));
                 const event = 'ac-user-changedpwd-event';
                 const parms = Meteor.user()
                 if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
@@ -119,11 +119,11 @@ export class acUser {
         // the error handler
         const _errorFn = function( err ){
             console.error( err );
-            target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.signup_error' ));
+            target.trigger( 'ac-display-error', i18n.label( I18N, 'user.signup_error' ));
         };
         // the success handler
         const _successFn = function(){
-            tlTolert.success( i18n.label( AC_I18N, 'user.signup_success', options.email || options.username ));
+            tlTolert.success( i18n.label( I18N, 'user.signup_success', options.email || options.username ));
             delete options.password;
             const parms = {
                 ...Meteor.user(),
@@ -152,7 +152,7 @@ export class acUser {
                     _errorFn( err );
                 } else {
                     _successFn();
-                    tlTolert.success( i18n.label( AC_I18N, 'user.signup_autoconnect' ));
+                    tlTolert.success( i18n.label( I18N, 'user.signup_autoconnect' ));
                 }
             });
         } else {
@@ -161,7 +161,7 @@ export class acUser {
                     _errorFn( err );
                 } else {
                     _successFn();
-                    tlTolert.success( i18n.label( AC_I18N, 'user.signup_noconnect' ));
+                    tlTolert.success( i18n.label( I18N, 'user.signup_noconnect' ));
                 }
             });
         }
@@ -188,7 +188,7 @@ export class acUser {
         Meteor.loginWithPassword( userid, password, ( err ) => {
             if( err ){
                 console.error( err );
-                target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.signin_error' ));
+                target.trigger( 'ac-display-error', i18n.label( I18N, 'user.signin_error' ));
             } else {
                 const event = 'ac-user-signedin-event';
                 const parms = Meteor.user();
@@ -232,7 +232,7 @@ export class acUser {
      * So it is a package configuration to send back this error to the user, or to say him that an email has been sent (event if this is not true).
      */
     _resetAskSuccess( email ){
-        tlTolert.success( i18n.label( AC_I18N, 'user.resetask_success' ));
+        tlTolert.success( i18n.label( I18N, 'user.resetask_success' ));
         const event = 'ac-user-resetasked-event';
         const parms = { email: email };
         if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
@@ -252,11 +252,11 @@ export class acUser {
                         break;
 
                     case AC_RESET_EMAILUNSENT:
-                        target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.resetask_error' ));
+                        target.trigger( 'ac-display-error', i18n.label( I18N, 'user.resetask_error' ));
                         break;
 
                     case AC_RESET_EMAILERROR:
-                        target.trigger( 'ac-display-error', i18n.label( AC_I18N, 'user.resetask_credentials' ));
+                        target.trigger( 'ac-display-error', i18n.label( I18N, 'user.resetask_credentials' ));
                 }
             } else {
                 this._resetAskSuccess( email );
@@ -292,7 +292,7 @@ export class acUser {
         Meteor.callPromise( 'pwixAccounts.sendVerificationEmail', Meteor.userId())
             .then(( result ) => {
                 if( result ){
-                    tlTolert.success( i18n.label( AC_I18N, 'user.verifyask_success' ));
+                    tlTolert.success( i18n.label( I18N, 'user.verifyask_success' ));
                     const event = 'ac-user-verifyasked-event';
                     const parms = { ...Meteor.user() };
                     if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER_TRIGGER ){
@@ -300,7 +300,7 @@ export class acUser {
                     }
                     pwixAccounts.EventManager.trigger( event, parms );
                 } else {
-                    tlTolert.error( i18n.label( AC_I18N, 'user.verifyask_error' ));
+                    tlTolert.error( i18n.label( I18N, 'user.verifyask_error' ));
                 }
             });
     }
