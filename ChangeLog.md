@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Add screenshots to the documentation
 
 ### 1.2.1
 

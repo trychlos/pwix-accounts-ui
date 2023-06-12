@@ -29,8 +29,8 @@
 |      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
 |   39 | 2023- 1-31 | WARN email-validator not detected by checkNpmversions |
 |   40 | 2023- 1-31 | WARN zxcvbn not detected by checkNpmversions |
-|   46 | 2023- 2-19 | rename AC_I18N to ACI18N |
-|   49 |  |  |
+|   46 | 2023- 2-19 | rename AC_I18N to I18N |
+|   49 | 2023- 6-12 | let another package add a translation to this one - this required at least exporting the i18n namespace |
 |   50 |  |  |
 
 ---

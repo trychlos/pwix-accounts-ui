@@ -81,14 +81,20 @@ This template organizes itself to show a modal (or a div, see later) adapted to 
     - have (or not) a 'Sign-up' link
     - have (or not) a 'Reset password' link
 
+![signin](/maintainer/png/signin_fr_384.png)
+
 - while the user is not logged in, and after he/she has clicked the 'Sign-up' button
     - display a modal (resp. a div) to let him/she enter some new credentials
     - have (or not) a 'Sign-in' link
+
+![signup](/maintainer/png/signup_fr_384.png)
 
 - while the user is not logged in, and after he/she has clicked the 'Reset password' button
     - display a modal (resp. a div) to let him/she enter a target email address
     - have (or not) a 'Sign-in' link
     - have (or not) a 'Sign-up' link
+
+![resetpwd](/maintainer/png/resetpwd_fr_384.png)
 
 - when the user is logged in
     - display (or not) a 'Signed-in' button
@@ -103,8 +109,12 @@ This template organizes itself to show a modal (or a div, see later) adapted to 
 - when the user is logged in, and after he/she has clicked the 'Sign out' button
     - display a popup to ask for confirmation
 
+![signout](/maintainer/png/signout_fr_384.png)
+
 - when the user is logged in, and after he/she has clicked the 'Change password' button
     - display a modal (resp. a div) to let him/she change his/her credentials
+
+![changepwd](/maintainer/png/changepwd_fr_384.png)
 
 Additionnally, the master `acUserLogin` template, and all the underlying infrastructure, takes care of:
 
@@ -112,6 +122,8 @@ Additionnally, the master `acUserLogin` template, and all the underlying infrast
     - send a mail to the address with a link
     - the sent link has a limited lifetime
     - when activated, the link redirect to a dedicated panel on the site which set the mail address as 'verified'
+
+![verifyemail](/maintainer/png/verifyemail_fr_384.png)
 
 - let the user reset his/her password
     - send a mail to the specified address with a link
@@ -706,6 +718,8 @@ Each of these dependencies should be installed at application level:
 ```
 
 ## Translations
+
+`pwix:accounts` provides at the moment **fr** and **en** translations.
 
 New and updated translations are willingly accepted, and more than welcome. Just be kind enough to submit a PR on the [Github repository](https://github.com/trychlos/pwix-accounts/pulls).
 
