@@ -693,10 +693,8 @@ Starting with v 1.0.0, and in accordance with advices from [the Meteor Guide](ht
 
 Instead we check npm versions of installed packages at runtime, on server startup, in development environment.
 
-Dependencies as of v 1.1.0:
+Dependencies as of v 1.2.0:
 ```
-    '@popperjs/core': '^2.11.6',
-    'bootstrap': '^5.2.1',
     'email-validator': '^2.0.4',
     'printf': '^0.6.1',
     'zxcvbn': '^4.4.2'
@@ -713,4 +711,4 @@ New and updated translations are willingly accepted, and more than welcome. Just
 
 ---
 P. Wieser
-- Last updated on 2023, Feb. 20th
+- Last updated on 2023, June 12th

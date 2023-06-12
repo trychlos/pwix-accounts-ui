@@ -15,6 +15,7 @@
     - Fix 'DIV' render mode
     - Fix mandatory indicator on email address
 
+    - Remove NPM dependencies on @popperjs/Core and bootstrap
     - Bump pwix:i18n dependency to v 1.3.0
     - Bump pwix:layout dependency to v 1.2.0
     - Bump pwix:modal dependency to v 1.5.0
