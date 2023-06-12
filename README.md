@@ -344,6 +344,12 @@ The globally exported object.
 
     A reactive data source.
 
+- `pwixAccounts.i18n.namespace()`
+
+    This method let anyone get the `pwix:i18n` namespace of the `pwix:accounts` package.
+
+    With that name, anyone is so able to provide additional translations.
+
 ### Blaze components
 
 Besides of the `acUserLogin` template already invoked, the *accounts* package exports following templates:

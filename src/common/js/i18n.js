@@ -9,3 +9,7 @@ pwixI18n.namespace( I18N, 'en', pwixAccounts.i18n.en_US );
 
 import '../i18n/fr_FR.js';
 pwixI18n.namespace( I18N, 'fr', pwixAccounts.i18n.fr_FR );
+
+pwixAccounts.i18n.namespace = function(){
+    return I18N;
+};

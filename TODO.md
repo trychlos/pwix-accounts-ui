@@ -27,7 +27,6 @@
 |      | 2023- 2-20 | export components as acUserPanel (the panel) and acUserModal (a modal dialog which contains the panel) |
 |   29 | 2023- 1-26 | manage several email addresses per user |
 |      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
-|   49 | 2023- 6-12 | let another package add a translation to this one - this required at least exporting the i18n namespace |
 |   50 |  |  |
 
 ---
@@ -122,6 +121,8 @@
 |      | 2023- 6- 9 | done |
 |   48 | 2023- 6- 9 | upgrade options to 1.4.0 (use onVerifiedEmailCb) |
 |      | 2023- 6- 9 | done |
+|   49 | 2023- 6-12 | let another package add a translation to this one - this required at least exporting the i18n namespace |
+|      | 2023- 6-12 | done |
 
 ---
 P. Wieser

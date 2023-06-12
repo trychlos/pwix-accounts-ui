@@ -60,7 +60,7 @@ AC_VERBOSE_SUBMIT_TRIGGER = 0x01 << 11;
 AC_VERBOSE_MODAL          = 0x01 << 12;
 
 // non exported internal constant as i18n namespace
-I18N = 'pwix:accounts'
+I18N = 'pwix:accounts:i18n'
 
 // non exported internal constant as unidentified requester
 ANONYMOUS = 'ANONYMOUS';

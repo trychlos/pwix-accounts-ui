@@ -7,6 +7,7 @@
     Release date: 
 
     - Add screenshots to the documentation
+    - Provide new pwixAccounts.i18n.namespace() method to let anyone improve the i18n translations (todo #49)
 
 ### 1.2.1
 
