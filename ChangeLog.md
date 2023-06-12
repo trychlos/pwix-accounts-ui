@@ -4,7 +4,7 @@
 
 ### 1.2.0
 
-    Release date: xxx
+    Release date: 2023- 6-12
 
     - pwixAccounts: add new 'onVerifiedEmailBox' configuration parameter
     - pwixAccounts: add new 'onVerifiedEmailTitle' configuration parameter
