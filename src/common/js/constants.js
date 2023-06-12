@@ -55,8 +55,8 @@ AC_VERBOSE_PANEL          = 0x01 <<  6;
 // = 0x01 <<  7;
 AC_VERBOSE_USER           = 0x01 <<  8;
 // = 0x01 <<  9;
-AC_VERBOSE_SUBMIT_HANDLE  = 0x01 << 10;
-AC_VERBOSE_SUBMIT_TRIGGER = 0x01 << 11;
+AC_VERBOSE_SUBMIT         = 0x01 << 10;
+// = 0x01 << 11;
 AC_VERBOSE_MODAL          = 0x01 << 12;
 
 // non exported internal constant as i18n namespace

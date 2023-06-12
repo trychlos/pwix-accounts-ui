@@ -308,9 +308,16 @@ Known configuration options are:
         Trace panel changes
 
     - `AC_VERBOSE_READY`
+
+        Emit a log message when the readyness status of the client changes
+
     - `AC_VERBOSE_STARTUP`
-    - `AC_VERBOSE_SUBMIT_HANDLE`
-    - `AC_VERBOSE_SUBMIT_TRIGGER`
+
+        Emit a log message at startup; the `Meteor` object is dumped at that moment
+
+    - `AC_VERBOSE_SUBMIT`
+
+        Trace submit-related events trigerring and handling.
 
     - `AC_VERBOSE_USER`
 
@@ -665,8 +672,7 @@ In the same time, the `acUserLogin` template advertises of its contexts:
 - `AC_VERBOSE_PANEL`,
 - `AC_VERBOSE_READY`,
 - `AC_VERBOSE_STARTUP`,
-- `AC_VERBOSE_SUBMIT_HANDLE`,
-- `AC_VERBOSE_SUBMIT_TRIGGER`,
+- `AC_VERBOSE_SUBMIT`,
 - `AC_VERBOSE_USER`
 
 ## Advanced use cases

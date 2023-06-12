@@ -126,7 +126,7 @@ export class acEventManager {
             //  then we must have a current requester capable of handling this event
             //  no data is expected
             case 'ac-submit':
-                if( pwixAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_HANDLE ){
+                if( pwixAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT ){
                     console.log( 'pwix:accounts acEventManager handling', event.type, data );
                 }
                 //console.debug( pwixAccounts.DisplayManager );

@@ -64,7 +64,7 @@ export class acCompanion {
      * @returns {Boolean} whether we have successfully managed the event
      */
     _handleSubmitEvent( event, data ){
-        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_HANDLE ){
+        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT ){
             console.log( 'pwix:accounts acCompanion handling', event.type, data );
         }
         let mail = null;

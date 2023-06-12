@@ -103,12 +103,12 @@ Template.ac_footer.events({
     'click .ac-submit'( event, instance ){
         const submitCallback = Template.currentData().submitCallback;
         if( submitCallback ){
-            if( pwixAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_TRIGGER ){
+            if( pwixAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT ){
                 console.log( 'pwix:accounts ac_footer calling submitCallback()' );
             }
             submitCallback();
         } else {
-            if( pwixAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT_TRIGGER ){
+            if( pwixAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT ){
                 console.log( 'pwix:accounts ac_footer triggering', 'ac-submit' );
             }
             instance.$( event.currentTarget ).trigger( 'ac-submit' );
