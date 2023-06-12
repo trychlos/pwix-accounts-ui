@@ -27,8 +27,6 @@
 |      | 2023- 2-20 | export components as acUserPanel (the panel) and acUserModal (a modal dialog which contains the panel) |
 |   29 | 2023- 1-26 | manage several email addresses per user |
 |      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
-|   39 | 2023- 1-31 | WARN email-validator not detected by checkNpmversions |
-|   40 | 2023- 1-31 | WARN zxcvbn not detected by checkNpmversions |
 |   46 | 2023- 2-19 | rename AC_I18N to I18N |
 |   49 | 2023- 6-12 | let another package add a translation to this one - this required at least exporting the i18n namespace |
 |   50 |  |  |
@@ -105,6 +103,10 @@
 |      | 2023- 1-28 | done, replacing with (published) pwix-bootbox |
 |   38 | 2023- 1-27 | review acSelect: do not use Promise in helpers |
 |      | 2023- 1-29 | done |
+|   39 | 2023- 1-31 | WARN email-validator not detected by checkNpmversions |
+|      | 2023- 6-12 | fixed |
+|   40 | 2023- 1-31 | WARN zxcvbn not detected by checkNpmversions |
+|      | 2023- 6-12 | fixed |
 |   41 | 2023- 2-11 | pwixAccounts.isEmailVerified() assert that the function is relevant and at is right place |
 |      | 2023- 2-19 | obsoleted by #44 |
 |   42 | 2023- 2-11 | pwixAccounts.dropdownItems() assert that the function is relevant and at is right place |

@@ -6,8 +6,8 @@ import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';
 
 if( false ){
     // whitelist packages which are included via a subfolder
-    require( 'email-validator/package.json' );  // still not detected
-    require( 'zxcvbn/package.json' );           // still not detected
+    require( 'email-validator/package.json' );
+    require( 'zxcvbn/package.json' );
 }
 
 checkNpmVersions({
