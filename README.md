@@ -346,7 +346,7 @@ The globally exported object.
 
 - `pwixAccounts.i18n.namespace()`
 
-    This method let anyone get the `pwix:i18n` namespace of the `pwix:accounts` package.
+    This method returns the `pwix:i18n` namespace of the `pwix:accounts` package.
 
     With that name, anyone is so able to provide additional translations.
 
