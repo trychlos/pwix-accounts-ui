@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.2.2-rc
+### 1.2.2
 
-    Release date: 
+    Release date: 2023- 6-21
 
     - Provide new pwixAccounts.i18n.namespace() method to let anyone improve the i18n translations (todo #49)
     - Add screenshots to the documentation
@@ -55,4 +55,4 @@
 
 ---
 P. Wieser
-- Last updated on 2023, June 12th
+- Last updated on 2023, June 21th
