@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/components/ac_render_modal/ac_render_modal.js
+ * pwix:accounts-ui/src/client/components/ac_render_modal/ac_render_modal.js
  * 
  * Parms:
  *  - companion: the acCompanion object
@@ -28,7 +28,7 @@ Template.ac_render_modal.onCreated( function(){
         const panel = pwixAccounts.DisplayManager.panel();
         if( panel && panel !== AC_PANEL_NONE && pwixModal.count() === 0 ){
             if( pwixAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
-                console.log( 'pwix:accounts ac_render_modal run the '+panel+' modal' );
+                console.log( 'pwix:accounts-ui ac_render_modal run the '+panel+' modal' );
             }
             pwixModal.run({
                 ... Template.currentData(),

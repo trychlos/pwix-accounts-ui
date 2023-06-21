@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/classes/ac_companion_dom.class.js
+ * pwix:accounts-ui/src/client/classes/ac_companion_dom.class.js
  *
  * A companion class for DOM management.
  */
@@ -41,7 +41,7 @@ export class acCompanionDom {
         const self = this;
 
         if( pwixAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
-            console.log( 'pwix:accounts instanciating acCompanionDom' );
+            console.log( 'pwix:accounts-ui instanciating acCompanionDom' );
         }
 
         self._companion = companion;
@@ -64,7 +64,7 @@ export class acCompanionDom {
     ready( ready ){
         if( ready === true || ready === false ){
             if( pwixAccounts.opts().verbosity() & AC_VERBOSE_READY ){
-                console.log( 'pwix:accounts acCompanionDom ready', ready );
+                console.log( 'pwix:accounts-ui acCompanionDom ready', ready );
             }
             this._ready.set( ready );
         }

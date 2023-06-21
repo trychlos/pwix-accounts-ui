@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/components/ac_signin/ac_signin.js
+ * pwix:accounts-ui/src/client/components/ac_signin/ac_signin.js
  * 
  * Parms:
  *  - companion: the acCompanion object

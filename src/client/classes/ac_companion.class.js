@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/classes/ac_companion.class.js
+ * pwix:accounts-ui/src/client/classes/ac_companion.class.js
  *
  * A companion class for the 'acUserLogin' Blaze template.
  * 
@@ -65,7 +65,7 @@ export class acCompanion {
      */
     _handleSubmitEvent( event, data ){
         if( pwixAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT ){
-            console.log( 'pwix:accounts acCompanion handling', event.type, data );
+            console.log( 'pwix:accounts-ui acCompanion handling', event.type, data );
         }
         let mail = null;
         let password = null;
@@ -139,7 +139,7 @@ export class acCompanion {
         const self = this;
 
         if( pwixAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
-            console.log( 'pwix:accounts instanciating acCompanion' );
+            console.log( 'pwix:accounts-ui instanciating acCompanion' );
         }
 
         // allocate a new random unique identifier for this instance
@@ -217,7 +217,7 @@ export class acCompanion {
             case 'ac-panel-signup-event':
             case 'ac-panel-verifyask-event':
                 if( pwixAccounts.opts().verbosity() & AC_VERBOSE_PANEL ){
-                    console.log( 'pwix:accounts acCompanion handling', event.type, data );
+                    console.log( 'pwix:accounts-ui acCompanion handling', event.type, data );
                 }
                 if( !data.panel ){
                     throw new Error( 'expecting a panel, not found' );

@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/server/js/methods.js
+ * pwix:accounts-ui/src/server/js/methods.js
  */
 import { Accounts } from 'meteor/accounts-base';
 

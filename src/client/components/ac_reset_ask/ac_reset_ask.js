@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/components/ac_reset_ask/ac_reset_ask.js
+ * pwix:accounts-ui/src/client/components/ac_reset_ask/ac_reset_ask.js
  * 
  * Parms:
  *  - companion: the acCompanion object

@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/js/defaults.js
+ * pwix:accounts-ui/src/client/js/defaults.js
  *
  * Setup the client defaults.
  */

@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/components/ac_dropdown/ac_dropdown.js
+ * pwix:accounts-ui/src/client/components/ac_dropdown/ac_dropdown.js
  * 
  * The 'acUserLogin' template make sure that this template is only rendered when needed, i.e.:
  * - either a user is logged-in, and the 'loggedButtonAction' is not hidden,

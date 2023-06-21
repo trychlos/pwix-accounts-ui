@@ -62,13 +62,13 @@ export class acUser {
      */
     constructor(){
         if( acUser.Singleton ){
-            console.log( 'pwix:accounts returning already instanciated acUser' );
+            console.log( 'pwix:accounts-ui returning already instanciated acUser' );
             return acUser.Singleton;
         }
 
         // this is never displayed as object is instanciated before call to configure()
         if( pwixAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
-            console.log( 'pwix:accounts instanciating acUser' );
+            console.log( 'pwix:accounts-ui instanciating acUser' );
         }
 
         Tracker.autorun(() => {
@@ -96,7 +96,7 @@ export class acUser {
                 const event = 'ac-user-changedpwd-event';
                 const parms = Meteor.user()
                 if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER ){
-                    console.log( 'pwix:accounts triggering', event, parms );
+                    console.log( 'pwix:accounts-ui triggering', event, parms );
                 }
                 pwixAccounts.EventManager.trigger( event, parms );
             }
@@ -133,7 +133,7 @@ export class acUser {
             };
             const event = 'ac-user-created-event';
             if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER ){
-                console.log( 'pwix:accounts triggering', event, parms );
+                console.log( 'pwix:accounts-ui triggering', event, parms );
             }
             pwixAccounts.EventManager.trigger( event, parms );
             // send a verification mail if asked for
@@ -193,7 +193,7 @@ export class acUser {
                 const event = 'ac-user-signedin-event';
                 const parms = Meteor.user();
                 if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER ){
-                    console.log( 'pwix:accounts triggering', event, parms );
+                    console.log( 'pwix:accounts-ui triggering', event, parms );
                 }
                 pwixAccounts.EventManager.trigger( event, parms );
             }
@@ -209,7 +209,7 @@ export class acUser {
         const event = 'ac-user-signedout-event';
         const parms = user;
         if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER ){
-            console.log( 'pwix:accounts triggering', event, parms );
+            console.log( 'pwix:accounts-ui triggering', event, parms );
         }
         pwixAccounts.EventManager.trigger( event, parms );
     }
@@ -236,7 +236,7 @@ export class acUser {
         const event = 'ac-user-resetasked-event';
         const parms = { email: email };
         if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER ){
-            console.log( 'pwix:accounts triggering', event, parms );
+            console.log( 'pwix:accounts-ui triggering', event, parms );
         }
         pwixAccounts.EventManager.trigger( event, parms );
     }
@@ -296,7 +296,7 @@ export class acUser {
                     const event = 'ac-user-verifyasked-event';
                     const parms = { ...Meteor.user() };
                     if( pwixAccounts.opts().verbosity() & AC_VERBOSE_USER ){
-                        console.log( 'pwix:accounts triggering', event, parms );
+                        console.log( 'pwix:accounts-ui triggering', event, parms );
                     }
                     pwixAccounts.EventManager.trigger( event, parms );
                 } else {

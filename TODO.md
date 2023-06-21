@@ -111,7 +111,7 @@
 |      | 2023- 2-20 | Yes, as this method is published |
 |   43 | 2023- 2-15 | update documentation with new event names |
 |      | 2023- 2-15 | done |
-|   44 | 2023- 2-18 | obsolete isEmailVerified() function, has been duplicated in pwix:accounts-tools |
+|   44 | 2023- 2-18 | obsolete isEmailVerified() function, has been duplicated in pwix:accounts-ui-tools |
 |      | 2023- 2-20 | done |
 |   45 | 2023- 2-19 | obsolete the interfaces and come back to the good old system of DOM components - see rationale in maintainer/Interfaces.md |
 |      | 2023- 2-20 | done |

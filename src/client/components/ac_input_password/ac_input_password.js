@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/components/ac_input_password/ac_input_password.js
+ * pwix:accounts-ui/src/client/components/ac_input_password/ac_input_password.js
  *
  * Password input field
  * 

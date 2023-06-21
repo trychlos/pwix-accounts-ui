@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/js/functions.js
+ * pwix:accounts-ui/src/client/js/functions.js
  */
 
 import { Tracker } from 'meteor/tracker';

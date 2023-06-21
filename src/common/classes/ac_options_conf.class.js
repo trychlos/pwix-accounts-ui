@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/common/classes/ac_options_global_conf.class.js
+ * pwix:accounts-ui/src/common/classes/ac_options_global_conf.class.js
  *
  * This class manages the global configuration options.
  */
@@ -62,7 +62,7 @@ export class acOptionsConf extends pwixOptions.Options {
         super( options );
 
         if( pwixAccounts.opts() && pwixAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
-            console.log( 'pwix:accounts instanciating acOptionsConf' );
+            console.log( 'pwix:accounts-ui instanciating acOptionsConf' );
         }
 
         return this;

@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/components/ac_twice_passwords/ac_twice_passwords.js
+ * pwix:accounts-ui/src/client/components/ac_twice_passwords/ac_twice_passwords.js
  *
  * New password entering with one or two input fields.
  * 

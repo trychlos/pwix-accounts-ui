@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/components/ac_input_email/ac_input_email.js
+ * pwix:accounts-ui/src/client/components/ac_input_email/ac_input_email.js
  *
  * Email input field
  * 

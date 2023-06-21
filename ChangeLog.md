@@ -1,4 +1,4 @@
-# pwix:accounts
+# pwix:accounts-ui
 
 ## ChangeLog
 

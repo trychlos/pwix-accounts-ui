@@ -1,4 +1,4 @@
-# pwix:accounts - maintainer/Interfaces
+# pwix:accounts-ui - maintainer/Interfaces
 
 ## Why Interfaces ?
 
@@ -16,7 +16,7 @@ There are nonetheless one inconvenience as this may lead the developer to design
 
 IMHO, this inconvenient is small regarding the much more clear code we obtain.
 
-So the first released version 1.0.0 of `pwix:accounts` make use of interfaces. Work great in development environment, but do not pass the minification phase.
+So the first released version 1.0.0 of `pwix:accounts-ui` make use of interfaces. Work great in development environment, but do not pass the minification phase.
 
 ## Why not interfaces ?
 
@@ -39,7 +39,7 @@ In my own Meteor case:
 
 ## And now ?
 
-I publish the `pwix:accounts` package because I have worked a lot on it, and hope that someone will find it useful. Ideally, hope that someone will help me to improve it.
+I publish the `pwix:accounts-ui` package because I have worked a lot on it, and hope that someone will find it useful. Ideally, hope that someone will help me to improve it.
 
 So I do not believe this is a good idea to publish a package and say: "Caution, you cannot use it the usual way, and you have to accept to get rid of some other benefits".
 

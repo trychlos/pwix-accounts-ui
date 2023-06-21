@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/components/ac_mandatory_footer/ac_mandatory_footer.js
+ * pwix:accounts-ui/src/client/components/ac_mandatory_footer/ac_mandatory_footer.js
  */
 
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';

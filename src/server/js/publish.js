@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/server/js/publish.js
+ * pwix:accounts-ui/src/server/js/publish.js
  */
 
 // autopublish users so that every application which use this package can also use its features....

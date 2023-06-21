@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/classes/ac_companion_options.class.js
+ * pwix:accounts-ui/src/client/classes/ac_companion_options.class.js
  *
  * This class manages the acUserLogin configuration options.
  */
@@ -64,7 +64,7 @@ export class acCompanionOptions extends pwixOptions.Options {
         this._companion = companion;
 
         if( pwixAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
-            console.log( 'pwix:accounts instanciating acCompanionOptions' );
+            console.log( 'pwix:accounts-ui instanciating acCompanionOptions' );
         }
 
         return this;

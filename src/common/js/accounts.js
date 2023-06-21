@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/common/js/accounts.js
+ * pwix:accounts-ui/src/common/js/accounts.js
  */
 
 pwixAccounts = {};

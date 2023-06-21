@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/common/js/configure.js
+ * pwix:accounts-ui/src/common/js/configure.js
  *
  * Just define the object here.
  */
@@ -61,7 +61,7 @@ pwixAccounts.configure = function( o ){
         pwixAccounts._opts.set( pwixAccounts._conf );
         // be verbose if asked for
         if( pwixAccounts.opts().verbosity() & AC_VERBOSE_CONFIGURE ){
-            console.log( 'pwix:accounts configure() with', o, 'building', pwixAccounts._conf );
+            console.log( 'pwix:accounts-ui configure() with', o, 'building', pwixAccounts._conf );
         }
     }
     // also acts as a getter

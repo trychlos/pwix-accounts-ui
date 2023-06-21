@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/components/acMenuItems/acMenuItems.js
+ * pwix:accounts-ui/src/client/components/acMenuItems/acMenuItems.js
  *
  * This template is provided to the application to let it insert our dropdown items in its own application menu.
  * The corresponding 'acUserLogin' template must be identified by its passed-in 'name'.

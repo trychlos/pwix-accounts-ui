@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/components/acUserLogin/acUserLogin.js
+ * pwix:accounts-ui/src/client/components/acUserLogin/acUserLogin.js
  *
  * Main user login template
  *
@@ -48,7 +48,7 @@ Template.acUserLogin.onCreated( function(){
     };
 
     if( pwixAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
-        console.log( 'pwix:accounts instanciating acUserLogin id='+self.AC.companion.id());
+        console.log( 'pwix:accounts-ui instanciating acUserLogin id='+self.AC.companion.id());
     }
 
     self.autorun(() => {

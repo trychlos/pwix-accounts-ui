@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/components/ac_footer/ac_footer.js
+ * pwix:accounts-ui/src/client/components/ac_footer/ac_footer.js
  *
  * Provides various buttons, to be displayed either in a modal footer, or in the bottom of a div.
  * 
@@ -95,7 +95,7 @@ Template.ac_footer.events({
 
     'click .ac-cancel'( event, instance ){
         if( pwixAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
-            console.log( 'pwix:accounts ac_footer closing modal' );
+            console.log( 'pwix:accounts-ui ac_footer closing modal' );
         }
         pwixModal.close();
     },
@@ -104,12 +104,12 @@ Template.ac_footer.events({
         const submitCallback = Template.currentData().submitCallback;
         if( submitCallback ){
             if( pwixAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT ){
-                console.log( 'pwix:accounts ac_footer calling submitCallback()' );
+                console.log( 'pwix:accounts-ui ac_footer calling submitCallback()' );
             }
             submitCallback();
         } else {
             if( pwixAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT ){
-                console.log( 'pwix:accounts ac_footer triggering', 'ac-submit' );
+                console.log( 'pwix:accounts-ui ac_footer triggering', 'ac-submit' );
             }
             instance.$( event.currentTarget ).trigger( 'ac-submit' );
         }

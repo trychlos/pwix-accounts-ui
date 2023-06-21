@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/components/ac_render_div/ac_render_div.js
+ * pwix:accounts-ui/src/client/components/ac_render_div/ac_render_div.js
  * 
  * Parms:
  *  - companion: the acCompanion object

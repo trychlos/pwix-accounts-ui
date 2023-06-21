@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/components/ac_reset_pwd/ac_reset_pwd.js
+ * pwix:accounts-ui/src/client/components/ac_reset_pwd/ac_reset_pwd.js
  *
  * Let the user reset his/her password.
  * Doesn't change the connection state.

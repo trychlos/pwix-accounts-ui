@@ -1,4 +1,4 @@
-# pwix:accounts - README
+# pwix:accounts-ui - README
 
 ## Summary
 
@@ -218,7 +218,7 @@ Known configuration options are:
 
     The minimal required password strength when setting a new password, either when creating a new account of when changing the password of an existing account.
 
-    `pwix:accounts` makes use of the [zxcvbn](https://www.npmjs.com/package/zxcvbn) package to estimate the strength of entered passwords. The estimated strength can take folloging values:
+    `pwix:accounts-ui` makes use of the [zxcvbn](https://www.npmjs.com/package/zxcvbn) package to estimate the strength of entered passwords. The estimated strength can take folloging values:
 
     - `AC_PWD_VERYWEAK`: too guessable, risky password (guesses < 10^3)
     - `AC_PWD_WEAK`: very guessable, protection from throttled online attacks (guesses < 10^6)
@@ -355,7 +355,7 @@ The globally exported object.
 
 - `pwixAccounts.i18n.namespace()`
 
-    This method returns the `pwix:i18n` namespace of the `pwix:accounts` package.
+    This method returns the `pwix:i18n` namespace of the `pwix:accounts-ui` package.
 
     With that name, anyone is so able to provide additional translations.
 
@@ -373,7 +373,7 @@ The template expects to be called with one parameter:
 
 #### `acUserLogin`
 
-This template is the main interaction way between the application and this `pwix:accounts` package.
+This template is the main interaction way between the application and this `pwix:accounts-ui` package.
 
 Thanks to its numerous options, the `acUserLogin` template may be called several times and is able to answer to
 many different situations: each `acUserLogin` instance is independently configurable so that it will display or
@@ -732,9 +732,9 @@ Each of these dependencies should be installed at application level:
 
 ## Translations
 
-`pwix:accounts` provides at the moment **fr** and **en** translations.
+`pwix:accounts-ui` provides at the moment **fr** and **en** translations.
 
-New and updated translations are willingly accepted, and more than welcome. Just be kind enough to submit a PR on the [Github repository](https://github.com/trychlos/pwix-accounts/pulls).
+New and updated translations are willingly accepted, and more than welcome. Just be kind enough to submit a PR on the [Github repository](https://github.com/trychlos/pwix-accounts-ui/pulls).
 
 ---
 P. Wieser

@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/server/js/check_npms.js
+ * pwix:accounts-ui/src/server/js/check_npms.js
  */
 
 import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';
@@ -16,5 +16,5 @@ checkNpmVersions({
     'printf': '^0.6.1',
     'zxcvbn': '^4.4.2'
 },
-    'pwix:accounts'
+    'pwix:accounts-ui'
 );

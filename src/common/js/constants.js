@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/common/js/constants.js
+ * pwix:accounts-ui/src/common/js/constants.js
  */
 
 // connection status
@@ -60,7 +60,7 @@ AC_VERBOSE_SUBMIT         = 0x01 << 10;
 AC_VERBOSE_MODAL          = 0x01 << 12;
 
 // non exported internal constant as i18n namespace
-I18N = 'pwix:accounts:i18n'
+I18N = 'pwix:accounts-ui:i18n'
 
 // non exported internal constant as unidentified requester
 ANONYMOUS = 'ANONYMOUS';

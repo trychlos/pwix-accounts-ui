@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/js/ready.js
+ * pwix:accounts-ui/src/client/js/ready.js
  *
  * The first version of the package used to declare it ready at startup() time.
  * But there is no reason to wait until that while initialization time is safe too...

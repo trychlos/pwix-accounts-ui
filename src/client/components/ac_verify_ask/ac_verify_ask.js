@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/components/ac_verify_ask/ac_verify_ask.js
+ * pwix:accounts-ui/src/client/components/ac_verify_ask/ac_verify_ask.js
  * 
  * Parms:
  *  - companion: the acCompanion object

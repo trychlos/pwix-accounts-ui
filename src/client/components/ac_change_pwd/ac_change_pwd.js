@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/components/ac_change_pwd/ac_change_pwd.js
+ * pwix:accounts-ui/src/client/components/ac_change_pwd/ac_change_pwd.js
  * 
  * Parms:
  *  - companion: the acCompanion object

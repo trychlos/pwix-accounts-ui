@@ -1,5 +1,5 @@
 /*
- * pwix:accounts/src/client/components/ac_menu_items/ac_menu_items.js
+ * pwix:accounts-ui/src/client/components/ac_menu_items/ac_menu_items.js
  *
  * This template is responsible to provide the dropdown menu items, either inside the ac_dropdown parent template,
  * or as individual items inside of an application menu.
@@ -74,7 +74,7 @@ Template.ac_menu_items.events({
                 panel: $( event.currentTarget ).attr( 'data-ac-panel' )
             };
             if( pwixAccounts.opts().verbosity() & AC_VERBOSE_PANEL ){
-                console.log( 'pwix:accounts ac_menu_items triggering', msg, parms );
+                console.log( 'pwix:accounts-ui ac_menu_items triggering', msg, parms );
             }
             // will bubble up to acEventManager.handler()
             //  where the handler will ask the panel for the 'companion' requester

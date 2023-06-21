@@ -1,4 +1,4 @@
-# pwix:accounts - maintainer/Architecture
+# pwix:accounts-ui - maintainer/Architecture
 
 ## Use cases
 
