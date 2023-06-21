@@ -46,6 +46,7 @@ defaults = {
 };
 
 _.merge( pwixAccounts._conf, defaults.common );
+//console.debug( pwixAccounts );
 pwixAccounts._opts = new acOptionsConf( pwixAccounts._conf );
 
 /**
