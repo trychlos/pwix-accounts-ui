@@ -8,6 +8,8 @@
  *  of adressing the acUserLogin Blaze template as the event handler.
  */
 
+import _ from 'lodash';
+
 import { Random } from 'meteor/random';
 
 import { acCompanionDom } from './ac_companion_dom.class.js';
@@ -48,10 +50,8 @@ export class acCompanion {
     _options = null;
 
     _default_options( opts ){
-        return {
-            ...defaults.acUserLogin,
-            ...opts
-        };
+        let o = {};
+        return _.merge( o, defaults.acUserLogin, opts );
     }
 
     // the events target

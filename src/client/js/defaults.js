@@ -4,6 +4,8 @@
  * Setup the client defaults.
  */
 
+import _ from 'lodash';
+
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
 /* 
@@ -128,47 +130,44 @@ function _passwordTwice(){
     return pwixAccounts.opts().passwordTwice();
 }
 
-defaults = {
-    ...defaults,
-    ...{
-        acUserLogin: {
-            loggedButtonAction: AC_ACT_DROPDOWN,
-            unloggedButtonAction: AC_ACT_DROPDOWN,
-            loggedButtonClass: 'dropdown-toggle',
-            unloggedButtonClass: '',
-            loggedButtonContent: _emailAddress,
-            unloggedButtonContent: '<span class="fa-regular fa-fw fa-user"></span>',
-            loggedItems: _buildStandardItems( _stdMenuItems.AC_LOGGED ),
-            unloggedItems: _buildStandardItems( _stdMenuItems.AC_UNLOGGED ),
-            loggedItemsAfter: [],
-            unloggedItemsAfter: [],
-            loggedItemsBefore: [],
-            unloggedItemsBefore: [],
-            renderMode: AC_RENDER_MODAL,
-            haveCancelButton: true,
-            signupPasswordTwice: _passwordTwice,
-            changePasswordTwice: _passwordTwice,
-            initialPanel: AC_PANEL_NONE,
-            changePwdTextOne: '',
-            changePwdTextTwo: '',
-            changePwdTextThree: '',
-            resetAskTextOne: { namespace: I18N, i18n: 'reset_ask.textOne' },
-            resetAskTextTwo: '',
-            signinTextOne: '',
-            signinTextTwo: '',
-            signinTextThree: '',
-            signoutTextOne: { namespace: I18N, i18n: 'signout.textOne' },
-            signupTextOne: '',
-            signupTextTwo: '',
-            signupTextThree: '',
-            signupTextFour: '',
-            verifyAskTextOne: { namespace: I18N, i18n: 'verify_ask.textOne' },
-            signinLink: true,
-            signupLink: true,
-            resetLink: true,
-            signupAutoClose: true,
-            signupAutoConnect: true,
-            name: ''
-        }
+_.merge( defaults, {
+    acUserLogin: {
+        loggedButtonAction: AC_ACT_DROPDOWN,
+        unloggedButtonAction: AC_ACT_DROPDOWN,
+        loggedButtonClass: 'dropdown-toggle',
+        unloggedButtonClass: '',
+        loggedButtonContent: _emailAddress,
+        unloggedButtonContent: '<span class="fa-regular fa-fw fa-user"></span>',
+        loggedItems: _buildStandardItems( _stdMenuItems.AC_LOGGED ),
+        unloggedItems: _buildStandardItems( _stdMenuItems.AC_UNLOGGED ),
+        loggedItemsAfter: [],
+        unloggedItemsAfter: [],
+        loggedItemsBefore: [],
+        unloggedItemsBefore: [],
+        renderMode: AC_RENDER_MODAL,
+        haveCancelButton: true,
+        signupPasswordTwice: _passwordTwice,
+        changePasswordTwice: _passwordTwice,
+        initialPanel: AC_PANEL_NONE,
+        changePwdTextOne: '',
+        changePwdTextTwo: '',
+        changePwdTextThree: '',
+        resetAskTextOne: { namespace: I18N, i18n: 'reset_ask.textOne' },
+        resetAskTextTwo: '',
+        signinTextOne: '',
+        signinTextTwo: '',
+        signinTextThree: '',
+        signoutTextOne: { namespace: I18N, i18n: 'signout.textOne' },
+        signupTextOne: '',
+        signupTextTwo: '',
+        signupTextThree: '',
+        signupTextFour: '',
+        verifyAskTextOne: { namespace: I18N, i18n: 'verify_ask.textOne' },
+        signinLink: true,
+        signupLink: true,
+        resetLink: true,
+        signupAutoClose: true,
+        signupAutoConnect: true,
+        name: ''
     }
-};
+});
