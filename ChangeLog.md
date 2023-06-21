@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Fix mispelled 'loadash' as 'lodash'
 
 ### 1.2.2
 

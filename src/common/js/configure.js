@@ -4,7 +4,7 @@
  * Just define the object here.
  */
 
-import _ from 'loadash';
+import _ from 'lodash';
 
 import { acOptionsConf } from '../classes/ac_options_conf.class.js';
 
