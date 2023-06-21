@@ -12,6 +12,7 @@
     - Consolidate AC_VERBOSE_SUBMIT_HANDLE and AC_VERBOSE_SUBMIT_TRIGGER constants into AC_VERBOSE_SUBMIT
     - Consolidate AC_VERBOSE_USER_HANDLE and AC_VERBOSE_USER_TRIGGER constants into AC_VERBOSE_USER
     - Add lodash dependency
+    - configure() now acts both as a getter and a setter
 
 ### 1.2.1
 

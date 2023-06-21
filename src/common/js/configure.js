@@ -4,6 +4,8 @@
  * Just define the object here.
  */
 
+import _ from 'loadash';
+
 import { acOptionsConf } from '../classes/ac_options_conf.class.js';
 
 /**
@@ -43,20 +45,25 @@ defaults = {
     }
 };
 
-pwixAccounts._conf = { ...defaults.common };
+_.merge( pwixAccounts._conf, defaults.common );
 pwixAccounts._opts = new acOptionsConf( pwixAccounts._conf );
 
 /**
  * @summary Package configuration
+ *  Should be called *in same terms* both by the client and the server
  * @locus Anywhere
- * @param {Object} o the runtime configuration of the package
- *  Should be *in same terms* called both by the client and the server.
+ * @param {Object} o the configuration options
+ * @returns {Object} the package configuration
  */
 pwixAccounts.configure = function( o ){
-    pwixAccounts._conf = { ...defaults.common, ...o };
-    pwixAccounts._opts.set( pwixAccounts._conf );
-
-    if( pwixAccounts.opts().verbosity() & AC_VERBOSE_CONFIGURE ){
-        console.log( 'pwix:accounts configure() with', o );
+    if( o && _.isObject( o )){
+        _.merge( pwixAccounts._conf, defaults.common, o );
+        pwixAccounts._opts.set( pwixAccounts._conf );
+        // be verbose if asked for
+        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_CONFIGURE ){
+            console.log( 'pwix:accounts configure() with', o, 'building', pwixAccounts._conf );
+        }
     }
+    // also acts as a getter
+    return pwixAccounts._conf;
 };
