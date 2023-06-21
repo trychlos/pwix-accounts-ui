@@ -720,6 +720,7 @@ Instead we check npm versions of installed packages at runtime, on server startu
 Dependencies as of v 1.2.0:
 ```
     'email-validator': '^2.0.4',
+    'lodash': '^4.17.0',
     'printf': '^0.6.1',
     'zxcvbn': '^4.4.2'
 ```

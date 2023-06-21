@@ -11,6 +11,7 @@
     - Remove unused AC_VERBOSE_PANEL_HANDLE constant
     - Consolidate AC_VERBOSE_SUBMIT_HANDLE and AC_VERBOSE_SUBMIT_TRIGGER constants into AC_VERBOSE_SUBMIT
     - Consolidate AC_VERBOSE_USER_HANDLE and AC_VERBOSE_USER_TRIGGER constants into AC_VERBOSE_USER
+    - Add lodash dependency
 
 ### 1.2.1
 

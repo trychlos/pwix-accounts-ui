@@ -12,6 +12,7 @@ if( false ){
 
 checkNpmVersions({
     'email-validator': '^2.0.4',
+    'lodash': '^4.17.0',
     'printf': '^0.6.1',
     'zxcvbn': '^4.4.2'
 },
