@@ -27,7 +27,10 @@
 |      | 2023- 2-20 | export components as acUserPanel (the panel) and acUserModal (a modal dialog which contains the panel) |
 |   29 | 2023- 1-26 | manage several email addresses per user |
 |      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
-|   50 |  |  |
+|   50 | 2023- 6-22 | have an automated way to associates a div (resp. a modal) to its acUserLogin or a data-ac attribute |
+|   51 | 2023- 6-22 | default acUserLogin dropdown is not styled as a button but should  |
+|   52 | 2023- 6-22 | default acUserLogin display a signup modal at start! (aybe because of pwiSAA?) |
+|   53 |  |  |
 
 ---
 ## Done
