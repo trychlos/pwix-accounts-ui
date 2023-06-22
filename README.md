@@ -414,7 +414,7 @@ Even when providing a configuration object, as all keys are optional, this objec
     Defaults to:
 
     - empty when unlogged (no added class)
-    - 'dropdown-toggle' when logged;
+    - `dropdown-toggle` when logged;
 
     in conjonction with default `loggedButtonContent`, the effect is to display the user email address with a small down-arrow after the text.
 
