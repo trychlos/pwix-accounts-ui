@@ -61,6 +61,13 @@ Template.ac_twice_passwords.helpers({
         return Template.instance().AC.error.get();
     },
 
+    // fieldset legend
+    legend(){
+        const companion = Template.currentData().companion;
+        const signup = Template.currentData().role === 'signup';
+        return signup ? companion.opts().signupLegendPassword() : '';
+    },
+
     // params to first occurrence of new password
     parmNewOne(){
         return {

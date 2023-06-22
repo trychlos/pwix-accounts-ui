@@ -1,21 +1,28 @@
 <template name="ac_input_email">
     <div class="ac-input-email">
 
-        <div class="d-flex justify-content-start align-items-center ac-label ">
-            <div class="form-label">{{ text "label" }}</div>
-            {{#if mandatory }}
-                {{> ac_mandatory_field }}
-            {{/if}}
-            <div class="flex-grow-1"></div>
-        </div>
+        <fieldset>
+            <legend>{{ legend }}</legend>
 
-        <input type="email" class="form-control ac-input" placeholder="{{ text "placeholder" }}" autocomplete="pwix:accounts-ui email" />
-
-        {{#if checks }}
-            <div class="ac-error">
-                {{{ errorMsg }}}
+            <div class="d-flex justify-content-start align-items-center ac-label ">
+                <div class="form-label">{{ text "label" }}</div>
+                {{#if mandatory }}
+                    {{> ac_mandatory_field }}
+                {{/if}}
+                <div class="flex-grow-1"></div>
             </div>
-        {{/if}}
+
+            <div>
+                <input type="email" class="form-control ac-input" placeholder="{{ text "placeholder" }}" autocomplete="pwix:accounts-ui email" />
+            </div>
+
+            {{#if checks }}
+                <div class="ac-error">
+                    {{{ errorMsg }}}
+                </div>
+            {{/if}}
+
+        </fieldset>
 
     </div>
 </template>

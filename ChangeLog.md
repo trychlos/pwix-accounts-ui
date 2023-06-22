@@ -8,6 +8,7 @@
 
     - Fix mispelled 'loadash' as 'lodash'
     - Make sure a modal is rendered when the requester is its companion (todo #52)
+    - Now accepts signin and signup fieldset legends
 
 ### 1.2.2
 

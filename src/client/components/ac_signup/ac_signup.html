@@ -8,7 +8,7 @@
             {{/if}}
 
             {{#if haveUsername }}
-                {{> ac_input_username new=true }}
+                {{> ac_input_username (parmsUser) }}
             {{/if}}
 
             {{#if textTwo }}
@@ -20,7 +20,7 @@
             {{/if}}
 
             {{#if haveEmailAddress }}
-                {{> ac_input_email new=true }}
+                {{> ac_input_email (parmsUser) }}
             {{/if}}
 
             {{#if textThree }}
@@ -31,7 +31,7 @@
                 <div class="ac-mt1"></div>
             {{/if}}
 
-            {{> ac_twice_passwords (parmTwice) }}
+            {{> ac_twice_passwords (parmsTwice) }}
 
             {{#if textFour }}
                 <div class="ac-mt1"></div>

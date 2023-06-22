@@ -84,10 +84,18 @@ Template.ac_signup.helpers({
     },
 
     // parameters for the password input
-    parmTwice(){
+    parmsTwice(){
         return {
             companion: this.companion,
             role: 'signup'
+        };
+    },
+
+    // parameters for the email address and username inputs
+    parmsUser(){
+        return {
+            companion: this.companion,
+            new: true
         };
     },
 

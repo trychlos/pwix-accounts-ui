@@ -234,6 +234,33 @@ export class acCompanionOptions extends pwixOptions.Options {
 
     /**
      * Getter/Setter
+     * @param {String|Function|Object} str the legend to be set inside of email fieldset
+     * @returns {String}
+     */
+    signinLegendEmail( str ){
+        return this.getset_String_Fn_Object( 'signinLegendEmail', str, { default: defaults.acUserLogin.signinLegendEmail });
+    }
+
+    /**
+     * Getter/Setter
+     * @param {String|Function|Object} str the legend to be set inside of password(s) fieldset
+     * @returns {String}
+     */
+    signinLegendPassword( str ){
+        return this.getset_String_Fn_Object( 'signinLegendPassword', str, { default: defaults.acUserLogin.signinLegendPassword });
+    }
+
+    /**
+     * Getter/Setter
+     * @param {String|Function|Object} str the legend to be set inside of username fieldset
+     * @returns {String}
+     */
+    signinLegendUsername( str ){
+        return this.getset_String_Fn_Object( 'signinLegendUsername', str, { default: defaults.acUserLogin.signinLegendUsername });
+    }
+
+    /**
+     * Getter/Setter
      * @param {Boolean|Function} flag whether to display the 'signin' link
      * @returns {Boolean}
      */
@@ -297,6 +324,33 @@ export class acCompanionOptions extends pwixOptions.Options {
      */
     signupAutoConnect( flag ){
         return this.getset_Bool_Fn( 'signupAutoConnect', flag, { default: defaults.acUserLogin.signupAutoConnect });
+    }
+
+    /**
+     * Getter/Setter
+     * @param {String|Function|Object} str the legend to be set inside of email fieldset
+     * @returns {String}
+     */
+    signupLegendEmail( str ){
+        return this.getset_String_Fn_Object( 'signupLegendEmail', str, { default: defaults.acUserLogin.signupLegendEmail });
+    }
+
+    /**
+     * Getter/Setter
+     * @param {String|Function|Object} str the legend to be set inside of password(s) fieldset
+     * @returns {String}
+     */
+    signupLegendPassword( str ){
+        return this.getset_String_Fn_Object( 'signupLegendPassword', str, { default: defaults.acUserLogin.signupLegendPassword });
+    }
+
+    /**
+     * Getter/Setter
+     * @param {String|Function|Object} str the legend to be set inside of username fieldset
+     * @returns {String}
+     */
+    signupLegendUsername( str ){
+        return this.getset_String_Fn_Object( 'signupLegendUsername', str, { default: defaults.acUserLogin.signupLegendUsername });
     }
 
     /**

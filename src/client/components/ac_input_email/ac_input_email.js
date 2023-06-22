@@ -4,9 +4,7 @@
  * Email input field
  * 
  * Parms:
- *  - label: String, defaulting to 'Mail address'
- *  - placeholder: String, defaulting to 'Enter your email address'
- *  - syntax: true|false whether to check the email syntax, defaulting to true
+ *  - companion: the acCompanion object
  *  - new: true|false whether to check for non-yet existant, defaulting to false
  */
 
@@ -21,6 +19,7 @@ import './ac_input_email.html';
 Template.ac_input_email.onCreated( function(){
     const self = this;
     //console.log( self );
+    //console.debug( Template.currentData());
 
     self.AC = {
         inputField: null,
@@ -129,6 +128,12 @@ Template.ac_input_email.helpers({
     // an error message if new password
     errorMsg(){
         return '<p>'+Template.instance().AC.errorMsg.get()+'</p>';
+    },
+
+    // fieldset legend
+    legend(){
+        const companion = Template.currentData().companion;
+        return this.new ? companion.opts().signupLegendEmail() : companion.opts().signinLegendEmail();
     },
 
     // whether the username is marked as mandatory ?

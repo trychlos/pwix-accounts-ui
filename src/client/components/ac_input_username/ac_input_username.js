@@ -4,8 +4,7 @@
  * Email input field
  * 
  * Parms:
- *  - label: String, defaulting to 'Username'
- *  - placeholder: String, defaulting to 'Enter your username'
+ *  - companion: the acCompanion object
  *  - new: Boolean, whether we are entering a new username, defaulting to false
  */
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
@@ -102,6 +101,12 @@ Template.ac_input_username.helpers({
     // whether we are entering a new username
     isNew(){
         return this.new || false;
+    },
+
+    // fieldset legend
+    legend(){
+        const companion = Template.currentData().companion;
+        return this.new ? companion.opts().signupLegendUsername() : companion.opts().signinLegendUsername();
     },
 
     // whether the username is marked as mandatory ?

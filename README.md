@@ -506,6 +506,19 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     The possible values are `true` or `false`, defaulting to the value of the `passwordTwice` package configuration.
 
+- `signupLegendEmail`
+- `signupLegendUsername`
+- `signupLegendPassword`
+- `signinLegendEmail`
+- `signinLegendUsername`
+- `signinLegendPassword`
+
+    The legend to be set for the specified fieldsets, as a string.
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return a string.
+
+    Default values are none.
+
 - `initialPanel`
 
     Through the `acUserLogin` template, the application may also use this package to display any of the *accounts* panels, outside of
