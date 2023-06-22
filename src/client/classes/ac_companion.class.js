@@ -25,6 +25,14 @@ export class acCompanion {
 
     // static methods
     //
+    /**
+     * @param {acCompanion} companionA 
+     * @param {acCompanion} companionB 
+     * @returns {Boolean} true if companionA and companionB are the same
+     */
+    static areSame( companionA, companionB ){
+        return companionA.id() === companionB.id();
+    }
 
     /**
      * @param {String} name the searched name

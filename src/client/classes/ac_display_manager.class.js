@@ -20,6 +20,7 @@
  */
 
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Tracker } from 'meteor/tracker';
 
 import { acPanel } from './ac_panel.js';
 
@@ -58,6 +59,14 @@ export class acDisplayManager {
         if( pwixAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
             console.log( 'pwix:accounts-ui instanciating acDisplayManager' );
         }
+
+        // trace panel changes
+        Tracker.autorun(() => {
+            const panel = this.panel();
+            if( pwixAccounts.opts().verbosity() & AC_VERBOSE_PANEL ){
+                console.log( 'pwixAccounts.panel()', panel );
+            }
+        });
 
         acDisplayManager.Singleton = this;
         return this;

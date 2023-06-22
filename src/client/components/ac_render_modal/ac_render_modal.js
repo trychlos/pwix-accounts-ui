@@ -7,6 +7,7 @@
 
 import { pwixModal } from 'meteor/pwix:modal';
 
+import { acCompanion } from '../../classes/ac_companion.class.js';
 import { acPanel } from '../../classes/ac_panel.js';
 
 import './ac_render_modal.html';
@@ -14,19 +15,11 @@ import './ac_render_modal.html';
 Template.ac_render_modal.onCreated( function(){
     const self = this;
 
-    // trace panel changes
-    self.autorun(() => {
-        const panel = pwixAccounts.DisplayManager.panel();
-        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_PANEL ){
-            console.log( 'pwixAccounts.panel()', panel );
-        }
-    });
-
     // whether we have to open a new dialog ?
     //  one should NEVER directly set the panel value - the right way is to DisplayManager.ask()
     self.autorun(() => {
         const panel = pwixAccounts.DisplayManager.panel();
-        if( panel && panel !== AC_PANEL_NONE && pwixModal.count() === 0 ){
+        if( panel && panel !== AC_PANEL_NONE && pwixModal.count() === 0 && acCompanion.areSame( Template.currentData().companion, pwixAccounts.DisplayManager.requester())){
             if( pwixAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
                 console.log( 'pwix:accounts-ui ac_render_modal run the '+panel+' modal' );
             }
@@ -55,7 +48,7 @@ Template.ac_render_modal.onCreated( function(){
     // update title and body
     self.autorun(() => {
         const panel = pwixAccounts.DisplayManager.panel();
-        if( panel && panel !== AC_PANEL_NONE ){
+        if( panel && panel !== AC_PANEL_NONE && pwixModal.count() > 0 ){
             pwixModal.setTitle( acPanel.title( panel ));
             pwixModal.setBody( acPanel.template( panel ));
         }

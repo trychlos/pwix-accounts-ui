@@ -7,6 +7,7 @@
     Release date: 
 
     - Fix mispelled 'loadash' as 'lodash'
+    - Make sure a modal is rendered when the requester is its companion (todo #52)
 
 ### 1.2.2
 
