@@ -18,7 +18,7 @@
  *  - placeholder2: String, defaulting to 'Renter your password'
  */
 
-import { pwixI18n as i18n } from 'meteor/pwix:i18n';
+import { pwixI18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
 
@@ -41,7 +41,7 @@ Template.ac_twice_passwords.onCreated( function(){
             // whether the new password 'pwd1' is ok is checked by the input password component
             // we have to check that the two occurences 'pwd1' and 'pwd2' are the same
             const equalsOk = pwd1 === pwd2;
-            self.AC.error.set( equalsOk ? '' : '<p>'+i18n.label( I18N, 'twice_passwords.password_different' )+'</p>' );
+            self.AC.error.set( equalsOk ? '' : pwixI18n.label( I18N, 'twice_passwords.password_different' ) );
             self.$( '.ac-twice-passwords' ).trigger( 'ac-twice-data', { ok: equalsOk, length: pwd1.length });
         }
     };
@@ -58,7 +58,7 @@ Template.ac_twice_passwords.onCreated( function(){
 Template.ac_twice_passwords.helpers({
     // error message
     errorMsg(){
-        return Template.instance().AC.error.get();
+        return '<p>' + Template.instance().AC.error.get() + '</p>';
     },
 
     // fieldset legend
@@ -71,8 +71,8 @@ Template.ac_twice_passwords.helpers({
     // params to first occurrence of new password
     parmNewOne(){
         return {
-            label: i18n.label( I18N, 'twice_passwords.label' ),
-            placeholder: i18n.label( I18N, 'twice_passwords.placeholder1' ),
+            label: pwixI18n.label( I18N, 'twice_passwords.label' ),
+            placeholder: pwixI18n.label( I18N, 'twice_passwords.placeholder1' ),
             new: true
         }
     },
@@ -82,7 +82,7 @@ Template.ac_twice_passwords.helpers({
     parmNewTwo(){
         return {
             label: '',
-            placeholder: i18n.label( I18N, 'twice_passwords.placeholder2' )
+            placeholder: pwixI18n.label( I18N, 'twice_passwords.placeholder2' )
         }
     },
 
