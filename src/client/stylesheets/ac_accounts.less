@@ -37,6 +37,9 @@
         font-size: 85%;
         font-style: italic;
         color: red;
+        p {
+            margin: 0;
+        }
         p:first-child {
             margin-top: 0.5em;
         }
@@ -75,6 +78,9 @@
         input.form-control.ac-erroneous {
             border-color: var( --bs-danger );
         }
+    }
+    form > div:not( .ac-error ):not( :first-child ){
+        margin-top: 1em;
     }
     .ac-mandatory-footer {
         position: relative;
