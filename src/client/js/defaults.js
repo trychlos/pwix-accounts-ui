@@ -6,7 +6,7 @@
 
 import _ from 'lodash';
 
-import { pwixI18n as i18n } from 'meteor/pwix:i18n';
+import { pwixI18n } from 'meteor/pwix:i18n';
 
 /* 
  *  HTML attributs
@@ -108,7 +108,7 @@ _buildStandardItems = function( source ){
         html += '" href="#" data-ac-msg="'+it.msgaction+'" data-ac-panel="'+it.panel+'"';
         html += '>';
         html += '<span class="fa-solid fa-fw '+it.faicon+'"></span>';
-        html += '<p>'+i18n.label( I18N, 'features.'+it.labelkey )+'</p>';
+        html += '<p>'+pwixI18n.label( I18N, 'features.'+it.labelkey )+'</p>';
         html += '</a>'
         result.push( html );
         return true;

@@ -200,6 +200,19 @@ export class acCompanion {
     }
 
     /**
+     * @returns {Array} an array of items as the <li>...</li> inner HTML strings
+     */
+    dynItemsCore(){
+        switch( pwixAccounts.User.state()){
+            case AC_LOGGED:
+                return this.opts().loggedItems();
+            case AC_UNLOGGED:
+                return this.opts().unloggedItems();
+        }
+        return [];
+    }
+
+    /**
      * @summary A generic event handler for acUserLogin
      *  This is called by acEventManager as an event forwarding
      *  If the provided data contains a requester, we can check that we are actually the right target

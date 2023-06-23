@@ -21,7 +21,7 @@ Template.ac_menu_items.onRendered( function(){
     //  first try has been to use a triple-braces helper '{{{ buttonContent }}}' to feed the data into the DOM
     //  it happens that this doesn't work as each content update seems to be added to the previous content
     //  visual effect is for example to have several user icons :(
-    //  second try has been to empty() the button element just before returning the content: this doesn't work neither
+    //  second try has been to empty() the button element just before returning the content: this doesn't work either
     //  as the content terminates empty! the remove() is rightly applied, but not replaced with the new content
     //  even if a console.log() shows that is correctly returned
     // I think/believe that the mix of DOM updates, Blaze reactivity and jQuery accesses may not work very well
@@ -42,7 +42,7 @@ Template.ac_menu_items.onRendered( function(){
                     return true;
                 });
             }
-            const std = pwixAccounts.dropdownItems();
+            const std = companion.dynItemsCore();
             std.every(( it ) => {
                 ddItems.push( it );
                 return true;
