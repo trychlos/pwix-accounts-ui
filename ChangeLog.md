@@ -9,6 +9,7 @@
     - Fix mispelled 'loadash' as 'lodash'
     - Make sure a modal is rendered when the requester is its companion (todo #52)
     - Now accepts signin and signup fieldset legends
+    - Dropdown items are now reactive to the language changes (todo #54)
 
 ### 1.2.2
 

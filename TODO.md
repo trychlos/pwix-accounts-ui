@@ -29,7 +29,6 @@
 |      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
 |   50 | 2023- 6-22 | have an automated way to associates a div (resp. a modal) to its acUserLogin or a data-ac attribute |
 |   53 | 2023- 6-22 | dropdown items are badly aligned |
-|   54 | 2023- 6-22 | dropdown items are not reactive to the language |
 |   55 |  |  |
 
 ---
@@ -130,6 +129,8 @@
 |      | 2023- 6-22 | this is a acUserLogin configuration option (not a bug, but a feature) |
 |   52 | 2023- 6-22 | default acUserLogin display a signup modal at start! (maybe because of pwiSAA?) |
 |      | 2023- 6-22 | fixed |
+|   54 | 2023- 6-22 | dropdown items are not reactive to the language |
+|      | 2023- 6-23 | fixed |
 
 ---
 P. Wieser

@@ -64,3 +64,6 @@ I18N = 'pwix:accounts-ui:i18n'
 
 // non exported internal constant as unidentified requester
 ANONYMOUS = 'ANONYMOUS';
+
+// non exported default content
+DEF_CONTENT = 'DEF_CONTENT';

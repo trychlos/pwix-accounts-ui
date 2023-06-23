@@ -203,13 +203,22 @@ export class acCompanion {
      * @returns {Array} an array of items as the <li>...</li> inner HTML strings
      */
     dynItemsCore(){
+        let res = [];
         switch( pwixAccounts.User.state()){
             case AC_LOGGED:
-                return this.opts().loggedItems();
+                res = this.opts().loggedItems();
+                if( res === DEF_CONTENT || _.isEqual( res, [ DEF_CONTENT ] )){
+                    res = _buildStandardItems( _stdMenuItems[ AC_LOGGED ] );
+                }
+                break;
             case AC_UNLOGGED:
-                return this.opts().unloggedItems();
+                res = this.opts().unloggedItems();
+                if( res === DEF_CONTENT || _.isEqual( res, [ DEF_CONTENT ] )){
+                    res = _buildStandardItems( _stdMenuItems[ AC_UNLOGGED ] );
+                }
+                break;
         }
-        return [];
+        return res;
     }
 
     /**
