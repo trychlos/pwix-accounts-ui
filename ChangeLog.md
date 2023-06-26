@@ -10,6 +10,7 @@
     - Make sure a modal is rendered when the requester is its companion (todo #52)
     - Now accepts signin and signup fieldset legends
     - Dropdown items are now reactive to the language changes (todo #54)
+    - Make the dropdown items aligned independently of the application stylesheet (todo #53)
 
 ### 1.2.2
 
