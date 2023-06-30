@@ -122,7 +122,7 @@
 |      | 2023- 6- 9 | done |
 |   48 | 2023- 6- 9 | upgrade options to 1.4.0 (use onVerifiedEmailCb) |
 |      | 2023- 6- 9 | done |
-|   49 | 2023- 6-12 | let another package add a translation to this one - this required at least exporting the i18n namespace |
+|   49 | 2023- 6-12 | let another package add a translation to this one - this requires at least exporting the i18n namespace |
 |      | 2023- 6-12 | done |
 |   51 | 2023- 6-22 | default acUserLogin dropdown is not styled as a button but should |
 |      | 2023- 6-22 | this is a acUserLogin configuration option (not a bug, but a feature) |
