@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.2.3-rc
+### 1.2.3
 
-    Release date: 
+    Release date: 2023- 7- 1
 
     - Fix mispelled 'loadash' as 'lodash'
     - Make sure a modal is rendered when the requester is its companion (todo #52)
@@ -65,4 +65,4 @@
 
 ---
 P. Wieser
-- Last updated on 2023, June 21th
+- Last updated on 2023, July 1st
