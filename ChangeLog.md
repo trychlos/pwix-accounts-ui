@@ -2,7 +2,7 @@
 
 ## ChangeLog
 
-### 1.2.3
+### 1.2.5
 
     Release date: 2023- 7- 1
 
@@ -11,6 +11,18 @@
     - Now accepts signin and signup fieldset legends
     - Dropdown items are now reactive to the language changes (todo #54)
     - Make the dropdown items aligned independently of the application stylesheet (todo #53)
+
+### 1.2.4
+
+    Release date: 2023- 7- 1
+
+    Publication error.
+
+### 1.2.3
+
+    Release date: 2023- 7- 1
+
+    Publication error.
 
 ### 1.2.2
 
