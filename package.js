@@ -67,7 +67,7 @@ function configure( api ){
     api.use( 'less@4.0.0', 'client' );
     api.use( 'pwix:bootbox@1.3.0', 'client' );
     api.use( 'pwix:i18n@1.3.0' );
-    api.use( 'pwix:layout@1.2.0', 'client' );
+    api.use( 'pwix:layout@1.2.9', 'client' );
     api.use( 'pwix:modal@1.5.0' );
     api.use( 'pwix:options@1.4.0' );
     api.use( 'pwix:tolert@1.2.0', 'client' );
