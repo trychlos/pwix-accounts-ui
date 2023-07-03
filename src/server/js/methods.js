@@ -14,7 +14,7 @@ _cleanUser = function ( user ){
         }
         delete user.profile;
     }
-    console.log( user );
+    //console.log( user );
     return user;
 };
 
