@@ -29,6 +29,7 @@ defaults = {
         haveEmailAddress: AC_FIELD_MANDATORY,
         haveUsername: AC_FIELD_NONE,
         informResetWrongEmail: AC_RESET_EMAILUNSENT,
+        mandatoryFieldsBorder: false,
         onVerifiedEmailBox: true,
         onVerifiedEmailTitle: { namespace: I18N, i18n: 'user.verify_title' },
         onVerifiedEmailMessage: { namespace: I18N, i18n: 'user.verify_text' },

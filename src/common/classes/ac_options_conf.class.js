@@ -97,6 +97,15 @@ export class acOptionsConf extends pwixOptions.Options {
 
     /**
      * Getter/Setter
+     * @param {Boolean|Function} set whether the mandatory fields borders must be colored
+     * @returns {Boolean}
+     */
+    mandatoryFieldsBorder( set ){
+        return this.getset_Bool_Fn( 'mandatoryFieldsBorder', set, { default: defaults.common.mandatoryFieldsBorder });
+    }
+
+    /**
+     * Getter/Setter
      * @param {Boolean|Function} flag whether we want display a confirmation dialog box on email verification done.
      * @returns {Boolean}
      */

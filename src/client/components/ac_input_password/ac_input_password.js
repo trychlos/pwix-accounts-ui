@@ -6,6 +6,8 @@
  * Parms:
  *  - label: String, defaulting to 'Password'
  *  - placeholder: String, defaulting to 'Enter your password'
+ *  - checkStrength: Boolean, should be true when entering the first occurrence of a new password
+ *  - mandatoryBorder: whether to displayed a colored border for mandatory fields
  *  - new: Boolean, true for entering a new password (so to be checked for its strength)
  */
 import zxcvbn from 'zxcvbn';
@@ -105,6 +107,12 @@ Template.ac_input_password.onRendered( function(){
 });
 
 Template.ac_input_password.helpers({
+
+    // whether we must check the strength ?
+    checkStrength(){
+        return this.checkStrength || false;
+    },
+
     // an error message if new password
     errorMsg(){
         const str = Template.instance().AC.errorMsg.get();
@@ -114,6 +122,11 @@ Template.ac_input_password.helpers({
     // whether we are entering a new password
     isNew(){
         return this.new || false;
+    },
+
+    // whether the mandatory field must exhibit an ad-hoc colored border ?
+    mandatoryBorder(){
+        return this.mandatoryBorder ? 'ac-mandatory-border' : '';
     },
 
     // returns the default text or the provided one

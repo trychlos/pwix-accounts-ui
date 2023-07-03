@@ -78,6 +78,12 @@ Template.ac_input_email.onCreated( function(){
             return i18n.label( I18N, 'input_email.'+key );
         },
 
+        // whether the email address is mandatory ?
+        //  true if field is required and new account
+        mandatoryField(){
+            return Template.currentData().new && pwixAccounts.opts().haveEmailAddress() === AC_FIELD_MANDATORY;
+        },
+
         // reinitialize the form
         reset(){
             self.$( 'input' ).val( '' );
@@ -136,10 +142,14 @@ Template.ac_input_email.helpers({
         return this.new ? companion.opts().signupLegendEmail() : companion.opts().signinLegendEmail();
     },
 
-    // whether the username is marked as mandatory ?
-    //  true if field is required and new account
-    mandatory(){
-        return this.new && pwixAccounts.opts().haveEmailAddress() === AC_FIELD_MANDATORY;
+    // whether the email address is mandatory ?
+    mandatoryField(){
+        return Template.instance().AC.mandatoryField();
+    },
+
+    // whether the mandatory field must exhibit an ad-hoc colored border ?
+    mandatoryBorder(){
+        return Template.instance().AC.mandatoryField() && Template.currentData().companion.opts().mandatoryFieldsBorder() ? 'ac-mandatory-border' : '';
     },
 
     // returns the translated string

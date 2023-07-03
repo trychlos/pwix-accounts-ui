@@ -94,19 +94,26 @@
         bottom: -0.5em;
         margin-top: 1em;
     }
-    .ac-mandatory-field:not( :first-child ) {
+    .ac-mandatory-indicator:not( :first-child ) {
         margin-left: 0.25em;
     }
-    .ac-mandatory-label {
+    .ac-mandatory-legend {
         margin-left: 0.5em;
     }
-    .ac-mandatory-field,
-    .ac-mandatory-label {
+    .ac-mandatory-indicator,
+    .ac-mandatory-legend {
         font-size: 85%;
         color: var( --bs-orange );
     }
-    .ac-mandatory-field sup {
+    .ac-mandatory-indicator sup {
         top: -0.4em;
+    }
+    .ac-mandatory-border {
+        border-color: var( --bs-orange );
+    }
+    .ac-mandatory-border:focus {
+        border-color: var( --bs-orange );
+        box-shadow: 0 0 0 0.25rem rgba( 253,126,20, .25 );
     }
     .ac-each-users {
         padding-left: 1em;

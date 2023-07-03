@@ -178,6 +178,14 @@ Known configuration options are:
 
     Package default is to inform the user that email cannot be sent.
 
+- `mandatoryFieldsBorder`
+
+    Whether the color of the border of the mandatory fields must be set.
+
+    Value: `true`|`false`, defaulting to `false`.
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+
 - `onVerifiedEmailBox`
 
     Whether to display a modal dialog box to confirm to the user that his email has been rightly validated.
@@ -588,6 +596,14 @@ Even when providing a configuration object, as all keys are optional, this objec
     A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
 
     Values: `true`|`false`, defaulting to `true`.
+
+- `mandatoryFieldsBorder`
+
+    Whether the color of the border of the mandatory fields must be set.
+
+    Value: `true`|`false`, defaulting to the value configured at package level.
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
 
 - `name`
 

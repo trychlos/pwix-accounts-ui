@@ -186,6 +186,15 @@ export class acCompanionOptions extends pwixOptions.Options {
 
     /**
      * Getter/Setter
+     * @param {Boolean|Function} set the color to be set to the mandatory fields borders
+     * @returns {Boolean}
+     */
+    mandatoryFieldsBorder( set ){
+        return this.getset_Bool_Fn( 'mandatoryFieldsBorder', set, { default: defaults.acUserLogin.mandatoryFieldsBorder });
+    }
+
+    /**
+     * Getter/Setter
      * @param {String|Function} name the name of this acUserLogin instance
      * @returns {String}
      */

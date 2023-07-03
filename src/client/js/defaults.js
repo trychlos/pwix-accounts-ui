@@ -124,6 +124,13 @@ function _emailAddress(){
 }
 
 /*
+ * a function to return the 'mandatoryFieldsBorder' package default value
+ */
+function _mandatoryFieldsBorder(){
+    return pwixAccounts.opts().mandatoryFieldsBorder();
+}
+
+/*
  * a function to return the 'passwordTwice' package default value
  */
 function _passwordTwice(){
@@ -174,6 +181,7 @@ _.merge( defaults, {
         resetLink: true,
         signupAutoClose: true,
         signupAutoConnect: true,
+        mandatoryFieldsBorder: _mandatoryFieldsBorder,
         name: ''
     }
 });

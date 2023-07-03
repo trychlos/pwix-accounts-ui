@@ -2,11 +2,12 @@
 
 ## ChangeLog
 
-### 1.2.6-rc
+### 1.3.0-rc
 
     Release date: 
 
     - Upgrade pwix:layout version requirement to get ui_layout.less constants
+    - Define mandatoryFieldsBorder both as a configuration option and a acUserLogin option (bumping candidate version number)
 
 ### 1.2.5
 
