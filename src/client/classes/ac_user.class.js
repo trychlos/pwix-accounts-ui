@@ -123,7 +123,6 @@ export class acUser {
         };
         // the success handler
         const _successFn = function(){
-            Tolert.success( i18n.label( I18N, 'user.signup_success', options.email || options.username ));
             delete options.password;
             const parms = {
                 ...Meteor.user(),
