@@ -11,7 +11,7 @@
  *      Is undefined when invoked from ac_reset_pwd template
  *      Take care!
  *  - role: 'signup|change|reset'
- *      This happens to also be the prefix of the to-be-called pwixAccounts options methods
+ *      This happens to also be the prefix of the to-be-called AccountsUI options methods
  *      Do not change!
  *  - label: String, defaulting to 'Password'
  *  - placeholder1: String, defaulting to 'Enter your password'
@@ -51,7 +51,7 @@ Template.ac_twice_passwords.onCreated( function(){
         const companion = Template.currentData().companion;
         self.AC.twice.set( 
             companion && companion.opts[fn] ?
-            companion.opts[fn]() : ( pwixAccounts.opts()[fn] ? pwixAccounts.opts()[fn]() : pwixAccounts.opts().passwordTwice()));
+            companion.opts[fn]() : ( AccountsUI.opts()[fn] ? AccountsUI.opts()[fn]() : AccountsUI.opts().passwordTwice()));
     });
 });
 
@@ -71,7 +71,7 @@ Template.ac_twice_passwords.helpers({
     // params to first occurrence of new password
     parmNewOne(){
         const companion = Template.currentData().companion;
-        const mandatoryBorder = companion && companion.opts() ? companion.opts().mandatoryFieldsBorder() : pwixAccounts.opts().mandatoryFieldsBorder();
+        const mandatoryBorder = companion && companion.opts() ? companion.opts().mandatoryFieldsBorder() : AccountsUI.opts().mandatoryFieldsBorder();
         return {
             label: pwixI18n.label( I18N, 'twice_passwords.label' ),
             placeholder: pwixI18n.label( I18N, 'twice_passwords.placeholder1' ),
@@ -85,7 +85,7 @@ Template.ac_twice_passwords.helpers({
     //  do not set as 'new' to not have the 'strength' display
     parmNewTwo(){
         const companion = Template.currentData().companion;
-        const mandatoryBorder = companion && companion.opts() ? companion.opts().mandatoryFieldsBorder() : pwixAccounts.opts().mandatoryFieldsBorder();
+        const mandatoryBorder = companion && companion.opts() ? companion.opts().mandatoryFieldsBorder() : AccountsUI.opts().mandatoryFieldsBorder();
         return {
             label: '',
             placeholder: pwixI18n.label( I18N, 'twice_passwords.placeholder2' ),

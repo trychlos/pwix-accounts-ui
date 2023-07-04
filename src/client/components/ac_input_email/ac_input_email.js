@@ -28,7 +28,7 @@ Template.ac_input_email.onCreated( function(){
         //  let the error message empty if field is empty
         check(){
             self.AC.errorMsg.set( '' );
-            pwixAccounts._checkEmailAddress( self.AC.inputField.val())
+            AccountsUI._checkEmailAddress( self.AC.inputField.val())
                 .then(( result ) => {
                     // only display error message if field is not empty
                     if( result.errors.length && result.email.length ){
@@ -46,7 +46,7 @@ Template.ac_input_email.onCreated( function(){
         // whether the email address is mandatory ?
         //  true if field is required and new account
         mandatoryField(){
-            return Template.currentData().new && pwixAccounts.opts().haveEmailAddress() === AC_FIELD_MANDATORY;
+            return Template.currentData().new && AccountsUI.opts().haveEmailAddress() === AC_FIELD_MANDATORY;
         },
 
         // reinitialize the form

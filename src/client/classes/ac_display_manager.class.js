@@ -50,21 +50,21 @@ export class acDisplayManager {
         const self = this;
 
         if( acDisplayManager.Singleton ){
-            if( pwixAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+            if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
                 console.log( 'pwix:accounts-ui returning already instanciated acDisplayManager singleton' );
             }
             return acDisplayManager.Singleton;
         }
 
-        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+        if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
             console.log( 'pwix:accounts-ui instanciating acDisplayManager' );
         }
 
         // trace panel changes
         Tracker.autorun(() => {
             const panel = this.panel();
-            if( pwixAccounts.opts().verbosity() & AC_VERBOSE_PANEL ){
-                console.log( 'pwixAccounts.panel()', panel );
+            if( AccountsUI.opts().verbosity() & AC_VERBOSE_PANEL ){
+                console.log( 'AccountsUI.panel()', panel );
             }
         });
 
@@ -83,7 +83,7 @@ export class acDisplayManager {
      *  i.e. whether the display is free before the request and can be allocated to it
      */
     ask( panel, requester, parms={} ){
-        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_DISP_MANAGER ){
+        if( AccountsUI.opts().verbosity() & AC_VERBOSE_DISP_MANAGER ){
             console.log( 'pwix:accounts-ui acDisplayManager.ask() self', this );
             console.log( 'pwix:accounts-ui acDisplayManager.ask() panel', panel );
             console.log( 'pwix:accounts-ui acDisplayManager.ask() requester', requester );
@@ -134,12 +134,12 @@ export class acDisplayManager {
             case 'md-close':
                 const panel = this.panel();
                 if( panel && panel !== AC_PANEL_NONE ){
-                    if( pwixAccounts.opts().verbosity() & AC_VERBOSE_MODAL ){
+                    if( AccountsUI.opts().verbosity() & AC_VERBOSE_MODAL ){
                         console.log( 'pwix:accounts-ui acDisplayManager handling', event.type );
                     }
                     this.errorMsg( '' );
                     this.title( '' );
-                    pwixAccounts.DisplayManager.release();
+                    AccountsUI.DisplayManager.release();
                     return true;
                 }
         }
@@ -163,7 +163,7 @@ export class acDisplayManager {
      * @summary Release the current requester
      */
     release(){
-        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_DISP_MANAGER ){
+        if( AccountsUI.opts().verbosity() & AC_VERBOSE_DISP_MANAGER ){
             console.log( 'pwix:accounts-ui acDisplayManager.release()' );
         }
         this._requester = null;

@@ -2,7 +2,7 @@
  * pwix:accounts-ui/src/common/js/constants.js
  */
 
-pwixAccounts.C = {};
+AccountsUI.C = {};
 
 // connection status
 AC_LOGGED = 'AC_LOGGED';
@@ -37,7 +37,7 @@ AC_PWD_STRONG = 'AC_PWD_STRONG';
 AC_PWD_VERYSTRONG = 'AC_PWD_VERYSTRONG';
 
 // when choosing a preferred label
-pwixAccounts.C.PreferredLabel = {
+AccountsUI.C.PreferredLabel = {
     USERNAME: 'USERNAME',
     EMAIL_ADDRESS: 'EMAIL_ADDRESS'
 };

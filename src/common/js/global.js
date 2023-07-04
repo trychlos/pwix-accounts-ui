@@ -2,6 +2,6 @@
  * pwix:accounts-ui/src/common/js/global.js
  */
 
-pwixAccounts = {
+AccountsUI = {
     _conf: {}
 };

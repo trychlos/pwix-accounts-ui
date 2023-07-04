@@ -73,7 +73,7 @@ Template.ac_menu_items.events({
                 requester: Template.currentData().companion,
                 panel: $( event.currentTarget ).attr( 'data-ac-panel' )
             };
-            if( pwixAccounts.opts().verbosity() & AC_VERBOSE_PANEL ){
+            if( AccountsUI.opts().verbosity() & AC_VERBOSE_PANEL ){
                 console.log( 'pwix:accounts-ui ac_menu_items triggering', msg, parms );
             }
             // will bubble up to acEventManager.handler()

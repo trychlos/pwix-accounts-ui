@@ -41,7 +41,7 @@ Template.ac_change_pwd.onRendered( function(){
 Template.ac_change_pwd.helpers({
     // error message
     errorMsg(){
-        return pwixAccounts.DisplayManager.errorMsg();
+        return AccountsUI.DisplayManager.errorMsg();
     },
 
     // parameters for the password input

@@ -40,7 +40,7 @@ Template.ac_input_password.onCreated( function(){
         //  is only called for a new password
         check(){
             self.AC.errorMsg.set( '' );
-            pwixAccounts._checkPassword( self.AC.inputField.val() || '' )
+            AccountsUI._checkPassword( self.AC.inputField.val() || '' )
                 .then(( result ) => {
                     // css
                     self.$( '.ac-strength-bar' ).css( self.AC.score[result.zxcvbn.score].css );
@@ -56,7 +56,7 @@ Template.ac_input_password.onCreated( function(){
                     self.$( '.ac-input-password' ).trigger( 'ac-password-data', {
                         ok: result.ok,
                         score: result.zxcvbn.score,
-                        strength: pwixAccounts._scores[result.zxcvbn.score],
+                        strength: AccountsUI._scores[result.zxcvbn.score],
                         length: result.password.length
                     });
                 });
@@ -79,7 +79,7 @@ Template.ac_input_password.onCreated( function(){
     // compute the minimal required score according to the configures minimal strength
     let i = 0;
     self.AC.score.every(( it ) => {
-        if( it.k === pwixAccounts.opts().passwordStrength()){
+        if( it.k === AccountsUI.opts().passwordStrength()){
             self.AC.minScore = i;
             return false;
         }

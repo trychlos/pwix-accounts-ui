@@ -18,7 +18,7 @@ _ready = {
  * @returns {Boolean} true when the package is ready
  * A reactive data source.
  */
-pwixAccounts.ready = function(){
+AccountsUI.ready = function(){
     _ready.dep.depend();
     return _ready.val;
 };
@@ -32,7 +32,7 @@ _set_ready();
 
 // trace readyness changes
 Tracker.autorun(() => {
-    if( pwixAccounts.opts().verbosity() & AC_VERBOSE_READY ){
-        console.log( 'pwixAccounts.ready()', pwixAccounts.ready());
+    if( AccountsUI.opts().verbosity() & AC_VERBOSE_READY ){
+        console.log( 'AccountsUI.ready()', AccountsUI.ready());
     }
 });

@@ -29,10 +29,10 @@ Template.ac_signup.onCreated( function(){
         submitBtn: null,
 
         haveEmailAddress(){
-            return pwixAccounts.opts().haveEmailAddress() !== AC_FIELD_NONE;
+            return AccountsUI.opts().haveEmailAddress() !== AC_FIELD_NONE;
         },
         haveUsername(){
-            return pwixAccounts.opts().haveUsername() !== AC_FIELD_NONE;
+            return AccountsUI.opts().haveUsername() !== AC_FIELD_NONE;
         },
         resetInput(){
             self.$( '.ac-input-password' ).trigger( 'ac-reset-input' );
@@ -70,7 +70,7 @@ Template.ac_signup.helpers({
     // error message
     errorMsg(){
         // even if we have no message at all, we keep at least one blank line
-        return pwixAccounts.DisplayManager.errorMsg();
+        return AccountsUI.DisplayManager.errorMsg();
     },
 
     // whether email address is permitted

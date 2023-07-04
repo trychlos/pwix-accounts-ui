@@ -61,7 +61,7 @@ export class acOptionsConf extends pwixOptions.Options {
     constructor( options ){
         super( options );
 
-        if( pwixAccounts.opts() && pwixAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+        if( AccountsUI.opts() && AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
             console.log( 'pwix:accounts-ui instanciating acOptionsConf' );
         }
 
@@ -176,7 +176,7 @@ export class acOptionsConf extends pwixOptions.Options {
      * @returns {String}
      */
     preferredLabel( value ){
-        return this.getset_String_Fn( 'preferredLabel', value, { default: defaults.common.preferredLabel, ref: Object.keys( pwixAccounts.C.PreferredLabel )});
+        return this.getset_String_Fn( 'preferredLabel', value, { default: defaults.common.preferredLabel, ref: Object.keys( AccountsUI.C.PreferredLabel )});
     }
 
     /**

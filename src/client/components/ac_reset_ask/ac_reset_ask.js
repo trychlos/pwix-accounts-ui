@@ -39,7 +39,7 @@ Template.ac_reset_ask.onRendered( function(){
 Template.ac_reset_ask.helpers({
     // error message
     errorMsg(){
-        return pwixAccounts.DisplayManager.errorMsg();
+        return AccountsUI.DisplayManager.errorMsg();
     },
 
     // the text at the first place of the section

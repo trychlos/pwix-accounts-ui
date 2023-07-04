@@ -7,8 +7,8 @@ import { pwixI18n } from 'meteor/pwix:i18n';
 import emailValidator from 'email-validator';
 import zxcvbn from 'zxcvbn';
 
-pwixAccounts = {
-    ...pwixAccounts,
+AccountsUI = {
+    ...AccountsUI,
     ...{
         //
         // Rationale: we need as usual check functions both on client and on server side.
@@ -34,7 +34,7 @@ pwixAccounts = {
             };
             // stop there if the value is empty
             if( !result.email || !result.email.length ){
-                if( pwixAccounts.opts().haveEmailAddress() === AC_FIELD_OPTIONAL ){
+                if( AccountsUI.opts().haveEmailAddress() === AC_FIELD_OPTIONAL ){
                     result.warnings.push( pwixI18n.label( I18N, 'input_email.empty' ));
                 } else {
                     result.ok = false;
@@ -50,7 +50,7 @@ pwixAccounts = {
             }
             // check for unicity
             if( Meteor.isClient ){
-                return Meteor.callPromise( 'pwixAccounts.byEmailAddress', result.email )
+                return Meteor.callPromise( 'AccountsUI.byEmailAddress', result.email )
                     .then(( res, err ) => {
                         if( err ){
                             console.error( err );
@@ -61,7 +61,7 @@ pwixAccounts = {
                         return result;
                     });
             } else {
-                const user = pwixAccounts._byEmailAddress( result.email );
+                const user = AccountsUI._byEmailAddress( result.email );
                 if( user ){
                     result.ok = false;
                     result.errors.push( pwixI18n.label( I18N, 'input_email.already_exists' ));
@@ -90,18 +90,18 @@ pwixAccounts = {
             };
             // stop there if the value is empty
             if( !result.username.length ){
-                result.ok = pwixAccounts.opts().haveUsername() === AC_FIELD_OPTIONAL;
+                result.ok = AccountsUI.opts().haveUsername() === AC_FIELD_OPTIONAL;
                 return Meteor.isClient ? Promise.resolve( result ) : result;
             }
             // check for minimal length
-            if( result.username.length < pwixAccounts.opts().usernameLength()){
+            if( result.username.length < AccountsUI.opts().usernameLength()){
                 result.ok = false;
                 result.errors.push( pwixI18n.label( I18N, 'input_username.too_short' ));
                 return Meteor.isClient ? Promise.resolve( result ) : result;
             }
             // check for unicity
             if( Meteor.isClient ){
-                return Meteor.callPromise( 'pwixAccounts.byUsername', result.username )
+                return Meteor.callPromise( 'AccountsUI.byUsername', result.username )
                     .then(( res, err ) => {
                         if( err ){
                             console.error( err );
@@ -112,7 +112,7 @@ pwixAccounts = {
                         return result;
                     });
             } else {
-                const user = pwixAccounts._byUsername( result.username );
+                const user = AccountsUI._byUsername( result.username );
                 if( user ){
                     result.ok = false;
                     result.errors.push( pwixI18n.label( I18N, 'input_username.already_exists' ));
@@ -132,8 +132,8 @@ pwixAccounts = {
         _computeMinScore(){
             let i = 0;
             let minScore = -1;
-            pwixAccounts._scores.every(( it ) => {
-                if( it === pwixAccounts.opts().passwordStrength()){
+            AccountsUI._scores.every(( it ) => {
+                if( it === AccountsUI.opts().passwordStrength()){
                     minScore = i;
                     return false;
                 }
@@ -166,14 +166,14 @@ pwixAccounts = {
                 zxcvbn: null
             };
             // compute min score function of required complexity
-            result.minScore = pwixAccounts._computeMinScore();
+            result.minScore = AccountsUI._computeMinScore();
             // compute complexity
             result.zxcvbn = zxcvbn( result.password );
             // check for minimal length
-            if( result.password.length < pwixAccounts.opts().passwordLength()){
+            if( result.password.length < AccountsUI.opts().passwordLength()){
                 result.ok = false;
                 result.errors.push( pwixI18n.label( I18N, 'input_password.too_short' ));
-                //console.debug( 'result', result, 'minPasswordLength', pwixAccounts.opts().passwordLength());
+                //console.debug( 'result', result, 'minPasswordLength', AccountsUI.opts().passwordLength());
                 return Meteor.isClient ? Promise.resolve( result ) : result;
             }
             // check for complexity

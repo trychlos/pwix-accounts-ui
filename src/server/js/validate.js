@@ -13,22 +13,22 @@ Accounts.validateNewUser(( user ) => {
         createdAt: { type: Date },
         services: { type: Object, blackbox: true }
     };
-    if( pwixAccounts.opts().haveEmailAddress() !== AC_FIELD_NONE ){
+    if( AccountsUI.opts().haveEmailAddress() !== AC_FIELD_NONE ){
         _.merge( schema, {
             emails: { type: Array },
             'emails.$': { type: Object },
             'emails.$.address': { type: String },
             'emails.$.verified': { type: Boolean },
         });
-        if( pwixAccounts.opts().haveEmailAddress() === AC_FIELD_OPTIONAL ){
+        if( AccountsUI.opts().haveEmailAddress() === AC_FIELD_OPTIONAL ){
             schema.emails.optional = true;
         }
     }
-    if( pwixAccounts.opts().haveUsername() !== AC_FIELD_NONE ){
+    if( AccountsUI.opts().haveUsername() !== AC_FIELD_NONE ){
         _.merge( schema, {
             username: { type: String }
         });
-        if( pwixAccounts.opts().haveUsername() === AC_FIELD_OPTIONAL ){
+        if( AccountsUI.opts().haveUsername() === AC_FIELD_OPTIONAL ){
             schema.username.optional = true;
         }
     }
@@ -37,9 +37,9 @@ Accounts.validateNewUser(( user ) => {
 
     // if schema is valid, individually check the datas
     let ok = true;
-    if( ok && pwixAccounts.opts().haveEmailAddress() !== AC_FIELD_NONE ){
+    if( ok && AccountsUI.opts().haveEmailAddress() !== AC_FIELD_NONE ){
         user.emails.every(( o ) => {
-            let result = pwixAccounts._checkEmailAddress( o.address );
+            let result = AccountsUI._checkEmailAddress( o.address );
             if( !result.ok ){
                 console.error( result.errors[0] );
             }
@@ -47,8 +47,8 @@ Accounts.validateNewUser(( user ) => {
             return ok;
         });
     }
-    if( ok && pwixAccounts.opts().haveUsername() !== AC_FIELD_NONE ){
-        let result = pwixAccounts._checkUsername( user.username );
+    if( ok && AccountsUI.opts().haveUsername() !== AC_FIELD_NONE ){
+        let result = AccountsUI._checkUsername( user.username );
         if( !result.ok ){
             console.error( result.errors[0] );
         }

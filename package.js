@@ -9,7 +9,7 @@ Package.describe({
 Package.onUse( function( api ){
     configure( api );
     api.export([
-        'pwixAccounts',
+        'AccountsUI',
         'AC_LOGGED',
         'AC_UNLOGGED',
         'AC_ACT_HIDDEN',

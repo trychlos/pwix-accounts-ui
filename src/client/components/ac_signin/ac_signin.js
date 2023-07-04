@@ -33,7 +33,7 @@ Template.ac_signin.helpers({
     // error message
     //  here, the only error is when server doesn't validate the credentials
     errorMsg(){
-        return pwixAccounts.DisplayManager.errorMsg();
+        return AccountsUI.DisplayManager.errorMsg();
     },
 
     // a description before the section

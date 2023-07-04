@@ -13,7 +13,7 @@ import { pwixI18n } from 'meteor/pwix:i18n';
  * 
  * - aclass: the class to add to the <a> element to qualify it
  * - faicon: the icon to be displayed besides of the item
- * - labelkey: the key of the label in pwixAccounts.strings[]['features']
+ * - labelkey: the key of the label in AccountsUI.strings[]['features']
  * - enablefn: a function which returns a boolean to enable an item
  *
  * Properties
@@ -91,7 +91,7 @@ function _enableAlways(){
 }
 
 function _enableMailVerified(){
-    return !pwixAccounts.User.mailVerified()
+    return !AccountsUI.User.mailVerified()
 }
 
 /*
@@ -120,21 +120,21 @@ _buildStandardItems = function( source ){
  * a function to return the email address of the logged-in user
  */
 function _emailAddress(){
-    return pwixAccounts.User.emailAddress();
+    return AccountsUI.User.emailAddress();
 }
 
 /*
  * a function to return the 'mandatoryFieldsBorder' package default value
  */
 function _mandatoryFieldsBorder(){
-    return pwixAccounts.opts().mandatoryFieldsBorder();
+    return AccountsUI.opts().mandatoryFieldsBorder();
 }
 
 /*
  * a function to return the 'passwordTwice' package default value
  */
 function _passwordTwice(){
-    return pwixAccounts.opts().passwordTwice();
+    return AccountsUI.opts().passwordTwice();
 }
 
 _.merge( defaults, {

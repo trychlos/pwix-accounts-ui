@@ -11,7 +11,7 @@
     - Add a dependency on pwix:core-ui
     - Validate the user account structure before creation on server side
     - Remove one success message on user creation, to keep stuck with only one
-    - Introduce new pwixAccounts.preferredLabel() method and corresponding preferredLabel configuration option
+    - Introduce new AccountsUI.preferredLabel() method and corresponding preferredLabel configuration option
 
 ### 1.2.5
 
@@ -39,7 +39,7 @@
 
     Release date: 2023- 6-21
 
-    - Provide new pwixAccounts.i18n.namespace() method to let anyone improve the i18n translations (todo #49)
+    - Provide new AccountsUI.i18n.namespace() method to let anyone improve the i18n translations (todo #49)
     - Add screenshots to the documentation
     - Remove unused AC_VERBOSE_PANEL_HANDLE constant
     - Consolidate AC_VERBOSE_SUBMIT_HANDLE and AC_VERBOSE_SUBMIT_TRIGGER constants into AC_VERBOSE_SUBMIT
@@ -57,10 +57,10 @@
 
     Release date: 2023- 6-12
 
-    - pwixAccounts: add new 'onVerifiedEmailBox' configuration parameter
-    - pwixAccounts: add new 'onVerifiedEmailTitle' configuration parameter
-    - pwixAccounts: add new 'onVerifiedEmailMessage' configuration parameter
-    - pwixAccounts: add new 'sendVerificationEmail' configuration parameter
+    - AccountsUI: add new 'onVerifiedEmailBox' configuration parameter
+    - AccountsUI: add new 'onVerifiedEmailTitle' configuration parameter
+    - AccountsUI: add new 'onVerifiedEmailMessage' configuration parameter
+    - AccountsUI: add new 'sendVerificationEmail' configuration parameter
     - acUserLogin: add new 'haveCancelButton' configuration parameter
 
     - Fix 'DIV' render mode

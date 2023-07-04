@@ -72,24 +72,24 @@ export class acCompanion {
      * @returns {Boolean} whether we have successfully managed the event
      */
     _handleSubmitEvent( event, data ){
-        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_SUBMIT ){
+        if( AccountsUI.opts().verbosity() & AC_VERBOSE_SUBMIT ){
             console.log( 'pwix:accounts-ui acCompanion handling', event.type, data );
         }
         let mail = null;
         let password = null;
         let managed = false;
-        const panel = pwixAccounts.DisplayManager.panel();
+        const panel = AccountsUI.DisplayManager.panel();
         switch( panel ){
             case AC_PANEL_CHANGEPWD:
                 const pwd1 = $( '.ac-change-pwd .ac-old .ac-input' ).val().trim();
                 const pwd2 = $( '.ac-change-pwd .ac-newone .ac-input' ).val().trim();
-                pwixAccounts.User.changePwd( pwd1, pwd2, this.target());
+                AccountsUI.User.changePwd( pwd1, pwd2, this.target());
                 managed = true;
                 break;
             case AC_PANEL_RESETASK:
                 //console.log( 'element', $( '.ac-reset-ask' ));
                 mail = $( '.ac-reset-ask .ac-input-email .ac-input' ).val().trim();
-                pwixAccounts.User.resetAsk( mail, this.target());
+                AccountsUI.User.resetAsk( mail, this.target());
                 managed = true;
                 break;
             case AC_PANEL_SIGNIN:
@@ -97,19 +97,19 @@ export class acCompanion {
                 mail = $( '.ac-signin .ac-input-userid .ac-input' ).val().trim();
                 password = $( '.ac-signin .ac-input-password .ac-input' ).val().trim();
                 //console.log( 'mail',mail,'password', pwd );
-                pwixAccounts.User.loginWithPassword( mail, password, this.target());
+                AccountsUI.User.loginWithPassword( mail, password, this.target());
                 managed = true;
                 break;
             case AC_PANEL_SIGNOUT:
-                pwixAccounts.User.logout();
+                AccountsUI.User.logout();
                 managed = true;
                 break;
             case AC_PANEL_SIGNUP:
                 let options = {};
-                if( pwixAccounts.opts().haveUsername() !== AC_FIELD_NONE ){
+                if( AccountsUI.opts().haveUsername() !== AC_FIELD_NONE ){
                     options.username = $( '.ac-signup .ac-input-username .ac-input' ).val().trim();
                 }
-                if( pwixAccounts.opts().haveEmailAddress() !== AC_FIELD_NONE ){
+                if( AccountsUI.opts().haveEmailAddress() !== AC_FIELD_NONE ){
                     options.email = $( '.ac-signup .ac-input-email .ac-input' ).val().trim();
                 }
                 options.password = $( '.ac-signup .ac-newone .ac-input' ).val().trim();
@@ -117,14 +117,14 @@ export class acCompanion {
                 //console.debug( 'found autoClose='+autoClose );
                 const autoConnect = this.opts().signupAutoConnect();
                 //console.debug( 'found autoConnect='+autoConnect );
-                pwixAccounts.User.createUser( options, this.target(), autoClose, autoConnect );
+                AccountsUI.User.createUser( options, this.target(), autoClose, autoConnect );
                 if( !autoClose ){
                     $( '.ac-signup' ).trigger( 'ac-clear' );
                 }
                 managed = true;
                 break;
             case AC_PANEL_VERIFYASK:
-                pwixAccounts.User.verifyMail( this.target());
+                AccountsUI.User.verifyMail( this.target());
                 managed = true;
                 break;
         }
@@ -146,7 +146,7 @@ export class acCompanion {
     constructor( instance, context ){
         const self = this;
 
-        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+        if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
             console.log( 'pwix:accounts-ui instanciating acCompanion' );
         }
 
@@ -177,7 +177,7 @@ export class acCompanion {
      * @returns {Array} an array of items as the <li>...</li> inner HTML strings
      */
     dynItemsAfter(){
-        switch( pwixAccounts.User.state()){
+        switch( AccountsUI.User.state()){
             case AC_LOGGED:
                 return this.opts().loggedItemsAfter();
             case AC_UNLOGGED:
@@ -190,7 +190,7 @@ export class acCompanion {
      * @returns {Array} an array of items as the <li>...</li> inner HTML strings
      */
     dynItemsBefore(){
-        switch( pwixAccounts.User.state()){
+        switch( AccountsUI.User.state()){
             case AC_LOGGED:
                 return this.opts().loggedItemsBefore();
             case AC_UNLOGGED:
@@ -204,7 +204,7 @@ export class acCompanion {
      */
     dynItemsCore(){
         let res = [];
-        switch( pwixAccounts.User.state()){
+        switch( AccountsUI.User.state()){
             case AC_LOGGED:
                 res = this.opts().loggedItems();
                 if( res === DEF_CONTENT || _.isEqual( res, [ DEF_CONTENT ] )){
@@ -246,13 +246,13 @@ export class acCompanion {
             case 'ac-panel-signout-event':
             case 'ac-panel-signup-event':
             case 'ac-panel-verifyask-event':
-                if( pwixAccounts.opts().verbosity() & AC_VERBOSE_PANEL ){
+                if( AccountsUI.opts().verbosity() & AC_VERBOSE_PANEL ){
                     console.log( 'pwix:accounts-ui acCompanion handling', event.type, data );
                 }
                 if( !data.panel ){
                     throw new Error( 'expecting a panel, not found' );
                 }
-                return pwixAccounts.DisplayManager.ask( data.panel, this );
+                return AccountsUI.DisplayManager.ask( data.panel, this );
 
             // message sent from ac_footer
             //  no data is expected
@@ -265,7 +265,7 @@ export class acCompanion {
      * @returns {Boolean} whether this acUserLogin template should display a dropdown menu
      */
     hasDropdown(){
-        const state = pwixAccounts.User.state();
+        const state = AccountsUI.User.state();
         //console.debug( 'state', state );
         //console.debug( 'this.opts().loggedButtonAction()', this.opts().loggedButtonAction());
         //console.debug( 'this.opts().unloggedButtonAction()', this.opts().unloggedButtonAction());

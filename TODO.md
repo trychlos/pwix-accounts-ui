@@ -106,9 +106,9 @@
 |      | 2023- 6-12 | fixed |
 |   40 | 2023- 1-31 | WARN zxcvbn not detected by checkNpmversions |
 |      | 2023- 6-12 | fixed |
-|   41 | 2023- 2-11 | pwixAccounts.isEmailVerified() assert that the function is relevant and at is right place |
+|   41 | 2023- 2-11 | AccountsUI.isEmailVerified() assert that the function is relevant and at is right place |
 |      | 2023- 2-19 | obsoleted by #44 |
-|   42 | 2023- 2-11 | pwixAccounts.dropdownItems() assert that the function is relevant and at is right place |
+|   42 | 2023- 2-11 | AccountsUI.dropdownItems() assert that the function is relevant and at is right place |
 |      | 2023- 2-20 | Yes, as this method is published |
 |   43 | 2023- 2-15 | update documentation with new event names |
 |      | 2023- 2-15 | done |

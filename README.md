@@ -132,7 +132,7 @@ Additionnally, the master `acUserLogin` template, and all the underlying infrast
 
 ## Configuring
 
-The package's behavior can be configured through a call to the `pwixAccounts.configure()` method, with just a single javascript object argument, which itself should only contains the options you want override.
+The package's behavior can be configured through a call to the `AccountsUI.configure()` method, with just a single javascript object argument, which itself should only contains the options you want override.
 
 Known configuration options are:
 
@@ -262,10 +262,10 @@ Known configuration options are:
 
     Possible values are:
     
-    - `pwixAccounts.C.PreferredLabel.USERNAME`
-    - `pwixAccounts.C.PreferredLabel.EMAIL_ADDRESS`
+    - `AccountsUI.C.PreferredLabel.USERNAME`
+    - `AccountsUI.C.PreferredLabel.EMAIL_ADDRESS`
 
-    Defaulting to `pwixAccounts.C.PreferredLabel.EMAIL_ADDRESS` though the actually displayed label heavily depends of the runtime configuration as we try to always display something.
+    Defaulting to `AccountsUI.C.PreferredLabel.EMAIL_ADDRESS` though the actually displayed label heavily depends of the runtime configuration as we try to always display something.
 
     A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
 
@@ -348,19 +348,19 @@ Known configuration options are:
     
     Defaults to `AC_VERBOSE_NONE`.
 
-Please note that `pwixAccounts.configure()` method should be called in the same terms both in client and server sides.
+Please note that `AccountsUI.configure()` method should be called in the same terms both in client and server sides.
 
-Remind too that Meteor packages are instanciated at application level. They are so only configurable once, or, in other words, only one instance has to be or can be configured. Addtionnal calls to `pwixAccounts.configure()` will just override the previous one. You have been warned: **only the application should configure a package**.
+Remind too that Meteor packages are instanciated at application level. They are so only configurable once, or, in other words, only one instance has to be or can be configured. Addtionnal calls to `AccountsUI.configure()` will just override the previous one. You have been warned: **only the application should configure a package**.
 
 ## What does the package provide ?
 
-### `pwixAccounts`
+### `AccountsUI`
 
 The globally exported object.
 
 ### Methods
 
-- `pwixAccounts.dropdownItems()`
+- `AccountsUI.dropdownItems()`
 
     A client-only method which returns the list of standard dropdown items, depending of the current user connection state.
 
@@ -368,7 +368,7 @@ The globally exported object.
 
     A reactive data source.
 
-- `pwixAccounts.preferredLabel( id|user [, preferred] )`
+- `AccountsUI.preferredLabel( id|user [, preferred] )`
 
     Returns the preferred label for this user.
 
@@ -379,18 +379,18 @@ The globally exported object.
 
     The caller preference is optional, may be one the following values:
 
-    - `pwixAccounts.C.PreferredLabel.USERNAME`
-    - `pwixAccounts.C.PreferredLabel.EMAIL_ADDRESS`
+    - `AccountsUI.C.PreferredLabel.USERNAME`
+    - `AccountsUI.C.PreferredLabel.EMAIL_ADDRESS`
 
     Default is the configured value.
 
-- `pwixAccounts.ready()`
+- `AccountsUI.ready()`
 
     A client-only method which advertises when the package has been successfully initialized.
 
     A reactive data source.
 
-- `pwixAccounts.i18n.namespace()`
+- `AccountsUI.i18n.namespace()`
 
     This method returns the `pwix:i18n` namespace of the `pwix:accounts-ui` package.
 
@@ -637,7 +637,7 @@ Even when providing a configuration object, as all keys are optional, this objec
 - `name`
 
     As a convenience for an application which would wish make use of several `acUserLogin` templates, each one may be named
-    (obviously uniquely), and internal configuration may later be get via the pwixAccounts methods, accessing it via the
+    (obviously uniquely), and internal configuration may later be get via the AccountsUI methods, accessing it via the
     attributed name.
 
     `name` is an optional, though unique when set, name attributed by the application to *this* `acUserLogin` instance.
@@ -757,7 +757,7 @@ The packages defines and makes use of these standard items.
 | ac-signup-item | triggers the message 'ac-panel-signup' |
 | ac-resetask-item | triggers the message 'ac-panel-resetask' |
 
-The full list of the dropdown items may be obtained by the application via the `pwixAccounts.dropdownItems()` reactive method.
+The full list of the dropdown items may be obtained by the application via the `AccountsUI.dropdownItems()` reactive method.
 
 The activation of one of these standard items triggers the display of a panel which let the user enter
 the required informations.

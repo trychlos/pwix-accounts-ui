@@ -13,15 +13,15 @@ import { acOptionsConf } from '../classes/ac_options_conf.class.js';
  * @locus Anywhere
  * @returns {acOptionsConf} the runtime configuration object
  */
-pwixAccounts.opts = function(){
-    return pwixAccounts._opts;
+AccountsUI.opts = function(){
+    return AccountsUI._opts;
 };
 
 /*
  * a function to return the 'passwordTwice' package default value
  */
 function _passwordTwice(){
-    return pwixAccounts._opts ? pwixAccounts.opts().passwordTwice() : true;
+    return AccountsUI._opts ? AccountsUI.opts().passwordTwice() : true;
 }
 
 defaults = {
@@ -37,7 +37,7 @@ defaults = {
         passwordLength: 8,
         passwordStrength: AC_PWD_MEDIUM,
         passwordTwice: true,
-        preferredLabel: pwixAccounts.C.PreferredLabel.EMAIL_ADDRESS,
+        preferredLabel: AccountsUI.C.PreferredLabel.EMAIL_ADDRESS,
         resetPwdTextOne: { namespace: I18N, i18n: 'reset_pwd.textOne' },
         resetPwdTextTwo: '',
         resetPasswordTwice: _passwordTwice,
@@ -47,9 +47,9 @@ defaults = {
     }
 };
 
-_.merge( pwixAccounts._conf, defaults.common );
-//console.debug( pwixAccounts );
-pwixAccounts._opts = new acOptionsConf( pwixAccounts._conf );
+_.merge( AccountsUI._conf, defaults.common );
+//console.debug( AccountsUI );
+AccountsUI._opts = new acOptionsConf( AccountsUI._conf );
 
 /**
  * @summary Package configuration
@@ -58,15 +58,15 @@ pwixAccounts._opts = new acOptionsConf( pwixAccounts._conf );
  * @param {Object} o the configuration options
  * @returns {Object} the package configuration
  */
-pwixAccounts.configure = function( o ){
+AccountsUI.configure = function( o ){
     if( o && _.isObject( o )){
-        _.merge( pwixAccounts._conf, defaults.common, o );
-        pwixAccounts._opts.set( pwixAccounts._conf );
+        _.merge( AccountsUI._conf, defaults.common, o );
+        AccountsUI._opts.set( AccountsUI._conf );
         // be verbose if asked for
-        if( pwixAccounts.opts().verbosity() & AC_VERBOSE_CONFIGURE ){
-            console.log( 'pwix:accounts-ui configure() with', o, 'building', pwixAccounts._conf );
+        if( AccountsUI.opts().verbosity() & AC_VERBOSE_CONFIGURE ){
+            console.log( 'pwix:accounts-ui configure() with', o, 'building', AccountsUI._conf );
         }
     }
     // also acts as a getter
-    return pwixAccounts._conf;
+    return AccountsUI._conf;
 };
