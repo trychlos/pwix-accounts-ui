@@ -118,7 +118,7 @@ AccountsUI.i18n = {
                 signup_autoconnect: 'New account %s has been successfully created and logged in',
                 signup_noconnect: 'New account %s has been successfully created, not connected',
                 verify_error: 'Humm... Sorry, but it seems your token has expired.<br />You have to re-ask for a new verification link.',
-                verify_text: 'Hi.<br />Your email address is now said verified.',
+                verify_text: 'Hi.<br />Your email address is now said "verified".<br />Thanks.',
                 verify_title: 'Email address verification',
                 verifyask_error: 'Sorry, it happens that I am unable to send a verification mail. Be kind enough to try later.',
                 verifyask_success: 'Mail successfully sent',

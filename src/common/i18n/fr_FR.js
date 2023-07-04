@@ -119,7 +119,7 @@ AccountsUI.i18n = {
                 signup_autoconnect: 'Le nouveau compte %s a été créé avec succès et connecté',
                 signup_noconnect: 'Le nouveau compte %s a été créé avec succès, n\'est pas connecté',
                 verify_error: 'Humm... Désolé, mais il semble que le jeton utilisé soit expiré.<br />Vous devez en redemander un nouveau.',
-                verify_text: 'Bonjour,<br />Votre adresse de messagerie est maintenant considérée comme vérifiée.',
+                verify_text: 'Bonjour,<br />Votre adresse de messagerie est maintenant considérée comme "vérifiée".<br />Merci.',
                 verify_title: 'Vérification de l\'adresse de messagerie',
                 verifyask_error: 'Humm... Désolé, mais il semble que je ne sois pas dans la possibilité de vous envoyer un message. Merci de bien vouloir ré-essayer un peu plus tard.',
                 verifyask_success: 'Message envoyé avec succès',
