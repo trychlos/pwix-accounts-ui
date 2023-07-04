@@ -39,6 +39,7 @@ pwixAccounts.i18n = {
                 label: 'Mail address:',
                 placeholder: 'Enter your email address, e.g. name@example.com',
                 already_exists: 'Email address already known',
+                empty: 'Empty or undefined email address',
                 invalid: 'Invalid email address'
             },
             input_password: {

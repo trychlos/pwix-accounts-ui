@@ -37,6 +37,7 @@ defaults = {
         passwordLength: 8,
         passwordStrength: AC_PWD_MEDIUM,
         passwordTwice: true,
+        preferredLabel: pwixAccounts.C.PreferredLabel.EMAIL_ADDRESS,
         resetPwdTextOne: { namespace: I18N, i18n: 'reset_pwd.textOne' },
         resetPwdTextTwo: '',
         resetPasswordTwice: _passwordTwice,

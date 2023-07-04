@@ -11,6 +11,7 @@
     - Add a dependency on pwix:core-ui
     - Validate the user account structure before creation on server side
     - Remove one success message on user creation, to keep stuck with only one
+    - Introduce new pwixAccounts.preferredLabel() method and corresponding preferredLabel configuration option
 
 ### 1.2.5
 

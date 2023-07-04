@@ -24,44 +24,14 @@ Template.ac_input_username.onCreated( function(){
         // check the current input field (only if new)
         //  let the error message empty if field is empty
         check(){
-            let promise = Promise.resolve( true );
-            let ok = true;
-            let val = self.AC.inputField.val().trim();
-            promise = promise
-                .then(() => {
-                    if( ok && val.length && val.length < pwixAccounts.opts().usernameLength()){
-                        ok = false;
-                        self.AC.errorMsg.set( self.AC.i18n( 'too_short' ));
+            self.AC.errorMsg.set( '' );
+            let promise = pwixAccounts._checkUsername( self.AC.inputField.val())
+                .then(( result ) => {
+                    // only display error message if field is not empty
+                    if( result.errors.length && result.username.length ){
+                        self.AC.errorMsg.set( result.errors[0] );
                     }
-                    return ok;
-                })
-                .then(() => {
-                    return ok && val.length ? Meteor.callPromise( 'pwixAccounts.byUsername', val ) : ok;
-                })
-                .then(( res, err ) => {
-                    if( ok && val.length ){
-                        if( err ){
-                            console.error( err );
-                        } else if( res ){
-                            ok = false;
-                            self.AC.errorMsg.set( self.AC.i18n( 'already_exists' ));
-                        } else {
-                            self.AC.errorMsg.set( '' );
-                        }
-                    }
-                    return ok;
-                })
-                .then(() => {
-                    if( ok && !val.length ){
-                        ok = pwixAccounts.opts().haveUsername() === AC_FIELD_OPTIONAL;
-                        self.AC.errorMsg.set( '' );
-                    }
-                    return ok;
-                })
-                .then(() => {
-                    //console.log( 'sending', { ok: ok, username: val });
-                    self.$( '.ac-input-username' ).trigger( 'ac-username-data', { ok: ok, username: val });
-                    return ok;
+                    self.$( '.ac-input-username' ).trigger( 'ac-username-data', { ok: result.ok, username: result.username });
                 });
         },
 

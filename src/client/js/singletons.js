@@ -1,5 +1,5 @@
 /*
- * pwix:accounts-ui/src/client/js/global.js
+ * pwix:accounts-ui/src/client/js/singletons.js
  *
  * - attach the acDisplayManager singleton to pwixAccounts
  * - attach the acUser singleton as User to pwixAccounts

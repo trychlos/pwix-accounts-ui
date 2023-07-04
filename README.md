@@ -256,6 +256,19 @@ Known configuration options are:
 
     Possible values are `true` or `false`, defaulting to `true`.
 
+- `preferredLabel`
+
+    Whether the application prefers identify its users by their email address or their username.
+
+    Possible values are:
+    
+    - `pwixAccounts.C.PreferredLabel.USERNAME`
+    - `pwixAccounts.C.PreferredLabel.EMAIL_ADDRESS`
+
+    Defaulting to `pwixAccounts.C.PreferredLabel.EMAIL_ADDRESS` though the actually displayed label heavily depends of the runtime configuration as we try to always display something.
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+
 - `resetPwdTextOne`
 - `resetPwdTextTwo`
 
@@ -354,6 +367,22 @@ The globally exported object.
     The returned value is an array where each item is a HTML string '`<a>...</a>`'.
 
     A reactive data source.
+
+- `pwixAccounts.preferredLabel( id|user [, preferred] )`
+
+    Returns the preferred label for this user.
+
+    The application may have ask for either a username or an email address, or both.
+    When time comes to display an identification string to the user, we need to choose between the username and the email address (if both apply), depending of the preference of the caller.
+
+    The user may be identified by its `_id` string, or by the user document.
+
+    The caller preference is optional, may be one the following values:
+
+    - `pwixAccounts.C.PreferredLabel.USERNAME`
+    - `pwixAccounts.C.PreferredLabel.EMAIL_ADDRESS`
+
+    Default is the configured value.
 
 - `pwixAccounts.ready()`
 

@@ -3,9 +3,8 @@
  */
 import '../../common/js/index.js';
 
-import './global.js';
-//
 import './accounts_base.js';
 import './defaults.js';
 import './functions.js';
 import './ready.js';
+import './singletons.js';

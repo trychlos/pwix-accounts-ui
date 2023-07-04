@@ -39,6 +39,7 @@ pwixAccounts.i18n = {
                 label: 'Adresse de messagerie :',
                 placeholder: 'Saisissez votre adresse de messagerie (ex.: nom@example.com)',
                 already_exists: 'L\'adresse de messagerie existe déjà',
+                empty: 'L\'adresse de messagerie est vide ou non définie',
                 invalid: 'L\'adresse de messagerie est invalide'
             },
             input_password: {

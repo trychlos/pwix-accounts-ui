@@ -35,6 +35,32 @@ Accounts.validateNewUser(( user ) => {
     //console.debug( schema );
     new SimpleSchema( schema ).validate( user );
 
+    // if schema is valid, individually check the datas
+    let ok = true;
+    if( ok && pwixAccounts.opts().haveEmailAddress() !== AC_FIELD_NONE ){
+        user.emails.every(( o ) => {
+            let result = pwixAccounts._checkEmailAddress( o.address );
+            if( !result.ok ){
+                console.error( result.errors[0] );
+            }
+            ok &= result.ok;
+            return ok;
+        });
+    }
+    if( ok && pwixAccounts.opts().haveUsername() !== AC_FIELD_NONE ){
+        let result = pwixAccounts._checkUsername( user.username );
+        if( !result.ok ){
+            console.error( result.errors[0] );
+        }
+        ok &= result.ok;
+    }
+    // the password is provided as a crypted password in user.services.password.bcrypt
+    //  so unable to check it here
+    if( ok && ( !user || !user.services || !user.services.password || !user.services.password.bcrypt )){
+        console.error( 'user.services.password.bcrypt is empty or undefined' );
+        ok = false;
+    }
+
     // Return true to allow user creation to proceed
-    return true;
+    return ok;
 });

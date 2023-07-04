@@ -8,8 +8,6 @@
  *  - new: true|false whether to check for non-yet existant, defaulting to false
  */
 
-import emailValidator from 'email-validator';
-
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
@@ -24,52 +22,19 @@ Template.ac_input_email.onCreated( function(){
     self.AC = {
         inputField: null,
         errorMsg: new ReactiveVar( '' ),
-        checkSyntax: new ReactiveVar( true ),
         checkNew: new ReactiveVar( true ),
 
         // check the current input field (only if new)
         //  let the error message empty if field is empty
         check(){
-            let promise = Promise.resolve( true );
-            let ok = true;
             self.AC.errorMsg.set( '' );
-            let val = self.AC.inputField.val().trim();
-            //console.log( 'syntax='+self.AC.checkSyntax.get(), 'new='+self.AC.checkNew.get());
-            promise = promise
-                .then(() => {
-                    if( ok && self.AC.checkSyntax.get() && val.length && !emailValidator.validate( val )){
-                        ok = false;
-                        self.AC.errorMsg.set( self.AC.i18n( 'invalid' ));
+            pwixAccounts._checkEmailAddress( self.AC.inputField.val())
+                .then(( result ) => {
+                    // only display error message if field is not empty
+                    if( result.errors.length && result.email.length ){
+                        self.AC.errorMsg.set( result.errors[0] );
                     }
-                    return ok;
-                })
-                .then(() => {
-                    return ok && self.AC.checkNew.get() && val.length ? Meteor.callPromise( 'pwixAccounts.byEmailAddress', val ) : ok;
-                })
-                .then(( res, err ) => {
-                    if( ok && self.AC.checkNew.get() && val.length ){
-                        if( err ){
-                            console.error( err );
-                        } else if( res ){
-                            ok = false;
-                            self.AC.errorMsg.set( self.AC.i18n( 'already_exists' ));
-                        } else {
-                            self.AC.errorMsg.set( '' );
-                        }
-                    }
-                    return ok;
-                })
-                .then(() => {
-                    if( ok && !val.length ){
-                        ok = pwixAccounts.opts().haveEmailAddress() === AC_FIELD_OPTIONAL;
-                        self.AC.errorMsg.set( '' );
-                    }
-                    return ok;
-                })
-                .then(() => {
-                    //console.log( 'sending', { ok: ok, username: val });
-                    self.$( '.ac-input-email' ).trigger( 'ac-email-data', { ok: ok, email: val });
-                    return ok;
+                    self.$( '.ac-input-email' ).trigger( 'ac-email-data', { ok: result.ok, email: result.email });
                 });
         },
 
@@ -87,21 +52,11 @@ Template.ac_input_email.onCreated( function(){
         // reinitialize the form
         reset(){
             self.$( 'input' ).val( '' );
-            if( self.AC.checkSyntax.get() || self.AC.checkNew.get()){
+            if( self.AC.checkNew.get()){
                 self.AC.check();
             }
         }
     };
-
-    // setup reactive vars
-    self.autorun(() => {
-        const syntax = Template.currentData().syntax;
-        if( syntax === true || syntax === false ){
-            self.AC.checkSyntax.set( syntax );
-        } else {
-            self.AC.checkSyntax.set( true );
-        }
-    });
 
     // setup reactive vars
     self.autorun(() => {
@@ -128,7 +83,7 @@ Template.ac_input_email.helpers({
     // whether we have to check anything
     checks(){
         const AC = Template.instance().AC;
-        return AC.checkSyntax.get() || AC.checkNew.get();
+        return AC.checkNew.get();
     },
 
     // an error message if new password
@@ -160,7 +115,9 @@ Template.ac_input_email.helpers({
 
 Template.ac_input_email.events({
     'keyup input'( event, instance ){
-        instance.AC.check();
+        if( instance.AC.checkNew.get()){
+            instance.AC.check();
+        }
     },
 
     // reset the form

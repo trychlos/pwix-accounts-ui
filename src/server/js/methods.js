@@ -1,6 +1,7 @@
 /*
  * pwix:accounts-ui/src/server/js/methods.js
  */
+
 import { Accounts } from 'meteor/accounts-base';
 
 // make sure we remove all sensitive information before returning to the client
@@ -18,19 +19,31 @@ _cleanUser = function ( user ){
     return user;
 };
 
+pwixAccounts._byEmailAddress = function( email ){
+    return _cleanUser( Accounts.findUserByEmail( email ));
+};
+
+pwixAccounts._byId = function( id ){
+    return _cleanUser( Meteor.users.findOne({ _id: id }));
+};
+
+pwixAccounts._byUsername = function( username ){
+    return _cleanUser( Accounts.findUserByUsername( username ));
+};
+
 Meteor.methods({
     // All pwixAccounts.byXxxx methods return a user object without the crypted password nor the profile
 
     // find a user by his email address
     'pwixAccounts.byEmailAddress'( email ){
         //console.debug( 'pwixAccounts.byEmailAddress' );
-        return _cleanUser( Accounts.findUserByEmail( email ));
+        return pwixAccounts._byEmailAddress( email );
     },
 
     // find a user by his internal (mongo) identifier
     'pwixAccounts.byId'( id ){
         //console.debug( 'pwixAccounts.byId' );
-        return _cleanUser( Meteor.users.findOne({ _id: id }));
+        return pwixAccounts._byId( id );
     },
 
     // find the user who holds the given reset password token
@@ -42,7 +55,7 @@ Meteor.methods({
     // find a user by his username
     'pwixAccounts.byUsername'( username ){
         //console.debug( 'pwixAccounts.byUsername' );
-        return _cleanUser( Accounts.findUserByUsername( username ));
+        return pwixAccounts._byUsername( username );
     },
 
     // find the user who holds the given email verification token

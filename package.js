@@ -66,12 +66,12 @@ function configure( api ){
     api.use( 'ecmascript' );
     api.use( 'less@4.0.0', 'client' );
     api.use( 'pwix:bootbox@1.3.0', 'client' );
-    api.use( 'pwix:core-ui@0.2.0', 'client' );
+    api.use( 'pwix:core-ui@0.2.0' );
     api.use( 'pwix:i18n@1.3.0' );
     api.use( 'pwix:layout@1.2.9', 'client' );
     api.use( 'pwix:modal@1.5.0' );
     api.use( 'pwix:options@1.4.0' );
-    api.use( 'pwix:tolert@1.4.0', 'client' );
+    api.use( 'pwix:tolert@1.4.0' );
     api.use( 'random', 'client' );
     api.use( 'tmeasday:check-npm-versions@1.0.2', 'server' );
     api.addFiles( 'src/client/components/acMenuItems/acMenuItems.js', 'client' );

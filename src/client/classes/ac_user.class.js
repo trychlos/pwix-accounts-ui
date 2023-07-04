@@ -151,7 +151,7 @@ export class acUser {
                     _errorFn( err );
                 } else {
                     _successFn();
-                    Tolert.success( i18n.label( I18N, 'user.signup_autoconnect' ));
+                    Tolert.success( i18n.label( I18N, 'user.signup_autoconnect', options.email ));
                 }
             });
         } else {
@@ -160,7 +160,7 @@ export class acUser {
                     _errorFn( err );
                 } else {
                     _successFn();
-                    Tolert.success( i18n.label( I18N, 'user.signup_noconnect' ));
+                    Tolert.success( i18n.label( I18N, 'user.signup_noconnect', options.email ));
                 }
             });
         }

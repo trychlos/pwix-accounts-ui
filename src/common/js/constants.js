@@ -2,6 +2,8 @@
  * pwix:accounts-ui/src/common/js/constants.js
  */
 
+pwixAccounts.C = {};
+
 // connection status
 AC_LOGGED = 'AC_LOGGED';
 AC_UNLOGGED = 'AC_UNLOGGED';
@@ -33,6 +35,12 @@ AC_PWD_WEAK = 'AC_PWD_WEAK';
 AC_PWD_MEDIUM = 'AC_PWD_MEDIUM';
 AC_PWD_STRONG = 'AC_PWD_STRONG';
 AC_PWD_VERYSTRONG = 'AC_PWD_VERYSTRONG';
+
+// when choosing a preferred label
+pwixAccounts.C.PreferredLabel = {
+    USERNAME: 'USERNAME',
+    EMAIL_ADDRESS: 'EMAIL_ADDRESS'
+};
 
 // rendering mode
 AC_RENDER_MODAL = 'AC_RENDER_MODAL';

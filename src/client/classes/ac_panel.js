@@ -7,7 +7,7 @@
 
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
-import '../../common/js/constants.js';
+import '../../common/js/index.js';
 
 export const acPanel = {
 

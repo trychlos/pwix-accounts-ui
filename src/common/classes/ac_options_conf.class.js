@@ -172,6 +172,15 @@ export class acOptionsConf extends pwixOptions.Options {
 
     /**
      * Getter/Setter
+     * @param {String|Function} value preferred user label
+     * @returns {String}
+     */
+    preferredLabel( value ){
+        return this.getset_String_Fn( 'preferredLabel', value, { default: defaults.common.preferredLabel, ref: Object.keys( pwixAccounts.C.PreferredLabel )});
+    }
+
+    /**
+     * Getter/Setter
      * @param {String|Function} value first text when resetting a password
      * @returns {String}
      */

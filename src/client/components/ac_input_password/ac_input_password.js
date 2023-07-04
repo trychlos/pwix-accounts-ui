@@ -10,7 +10,6 @@
  *  - mandatoryBorder: whether to displayed a colored border for mandatory fields
  *  - new: Boolean, true for entering a new password (so to be checked for its strength)
  */
-import zxcvbn from 'zxcvbn';
 
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
@@ -40,32 +39,27 @@ Template.ac_input_password.onCreated( function(){
         // check the strength of the password with https://www.npmjs.com/package/zxcvbn
         //  is only called for a new password
         check(){
-            const val = self.AC.inputField.val() || '';
-            const res = zxcvbn( val );
-            self.$( '.ac-strength-bar' ).css( self.AC.score[res.score].css );
-            let width = val.trim().length ? 1+parseInt( res.score ) : 0;
-            self.$( '.ac-strength-bar' ).css({ width: width+'em' });
-            width = 5-width;
-            self.$( '.ac-strength-other' ).css({ width: width+'em' });
-            // computes the error message (empty if field is empty)
-            //console.log( 'res.score='+res.score, 'minScore='+self.AC.minScore, 'passwordStrrngth='+pwixAccounts.opt().passwordStrength());
-            let ok = true;
-            if( val.length ){
-                if( val.length < pwixAccounts.opts().passwordLength()){
-                    ok = false;
-                    self.AC.errorMsg.set( self.AC.i18n( 'too_short' ));
-                } else if( res.score < self.AC.minScore ){
-                    ok = false;
-                    self.AC.errorMsg.set( self.AC.i18n( 'too_weak' ));
-                } else {
-                    self.AC.errorMsg.set( '' );
-                }
-            } else {
-                ok = false;
-                self.AC.errorMsg.set( '' );
-            }
-            // advertises of the current password characteristics
-            self.$( '.ac-input-password' ).trigger( 'ac-password-data', { ok: ok, score: res.score, strength: self.AC.score[res.score].k, length: val.length });
+            self.AC.errorMsg.set( '' );
+            pwixAccounts._checkPassword( self.AC.inputField.val() || '' )
+                .then(( result ) => {
+                    // css
+                    self.$( '.ac-strength-bar' ).css( self.AC.score[result.zxcvbn.score].css );
+                    let width = result.password.length ? 1+parseInt( result.zxcvbn.score ) : 0;
+                    self.$( '.ac-strength-bar' ).css({ width: width+'em' });
+                    width = 5-width;
+                    self.$( '.ac-strength-other' ).css({ width: width+'em' });
+                    // only display error message if field is not empty
+                    if( result.errors.length && result.password.length ){
+                        self.AC.errorMsg.set( result.errors[0] );
+                    }
+                    // advertises of the current password characteristics
+                    self.$( '.ac-input-password' ).trigger( 'ac-password-data', {
+                        ok: result.ok,
+                        score: result.zxcvbn.score,
+                        strength: pwixAccounts._scores[result.zxcvbn.score],
+                        length: result.password.length
+                    });
+                });
         },
 
         // provides a translated label
