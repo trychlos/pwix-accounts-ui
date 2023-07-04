@@ -13,6 +13,7 @@
     - Remove one success message on user creation, to keep stuck with only one
     - Introduce new AccountsUI.preferredLabel() method and corresponding preferredLabel configuration option
     - Upgrade pwix:modal version requirement to get Modal export
+    - Upgrade pwix:bootbox version requirement to get Bootbox export
 
 ### 1.2.5
 

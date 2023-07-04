@@ -4,7 +4,7 @@
  */
 import { Accounts } from 'meteor/accounts-base';
 
-import { pwixBootbox } from 'meteor/pwix:bootbox';
+import { Bootbox } from 'meteor/pwix:bootbox';
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
 import '../../common/js/index.js';
@@ -36,7 +36,7 @@ import '../components/ac_reset_pwd/ac_reset_pwd.js';
 // URL is of the form 'http://localhost:3000/#/verify-email/8R7RpL6ysRSAIO6Us6kA4uTITzb3xl1wzbNqyDIlAph'
 
 _verifyExpired = function(){
-    pwixBootbox.alert({
+    Bootbox.alert({
         title: i18n.label( I18N, 'user.verify_title' ),
         message: i18n.label( I18N, 'user.verify_error' )
     });
@@ -62,7 +62,7 @@ Accounts.onEmailVerificationLink( function( token, done ){
                         _verifyExpired();
                     } else {
                         if( AccountsUI.opts().onVerifiedEmailBox()){
-                            pwixBootbox.alert({
+                            Bootbox.alert({
                                 title: AccountsUI.opts().onVerifiedEmailTitle(),
                                 message: AccountsUI.opts().onVerifiedEmailMessage(),
                                 cb: AccountsUI.opts().onVerifiedEmailCb()
@@ -123,7 +123,7 @@ Accounts.onEmailVerificationLink( function( token, done ){
 //  Else, user B is re-connected.
 
 _resetExpired = function(){
-    pwixBootbox.alert({
+    Bootbox.alert({
         title: i18n.label( I18N, 'user.resetpwd_title' ),
         message: i18n.label( I18N, 'user.resetpwd_error' )
     });
@@ -145,7 +145,7 @@ Accounts.onResetPasswordLink( function( token, done ){
                                 console.error( err );
                                 _resetExpired();
                             } else {
-                                pwixBootbox.alert({
+                                Bootbox.alert({
                                     title: i18n.label( I18N, 'user.resetpwd_title' ),
                                     message: i18n.label( I18N, 'user.resetpwd_text' )
                                 });
