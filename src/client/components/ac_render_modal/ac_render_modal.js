@@ -5,7 +5,7 @@
  *  - companion: the acCompanion object
  */
 
-import { pwixModal } from 'meteor/pwix:modal';
+import { Modal } from 'meteor/pwix:modal';
 
 import { acCompanion } from '../../classes/ac_companion.class.js';
 import { acPanel } from '../../classes/ac_panel.js';
@@ -19,11 +19,11 @@ Template.ac_render_modal.onCreated( function(){
     //  one should NEVER directly set the panel value - the right way is to DisplayManager.ask()
     self.autorun(() => {
         const panel = AccountsUI.DisplayManager.panel();
-        if( panel && panel !== AC_PANEL_NONE && pwixModal.count() === 0 && acCompanion.areSame( Template.currentData().companion, AccountsUI.DisplayManager.requester())){
+        if( panel && panel !== AC_PANEL_NONE && Modal.count() === 0 && acCompanion.areSame( Template.currentData().companion, AccountsUI.DisplayManager.requester())){
             if( AccountsUI.opts().verbosity() & AC_VERBOSE_MODAL ){
                 console.log( 'pwix:accounts-ui ac_render_modal run the '+panel+' modal' );
             }
-            pwixModal.run({
+            Modal.run({
                 ... Template.currentData(),
                 ... {
                     mdBody: acPanel.template( panel ),
@@ -39,8 +39,8 @@ Template.ac_render_modal.onCreated( function(){
     self.autorun(() => {
         const panel = AccountsUI.DisplayManager.panel();
         if( !panel || panel === AC_PANEL_NONE ){
-            if( pwixModal.count() > 0 ){
-                pwixModal.close();
+            if( Modal.count() > 0 ){
+                Modal.close();
             }
         }
     });
@@ -48,9 +48,9 @@ Template.ac_render_modal.onCreated( function(){
     // update title and body
     self.autorun(() => {
         const panel = AccountsUI.DisplayManager.panel();
-        if( panel && panel !== AC_PANEL_NONE && pwixModal.count() > 0 ){
-            pwixModal.setTitle( acPanel.title( panel ));
-            pwixModal.setBody( acPanel.template( panel ));
+        if( panel && panel !== AC_PANEL_NONE && Modal.count() > 0 ){
+            Modal.setTitle( acPanel.title( panel ));
+            Modal.setBody( acPanel.template( panel ));
         }
     });
 });

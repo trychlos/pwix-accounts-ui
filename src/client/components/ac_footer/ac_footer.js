@@ -9,7 +9,7 @@
  *      instead of triggering an 'ac-submit' event
  */
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
-import { pwixModal } from 'meteor/pwix:modal';
+import { Modal } from 'meteor/pwix:modal';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { acCompanion } from '../../classes/ac_companion.class.js';
@@ -97,7 +97,7 @@ Template.ac_footer.events({
         if( AccountsUI.opts().verbosity() & AC_VERBOSE_MODAL ){
             console.log( 'pwix:accounts-ui ac_footer closing modal' );
         }
-        pwixModal.close();
+        Modal.close();
     },
 
     'click .ac-submit'( event, instance ){

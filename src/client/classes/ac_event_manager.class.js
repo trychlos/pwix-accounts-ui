@@ -162,11 +162,11 @@ export class acEventManager {
                 if( AccountsUI.opts().verbosity() & AC_VERBOSE_USER ){
                     console.log( 'pwix:accounts-ui acEventManager handling', event.type, data );
                 }
-                if( data.autoClose !== false && pwixModal.count()){
+                if( data.autoClose !== false && Modal.count()){
                     if( AccountsUI.opts().verbosity() & AC_VERBOSE_MODAL ){
                         console.log( 'pwix:accounts-ui acEventManager closing modal' );
                     }
-                    pwixModal.close();
+                    Modal.close();
                 }
         }
         return true;
