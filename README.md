@@ -360,6 +360,10 @@ The globally exported object.
 
 ### Methods
 
+- `AccountsUI.clearPanel()`
+
+    A client-only method which clears the current panel.
+
 - `AccountsUI.dropdownItems()`
 
     A client-only method which returns the list of standard dropdown items, depending of the current user connection state.
@@ -367,6 +371,12 @@ The globally exported object.
     The returned value is an array where each item is a HTML string '`<a>...</a>`'.
 
     A reactive data source.
+
+- `AccountsUI.i18n.namespace()`
+
+    This method returns the `pwix:i18n` namespace of the `pwix:accounts-ui` package.
+
+    With that name, anyone is so able to provide additional translations.
 
 - `AccountsUI.preferredLabel( id|user [, preferred] )`
 
@@ -390,11 +400,17 @@ The globally exported object.
 
     A reactive data source.
 
-- `AccountsUI.i18n.namespace()`
+- `AccountsUI.restore( prefix )`
 
-    This method returns the `pwix:i18n` namespace of the `pwix:accounts-ui` package.
+    Restore previously saved package parameters whose name begins with `prefix`.
 
-    With that name, anyone is so able to provide additional translations.
+- `AccountsUI.saveOnce( prefix )`
+
+    Save (once) all package parameters whose name begins with `prefix`.
+
+    The save is done in memory, and doesn't survive to a page reload. This function should so be called at every application initialization.
+
+    This may be useful when another package wants to temporarily set its own parameters, in place of those provided by the application.
 
 ### Blaze components
 

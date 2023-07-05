@@ -9,4 +9,5 @@ import './configure.js';
 //
 import './checks.js';
 import './preferred.js';
+import './save_restore.js';
 import './startup.js';

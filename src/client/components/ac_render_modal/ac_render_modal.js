@@ -38,7 +38,7 @@ Template.ac_render_modal.onCreated( function(){
     //  one should NEVER directly set the AC_PANEL_NONE - the right way is to DisplayManager.release()
     self.autorun(() => {
         const panel = AccountsUI.DisplayManager.panel();
-        if( !panel || panel === AC_PANEL_NONE ){
+        if( Template.currentData().companion.modal() && ( !panel || panel === AC_PANEL_NONE )){
             if( Modal.count() > 0 ){
                 Modal.close();
             }

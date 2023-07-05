@@ -62,11 +62,13 @@ Accounts.onEmailVerificationLink( function( token, done ){
                         _verifyExpired();
                     } else {
                         if( AccountsUI.opts().onVerifiedEmailBox()){
+                            console.debug( 'before bootbox alert' );
                             Bootbox.alert({
                                 title: AccountsUI.opts().onVerifiedEmailTitle(),
                                 message: AccountsUI.opts().onVerifiedEmailMessage(),
                                 cb: AccountsUI.opts().onVerifiedEmailCb()
                             });
+                            console.debug( 'after bootbox alert' );
                         }
                         const event = 'ac-user-verifieddone-event';
                         const parms = { email: email };

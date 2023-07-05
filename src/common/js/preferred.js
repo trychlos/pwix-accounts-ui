@@ -15,7 +15,7 @@ AccountsUI._identity = function( id ){
 
 /*
  * @summary Returns the preferred label of the user
- * @param {String[Object]} arg the user identifier or the user document
+ * @param {String} arg the user identifier
  * @param {String} preferred the optional caller preference
  */
 AccountsUI._preferredLabelById = function( id, preferred, result ){
@@ -73,7 +73,7 @@ AccountsUI._preferredLabelByDoc = function( user, preferred, result ){
 /**
  * @summary Returns the preferred label of the user
  * @locus Anywhere
- * @param {String[Object]} arg the user identifier or the user document
+ * @param {String|Object} arg the user identifier or the user document
  * @param {String} preferred the optional caller preference, either AC_USERNAME or AC_EMAIL_ADDRESS,
  *  defaulting to the configured value
  * @returns {Promise} on client side, which resolves to the result

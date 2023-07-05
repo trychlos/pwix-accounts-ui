@@ -2,7 +2,14 @@
  * pwix:accounts-ui/src/common/js/constants.js
  */
 
-AccountsUI.C = {};
+AccountsUI.C = {
+
+    // when choosing a preferred label
+    PreferredLabel: {
+        USERNAME: 'USERNAME',
+        EMAIL_ADDRESS: 'EMAIL_ADDRESS'
+    }
+};
 
 // connection status
 AC_LOGGED = 'AC_LOGGED';
@@ -35,12 +42,6 @@ AC_PWD_WEAK = 'AC_PWD_WEAK';
 AC_PWD_MEDIUM = 'AC_PWD_MEDIUM';
 AC_PWD_STRONG = 'AC_PWD_STRONG';
 AC_PWD_VERYSTRONG = 'AC_PWD_VERYSTRONG';
-
-// when choosing a preferred label
-AccountsUI.C.PreferredLabel = {
-    USERNAME: 'USERNAME',
-    EMAIL_ADDRESS: 'EMAIL_ADDRESS'
-};
 
 // rendering mode
 AC_RENDER_MODAL = 'AC_RENDER_MODAL';

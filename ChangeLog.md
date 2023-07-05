@@ -14,6 +14,8 @@
     - Introduce new AccountsUI.preferredLabel() method and corresponding preferredLabel configuration option
     - Upgrade pwix:modal version requirement to get Modal export
     - Upgrade pwix:bootbox version requirement to get Bootbox export
+    - Define save() and restore() methods
+    - Define clearPanel() method
 
 ### 1.2.5
 
