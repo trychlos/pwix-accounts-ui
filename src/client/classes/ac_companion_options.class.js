@@ -4,13 +4,13 @@
  * This class manages the acUserLogin configuration options.
  */
 
-import { pwixBaseOpt } from 'meteor/pwix:options';
+import { Options } from 'meteor/pwix:options';
 
 import { acPanel } from './ac_panel.js';
 
 import '../../common/js/index.js';
 
-export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
+export class acCompanionOptions extends Options.BaseOpt {
 
     // static data
     //
@@ -56,7 +56,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * 
      * @param {acCompanion} companion
      * @param {Object} options
-     * @returns {acCompanionBaseOpt}
+     * @returns {acCompanionOptions}
      */
     constructor( companion, options ){
         super( options );
@@ -64,7 +64,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
         this._companion = companion;
 
         if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
-            console.log( 'pwix:accounts-ui instanciating acCompanionBaseOpt' );
+            console.log( 'pwix:accounts-ui instanciating acCompanionOptions' );
         }
 
         return this;
@@ -76,7 +76,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {Boolean}
      */
     changePasswordTwice( twice ){
-        return this.getset_Bool_Fn( 'changePasswordTwice', twice, { default: defaults.acUserLogin.changePasswordTwice });
+        return this.baseOpt_gsBoolFn( 'changePasswordTwice', twice, { default: defaults.acUserLogin.changePasswordTwice });
     }
 
     /**
@@ -86,7 +86,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     changePwdTextOne( label ){
-        return this.getset_String_Fn_Object( 'changePwdTextOne', label, { default: defaults.acUserLogin.changePwdTextOne });
+        return this.baseOpt_gsStringObjectFn( 'changePwdTextOne', label, { default: defaults.acUserLogin.changePwdTextOne });
     }
 
     /**
@@ -96,7 +96,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     changePwdTextTwo( label ){
-        return this.getset_String_Fn_Object( 'changePwdTextTwo', label, { default: defaults.acUserLogin.changePwdTextTwo });
+        return this.baseOpt_gsStringObjectFn( 'changePwdTextTwo', label, { default: defaults.acUserLogin.changePwdTextTwo });
     }
 
     /**
@@ -106,7 +106,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     changePwdTextThree( label ){
-        return this.getset_String_Fn_Object( 'changePwdTextThree', label, { default: defaults.acUserLogin.changePwdTextThree });
+        return this.baseOpt_gsStringObjectFn( 'changePwdTextThree', label, { default: defaults.acUserLogin.changePwdTextThree });
     }
 
     /**
@@ -115,7 +115,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {Boolean}
      */
     haveCancelButton( flag ){
-        return this.getset_Bool_Fn( 'haveCancelButton', flag, { default: defaults.acUserLogin.haveCancelButton });
+        return this.baseOpt_gsBoolFn( 'haveCancelButton', flag, { default: defaults.acUserLogin.haveCancelButton });
     }
 
     /**
@@ -124,7 +124,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String} the initial panel
      */
     initialPanel( panel ){
-        return this.getset_String_Fn_Object( 'initialPanel', panel, { default: defaults.acUserLogin.initialPanel, ref: Object.keys( acPanel.Panels ) });
+        return this.baseOpt_gsStringObjectFn( 'initialPanel', panel, { default: defaults.acUserLogin.initialPanel, ref: Object.keys( acPanel.Panels ) });
     }
 
     /**
@@ -133,7 +133,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     loggedButtonAction( action ){
-        return this.getset_String_Fn_Object( 'loggedButtonAction', action, { default: defaults.acUserLogin.loggedButtonAction, ref: acCompanionBaseOpt.Actions });
+        return this.baseOpt_gsStringObjectFn( 'loggedButtonAction', action, { default: defaults.acUserLogin.loggedButtonAction, ref: acCompanionOptions.Actions });
     }
 
     /**
@@ -142,7 +142,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     loggedButtonClass( classname ){
-        return this.getset_String_Fn_Object( 'loggedButtonClass', classname, { default: defaults.acUserLogin.loggedButtonClass });
+        return this.baseOpt_gsStringObjectFn( 'loggedButtonClass', classname, { default: defaults.acUserLogin.loggedButtonClass });
     }
 
     /**
@@ -151,7 +151,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     loggedButtonContent( content ){
-        return this.getset_String_Fn_Object( 'loggedButtonContent', content, { default: defaults.acUserLogin.loggedButtonContent });
+        return this.baseOpt_gsStringObjectFn( 'loggedButtonContent', content, { default: defaults.acUserLogin.loggedButtonContent });
     }
 
     /**
@@ -161,7 +161,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {Array} the provided items as a maybe empty array.
      */
     loggedItems( items ){
-        return this.getset_String_Array_Fn( 'loggedItems', items, { default: defaults.acUserLogin.loggedItems });
+        return this.baseOpt_gsStringArrayFn( 'loggedItems', items, { default: defaults.acUserLogin.loggedItems });
     }
 
     /**
@@ -171,7 +171,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {Array} the provided item as a maybe empty array.
      */
     loggedItemsAfter( items ){
-        return this.getset_String_Array_Fn( 'loggedItemsAfter', items, { default: defaults.acUserLogin.loggedItemsAfter });
+        return this.baseOpt_gsStringArrayFn( 'loggedItemsAfter', items, { default: defaults.acUserLogin.loggedItemsAfter });
     }
 
     /**
@@ -181,7 +181,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {Array} the provided item as a maybe empty array.
      */
     loggedItemsBefore( items ){
-        return this.getset_String_Array_Fn( 'loggedItemsBefore', items, { default: defaults.acUserLogin.loggedItemsBefore });
+        return this.baseOpt_gsStringArrayFn( 'loggedItemsBefore', items, { default: defaults.acUserLogin.loggedItemsBefore });
     }
 
     /**
@@ -190,7 +190,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {Boolean}
      */
     mandatoryFieldsBorder( set ){
-        return this.getset_Bool_Fn( 'mandatoryFieldsBorder', set, { default: defaults.acUserLogin.mandatoryFieldsBorder });
+        return this.baseOpt_gsBoolFn( 'mandatoryFieldsBorder', set, { default: defaults.acUserLogin.mandatoryFieldsBorder });
     }
 
     /**
@@ -199,7 +199,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     name( name ){
-        return this.getset_String_Fn_Object( 'name', name, { default: defaults.acUserLogin.name });
+        return this.baseOpt_gsStringObjectFn( 'name', name, { default: defaults.acUserLogin.name });
     }
 
     /**
@@ -209,7 +209,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String} the rendering mode
      */
     renderMode( mode ){
-        return this.getset_String_Fn_Object( 'renderMode', mode, { default: defaults.acUserLogin.renderMode, ref: acCompanionBaseOpt.RenderModes });
+        return this.baseOpt_gsStringObjectFn( 'renderMode', mode, { default: defaults.acUserLogin.renderMode, ref: acCompanionOptions.RenderModes });
     }
 
     /**
@@ -218,7 +218,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {Boolean}
      */
     resetLink( flag ){
-        return this.getset_Bool_Fn( 'resetLink', flag, { default: defaults.acUserLogin.resetLink });
+        return this.baseOpt_gsBoolFn( 'resetLink', flag, { default: defaults.acUserLogin.resetLink });
     }
 
     /**
@@ -228,7 +228,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     resetAskTextOne( label ){
-        return this.getset_String_Fn_Object( 'resetAskTextOne', label, { default: defaults.acUserLogin.resetAskTextOne });
+        return this.baseOpt_gsStringObjectFn( 'resetAskTextOne', label, { default: defaults.acUserLogin.resetAskTextOne });
     }
 
     /**
@@ -238,7 +238,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     resetAskTextTwo( label ){
-        return this.getset_String_Fn_Object( 'resetAskTextTwo', label, { default: defaults.acUserLogin.resetAskTextTwo });
+        return this.baseOpt_gsStringObjectFn( 'resetAskTextTwo', label, { default: defaults.acUserLogin.resetAskTextTwo });
     }
 
     /**
@@ -247,7 +247,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     signinLegendEmail( str ){
-        return this.getset_String_Fn_Object( 'signinLegendEmail', str, { default: defaults.acUserLogin.signinLegendEmail });
+        return this.baseOpt_gsStringObjectFn( 'signinLegendEmail', str, { default: defaults.acUserLogin.signinLegendEmail });
     }
 
     /**
@@ -256,7 +256,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     signinLegendPassword( str ){
-        return this.getset_String_Fn_Object( 'signinLegendPassword', str, { default: defaults.acUserLogin.signinLegendPassword });
+        return this.baseOpt_gsStringObjectFn( 'signinLegendPassword', str, { default: defaults.acUserLogin.signinLegendPassword });
     }
 
     /**
@@ -265,7 +265,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     signinLegendUsername( str ){
-        return this.getset_String_Fn_Object( 'signinLegendUsername', str, { default: defaults.acUserLogin.signinLegendUsername });
+        return this.baseOpt_gsStringObjectFn( 'signinLegendUsername', str, { default: defaults.acUserLogin.signinLegendUsername });
     }
 
     /**
@@ -274,7 +274,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {Boolean}
      */
     signinLink( flag ){
-        return this.getset_Bool_Fn( 'signinLink', flag, { default: defaults.acUserLogin.signinLink });
+        return this.baseOpt_gsBoolFn( 'signinLink', flag, { default: defaults.acUserLogin.signinLink });
     }
 
     /**
@@ -284,7 +284,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     signinTextOne( label ){
-        return this.getset_String_Fn_Object( 'signinTextOne', label, { default: defaults.acUserLogin.signinTextOne });
+        return this.baseOpt_gsStringObjectFn( 'signinTextOne', label, { default: defaults.acUserLogin.signinTextOne });
     }
 
     /**
@@ -294,7 +294,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     signinTextTwo( label ){
-        return this.getset_String_Fn_Object( 'signinTextTwo', label, { default: defaults.acUserLogin.resetAsksigninTextTwoTextTwo });
+        return this.baseOpt_gsStringObjectFn( 'signinTextTwo', label, { default: defaults.acUserLogin.resetAsksigninTextTwoTextTwo });
     }
 
     /**
@@ -304,7 +304,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     signinTextThree( label ){
-        return this.getset_String_Fn_Object( 'signinTextThree', label, { default: defaults.acUserLogin.signinTextThree });
+        return this.baseOpt_gsStringObjectFn( 'signinTextThree', label, { default: defaults.acUserLogin.signinTextThree });
     }
 
     /**
@@ -314,7 +314,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     signoutTextOne( label ){
-        return this.getset_String_Fn_Object( 'signoutTextOne', label, { default: defaults.acUserLogin.signoutTextOne });
+        return this.baseOpt_gsStringObjectFn( 'signoutTextOne', label, { default: defaults.acUserLogin.signoutTextOne });
     }
 
     /**
@@ -323,7 +323,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {Boolean}
      */
     signupAutoClose( flag ){
-        return this.getset_Bool_Fn( 'signupAutoClose', flag, { default: defaults.acUserLogin.signupAutoClose });
+        return this.baseOpt_gsBoolFn( 'signupAutoClose', flag, { default: defaults.acUserLogin.signupAutoClose });
     }
 
     /**
@@ -332,7 +332,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {Boolean}
      */
     signupAutoConnect( flag ){
-        return this.getset_Bool_Fn( 'signupAutoConnect', flag, { default: defaults.acUserLogin.signupAutoConnect });
+        return this.baseOpt_gsBoolFn( 'signupAutoConnect', flag, { default: defaults.acUserLogin.signupAutoConnect });
     }
 
     /**
@@ -341,7 +341,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     signupLegendEmail( str ){
-        return this.getset_String_Fn_Object( 'signupLegendEmail', str, { default: defaults.acUserLogin.signupLegendEmail });
+        return this.baseOpt_gsStringObjectFn( 'signupLegendEmail', str, { default: defaults.acUserLogin.signupLegendEmail });
     }
 
     /**
@@ -350,7 +350,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     signupLegendPassword( str ){
-        return this.getset_String_Fn_Object( 'signupLegendPassword', str, { default: defaults.acUserLogin.signupLegendPassword });
+        return this.baseOpt_gsStringObjectFn( 'signupLegendPassword', str, { default: defaults.acUserLogin.signupLegendPassword });
     }
 
     /**
@@ -359,7 +359,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     signupLegendUsername( str ){
-        return this.getset_String_Fn_Object( 'signupLegendUsername', str, { default: defaults.acUserLogin.signupLegendUsername });
+        return this.baseOpt_gsStringObjectFn( 'signupLegendUsername', str, { default: defaults.acUserLogin.signupLegendUsername });
     }
 
     /**
@@ -368,7 +368,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {Boolean}
      */
     signupLink( flag ){
-        return this.getset_Bool_Fn( 'signupLink', flag, { default: defaults.acUserLogin.signupLink });
+        return this.baseOpt_gsBoolFn( 'signupLink', flag, { default: defaults.acUserLogin.signupLink });
     }
 
     /**
@@ -377,7 +377,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {Boolean}
      */
     signupPasswordTwice( twice ){
-        return this.getset_Bool_Fn( 'signupPasswordTwice', twice, { default: defaults.acUserLogin.signupPasswordTwice });
+        return this.baseOpt_gsBoolFn( 'signupPasswordTwice', twice, { default: defaults.acUserLogin.signupPasswordTwice });
     }
 
     /**
@@ -388,7 +388,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     signupTextOne( label ){
-        return this.getset_String_Fn_Object( 'signupTextOne', label, { default: defaults.acUserLogin.signupTextOne });
+        return this.baseOpt_gsStringObjectFn( 'signupTextOne', label, { default: defaults.acUserLogin.signupTextOne });
     }
 
     /**
@@ -399,7 +399,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     signupTextTwo( label ){
-        return this.getset_String_Fn_Object( 'signupTextTwo', label, { default: defaults.acUserLogin.signupTextTwo });
+        return this.baseOpt_gsStringObjectFn( 'signupTextTwo', label, { default: defaults.acUserLogin.signupTextTwo });
     }
 
     /**
@@ -409,7 +409,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     signupTextThree( label ){
-        return this.getset_String_Fn_Object( 'signupTextThree', label, { default: defaults.acUserLogin.signupTextThree });
+        return this.baseOpt_gsStringObjectFn( 'signupTextThree', label, { default: defaults.acUserLogin.signupTextThree });
     }
 
     /**
@@ -419,7 +419,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     signupTextFour( label ){
-        return this.getset_String_Fn_Object( 'signupTextFour', label, { default: defaults.acUserLogin.signupTextFour });
+        return this.baseOpt_gsStringObjectFn( 'signupTextFour', label, { default: defaults.acUserLogin.signupTextFour });
     }
 
     /**
@@ -428,7 +428,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     unloggedButtonAction( action ){
-        return this.getset_String_Fn_Object( 'unloggedButtonAction', action, { default: defaults.acUserLogin.unloggedButtonAction, ref: acCompanionBaseOpt.Actions });
+        return this.baseOpt_gsStringObjectFn( 'unloggedButtonAction', action, { default: defaults.acUserLogin.unloggedButtonAction, ref: acCompanionOptions.Actions });
     }
 
     /**
@@ -437,7 +437,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     unloggedButtonClass( classname ){
-        return this.getset_String_Fn_Object( 'unloggedButtonClass', classname, { default: defaults.acUserLogin.unloggedButtonClass });
+        return this.baseOpt_gsStringObjectFn( 'unloggedButtonClass', classname, { default: defaults.acUserLogin.unloggedButtonClass });
     }
 
     /**
@@ -446,7 +446,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     unloggedButtonContent( content ){
-        return this.getset_String_Fn_Object( 'unloggedButtonContent', content, { default: defaults.acUserLogin.unloggedButtonContent });
+        return this.baseOpt_gsStringObjectFn( 'unloggedButtonContent', content, { default: defaults.acUserLogin.unloggedButtonContent });
     }
 
     /**
@@ -456,7 +456,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {Array} the provided items as a maybe empty array.
      */
     unloggedItems( items ){
-        return this.getset_String_Array_Fn( 'unloggedItems', items, { default: defaults.acUserLogin.unloggedItems });
+        return this.baseOpt_gsStringArrayFn( 'unloggedItems', items, { default: defaults.acUserLogin.unloggedItems });
     }
 
     /**
@@ -466,7 +466,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {Array} the provided items as a maybe empty array.
      */
     unloggedItemsAfter( items ){
-        return this.getset_String_Array_Fn( 'unloggedItemsAfter', items, { default: defaults.acUserLogin.unloggedItemsAfter });
+        return this.baseOpt_gsStringArrayFn( 'unloggedItemsAfter', items, { default: defaults.acUserLogin.unloggedItemsAfter });
     }
 
     /**
@@ -476,7 +476,7 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {Array} the provided items as a maybe empty array.
      */
     unloggedItemsBefore( items ){
-        return this.getset_String_Array_Fn( 'unloggedItemsBefore', items, { default: defaults.acUserLogin.unloggedItemsBefore });
+        return this.baseOpt_gsStringArrayFn( 'unloggedItemsBefore', items, { default: defaults.acUserLogin.unloggedItemsBefore });
     }
 
     /**
@@ -486,6 +486,6 @@ export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
      * @returns {String}
      */
     verifyAskTextOne( label ){
-        return this.getset_String_Fn_Object( 'verifyAskTextOne', label, { default: defaults.acUserLogin.verifyAskTextOne });
+        return this.baseOpt_gsStringObjectFn( 'verifyAskTextOne', label, { default: defaults.acUserLogin.verifyAskTextOne });
     }
 }

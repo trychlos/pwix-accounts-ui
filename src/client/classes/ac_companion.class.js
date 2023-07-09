@@ -308,7 +308,7 @@ export class acCompanion {
      * @param {Object} opts the template data context at runtime
      */
     setOptions( opts ){
-        this._options.set( this._default_options( opts ));
+        this._options.baseOpt_set( this._default_options( opts ));
     }
 
     /**

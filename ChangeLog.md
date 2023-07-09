@@ -15,6 +15,7 @@
     - Upgrade pwix:bootbox version requirement to get Bootbox export
     - Define save() and restore() methods
     - Define clearPanel() method
+    - Upgrade pwix:options requirement to v 2.0.0
 
 ### 1.2.5
 

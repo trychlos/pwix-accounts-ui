@@ -61,7 +61,7 @@ AccountsUI._opts = new acOptionsConf( AccountsUI._conf );
 AccountsUI.configure = function( o ){
     if( o && _.isObject( o )){
         _.merge( AccountsUI._conf, defaults.common, o );
-        AccountsUI._opts.set( AccountsUI._conf );
+        AccountsUI._opts.baseOpt_set( AccountsUI._conf );
         // be verbose if asked for
         if( AccountsUI.opts().verbosity() & AC_VERBOSE_CONFIGURE ){
             console.log( 'pwix:accounts-ui configure() with', o, 'building', AccountsUI._conf );
