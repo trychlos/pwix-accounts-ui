@@ -6,9 +6,9 @@
 
 import '../js/constants.js';
 
-import { pwixOptions } from 'meteor/pwix:options';
+import { pwixBaseOpt } from 'meteor/pwix:options';
 
-export class acOptionsConf extends pwixOptions.Options {
+export class acBaseOptConf extends pwixBaseOpt.BaseOpt {
 
     // static data
     //
@@ -52,17 +52,17 @@ export class acOptionsConf extends pwixOptions.Options {
      * Constructor
      * @param {Object} options the options to be managed
      * 
-     * The acOptions base class takes care of managing the known options, either as a value, or as a function which return a value.
+     * The acBaseOpt base class takes care of managing the known options, either as a value, or as a function which return a value.
      * In some case where the expected value is a string, the base class also can accept an object with 'i18n' key.
      * All options are accepted as long as the corresponding getter/setter method exists in this derived class.
      * 
-     * @returns {acOptionsConf}
+     * @returns {acBaseOptConf}
      */
     constructor( options ){
         super( options );
 
         if( AccountsUI.opts() && AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
-            console.log( 'pwix:accounts-ui instanciating acOptionsConf' );
+            console.log( 'pwix:accounts-ui instanciating acBaseOptConf' );
         }
 
         return this;
@@ -74,7 +74,7 @@ export class acOptionsConf extends pwixOptions.Options {
      * @returns {String}
      */
     haveEmailAddress( value ){
-        return this.getset_String_Fn( 'haveEmailAddress', value, { default: defaults.common.haveEmailAddress, ref: acOptionsConf.Fields });
+        return this.getset_String_Fn( 'haveEmailAddress', value, { default: defaults.common.haveEmailAddress, ref: acBaseOptConf.Fields });
     }
 
     /**
@@ -83,7 +83,7 @@ export class acOptionsConf extends pwixOptions.Options {
      * @returns {String}
      */
     haveUsername( value ){
-        return this.getset_String_Fn( 'haveUsername', value, { default: defaults.common.haveUsername, ref: acOptionsConf.Fields });
+        return this.getset_String_Fn( 'haveUsername', value, { default: defaults.common.haveUsername, ref: acBaseOptConf.Fields });
     }
 
     /**
@@ -92,7 +92,7 @@ export class acOptionsConf extends pwixOptions.Options {
      * @returns {String}
      */
     informResetWrongEmail( value ){
-        return this.getset_String_Fn( 'informResetWrongEmail', value, { default: defaults.common.informResetWrongEmail, ref: acOptionsConf.ResetWrongEmail });
+        return this.getset_String_Fn( 'informResetWrongEmail', value, { default: defaults.common.informResetWrongEmail, ref: acBaseOptConf.ResetWrongEmail });
     }
 
     /**
@@ -157,7 +157,7 @@ export class acOptionsConf extends pwixOptions.Options {
      * @returns {String}
      */
     passwordStrength( value ){
-        return this.getset_String_Fn( 'passwordStrength', value, { default: defaults.common.passwordStrength, ref: acOptionsConf.Strength });
+        return this.getset_String_Fn( 'passwordStrength', value, { default: defaults.common.passwordStrength, ref: acBaseOptConf.Strength });
     }
 
     /**

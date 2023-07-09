@@ -5,9 +5,9 @@
 import './global.js';
 import './constants.js';
 import './i18n.js';
-import './configure.js';
 //
 import './checks.js';
+import './configure.js';
 import './preferred.js';
 import './save_restore.js';
 import './startup.js';

@@ -4,13 +4,13 @@
  * This class manages the acUserLogin configuration options.
  */
 
-import { pwixOptions } from 'meteor/pwix:options';
+import { pwixBaseOpt } from 'meteor/pwix:options';
 
 import { acPanel } from './ac_panel.js';
 
 import '../../common/js/index.js';
 
-export class acCompanionOptions extends pwixOptions.Options {
+export class acCompanionBaseOpt extends pwixBaseOpt.BaseOpt {
 
     // static data
     //
@@ -50,13 +50,13 @@ export class acCompanionOptions extends pwixOptions.Options {
     /**
      * Constructor
      * 
-     * The acOptions base class takes care of managing the known options, either as a value, or as a function which return a value.
+     * The acBaseOpt base class takes care of managing the known options, either as a value, or as a function which return a value.
      * In some case where the expected value is a string, the base class also can accept an object with 'i18n' key.
      * All options are accepted as long as the corresponding getter/setter method exists in this derived class.
      * 
      * @param {acCompanion} companion
      * @param {Object} options
-     * @returns {acCompanionOptions}
+     * @returns {acCompanionBaseOpt}
      */
     constructor( companion, options ){
         super( options );
@@ -64,7 +64,7 @@ export class acCompanionOptions extends pwixOptions.Options {
         this._companion = companion;
 
         if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
-            console.log( 'pwix:accounts-ui instanciating acCompanionOptions' );
+            console.log( 'pwix:accounts-ui instanciating acCompanionBaseOpt' );
         }
 
         return this;
@@ -133,7 +133,7 @@ export class acCompanionOptions extends pwixOptions.Options {
      * @returns {String}
      */
     loggedButtonAction( action ){
-        return this.getset_String_Fn_Object( 'loggedButtonAction', action, { default: defaults.acUserLogin.loggedButtonAction, ref: acCompanionOptions.Actions });
+        return this.getset_String_Fn_Object( 'loggedButtonAction', action, { default: defaults.acUserLogin.loggedButtonAction, ref: acCompanionBaseOpt.Actions });
     }
 
     /**
@@ -209,7 +209,7 @@ export class acCompanionOptions extends pwixOptions.Options {
      * @returns {String} the rendering mode
      */
     renderMode( mode ){
-        return this.getset_String_Fn_Object( 'renderMode', mode, { default: defaults.acUserLogin.renderMode, ref: acCompanionOptions.RenderModes });
+        return this.getset_String_Fn_Object( 'renderMode', mode, { default: defaults.acUserLogin.renderMode, ref: acCompanionBaseOpt.RenderModes });
     }
 
     /**
@@ -428,7 +428,7 @@ export class acCompanionOptions extends pwixOptions.Options {
      * @returns {String}
      */
     unloggedButtonAction( action ){
-        return this.getset_String_Fn_Object( 'unloggedButtonAction', action, { default: defaults.acUserLogin.unloggedButtonAction, ref: acCompanionOptions.Actions });
+        return this.getset_String_Fn_Object( 'unloggedButtonAction', action, { default: defaults.acUserLogin.unloggedButtonAction, ref: acCompanionBaseOpt.Actions });
     }
 
     /**

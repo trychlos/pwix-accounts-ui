@@ -8,7 +8,6 @@
 
     - Upgrade pwix:layout version requirement to get layout.less constants
     - Define mandatoryFieldsBorder both as a configuration option and a acUserLogin option (bumping candidate version number)
-    - Add a dependency on pwix:core-ui
     - Validate the user account structure before creation on server side
     - Remove one success message on user creation, to keep stuck with only one
     - Introduce new AccountsUI.preferredLabel() method and corresponding preferredLabel configuration option

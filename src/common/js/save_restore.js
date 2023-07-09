@@ -22,6 +22,7 @@ AccountsUI.restore = function( prefix ){
 
 /**
  * @summary Save the specified package parameter(s)
+ *  This is an in-memory save which doesn't survive the page reload
  * @locus Anywhere
  * @param {String} prefix the prefix of the parameters name
  * @returns {Integer} the count of saved parameters
@@ -31,6 +32,7 @@ AccountsUI.saveOnce = function( prefix ){
     let count = 0;
     if( !AccountsUI._saved[prefix] ){
         AccountsUI._saved[prefix] = {};
+        console.debug( 'prefix', prefix, 'opts', Object.keys( AccountsUI.opts()));
         Object.keys( AccountsUI.opts()).every(( opt ) => {
             if( opt.startsWith( prefix )){
                 AccountsUI._saved[prefix][opt] = AccountsUI.opts()[opt]();
