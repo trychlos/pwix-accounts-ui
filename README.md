@@ -320,6 +320,10 @@ Known configuration options are:
 
         Trace `DisplayManager` methods
 
+    - `AC_VERBOSE_HANDLED`
+
+        Trace all handled events.
+
     - `AC_VERBOSE_INSTANCIATIONS`
 
         Trace class instanciations

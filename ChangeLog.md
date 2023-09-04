@@ -16,6 +16,7 @@
     - Define save() and restore() methods
     - Define clearPanel() method
     - Upgrade pwix:options requirement to v 2.0.0
+    - Define new AC_VERBOSE_HANDLED verbosity level
 
 ### 1.2.5
 
