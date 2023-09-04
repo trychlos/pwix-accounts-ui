@@ -17,6 +17,7 @@
     - Define clearPanel() method
     - Upgrade pwix:options requirement to v 2.0.0
     - Define new AC_VERBOSE_HANDLED verbosity level
+    - Make sure we only close modals we have ourselves opened (fix pwix:cookie-manager#26)
 
 ### 1.2.5
 

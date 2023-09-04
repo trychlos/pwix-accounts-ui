@@ -19,6 +19,7 @@
  *  - else the method setup the current panel and return true.
  */
 
+import { Modal } from 'meteor/pwix:modal';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Tracker } from 'meteor/tracker';
 
@@ -41,6 +42,9 @@ export class acDisplayManager {
 
     // the currently displayed panel as a reactive var
     _panel = new ReactiveVar( null );
+
+    // the opened modal identifier, if any
+    _modalId = null;
 
     /**
      * Constructor
@@ -131,9 +135,12 @@ export class acDisplayManager {
      */
     handleModal( event, data ){
         switch( event.type ){
+
+            // a modal is closing
+            //  only dealt with it if it is ours
             case 'md-close':
                 const panel = this.panel();
-                if( panel && panel !== AC_PANEL_NONE ){
+                if( panel && panel !== AC_PANEL_NONE && Modal.count() > 0 && this.modalId() == data.id ){
                     if( AccountsUI.opts().verbosity() & AC_VERBOSE_MODAL ){
                         console.log( 'pwix:accounts-ui acDisplayManager handling', event.type );
                     }
@@ -144,6 +151,19 @@ export class acDisplayManager {
                 }
         }
         return false;
+    }
+
+    /**
+     * Getter/Setter
+     * @summary Get/set the modal identifier if any
+     * @param {String} id the modal identifier as returned by Modal.run()
+     * @returns {String} the current modal identifier, or null
+     */
+    modalId( id ){
+        if( arguments.length > 0 ){
+            this._modalId = id;
+        }
+        return this._modalId;
     }
 
     /**

@@ -23,7 +23,7 @@ Template.ac_render_modal.onCreated( function(){
             if( AccountsUI.opts().verbosity() & AC_VERBOSE_MODAL ){
                 console.log( 'pwix:accounts-ui ac_render_modal run the '+panel+' modal' );
             }
-            Modal.run({
+            const id = Modal.run({
                 ... Template.currentData(),
                 ... {
                     mdBody: acPanel.template( panel ),
@@ -31,6 +31,7 @@ Template.ac_render_modal.onCreated( function(){
                     mdFooter: 'ac_footer'
                 }
             });
+            AccountsUI.DisplayManager.modalId( id );
         }
     });
 
@@ -42,6 +43,7 @@ Template.ac_render_modal.onCreated( function(){
             if( Modal.count() > 0 ){
                 Modal.close();
             }
+            AccountsUI.DisplayManager.modalId( null );
         }
     });
 
