@@ -183,6 +183,9 @@ export class acEventManager {
      *  Default is to redirect the event if possible.
      */
     _handler( event, data ){
+        if( AccountsUI.opts().verbosity() & AC_VERBOSE_HANDLED ){
+            console.log( 'pwix:accounts-ui acEventManager handling', event, data );
+        }
         return this._handlePanel( event, data ) && this._handleUser( event, data ) &&
                 this._handleSubmit( event, data ) && this._handleModal( event, data );
     }
