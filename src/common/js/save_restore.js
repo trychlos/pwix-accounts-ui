@@ -32,7 +32,6 @@ AccountsUI.saveOnce = function( prefix ){
     let count = 0;
     if( !AccountsUI._saved[prefix] ){
         AccountsUI._saved[prefix] = {};
-        console.debug( 'prefix', prefix, 'opts', AccountsUI.opts().baseOpt_options());
         AccountsUI.opts().baseOpt_options().every(( opt ) => {
             if( opt.startsWith( prefix )){
                 AccountsUI._saved[prefix][opt] = AccountsUI.opts()[opt]();
