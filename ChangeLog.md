@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.3.0-rc
+### 1.3.0
 
-    Release date: 
+    Release date: 2023- 9- 4
 
     - Upgrade pwix:layout version requirement to get layout.less constants
     - Define mandatoryFieldsBorder both as a configuration option and a acUserLogin option (bumping candidate version number)
@@ -94,4 +94,4 @@
 
 ---
 P. Wieser
-- Last updated on 2023, July 1st
+- Last updated on 2023, Sept. 4th

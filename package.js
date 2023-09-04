@@ -1,6 +1,6 @@
 Package.describe({
     name: 'pwix:accounts-ui',
-    version: '1.3.0-rc',
+    version: '1.3.0',
     summary: 'A Bootstrap-based user interface for Meteor:accounts-password (or Meteor:accounts-ui reinvented)',
     git: 'https://github.com/trychlos/pwix-accounts-ui',
     documentation: 'README.md'
