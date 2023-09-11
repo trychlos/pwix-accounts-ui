@@ -30,7 +30,14 @@
 |   50 | 2023- 6-22 | have an automated way to associates a div (resp. a modal) to its acUserLogin or a data-ac attribute |
 |   55 | 2023- 7- 5 | Fix save/restore() |
 |   56 | 2023- 7- 5 | Fix clearPanel() |
-|   57 |  |  |
+|   57 | 2023- 9- 9 | Have a function to be called instead of OnEmailverified() |
+|   58 | 2023- 9- 9 | Have a function to be called after OnEmailverified() |
+|   59 | 2023- 9- 9 | buttons labels should be set as nowrap |
+|   60 | 2023- 9- 9 | with Meteor 2.13, packages constants no more default to be imported by the application => must move them to pwixI18n.C |
+|   61 | 2023- 9- 9 | provide additional classes for modal-content, modal-header, modal-body and modal-footer |
+|   62 | 2023- 9- 9 | change title of the modals |
+|   63 | 2023- 9- 9 | in izDate, many errors with textOne, textTwo textThree, textFour, legend and mandatoryBorder when trying to create a new account |
+|   64 |  |  |
 
 ---
 ## Done

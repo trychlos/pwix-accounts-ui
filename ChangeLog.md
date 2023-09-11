@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Upgrade pwix:options requirement to 2.1.0
 
 ### 1.3.0
 

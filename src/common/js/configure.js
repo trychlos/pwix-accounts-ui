@@ -6,12 +6,12 @@
 
 import _ from 'lodash';
 
-import { acOptionsConf } from '../classes/ac_options_conf.class.js';
+import { acOptions } from '../classes/ac_options.class.js';
 
 /**
  * @summarry Runtime configuration getter
  * @locus Anywhere
- * @returns {acOptionsConf} the runtime configuration object
+ * @returns {acOptions} the runtime configuration object
  */
 AccountsUI.opts = function(){
     return AccountsUI._opts;
@@ -49,7 +49,7 @@ defaults = {
 
 _.merge( AccountsUI._conf, defaults.common );
 //console.debug( AccountsUI );
-AccountsUI._opts = new acOptionsConf( AccountsUI._conf );
+AccountsUI._opts = new acOptions( AccountsUI._conf );
 
 /**
  * @summary Package configuration
@@ -61,7 +61,7 @@ AccountsUI._opts = new acOptionsConf( AccountsUI._conf );
 AccountsUI.configure = function( o ){
     if( o && _.isObject( o )){
         _.merge( AccountsUI._conf, defaults.common, o );
-        AccountsUI._opts.baseOpt_set( AccountsUI._conf );
+        AccountsUI._opts.base_set( AccountsUI._conf );
         // be verbose if asked for
         if( AccountsUI.opts().verbosity() & AC_VERBOSE_CONFIGURE ){
             console.log( 'pwix:accounts-ui configure() with', o, 'building', AccountsUI._conf );

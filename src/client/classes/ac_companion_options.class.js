@@ -10,7 +10,7 @@ import { acPanel } from './ac_panel.js';
 
 import '../../common/js/index.js';
 
-export class acCompanionOptions extends Options.BaseOpt {
+export class acCompanionOptions extends Options.Base {
 
     // static data
     //
@@ -50,7 +50,7 @@ export class acCompanionOptions extends Options.BaseOpt {
     /**
      * Constructor
      * 
-     * The acBaseOpt base class takes care of managing the known options, either as a value, or as a function which return a value.
+     * The acBase base class takes care of managing the known options, either as a value, or as a function which return a value.
      * In some case where the expected value is a string, the base class also can accept an object with 'i18n' key.
      * All options are accepted as long as the corresponding getter/setter method exists in this derived class.
      * 
@@ -76,7 +76,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {Boolean}
      */
     changePasswordTwice( twice ){
-        return this.baseOpt_gsBoolFn( 'changePasswordTwice', twice, { default: defaults.acUserLogin.changePasswordTwice });
+        return this.base_gsBoolFn( 'changePasswordTwice', twice, { default: defaults.acUserLogin.changePasswordTwice });
     }
 
     /**
@@ -86,7 +86,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     changePwdTextOne( label ){
-        return this.baseOpt_gsStringObjectFn( 'changePwdTextOne', label, { default: defaults.acUserLogin.changePwdTextOne });
+        return this.base_gsStringObjectFn( 'changePwdTextOne', label, { default: defaults.acUserLogin.changePwdTextOne });
     }
 
     /**
@@ -96,7 +96,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     changePwdTextTwo( label ){
-        return this.baseOpt_gsStringObjectFn( 'changePwdTextTwo', label, { default: defaults.acUserLogin.changePwdTextTwo });
+        return this.base_gsStringObjectFn( 'changePwdTextTwo', label, { default: defaults.acUserLogin.changePwdTextTwo });
     }
 
     /**
@@ -106,7 +106,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     changePwdTextThree( label ){
-        return this.baseOpt_gsStringObjectFn( 'changePwdTextThree', label, { default: defaults.acUserLogin.changePwdTextThree });
+        return this.base_gsStringObjectFn( 'changePwdTextThree', label, { default: defaults.acUserLogin.changePwdTextThree });
     }
 
     /**
@@ -115,7 +115,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {Boolean}
      */
     haveCancelButton( flag ){
-        return this.baseOpt_gsBoolFn( 'haveCancelButton', flag, { default: defaults.acUserLogin.haveCancelButton });
+        return this.base_gsBoolFn( 'haveCancelButton', flag, { default: defaults.acUserLogin.haveCancelButton });
     }
 
     /**
@@ -124,7 +124,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String} the initial panel
      */
     initialPanel( panel ){
-        return this.baseOpt_gsStringObjectFn( 'initialPanel', panel, { default: defaults.acUserLogin.initialPanel, ref: Object.keys( acPanel.Panels ) });
+        return this.base_gsStringObjectFn( 'initialPanel', panel, { default: defaults.acUserLogin.initialPanel, ref: Object.keys( acPanel.Panels ) });
     }
 
     /**
@@ -133,7 +133,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     loggedButtonAction( action ){
-        return this.baseOpt_gsStringObjectFn( 'loggedButtonAction', action, { default: defaults.acUserLogin.loggedButtonAction, ref: acCompanionOptions.Actions });
+        return this.base_gsStringObjectFn( 'loggedButtonAction', action, { default: defaults.acUserLogin.loggedButtonAction, ref: acCompanionOptions.Actions });
     }
 
     /**
@@ -142,7 +142,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     loggedButtonClass( classname ){
-        return this.baseOpt_gsStringObjectFn( 'loggedButtonClass', classname, { default: defaults.acUserLogin.loggedButtonClass });
+        return this.base_gsStringObjectFn( 'loggedButtonClass', classname, { default: defaults.acUserLogin.loggedButtonClass });
     }
 
     /**
@@ -151,7 +151,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     loggedButtonContent( content ){
-        return this.baseOpt_gsStringObjectFn( 'loggedButtonContent', content, { default: defaults.acUserLogin.loggedButtonContent });
+        return this.base_gsStringObjectFn( 'loggedButtonContent', content, { default: defaults.acUserLogin.loggedButtonContent });
     }
 
     /**
@@ -161,7 +161,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {Array} the provided items as a maybe empty array.
      */
     loggedItems( items ){
-        return this.baseOpt_gsStringArrayFn( 'loggedItems', items, { default: defaults.acUserLogin.loggedItems });
+        return this.base_gsStringArrayFn( 'loggedItems', items, { default: defaults.acUserLogin.loggedItems });
     }
 
     /**
@@ -171,7 +171,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {Array} the provided item as a maybe empty array.
      */
     loggedItemsAfter( items ){
-        return this.baseOpt_gsStringArrayFn( 'loggedItemsAfter', items, { default: defaults.acUserLogin.loggedItemsAfter });
+        return this.base_gsStringArrayFn( 'loggedItemsAfter', items, { default: defaults.acUserLogin.loggedItemsAfter });
     }
 
     /**
@@ -181,7 +181,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {Array} the provided item as a maybe empty array.
      */
     loggedItemsBefore( items ){
-        return this.baseOpt_gsStringArrayFn( 'loggedItemsBefore', items, { default: defaults.acUserLogin.loggedItemsBefore });
+        return this.base_gsStringArrayFn( 'loggedItemsBefore', items, { default: defaults.acUserLogin.loggedItemsBefore });
     }
 
     /**
@@ -190,7 +190,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {Boolean}
      */
     mandatoryFieldsBorder( set ){
-        return this.baseOpt_gsBoolFn( 'mandatoryFieldsBorder', set, { default: defaults.acUserLogin.mandatoryFieldsBorder });
+        return this.base_gsBoolFn( 'mandatoryFieldsBorder', set, { default: defaults.acUserLogin.mandatoryFieldsBorder });
     }
 
     /**
@@ -199,7 +199,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     name( name ){
-        return this.baseOpt_gsStringObjectFn( 'name', name, { default: defaults.acUserLogin.name });
+        return this.base_gsStringObjectFn( 'name', name, { default: defaults.acUserLogin.name });
     }
 
     /**
@@ -209,7 +209,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String} the rendering mode
      */
     renderMode( mode ){
-        return this.baseOpt_gsStringObjectFn( 'renderMode', mode, { default: defaults.acUserLogin.renderMode, ref: acCompanionOptions.RenderModes });
+        return this.base_gsStringObjectFn( 'renderMode', mode, { default: defaults.acUserLogin.renderMode, ref: acCompanionOptions.RenderModes });
     }
 
     /**
@@ -218,7 +218,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {Boolean}
      */
     resetLink( flag ){
-        return this.baseOpt_gsBoolFn( 'resetLink', flag, { default: defaults.acUserLogin.resetLink });
+        return this.base_gsBoolFn( 'resetLink', flag, { default: defaults.acUserLogin.resetLink });
     }
 
     /**
@@ -228,7 +228,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     resetAskTextOne( label ){
-        return this.baseOpt_gsStringObjectFn( 'resetAskTextOne', label, { default: defaults.acUserLogin.resetAskTextOne });
+        return this.base_gsStringObjectFn( 'resetAskTextOne', label, { default: defaults.acUserLogin.resetAskTextOne });
     }
 
     /**
@@ -238,7 +238,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     resetAskTextTwo( label ){
-        return this.baseOpt_gsStringObjectFn( 'resetAskTextTwo', label, { default: defaults.acUserLogin.resetAskTextTwo });
+        return this.base_gsStringObjectFn( 'resetAskTextTwo', label, { default: defaults.acUserLogin.resetAskTextTwo });
     }
 
     /**
@@ -247,7 +247,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     signinLegendEmail( str ){
-        return this.baseOpt_gsStringObjectFn( 'signinLegendEmail', str, { default: defaults.acUserLogin.signinLegendEmail });
+        return this.base_gsStringObjectFn( 'signinLegendEmail', str, { default: defaults.acUserLogin.signinLegendEmail });
     }
 
     /**
@@ -256,7 +256,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     signinLegendPassword( str ){
-        return this.baseOpt_gsStringObjectFn( 'signinLegendPassword', str, { default: defaults.acUserLogin.signinLegendPassword });
+        return this.base_gsStringObjectFn( 'signinLegendPassword', str, { default: defaults.acUserLogin.signinLegendPassword });
     }
 
     /**
@@ -265,7 +265,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     signinLegendUsername( str ){
-        return this.baseOpt_gsStringObjectFn( 'signinLegendUsername', str, { default: defaults.acUserLogin.signinLegendUsername });
+        return this.base_gsStringObjectFn( 'signinLegendUsername', str, { default: defaults.acUserLogin.signinLegendUsername });
     }
 
     /**
@@ -274,7 +274,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {Boolean}
      */
     signinLink( flag ){
-        return this.baseOpt_gsBoolFn( 'signinLink', flag, { default: defaults.acUserLogin.signinLink });
+        return this.base_gsBoolFn( 'signinLink', flag, { default: defaults.acUserLogin.signinLink });
     }
 
     /**
@@ -284,7 +284,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     signinTextOne( label ){
-        return this.baseOpt_gsStringObjectFn( 'signinTextOne', label, { default: defaults.acUserLogin.signinTextOne });
+        return this.base_gsStringObjectFn( 'signinTextOne', label, { default: defaults.acUserLogin.signinTextOne });
     }
 
     /**
@@ -294,7 +294,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     signinTextTwo( label ){
-        return this.baseOpt_gsStringObjectFn( 'signinTextTwo', label, { default: defaults.acUserLogin.resetAsksigninTextTwoTextTwo });
+        return this.base_gsStringObjectFn( 'signinTextTwo', label, { default: defaults.acUserLogin.resetAsksigninTextTwoTextTwo });
     }
 
     /**
@@ -304,7 +304,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     signinTextThree( label ){
-        return this.baseOpt_gsStringObjectFn( 'signinTextThree', label, { default: defaults.acUserLogin.signinTextThree });
+        return this.base_gsStringObjectFn( 'signinTextThree', label, { default: defaults.acUserLogin.signinTextThree });
     }
 
     /**
@@ -314,7 +314,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     signoutTextOne( label ){
-        return this.baseOpt_gsStringObjectFn( 'signoutTextOne', label, { default: defaults.acUserLogin.signoutTextOne });
+        return this.base_gsStringObjectFn( 'signoutTextOne', label, { default: defaults.acUserLogin.signoutTextOne });
     }
 
     /**
@@ -323,7 +323,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {Boolean}
      */
     signupAutoClose( flag ){
-        return this.baseOpt_gsBoolFn( 'signupAutoClose', flag, { default: defaults.acUserLogin.signupAutoClose });
+        return this.base_gsBoolFn( 'signupAutoClose', flag, { default: defaults.acUserLogin.signupAutoClose });
     }
 
     /**
@@ -332,7 +332,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {Boolean}
      */
     signupAutoConnect( flag ){
-        return this.baseOpt_gsBoolFn( 'signupAutoConnect', flag, { default: defaults.acUserLogin.signupAutoConnect });
+        return this.base_gsBoolFn( 'signupAutoConnect', flag, { default: defaults.acUserLogin.signupAutoConnect });
     }
 
     /**
@@ -341,7 +341,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     signupLegendEmail( str ){
-        return this.baseOpt_gsStringObjectFn( 'signupLegendEmail', str, { default: defaults.acUserLogin.signupLegendEmail });
+        return this.base_gsStringObjectFn( 'signupLegendEmail', str, { default: defaults.acUserLogin.signupLegendEmail });
     }
 
     /**
@@ -350,7 +350,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     signupLegendPassword( str ){
-        return this.baseOpt_gsStringObjectFn( 'signupLegendPassword', str, { default: defaults.acUserLogin.signupLegendPassword });
+        return this.base_gsStringObjectFn( 'signupLegendPassword', str, { default: defaults.acUserLogin.signupLegendPassword });
     }
 
     /**
@@ -359,7 +359,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     signupLegendUsername( str ){
-        return this.baseOpt_gsStringObjectFn( 'signupLegendUsername', str, { default: defaults.acUserLogin.signupLegendUsername });
+        return this.base_gsStringObjectFn( 'signupLegendUsername', str, { default: defaults.acUserLogin.signupLegendUsername });
     }
 
     /**
@@ -368,7 +368,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {Boolean}
      */
     signupLink( flag ){
-        return this.baseOpt_gsBoolFn( 'signupLink', flag, { default: defaults.acUserLogin.signupLink });
+        return this.base_gsBoolFn( 'signupLink', flag, { default: defaults.acUserLogin.signupLink });
     }
 
     /**
@@ -377,7 +377,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {Boolean}
      */
     signupPasswordTwice( twice ){
-        return this.baseOpt_gsBoolFn( 'signupPasswordTwice', twice, { default: defaults.acUserLogin.signupPasswordTwice });
+        return this.base_gsBoolFn( 'signupPasswordTwice', twice, { default: defaults.acUserLogin.signupPasswordTwice });
     }
 
     /**
@@ -388,7 +388,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     signupTextOne( label ){
-        return this.baseOpt_gsStringObjectFn( 'signupTextOne', label, { default: defaults.acUserLogin.signupTextOne });
+        return this.base_gsStringObjectFn( 'signupTextOne', label, { default: defaults.acUserLogin.signupTextOne });
     }
 
     /**
@@ -399,7 +399,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     signupTextTwo( label ){
-        return this.baseOpt_gsStringObjectFn( 'signupTextTwo', label, { default: defaults.acUserLogin.signupTextTwo });
+        return this.base_gsStringObjectFn( 'signupTextTwo', label, { default: defaults.acUserLogin.signupTextTwo });
     }
 
     /**
@@ -409,7 +409,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     signupTextThree( label ){
-        return this.baseOpt_gsStringObjectFn( 'signupTextThree', label, { default: defaults.acUserLogin.signupTextThree });
+        return this.base_gsStringObjectFn( 'signupTextThree', label, { default: defaults.acUserLogin.signupTextThree });
     }
 
     /**
@@ -419,7 +419,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     signupTextFour( label ){
-        return this.baseOpt_gsStringObjectFn( 'signupTextFour', label, { default: defaults.acUserLogin.signupTextFour });
+        return this.base_gsStringObjectFn( 'signupTextFour', label, { default: defaults.acUserLogin.signupTextFour });
     }
 
     /**
@@ -428,7 +428,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     unloggedButtonAction( action ){
-        return this.baseOpt_gsStringObjectFn( 'unloggedButtonAction', action, { default: defaults.acUserLogin.unloggedButtonAction, ref: acCompanionOptions.Actions });
+        return this.base_gsStringObjectFn( 'unloggedButtonAction', action, { default: defaults.acUserLogin.unloggedButtonAction, ref: acCompanionOptions.Actions });
     }
 
     /**
@@ -437,7 +437,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     unloggedButtonClass( classname ){
-        return this.baseOpt_gsStringObjectFn( 'unloggedButtonClass', classname, { default: defaults.acUserLogin.unloggedButtonClass });
+        return this.base_gsStringObjectFn( 'unloggedButtonClass', classname, { default: defaults.acUserLogin.unloggedButtonClass });
     }
 
     /**
@@ -446,7 +446,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     unloggedButtonContent( content ){
-        return this.baseOpt_gsStringObjectFn( 'unloggedButtonContent', content, { default: defaults.acUserLogin.unloggedButtonContent });
+        return this.base_gsStringObjectFn( 'unloggedButtonContent', content, { default: defaults.acUserLogin.unloggedButtonContent });
     }
 
     /**
@@ -456,7 +456,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {Array} the provided items as a maybe empty array.
      */
     unloggedItems( items ){
-        return this.baseOpt_gsStringArrayFn( 'unloggedItems', items, { default: defaults.acUserLogin.unloggedItems });
+        return this.base_gsStringArrayFn( 'unloggedItems', items, { default: defaults.acUserLogin.unloggedItems });
     }
 
     /**
@@ -466,7 +466,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {Array} the provided items as a maybe empty array.
      */
     unloggedItemsAfter( items ){
-        return this.baseOpt_gsStringArrayFn( 'unloggedItemsAfter', items, { default: defaults.acUserLogin.unloggedItemsAfter });
+        return this.base_gsStringArrayFn( 'unloggedItemsAfter', items, { default: defaults.acUserLogin.unloggedItemsAfter });
     }
 
     /**
@@ -476,7 +476,7 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {Array} the provided items as a maybe empty array.
      */
     unloggedItemsBefore( items ){
-        return this.baseOpt_gsStringArrayFn( 'unloggedItemsBefore', items, { default: defaults.acUserLogin.unloggedItemsBefore });
+        return this.base_gsStringArrayFn( 'unloggedItemsBefore', items, { default: defaults.acUserLogin.unloggedItemsBefore });
     }
 
     /**
@@ -486,6 +486,6 @@ export class acCompanionOptions extends Options.BaseOpt {
      * @returns {String}
      */
     verifyAskTextOne( label ){
-        return this.baseOpt_gsStringObjectFn( 'verifyAskTextOne', label, { default: defaults.acUserLogin.verifyAskTextOne });
+        return this.base_gsStringObjectFn( 'verifyAskTextOne', label, { default: defaults.acUserLogin.verifyAskTextOne });
     }
 }

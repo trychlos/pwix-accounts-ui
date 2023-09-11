@@ -1,5 +1,5 @@
 /*
- * pwix:accounts-ui/src/common/classes/ac_options_global_conf.class.js
+ * pwix:accounts-ui/src/common/classes/ac_options.class.js
  *
  * This class manages the global configuration options.
  */
@@ -8,7 +8,7 @@ import '../js/constants.js';
 
 import { Options } from 'meteor/pwix:options';
 
-export class acOptionsConf extends Options.BaseOpt {
+export class acOptions extends Options.Base {
 
     // static data
     //
@@ -52,17 +52,17 @@ export class acOptionsConf extends Options.BaseOpt {
      * Constructor
      * @param {Object} options the options to be managed
      * 
-     * The acBaseOpt base class takes care of managing the known options, either as a value, or as a function which return a value.
+     * The acBase base class takes care of managing the known options, either as a value, or as a function which return a value.
      * In some case where the expected value is a string, the base class also can accept an object with 'i18n' key.
      * All options are accepted as long as the corresponding getter/setter method exists in this derived class.
      * 
-     * @returns {acOptionsConf}
+     * @returns {acOptions}
      */
     constructor( options ){
         super( options );
 
         if( AccountsUI.opts() && AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
-            console.log( 'pwix:accounts-ui instanciating acOptionsConf' );
+            console.log( 'pwix:accounts-ui instanciating acOptions' );
         }
 
         return this;
@@ -74,7 +74,7 @@ export class acOptionsConf extends Options.BaseOpt {
      * @returns {String}
      */
     haveEmailAddress( value ){
-        return this.baseOpt_gsStringFn( 'haveEmailAddress', value, { default: defaults.common.haveEmailAddress, ref: acOptionsConf.Fields });
+        return this.base_gsStringFn( 'haveEmailAddress', value, { default: defaults.common.haveEmailAddress, ref: acOptions.Fields });
     }
 
     /**
@@ -83,7 +83,7 @@ export class acOptionsConf extends Options.BaseOpt {
      * @returns {String}
      */
     haveUsername( value ){
-        return this.baseOpt_gsStringFn( 'haveUsername', value, { default: defaults.common.haveUsername, ref: acOptionsConf.Fields });
+        return this.base_gsStringFn( 'haveUsername', value, { default: defaults.common.haveUsername, ref: acOptions.Fields });
     }
 
     /**
@@ -92,7 +92,7 @@ export class acOptionsConf extends Options.BaseOpt {
      * @returns {String}
      */
     informResetWrongEmail( value ){
-        return this.baseOpt_gsStringFn( 'informResetWrongEmail', value, { default: defaults.common.informResetWrongEmail, ref: acOptionsConf.ResetWrongEmail });
+        return this.base_gsStringFn( 'informResetWrongEmail', value, { default: defaults.common.informResetWrongEmail, ref: acOptions.ResetWrongEmail });
     }
 
     /**
@@ -101,7 +101,7 @@ export class acOptionsConf extends Options.BaseOpt {
      * @returns {Boolean}
      */
     mandatoryFieldsBorder( set ){
-        return this.baseOpt_gsBoolFn( 'mandatoryFieldsBorder', set, { default: defaults.common.mandatoryFieldsBorder });
+        return this.base_gsBoolFn( 'mandatoryFieldsBorder', set, { default: defaults.common.mandatoryFieldsBorder });
     }
 
     /**
@@ -110,7 +110,7 @@ export class acOptionsConf extends Options.BaseOpt {
      * @returns {Boolean}
      */
     onVerifiedEmailBox( flag ){
-        return this.baseOpt_gsBoolFn( 'onVerifiedEmailBox', flag, { default: defaults.common.onVerifiedEmailBox });
+        return this.base_gsBoolFn( 'onVerifiedEmailBox', flag, { default: defaults.common.onVerifiedEmailBox });
     }
 
     /**
@@ -119,7 +119,7 @@ export class acOptionsConf extends Options.BaseOpt {
      * @returns {Function}
      */
     onVerifiedEmailCb( fn ){
-        return this.baseOpt_gsFn( 'onVerifiedEmailCb', fn, { default: defaults.common.onVerifiedEmailCb });
+        return this.base_gsFn( 'onVerifiedEmailCb', fn, { default: defaults.common.onVerifiedEmailCb });
     }
 
     /**
@@ -128,7 +128,7 @@ export class acOptionsConf extends Options.BaseOpt {
      * @returns {String}
      */
     onVerifiedEmailMessage( text ){
-        return this.baseOpt_gsStringObjectFn( 'onVerifiedEmailMessage', text, { default: defaults.common.onVerifiedEmailMessage });
+        return this.base_gsStringObjectFn( 'onVerifiedEmailMessage', text, { default: defaults.common.onVerifiedEmailMessage });
     }
 
     /**
@@ -137,7 +137,7 @@ export class acOptionsConf extends Options.BaseOpt {
      * @returns {String}
      */
     onVerifiedEmailTitle( text ){
-        return this.baseOpt_gsStringObjectFn( 'onVerifiedEmailTitle', text, { default: defaults.common.onVerifiedEmailTitle });
+        return this.base_gsStringObjectFn( 'onVerifiedEmailTitle', text, { default: defaults.common.onVerifiedEmailTitle });
     }
 
     /**
@@ -148,7 +148,7 @@ export class acOptionsConf extends Options.BaseOpt {
      * @returns {Integer}
      */
     passwordLength( value ){
-        return this.baseOpt_gsIntegerFn( 'passwordLength', value, { check: ( val ) => { return val >= 0 }, default: defaults.common.passwordLength });
+        return this.base_gsIntegerFn( 'passwordLength', value, { check: ( val ) => { return val >= 0 }, default: defaults.common.passwordLength });
     }
 
     /**
@@ -157,7 +157,7 @@ export class acOptionsConf extends Options.BaseOpt {
      * @returns {String}
      */
     passwordStrength( value ){
-        return this.baseOpt_gsStringFn( 'passwordStrength', value, { default: defaults.common.passwordStrength, ref: acOptionsConf.Strength });
+        return this.base_gsStringFn( 'passwordStrength', value, { default: defaults.common.passwordStrength, ref: acOptions.Strength });
     }
 
     /**
@@ -167,7 +167,7 @@ export class acOptionsConf extends Options.BaseOpt {
      * @returns {Boolean}
      */
     passwordTwice( twice ){
-        return this.baseOpt_gsBoolFn( 'passwordTwice', twice, { default: defaults.common.passwordTwice });
+        return this.base_gsBoolFn( 'passwordTwice', twice, { default: defaults.common.passwordTwice });
     }
 
     /**
@@ -176,7 +176,7 @@ export class acOptionsConf extends Options.BaseOpt {
      * @returns {String}
      */
     preferredLabel( value ){
-        return this.baseOpt_gsStringFn( 'preferredLabel', value, { default: defaults.common.preferredLabel, ref: Object.keys( AccountsUI.C.PreferredLabel )});
+        return this.base_gsStringFn( 'preferredLabel', value, { default: defaults.common.preferredLabel, ref: Object.keys( AccountsUI.C.PreferredLabel )});
     }
 
     /**
@@ -185,7 +185,7 @@ export class acOptionsConf extends Options.BaseOpt {
      * @returns {String}
      */
     resetPwdTextOne( value ){
-        return this.baseOpt_gsStringObjectFn( 'resetPwdTextOne', value, { default: defaults.common.resetPwdTextOne });
+        return this.base_gsStringObjectFn( 'resetPwdTextOne', value, { default: defaults.common.resetPwdTextOne });
     }
 
     /**
@@ -194,7 +194,7 @@ export class acOptionsConf extends Options.BaseOpt {
      * @returns {String}
      */
     resetPwdTextTwo( value ){
-        return this.baseOpt_gsStringObjectFn( 'resetPwdTextTwo', value, { default: defaults.common.resetPwdTextTwo });
+        return this.base_gsStringObjectFn( 'resetPwdTextTwo', value, { default: defaults.common.resetPwdTextTwo });
     }
 
     /**
@@ -203,7 +203,7 @@ export class acOptionsConf extends Options.BaseOpt {
      * @returns {Boolean}
      */
     sendVerificationEmail( flag ){
-        return this.baseOpt_gsBoolFn( 'sendVerificationEmail', flag, { default: defaults.common.sendVerificationEmail });
+        return this.base_gsBoolFn( 'sendVerificationEmail', flag, { default: defaults.common.sendVerificationEmail });
     }
 
     /**
@@ -212,7 +212,7 @@ export class acOptionsConf extends Options.BaseOpt {
      * @returns {Boolean}
      */
     resetPasswordTwice( twice ){
-        return this.baseOpt_gsBoolFn( 'resetPasswordTwice', twice, { default: defaults.common.resetPasswordTwice });
+        return this.base_gsBoolFn( 'resetPasswordTwice', twice, { default: defaults.common.resetPasswordTwice });
     }
 
     /**
@@ -221,7 +221,7 @@ export class acOptionsConf extends Options.BaseOpt {
      * @returns {Integer}
      */
     verbosity( value ){
-        return this.baseOpt_gsIntegerFn( 'verbosity', value, { default: defaults.common.verbosity });
+        return this.base_gsIntegerFn( 'verbosity', value, { default: defaults.common.verbosity });
     }
 
     /**
@@ -230,6 +230,6 @@ export class acOptionsConf extends Options.BaseOpt {
      * @returns {Integer}
      */
     usernameLength( value ){
-        return this.baseOpt_gsIntegerFn( 'usernameLength', value, { check: ( val ) => { return val >= 0 }, default: defaults.common.usernameLength });
+        return this.base_gsIntegerFn( 'usernameLength', value, { check: ( val ) => { return val >= 0 }, default: defaults.common.usernameLength });
     }
 }
