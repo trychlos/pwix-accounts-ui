@@ -181,23 +181,41 @@ Known configuration options are:
     - `AC_COLORED_VALIDATION`: use colored borders to exhibit the validation state of the fields
     - `AC_COLORED_MANDATORY`: use colored borders to exhibit the mandatory character of each field
 
-    Defaults to `AC_COLORED_VALIDATION`.
+    Defaults to `AC_COLORED_NEVER`: the error messages are red-colored, but the fields themselves stay normal colored.
 
-- `onUserCreated`
+- `onEmailVerifiedBeforeFn`
 
-    What to do when a new user account has just been created:
+    A user function to be called when an email has just been verified.
 
-    - nothing
-    - display a confirmation dialog
-    - call a user function
+    If a box is also displayed (cf. below), then this function is called before the box is displayed.
 
-- `onEmailverified`
+    Defaults to `null`.
 
-    What to do when a email adress has just been verified:
+- `onEmailVerifiedBox`
 
-    - nothing
-    - display a confirmation dialog
-    - call a user function
+    Whether we display a confirmation dialog box when an email has just been verified.
+
+    Accepted values are `true` or `false`.
+
+    Defaults to `true`.
+
+- `onEmailVerifiedBoxCb`
+
+    A user function to be called when the user acknowledges the displayed confirmation box.
+
+    Defaults to `null`.
+
+- `onEmailVerifiedBoxTitle`
+
+    The title of the confirmation box as a string.
+
+    Defaults to (localized) 'Email address verification'.
+
+- `onEmailVerifiedBoxMessage`
+
+    The content of the confirmation box as a HTML string.
+
+    Defaults to (localized) 'Hi.<br />Your email address is now said "verified".<br />Thanks.'.
 
 - `passwordLength`
 
@@ -252,6 +270,23 @@ Known configuration options are:
 
     Defaults to `AccountsUI.C.PreferredLabel.EMAIL_ADDRESS` though the actually displayed label heavily depends of the runtime configuration as we try to always display something.
 
+- `resetPasswordTwice`
+
+    Whether to request the user to enter twice the password when resetting for an existing account.
+
+    Accepted values are `true` or `false`, defaulting to the value of the `passwordTwice` package configuration.
+
+- `resetPwdTextOne`
+- `resetPwdTextTwo`
+
+    Display personalization of the Reset password dialog box.
+
+    These options let the application provides its own content before the input fields of the corresponding panel.
+
+    Value is expected to be a HTML string, or a function which returns such a string.
+
+    Defaults to 'Hello <b>%s</b>,<br />Welcome again!<br />Let us reset your password, and enjoy.' for the first text, none for the second.
+
 - `sendVerificationEmail`
 
     Whether to send a verification email to each newly created user.
@@ -280,17 +315,21 @@ Known configuration options are:
 
         Trace configuration operations
 
-    - `AC_VERBOSE_DISP_MANAGER`
+    - `AC_VERBOSE_DISPLAY`
 
-        Trace `DisplayManager` methods
+        Trace `acDisplay` operations
 
-    - `AC_VERBOSE_HANDLED`
+    - `AC_VERBOSE_EVENT`
 
-        Trace all handled events.
+        Trace all handled events
 
     - `AC_VERBOSE_INSTANCIATIONS`
 
-        Trace class instanciations
+        Trace classes instanciations
+
+    - `AC_VERBOSE_MODAL`
+
+        Trace modal changes
 
     - `AC_VERBOSE_PANEL`
 
@@ -530,6 +569,16 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     Default: `AC_PANEL_NONE`
 
+- `coloredBorders`
+
+    Whether the borders of fields in the panels should or not be colored, and when:
+
+    - `AC_COLORED_NEVER`: do not use colored borders at all
+    - `AC_COLORED_VALIDATION`: use colored borders to exhibit the validation state of the fields
+    - `AC_COLORED_MANDATORY`: use colored borders to exhibit the mandatory character of each field
+
+    Defaults to the value configured at the package level.
+
 - `changePwdTextOne`
 - `changePwdTextTwo`
 - `changePwdTextThree`
@@ -576,14 +625,6 @@ Even when providing a configuration object, as all keys are optional, this objec
     A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
 
     Values: `true`|`false`, defaulting to `true`.
-
-- `mandatoryFieldsBorder`
-
-    Whether the color of the border of the mandatory fields must be set.
-
-    Value: `true`|`false`, defaulting to the value configured at package level.
-
-    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
 
 - `name`
 
@@ -675,9 +716,10 @@ In the same time, the `acUserLogin` template advertises of its contexts:
 
 - `AC_VERBOSE_NONE`,
 - `AC_VERBOSE_CONFIGURE`,
-- `AC_VERBOSE_DISP_MANAGER`,
-- `AC_VERBOSE_IDPFREE`,
+- `AC_VERBOSE_DISPLAY`,
+- `AC_VERBOSE_EVENT`,
 - `AC_VERBOSE_INSTANCIATIONS`,
+- `AC_VERBOSE_MODAL`,
 - `AC_VERBOSE_PANEL`,
 - `AC_VERBOSE_READY`,
 - `AC_VERBOSE_STARTUP`,

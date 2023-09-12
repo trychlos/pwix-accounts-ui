@@ -2,11 +2,12 @@
 
 ## ChangeLog
 
-### 1.3.1-rc
+### 1.4.0-rc
 
     Release date: 
 
     - Upgrade pwix:options requirement to 2.1.0
+    - Deep code refactoring and configuration parameters evolution (bumping candidate version number)
 
 ### 1.3.0
 

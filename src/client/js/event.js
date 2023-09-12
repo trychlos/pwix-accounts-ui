@@ -35,8 +35,10 @@ AccountsUI.Event = {
         'ac-user-verifieddone-event',
         // when submitting a modal not attached to any Blaze template event handler
         'ac-submit',
-        // when a modal is about to close
-        'md-close'
+        // the modal events we may want to deal with
+        'md-click',
+        'md-close',
+        'md-ready'
     ],
 
     /*
@@ -48,6 +50,10 @@ AccountsUI.Event = {
      */
     _handleModal( event, data ){
         switch( event.type ){
+            case 'md-click':
+            case 'md-ready':
+                console.log( event, data );
+                break;
             case 'md-close':
                 AccountsUI.Display.handleModal( event, data );
                 break;
@@ -171,8 +177,8 @@ AccountsUI.Event = {
      *  Default is to redirect the event if possible.
      */
     handler( event, data ){
-        if( AccountsUI.opts().verbosity() & AC_VERBOSE_HANDLED ){
-            console.log( 'pwix:accounts-ui Event handling', event, data );
+        if( AccountsUI.opts().verbosity() & AC_VERBOSE_EVENT ){
+            console.log( 'pwix:accounts-ui Event.handler()', event, data );
         }
         return this._handlePanel( event, data ) && this._handleUser( event, data ) &&
                 this._handleSubmit( event, data ) && this._handleModal( event, data );

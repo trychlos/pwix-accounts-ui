@@ -109,7 +109,6 @@ AccountsUI.i18n = {
                 changepwd_error: 'Impossible de changer le mot de passe.',
                 changepwd_success: 'Mot de passe mis à jour avec succès',
                 resetask_credentials: 'Impossible d\'envoyer un lien de réinitialisation. Merci de vérifier l`adresse saisie',
-                resetask_error: 'Impossible d\'envoyer un lien de réinitialisation.',
                 resetask_success: 'Message envoyé avec succès',
                 resetpwd_error: 'Humm... Désolé, mais il semble que le jeton utilisé soit expiré.<br />Vous devez en redemander un nouveau.',
                 resetpwd_text: 'Bonjour,<br />Votre mot de passe a été réinitialisé avec succès.<br />Vous êtes automatiquement connecté au site.',
@@ -127,9 +126,8 @@ AccountsUI.i18n = {
             },
             verify_ask: {
                 modal_title: 'Vérifier l\'adresse de messagerie',
-                textOne: 'Tant que votre adresse de messagerie n\'est pas considérée comme vérifiée, il vous est impossible de participer aux forums de discussion.<br />'
-                    +'Lorsque vous aurez pressé le bouton "Envoyer" ci-dessous, nous enverrons un message vers votre adresse de messagerie.<br />'
-                    +'Ce message contiendra un lien sur lequel vous devrez cliquer, et qui vous permettra de nous confirmer votre addresse.'
+                textOne: 'Lorsque vous aurez pressé le bouton "Envoyer" ci-dessous, nous enverrons un message vers votre adresse de messagerie.<br />'
+                    +'Ce message contiendra un lien sur lequel vous devrez cliquer, et qui vous permettra de nous confirmer votre adresse.'
             }
         }
     }

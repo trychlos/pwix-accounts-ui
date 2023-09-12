@@ -4,6 +4,8 @@
  * This class manages the global configuration options.
  */
 
+import _ from 'lodash';
+
 import '../js/constants.js';
 
 import { Options } from 'meteor/pwix:options';
@@ -13,6 +15,13 @@ export class acOptions extends Options.Base {
     // static data
     //
 
+    // borders colors
+    static BorderedColors = [
+        AC_COLORED_NEVER,
+        AC_COLORED_VALIDATION,
+        AC_COLORED_MANDATORY
+    ];
+
     // fields management
     static Fields = [
         AC_FIELD_NONE,
@@ -21,10 +30,9 @@ export class acOptions extends Options.Base {
     ];
 
     // inform the user of a wrong email
-    static ResetWrongEmail = [
-        AC_RESET_EMAILSENT,
-        AC_RESET_EMAILUNSENT,
-        AC_RESET_EMAILERROR
+    static WrongEmail = [
+        AC_WRONGEMAIL_OK,
+        AC_WRONGEMAIL_ERROR
     ];
 
     // password strength
@@ -60,12 +68,22 @@ export class acOptions extends Options.Base {
      */
     constructor( options ){
         super( options );
+        const self = this;
 
         if( AccountsUI.opts() && AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
             console.log( 'pwix:accounts-ui instanciating acOptions' );
         }
 
         return this;
+    }
+
+    /**
+     * Getter/Setter
+     * @param {String|Function} value the borders of the fields must them be colored and how ?
+     * @returns {String}
+     */
+    coloredBorders( value ){
+        return this.base_gsStringFn( 'coloredBorders', value, { default: defaults.common.coloredBorders, ref: acOptions.ColoredBorders });
     }
 
     /**
@@ -91,17 +109,17 @@ export class acOptions extends Options.Base {
      * @param {String|Function} value how to inform the user of a bad email address when asking for resetting a password
      * @returns {String}
      */
-    informResetWrongEmail( value ){
-        return this.base_gsStringFn( 'informResetWrongEmail', value, { default: defaults.common.informResetWrongEmail, ref: acOptions.ResetWrongEmail });
+    informWrongEmail( value ){
+        return this.base_gsStringFn( 'informWrongEmail', value, { default: defaults.common.informWrongEmail, ref: acOptions.WrongEmail });
     }
 
     /**
      * Getter/Setter
-     * @param {Boolean|Function} set whether the mandatory fields borders must be colored
-     * @returns {Boolean}
+     * @param {Function} fn a user function
+     * @returns {Function}
      */
-    mandatoryFieldsBorder( set ){
-        return this.base_gsBoolFn( 'mandatoryFieldsBorder', set, { default: defaults.common.mandatoryFieldsBorder });
+    onEmailVerifiedBeforeFn( fn ){
+        return this.base_gsFn( 'onEmailVerifiedBeforeFn', fn, { default: defaults.common.onEmailVerifiedBeforeFn });
     }
 
     /**
@@ -109,17 +127,17 @@ export class acOptions extends Options.Base {
      * @param {Boolean|Function} flag whether we want display a confirmation dialog box on email verification done.
      * @returns {Boolean}
      */
-    onVerifiedEmailBox( flag ){
-        return this.base_gsBoolFn( 'onVerifiedEmailBox', flag, { default: defaults.common.onVerifiedEmailBox });
+    onEmailVerifiedBox( flag ){
+        return this.base_gsBoolFn( 'onEmailVerifiedBox', flag, { default: defaults.common.onEmailVerifiedBox });
     }
 
     /**
      * Getter/Setter
-     * @param {Function} fn a callback function
+     * @param {Function} fn a user function
      * @returns {Function}
      */
-    onVerifiedEmailCb( fn ){
-        return this.base_gsFn( 'onVerifiedEmailCb', fn, { default: defaults.common.onVerifiedEmailCb });
+    onEmailVerifiedBoxCb( fn ){
+        return this.base_gsFn( 'onEmailVerifiedBoxCb', fn, { default: defaults.common.onEmailVerifiedBoxCb });
     }
 
     /**
@@ -127,8 +145,8 @@ export class acOptions extends Options.Base {
      * @param {Object|Function} text the content of the displayed confirmation dialog box
      * @returns {String}
      */
-    onVerifiedEmailMessage( text ){
-        return this.base_gsStringObjectFn( 'onVerifiedEmailMessage', text, { default: defaults.common.onVerifiedEmailMessage });
+    onEmailVerifiedBoxMessage( text ){
+        return this.base_gsStringObjectFn( 'onEmailVerifiedBoxMessage', text, { default: defaults.common.onEmailVerifiedBoxMessage });
     }
 
     /**
@@ -136,8 +154,8 @@ export class acOptions extends Options.Base {
      * @param {Object|Function} text the title of the displayed confirmation dialog box
      * @returns {String}
      */
-    onVerifiedEmailTitle( text ){
-        return this.base_gsStringObjectFn( 'onVerifiedEmailTitle', text, { default: defaults.common.onVerifiedEmailTitle });
+    onEmailVerifiedBoxTitle( text ){
+        return this.base_gsStringObjectFn( 'onEmailVerifiedBoxTitle', text, { default: defaults.common.onEmailVerifiedBoxTitle });
     }
 
     /**
@@ -181,6 +199,15 @@ export class acOptions extends Options.Base {
 
     /**
      * Getter/Setter
+     * @param {Boolean|Function} twice whether we want use two password input fields when resetting a user's password.
+     * @returns {Boolean}
+     */
+    resetPasswordTwice( twice ){
+        return this.base_gsBoolFn( 'resetPasswordTwice', twice, { default: defaults.common.resetPasswordTwice });
+    }
+
+    /**
+     * Getter/Setter
      * @param {String|Function} value first text when resetting a password
      * @returns {String}
      */
@@ -208,11 +235,11 @@ export class acOptions extends Options.Base {
 
     /**
      * Getter/Setter
-     * @param {Boolean|Function} twice whether we want use two password input fields when resetting a user's password.
-     * @returns {Boolean}
+     * @param {Integer|Function} value required username length
+     * @returns {Integer}
      */
-    resetPasswordTwice( twice ){
-        return this.base_gsBoolFn( 'resetPasswordTwice', twice, { default: defaults.common.resetPasswordTwice });
+    usernameLength( value ){
+        return this.base_gsIntegerFn( 'usernameLength', value, { check: ( val ) => { return val >= 0 }, default: defaults.common.usernameLength });
     }
 
     /**
@@ -222,14 +249,5 @@ export class acOptions extends Options.Base {
      */
     verbosity( value ){
         return this.base_gsIntegerFn( 'verbosity', value, { default: defaults.common.verbosity });
-    }
-
-    /**
-     * Getter/Setter
-     * @param {Integer|Function} value required username length
-     * @returns {Integer}
-     */
-    usernameLength( value ){
-        return this.base_gsIntegerFn( 'usernameLength', value, { check: ( val ) => { return val >= 0 }, default: defaults.common.usernameLength });
     }
 }

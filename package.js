@@ -1,6 +1,6 @@
 Package.describe({
     name: 'pwix:accounts-ui',
-    version: '1.3.1-rc',
+    version: '1.4.0-rc',
     summary: 'A Bootstrap-based user interface for Meteor:accounts-password (or Meteor:accounts-ui reinvented)',
     git: 'https://github.com/trychlos/pwix-accounts-ui',
     documentation: 'README.md'
@@ -16,6 +16,9 @@ Package.onUse( function( api ){
         'AC_ACT_NONE',
         'AC_ACT_DROPDOWN',
         'AC_ACT_BUBBLE',
+        'AC_COLORED_NEVER',
+        'AC_COLORED_VALIDATION',
+        'AC_COLORED_MANDATORY',
         'AC_FIELD_NONE',
         'AC_FIELD_OPTIONAL',
         'AC_FIELD_MANDATORY',
@@ -34,18 +37,17 @@ Package.onUse( function( api ){
         'AC_PWD_VERYSTRONG',
         'AC_RENDER_MODAL',
         'AC_RENDER_DIV',
-        'AC_RESET_EMAILSENT',
-        'AC_RESET_EMAILUNSENT',
-        'AC_RESET_EMAILERROR',
         'AC_VERBOSE_NONE',
         'AC_VERBOSE_CONFIGURE',
-        'AC_VERBOSE_DISP_MANAGER',
+        'AC_VERBOSE_DISPLAY',
         'AC_VERBOSE_INSTANCIATIONS',
         'AC_VERBOSE_PANEL',
         'AC_VERBOSE_READY',
         'AC_VERBOSE_STARTUP',
         'AC_VERBOSE_SUBMIT',
-        'AC_VERBOSE_USER'
+        'AC_VERBOSE_USER',
+        'AC_WRONGEMAIL_OK',
+        'AC_WRONGEMAIL_ERROR'
     ]);
     api.mainModule( 'src/client/js/index.js', 'client' );
     api.mainModule( 'src/server/js/index.js', 'server' );

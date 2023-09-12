@@ -23,6 +23,8 @@ import { Modal } from 'meteor/pwix:modal';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Tracker } from 'meteor/tracker';
 
+import { acComponent } from './ac_component.class.js';
+
 export class acDisplay {
 
     // static data
@@ -66,7 +68,7 @@ export class acDisplay {
         Tracker.autorun(() => {
             const panel = this.panel();
             if( AccountsUI.opts().verbosity() & AC_VERBOSE_PANEL ){
-                console.log( 'AccountsUI.panel()', panel );
+                console.log( 'pwix:accounts-ui acDisplay.panel()', panel );
             }
         });
 
@@ -84,7 +86,7 @@ export class acDisplay {
      *  i.e. whether the display is free before the request and can be allocated to it
      */
     ask( panel, requester, parms={} ){
-        if( AccountsUI.opts().verbosity() & AC_VERBOSE_DISP_MANAGER ){
+        if( AccountsUI.opts().verbosity() & AC_VERBOSE_DISPLAY ){
             console.log( 'pwix:accounts-ui acDisplay.ask() self', this );
             console.log( 'pwix:accounts-ui acDisplay.ask() panel', panel );
             console.log( 'pwix:accounts-ui acDisplay.ask() requester', requester );
@@ -95,7 +97,7 @@ export class acDisplay {
             requester = ANONYMOUS;
         }
         // if we already have a another requester for the display, then refuse the request
-        if( this._requester && ( this._requester !== requester || this._requester.id() !== requester.id())){
+        if( this._requester && ( this._requester !== requester )){
             console.log( 'refusing request as already used by another requester' );
             return false;
         }
@@ -137,30 +139,19 @@ export class acDisplay {
             //  only dealt with it if it is ours
             case 'md-close':
                 const panel = this.panel();
-                if( panel && panel !== AC_PANEL_NONE && Modal.count() > 0 && this.modalId() == data.id ){
-                    if( AccountsUI.opts().verbosity() & AC_VERBOSE_MODAL ){
+                const managerId = data && data.parms ? data.parms.managerId : null;
+                const component = managerId ? AccountsUI.Manager.component( managerId ) : null;
+                if( panel && panel !== AC_PANEL_NONE && component instanceof acComponent ){
+                    if( AccountsUI.opts().verbosity() & AC_VERBOSE_DISPLAY || AccountsUI.opts().verbosity() & AC_VERBOSE_MODAL ){
                         console.log( 'pwix:accounts-ui acDisplay handling', event.type );
                     }
                     this.errorMsg( '' );
                     this.title( '' );
-                    AccountsUI.Display.release();
+                    this.release();
                     return true;
                 }
         }
         return false;
-    }
-
-    /**
-     * Getter/Setter
-     * @summary Get/set the modal identifier if any
-     * @param {String} id the modal identifier as returned by Modal.run()
-     * @returns {String} the current modal identifier, or null
-     */
-    modalId( id ){
-        if( arguments.length > 0 ){
-            this._modalId = id;
-        }
-        return this._modalId;
     }
 
     /**
@@ -180,7 +171,7 @@ export class acDisplay {
      * @summary Release the current requester
      */
     release(){
-        if( AccountsUI.opts().verbosity() & AC_VERBOSE_DISP_MANAGER ){
+        if( AccountsUI.opts().verbosity() & AC_VERBOSE_DISPLAY ){
             console.log( 'pwix:accounts-ui acDisplay.release()' );
         }
         this._requester = null;

@@ -126,8 +126,8 @@ function _emailAddress(){
 /*
  * a function to return the 'mandatoryFieldsBorder' package default value
  */
-function _mandatoryFieldsBorder(){
-    return AccountsUI.opts().mandatoryFieldsBorder();
+function _coloredBorders(){
+    return AccountsUI.opts().coloredBorders();
 }
 
 /*
@@ -156,6 +156,7 @@ _.merge( defaults, {
         signupPasswordTwice: _passwordTwice,
         changePasswordTwice: _passwordTwice,
         initialPanel: AC_PANEL_NONE,
+        coloredBorders: _coloredBorders,
         changePwdTextOne: '',
         changePwdTextTwo: '',
         changePwdTextThree: '',
@@ -181,7 +182,6 @@ _.merge( defaults, {
         resetLink: true,
         signupAutoClose: true,
         signupAutoConnect: true,
-        mandatoryFieldsBorder: _mandatoryFieldsBorder,
         name: ''
     }
 });

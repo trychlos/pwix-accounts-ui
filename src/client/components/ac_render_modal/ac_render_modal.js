@@ -26,7 +26,8 @@ Template.ac_render_modal.onCreated( function(){
     });
 
     // whether we have to open a new dialog ?
-    //  one should NEVER directly set the panel value - the right way is to DisplayManager.ask()
+    //  one should NEVER directly set the panel value
+    //  the right way is to DisplayManager.ask(), which will trigger this code.
     self.autorun(() => {
         const component = self.AC.component.get();
         if( component ){
@@ -35,13 +36,12 @@ Template.ac_render_modal.onCreated( function(){
                 if( AccountsUI.opts().verbosity() & AC_VERBOSE_MODAL ){
                     console.log( 'pwix:accounts-ui ac_render_modal run the '+panel+' modal' );
                 }
-                const id = Modal.run({
+                Modal.run({
                     mdBody: AccountsUI.Panel.template( panel ),
                     mdTitle: AccountsUI.Panel.title( panel ),
                     mdFooter: 'ac_footer',
                     ... Template.currentData()
                 });
-                AccountsUI.Display.modalId( id );
             }
         }
     });
@@ -50,25 +50,27 @@ Template.ac_render_modal.onCreated( function(){
     //  one should NEVER directly set the AC_PANEL_NONE - the right way is to DisplayManager.release()
     self.autorun(() => {
         const component = self.AC.component.get();
-        if( component ){
+        if( component && component.modal()){
             const panel = AccountsUI.Display.panel();
-            if( component.modal() && ( !panel || panel === AC_PANEL_NONE )){
+            if( !panel || panel === AC_PANEL_NONE ){
                 if( Modal.count() > 0 ){
                     Modal.close();
                 }
-                AccountsUI.Display.modalId( null );
             }
         }
     });
 
     // update title and body
     self.autorun(() => {
-        const panel = AccountsUI.Display.panel();
-        if( panel && panel !== AC_PANEL_NONE && Modal.count() > 0 ){
-            Modal.set({
-                title: AccountsUI.Panel.title( panel ),
-                body: AccountsUI.Panel.template( panel )
-            });
+        const component = self.AC.component.get();
+        if( component && component.modal()){
+            const panel = AccountsUI.Display.panel();
+            if( panel && panel !== AC_PANEL_NONE && Modal.count() > 0 ){
+                Modal.set({
+                    title: AccountsUI.Panel.title( panel ),
+                    body: AccountsUI.Panel.template( panel )
+                });
+            }
         }
     });
 });

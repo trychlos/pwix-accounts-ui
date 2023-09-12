@@ -85,11 +85,13 @@ Template.ac_change_pwd.events({
     'ac-password-data .ac-change-pwd'( event, instance, data ){
         //console.log( 'ac-password-data', data );
         instance.AC.passwordOk.set( data ? data.ok : false );
+        AccountsUI.Display.errorMsg( '' );
     },
 
     // message sent by the twice passwords component
     'ac-twice-data .ac-change-pwd'( event, instance, data ){
         //console.log( 'ac-twice-data', data );
         instance.AC.twiceOk.set( data ? data.ok : false );
+        AccountsUI.Display.errorMsg( '' );
     }
 });

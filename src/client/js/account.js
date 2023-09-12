@@ -157,16 +157,11 @@ AccountsUI.Account = {
         Accounts.forgotPassword({ email: email }, ( err ) => {
             if( err ){
                 console.error( err );
-                switch( AccountsUI.opts().informResetWrongEmail()){
-                    case AC_RESET_EMAILSENT:
+                switch( AccountsUI.opts().informWrongEmail()){
+                    case AC_WRONGEMAIL_OK:
                         this._resetAskSuccess( email );
                         break;
-
-                    case AC_RESET_EMAILUNSENT:
-                        target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.resetask_error' ));
-                        break;
-
-                    case AC_RESET_EMAILERROR:
+                    case AC_WRONGEMAIL_ERROR:
                         target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.resetask_credentials' ));
                 }
             } else {

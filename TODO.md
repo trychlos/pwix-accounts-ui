@@ -35,9 +35,12 @@
 |   59 | 2023- 9- 9 | buttons labels should be set as nowrap |
 |   60 | 2023- 9- 9 | with Meteor 2.13, packages constants no more default to be imported by the application => must move them to pwixI18n.C |
 |   61 | 2023- 9- 9 | provide additional classes for modal-content, modal-header, modal-body and modal-footer |
-|   62 | 2023- 9- 9 | change title of the modals |
 |   63 | 2023- 9- 9 | in izDate, many errors with textOne, textTwo textThree, textFour, legend and mandatoryBorder when trying to create a new account |
-|   64 |  |  |
+|   64 | 2023- 9-12 | todo: handle ac-title message - for now, is only used to set a rv var, itself unsused |
+|   65 | 2023- 9-12 | feat: have a onUserCreated parm with nothing, dialog box or user function (but is it relevant client side) |
+|   66 | 2023- 9-12 | feat: honor onEmailverifiedXxxx parms |
+|   67 | 2023- 9-12 | feat: honor coloredBorders parm |
+|   68 |  |  |
 
 ---
 ## Done
@@ -141,6 +144,8 @@
 |      | 2023- 6-26 | fixed |
 |   54 | 2023- 6-22 | dropdown items are not reactive to the language |
 |      | 2023- 6-23 | fixed |
+|   62 | 2023- 9- 9 | change title of the modals |
+|      | 2023- 9-12 | cancelled as duplicate of #64 |
 
 ---
 P. Wieser

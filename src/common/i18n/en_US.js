@@ -108,7 +108,6 @@ AccountsUI.i18n = {
                 changepwd_error: 'Unable to change the password.',
                 changepwd_success: 'Password successfully changed',
                 resetask_credentials: 'Unable to send a reset link, please check your credentials',
-                resetask_error: 'Unable to send a reset link to the specified address',
                 resetask_success: 'Reset mail successfully sent',
                 resetpwd_title: 'Password reset',
                 resetpwd_text: 'Hi.<br />Your password has been successfully reset.<br />You are now automatically logged-in.',
@@ -126,9 +125,8 @@ AccountsUI.i18n = {
             },
             verify_ask: {
                 modal_title: 'Re-send verification mail',
-                textOne: 'While your mail address has not been verified, you are not able to participate to discussions forums.<br />'
-                    +'By clicking on the below "Send" button, we will send a mail to your declared mail address.<br />'
-                    +'This mail will include a link which you have to click on so that your email becomes "verified".'
+                textOne: 'By clicking on the below "Send" button, we will send a mail to your declared email address.<br />'
+                    +'This email will include a link which you have to click on so that your email becomes "verified".'
             }
         }
     }

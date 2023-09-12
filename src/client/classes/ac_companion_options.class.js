@@ -4,6 +4,8 @@
  * This class manages the acUserLogin configuration options.
  */
 
+import _ from 'lodash';
+
 import { Options } from 'meteor/pwix:options';
 
 import '../../common/js/index.js';
@@ -12,6 +14,13 @@ export class acCompanionOptions extends Options.Base {
 
     // static data
     //
+
+    // borders colors
+    static BorderedColors = [
+        AC_COLORED_NEVER,
+        AC_COLORED_VALIDATION,
+        AC_COLORED_MANDATORY
+    ];
 
     // the known actions
     static Actions = [
@@ -64,6 +73,10 @@ export class acCompanionOptions extends Options.Base {
         }
 
         self._managerId = managerId;
+
+        _.merge( self, {
+            coloredBorders( arg ){ return this.base_gsStringFn( 'coloredBorders', arg, { default: defaults.acUserLogin.coloredBorders, ref: acCompanionOptions.ColoredBorders }); },
+        });
 
         return this;
     }
@@ -180,15 +193,6 @@ export class acCompanionOptions extends Options.Base {
      */
     loggedItemsBefore( items ){
         return this.base_gsStringArrayFn( 'loggedItemsBefore', items, { default: defaults.acUserLogin.loggedItemsBefore });
-    }
-
-    /**
-     * Getter/Setter
-     * @param {Boolean|Function} set the color to be set to the mandatory fields borders
-     * @returns {Boolean}
-     */
-    mandatoryFieldsBorder( set ){
-        return this.base_gsBoolFn( 'mandatoryFieldsBorder', set, { default: defaults.acUserLogin.mandatoryFieldsBorder });
     }
 
     /**

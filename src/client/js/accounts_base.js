@@ -61,11 +61,15 @@ Accounts.onEmailVerificationLink( function( token, done ){
                         console.error( err );
                         _verifyExpired();
                     } else {
-                        if( AccountsUI.opts().onVerifiedEmailBox()){
+                        const fn = AccountsUI.opts().onEmailVerifiedBeforeFn();
+                        if( fn ){
+                            fn();
+                        }
+                        if( AccountsUI.opts().onEmailVerifiedBox()){
                             Bootbox.alert({
-                                title: AccountsUI.opts().onVerifiedEmailTitle(),
-                                message: AccountsUI.opts().onVerifiedEmailMessage(),
-                                cb: AccountsUI.opts().onVerifiedEmailCb()
+                                title: AccountsUI.opts().onEmailVerifiedBoxTitle(),
+                                message: AccountsUI.opts().onEmailVerifiedBoxMessage(),
+                                cb: AccountsUI.opts().onEmailVerifiedBoxCb()
                             });
                         }
                         const event = 'ac-user-verifieddone-event';
