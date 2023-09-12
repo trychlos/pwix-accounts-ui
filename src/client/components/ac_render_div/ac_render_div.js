@@ -2,7 +2,7 @@
  * pwix:accounts-ui/src/client/components/ac_render_div/ac_render_div.js
  * 
  * Parms:
- *  - managerId: the identified allocated by acManager
+ *  - managerId: the identifier allocated by acManager
  */
 
 import './ac_render_div.html';

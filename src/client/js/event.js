@@ -35,7 +35,7 @@ AccountsUI.Event = {
         'ac-user-verifieddone-event',
         // when submitting a modal not attached to any Blaze template event handler
         'ac-submit',
-        // when the modal is about to close
+        // when a modal is about to close
         'md-close'
     ],
 
@@ -44,7 +44,7 @@ AccountsUI.Event = {
      * @param {Object} event the jQuery event
      * @param {Object} data the data associated to the event by the sender
      * @return {Boolean} false to stop the propagation (usually because the event has been handled)
-     *  Here, let the event bubble up
+     *  Here, always let the event bubble up
      */
     _handleModal( event, data ){
         switch( event.type ){

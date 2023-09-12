@@ -5,7 +5,7 @@
  * or as individual items inside of an application menu.
  * 
  * Parms:
- *  - managerId: the identified allocated by acManager
+ *  - managerId: the identifier allocated by acManager
  */
 
 import { acCompanion } from '../../classes/ac_companion.class.js';

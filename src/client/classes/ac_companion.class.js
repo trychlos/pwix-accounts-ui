@@ -182,23 +182,7 @@ export class acCompanion {
      *  This returned value may be used by the caller to allow - or not - the event propagation...
      */
     handleEvent( event, data ){
-        if( data ){
-            if( !data.requester ){
-                console.error( 'requester expected, but found empty' );
-                return true;    // bubble up
-            }
-            component = AccountsUI.Manager.component( data.requester );
-            if( !component ){
-                console.error( 'unable to get acComponent with requester', requester );
-                return true;    // bubble up
-            }
-            //console.debug( component );
-            //console.debug( this );
-            if( component._managerId !== this._managerId ){
-                console.error( 'cowardly refusing to handle an event for someone else', data, this );
-                return true;    // bubble up
-            }
-        }
+        let managed = false;
         switch( event.type ){
             // message sent by dropdown items (ac_menu_items)
             //  data is { requester, panel }
@@ -208,20 +192,34 @@ export class acCompanion {
             case 'ac-panel-signout-event':
             case 'ac-panel-signup-event':
             case 'ac-panel-verifyask-event':
-                if( AccountsUI.opts().verbosity() & AC_VERBOSE_PANEL ){
-                    console.log( 'pwix:accounts-ui acCompanion handling', event.type, data );
+                if( !data || !data.requester ){
+                    console.error( 'requester expected, but found empty' );
+                } else {
+                    component = AccountsUI.Manager.component( data.requester );
+                    if( component ){
+                        if( component._managerId !== this._managerId ){
+                            console.error( 'cowardly refusing to handle an event for someone else', data, this );
+                        } else if( !data.panel ){
+                            console.error( 'panel expected, but found empty' );
+                        } else {
+                            if( AccountsUI.opts().verbosity() & AC_VERBOSE_PANEL ){
+                                console.log( 'pwix:accounts-ui acCompanion handling', event.type, data );
+                            }
+                            managed = AccountsUI.Display.ask( data.panel, data.requester );
+                        }
+                    } else {
+                        console.error( 'unable to get acComponent with requester', requester );
+                    }
                 }
-                if( !data.panel ){
-                    console.error( 'panel expected, but found empty' );
-                    return true;    // bubble up
-                }
-                return AccountsUI.Display.ask( data.panel, data.requester );
+                break;
 
             // message sent from ac_footer
             //  no data is expected
             case 'ac-submit':
-                return this._handleSubmitEvent( event, data );
+                managed = this._handleSubmitEvent( event, data );
+                break;
         }
+        return !managed;
     }
 
     /****************************************************************************************************************************************************************

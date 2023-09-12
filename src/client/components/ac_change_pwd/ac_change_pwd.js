@@ -2,7 +2,7 @@
  * pwix:accounts-ui/src/client/components/ac_change_pwd/ac_change_pwd.js
  * 
  * Parms:
- *  - managerId: the identified allocated by acManager
+ *  - managerId: the identifier allocated by acManager
  */
 import { pwixI18n } from 'meteor/pwix:i18n';
 

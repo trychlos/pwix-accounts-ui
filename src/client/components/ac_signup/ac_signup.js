@@ -2,7 +2,7 @@
  * pwix:accounts-ui/src/client/components/ac_signup/ac_signup.js
  * 
  * Parms:
- *  - managerId: the identified allocated by acManager
+ *  - managerId: the identifier allocated by acManager
  */
 
 import { ReactiveVar } from 'meteor/reactive-var';

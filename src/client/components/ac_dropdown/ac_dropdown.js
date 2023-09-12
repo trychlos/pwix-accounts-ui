@@ -6,7 +6,7 @@
  * - or (not exclusive) when no user is logged, and the 'unloggedButtonAction' is not hidden.
  * 
  * Parms:
- *  - managerId: the identified allocated by acManager
+ *  - managerId: the identifier allocated by acManager
  */
 
 import { ReactiveVar } from 'meteor/reactive-var';
