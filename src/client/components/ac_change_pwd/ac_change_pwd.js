@@ -2,11 +2,11 @@
  * pwix:accounts-ui/src/client/components/ac_change_pwd/ac_change_pwd.js
  * 
  * Parms:
- *  - companion: the acCompanion object
+ *  - managerId: the identified allocated by acManager
  */
-import { pwixI18n as i18n } from 'meteor/pwix:i18n';
+import { pwixI18n } from 'meteor/pwix:i18n';
 
-import { acCompanion } from '../../classes/ac_companion.class.js';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import '../ac_input_password/ac_input_password.js';
 
@@ -16,15 +16,16 @@ Template.ac_change_pwd.onCreated( function(){
     const self = this;
 
     self.AC = {
+        component: new ReactiveVar( null ),
         passwordOk: new ReactiveVar( true ),
         twiceOk: new ReactiveVar( true )
     };
 
-    // check that companion is a acCompanion
+    // setup the acUserLogin acManager component
     self.autorun(() => {
-        const companion = Template.currentData().companion;
-        if( companion && !( companion instanceof acCompanion )){
-            throw new Error( 'expected acCompanion, found', companion );
+        const managerId = Template.currentData().managerId;
+        if( managerId ){
+            self.AC.component.set( AccountsUI.Manager.component( managerId ));
         }
     });
 });
@@ -41,7 +42,7 @@ Template.ac_change_pwd.onRendered( function(){
 Template.ac_change_pwd.helpers({
     // error message
     errorMsg(){
-        return AccountsUI.DisplayManager.errorMsg();
+        return AccountsUI.Display.errorMsg();
     },
 
     // parameters for the password input
@@ -55,23 +56,26 @@ Template.ac_change_pwd.helpers({
     // params to old password
     labelOld(){
         return {
-            label: i18n.label( I18N, 'change_pwd.old_label' )
+            label: pwixI18n.label( I18N, 'change_pwd.old_label' )
         }
     },
 
     // the text before the old password
     textOne(){
-        return this.companion.opts().changePwdTextOne();
+        const component = Template.instance().AC.component.get();
+        return component ? component.opts().changePwdTextOne() : '';
     },
 
     // the text between old and new passwords
     textTwo(){
-        return this.companion.opts().changePwdTextTwo();
+        const component = Template.instance().AC.component.get();
+        return component ? component.opts().changePwdTextTwo() : '';
     },
 
     // the text after new passwords
     textThree(){
-        return this.companion.opts().changePwdTextThree();
+        const component = Template.instance().AC.component.get();
+        return component ? component.opts().changePwdTextThree() : '';
     }
 });
 

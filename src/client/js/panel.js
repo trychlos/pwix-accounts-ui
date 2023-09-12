@@ -1,18 +1,13 @@
 /*
- * /src/client/classes/ac_panel.js
- *
- * A reference object of known panels.
- * The dynamics between the panels is actually managed by the acDisplayManager.
+ * /src/client/js/panel.js
  */
 
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 
-import '../../common/js/index.js';
-
-export const acPanel = {
+AccountsUI.Panel = {
 
     // the known panels
-    Panels: {
+    Refs: {
         AC_PANEL_NONE: {
         },
         AC_PANEL_CHANGEPWD: {
@@ -89,7 +84,7 @@ export const acPanel = {
      * @returns {Array} the ordered list of buttons to be displayed for this panel
      */
     buttons: function( name ){
-        return acPanel.Panels[name] ? acPanel.Panels[name].buttons || [] : [];
+        return AccountsUI.Panel.Refs[name] ? AccountsUI.Panel.Refs[name].buttons || [] : [];
     },
 
     /**
@@ -99,7 +94,7 @@ export const acPanel = {
      *  which are not managed here.
      */
     links: function( name ){
-        return acPanel.Panels[name] ? acPanel.Panels[name].links || [] : [];
+        return AccountsUI.Panel.Refs[name] ? AccountsUI.Panel.Refs[name].links || [] : [];
     },
 
     /**
@@ -107,7 +102,7 @@ export const acPanel = {
      * @returns {String} the Blaze template which implements the panel, or empty
      */
     template: function( name ){
-        return acPanel.Panels[name] ? acPanel.Panels[name].template || '' : '';
+        return AccountsUI.Panel.Refs[name] ? AccountsUI.Panel.Refs[name].template || '' : '';
     },
 
     /**
@@ -115,7 +110,7 @@ export const acPanel = {
      * @returns {String} the localized title of the modal which implements the panel, or empty
      */
     title: function( name ){
-        const o = acPanel.Panels[name] ? acPanel.Panels[name].modal_title || null : null;
+        const o = AccountsUI.Panel.Refs[name] ? AccountsUI.Panel.Refs[name].modal_title || null : null;
         return o ? i18n.label( I18N, o.i18n ) : '';
     },
 
@@ -127,7 +122,8 @@ export const acPanel = {
         if( !panel ){
             throw new Error( 'empty panel name' );
         }
-        if( !Object.keys( acPanel.Panels ).includes( panel )){
+        console.log( this );
+        if( !Object.keys( AccountsUI.Panel.Refs ).includes( panel )){
             throw new Error( 'unknown panel', panel );
         }
     }

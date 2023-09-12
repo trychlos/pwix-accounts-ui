@@ -76,8 +76,10 @@ Template.ac_menu_items.events({
             if( AccountsUI.opts().verbosity() & AC_VERBOSE_PANEL ){
                 console.log( 'pwix:accounts-ui ac_menu_items triggering', msg, parms );
             }
-            // will bubble up to acEventManager.handler()
+            // will bubble up to Event.handler()
             //  where the handler will ask the panel for the 'companion' requester
+            //console.debug( msg );
+            //console.debug( parms );
             $( event.currentTarget ).trigger( msg, parms );
         }
     }

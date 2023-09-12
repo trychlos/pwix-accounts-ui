@@ -4,8 +4,9 @@
  * Manages here the account interactions with the 'users' database (login, creation, logout and so out).
  */
 
-AccountsUI.Account = {
+import { pwixI18n } from 'meteor/pwix:i18n';
 
+AccountsUI.Account = {
     /**
      * Change the user's password
      * @param {String} oldpwd the current password
@@ -17,15 +18,15 @@ AccountsUI.Account = {
         Accounts.changePassword( oldpwd, newpwd, ( err ) => {
             if( err ){
                 console.error( err );
-                target.trigger( 'ac-display-error', i18n.label( I18N, 'user.changepwd_error' ));
+                target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.changepwd_error' ));
             } else {
-                Tolert.success( i18n.label( I18N, 'user.changepwd_success' ));
+                Tolert.success( pwixI18n.label( I18N, 'user.changepwd_success' ));
                 const event = 'ac-user-changedpwd-event';
-                const parms = Meteor.user()
+                const parms = Meteor.user();
                 if( AccountsUI.opts().verbosity() & AC_VERBOSE_USER ){
                     console.log( 'pwix:accounts-ui triggering', event, parms );
                 }
-                AccountsUI.EventManager.trigger( event, parms );
+                AccountsUI.Event.trigger( event, parms );
             }
         });
     },
@@ -46,7 +47,7 @@ AccountsUI.Account = {
         // the error handler
         const _errorFn = function( err ){
             console.error( err );
-            target.trigger( 'ac-display-error', i18n.label( I18N, 'user.signup_error' ));
+            target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.signup_error' ));
         };
         // the success handler
         const _successFn = function(){
@@ -61,7 +62,7 @@ AccountsUI.Account = {
             if( AccountsUI.opts().verbosity() & AC_VERBOSE_USER ){
                 console.log( 'pwix:accounts-ui triggering', event, parms );
             }
-            AccountsUI.EventManager.trigger( event, parms );
+            AccountsUI.Event.trigger( event, parms );
             // send a verification mail if asked for
             if( options.email && AccountsUI.opts().sendVerificationEmail()){
                 Meteor.call( 'AccountsUI.sendVerificationEmailByEmail', options.email, ( err, res ) => {
@@ -78,7 +79,7 @@ AccountsUI.Account = {
                     _errorFn( err );
                 } else {
                     _successFn();
-                    Tolert.success( i18n.label( I18N, 'user.signup_autoconnect', options.email ));
+                    Tolert.success( pwixI18n.label( I18N, 'user.signup_autoconnect', options.email ));
                 }
             });
         } else {
@@ -87,7 +88,7 @@ AccountsUI.Account = {
                     _errorFn( err );
                 } else {
                     _successFn();
-                    Tolert.success( i18n.label( I18N, 'user.signup_noconnect', options.email ));
+                    Tolert.success( pwixI18n.label( I18N, 'user.signup_noconnect', options.email ));
                 }
             });
         }
@@ -105,14 +106,14 @@ AccountsUI.Account = {
         Meteor.loginWithPassword( userid, password, ( err ) => {
             if( err ){
                 console.error( err );
-                target.trigger( 'ac-display-error', i18n.label( I18N, 'user.signin_error' ));
+                target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.signin_error' ));
             } else {
                 const event = 'ac-user-signedin-event';
                 const parms = Meteor.user();
                 if( AccountsUI.opts().verbosity() & AC_VERBOSE_USER ){
                     console.log( 'pwix:accounts-ui triggering', event, parms );
                 }
-                AccountsUI.EventManager.trigger( event, parms );
+                AccountsUI.Event.trigger( event, parms );
             }
         });
     },
@@ -128,7 +129,7 @@ AccountsUI.Account = {
         if( AccountsUI.opts().verbosity() & AC_VERBOSE_USER ){
             console.log( 'pwix:accounts-ui triggering', event, parms );
         }
-        AccountsUI.EventManager.trigger( event, parms );
+        AccountsUI.Event.trigger( event, parms );
     },
 
     /**
@@ -142,13 +143,13 @@ AccountsUI.Account = {
      * So it is a package configuration to send back this error to the user, or to say him that an email has been sent (event if this is not true).
      */
     _resetAskSuccess( email ){
-        Tolert.success( i18n.label( I18N, 'user.resetask_success' ));
+        Tolert.success( pwixI18n.label( I18N, 'user.resetask_success' ));
         const event = 'ac-user-resetasked-event';
         const parms = { email: email };
         if( AccountsUI.opts().verbosity() & AC_VERBOSE_USER ){
             console.log( 'pwix:accounts-ui triggering', event, parms );
         }
-        AccountsUI.EventManager.trigger( event, parms );
+        AccountsUI.Event.trigger( event, parms );
     },
 
     resetAsk( email, target ){
@@ -162,11 +163,11 @@ AccountsUI.Account = {
                         break;
 
                     case AC_RESET_EMAILUNSENT:
-                        target.trigger( 'ac-display-error', i18n.label( I18N, 'user.resetask_error' ));
+                        target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.resetask_error' ));
                         break;
 
                     case AC_RESET_EMAILERROR:
-                        target.trigger( 'ac-display-error', i18n.label( I18N, 'user.resetask_credentials' ));
+                        target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.resetask_credentials' ));
                 }
             } else {
                 this._resetAskSuccess( email );
@@ -183,15 +184,15 @@ AccountsUI.Account = {
         Meteor.callPromise( 'AccountsUI.sendVerificationEmail', Meteor.userId())
             .then(( result ) => {
                 if( result ){
-                    Tolert.success( i18n.label( I18N, 'user.verifyask_success' ));
+                    Tolert.success( pwixI18n.label( I18N, 'user.verifyask_success' ));
                     const event = 'ac-user-verifyasked-event';
                     const parms = { ...Meteor.user() };
                     if( AccountsUI.opts().verbosity() & AC_VERBOSE_USER ){
                         console.log( 'pwix:accounts-ui triggering', event, parms );
                     }
-                    AccountsUI.EventManager.trigger( event, parms );
+                    AccountsUI.Event.trigger( event, parms );
                 } else {
-                    Tolert.error( i18n.label( I18N, 'user.verifyask_error' ));
+                    Tolert.error( pwixI18n.label( I18N, 'user.verifyask_error' ));
                 }
             });
     }

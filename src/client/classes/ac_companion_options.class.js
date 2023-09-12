@@ -6,8 +6,6 @@
 
 import { Options } from 'meteor/pwix:options';
 
-import { acPanel } from './ac_panel.js';
-
 import '../../common/js/index.js';
 
 export class acCompanionOptions extends Options.Base {
@@ -124,7 +122,7 @@ export class acCompanionOptions extends Options.Base {
      * @returns {String} the initial panel
      */
     initialPanel( panel ){
-        return this.base_gsStringObjectFn( 'initialPanel', panel, { default: defaults.acUserLogin.initialPanel, ref: Object.keys( acPanel.Panels ) });
+        return this.base_gsStringObjectFn( 'initialPanel', panel, { default: defaults.acUserLogin.initialPanel, ref: Object.keys( AccountsUI.Panel.Refs ) });
     }
 
     /**

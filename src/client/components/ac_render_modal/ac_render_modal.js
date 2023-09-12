@@ -8,8 +8,6 @@
 import { Modal } from 'meteor/pwix:modal';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { acPanel } from '../../classes/ac_panel.js';
-
 import './ac_render_modal.html';
 
 Template.ac_render_modal.onCreated( function(){
@@ -32,18 +30,18 @@ Template.ac_render_modal.onCreated( function(){
     self.autorun(() => {
         const component = self.AC.component.get();
         if( component ){
-            const panel = AccountsUI.DisplayManager.panel();
-            if( panel && panel !== AC_PANEL_NONE && Modal.count() === 0 && component.companion.areSame( component.companion, AccountsUI.DisplayManager.requester())){
+            const panel = AccountsUI.Display.panel();
+            if( panel && panel !== AC_PANEL_NONE && Modal.count() === 0 && component.id() === AccountsUI.Display.requester()){
                 if( AccountsUI.opts().verbosity() & AC_VERBOSE_MODAL ){
                     console.log( 'pwix:accounts-ui ac_render_modal run the '+panel+' modal' );
                 }
                 const id = Modal.run({
-                    mdBody: acPanel.template( panel ),
-                    mdTitle: acPanel.title( panel ),
+                    mdBody: AccountsUI.Panel.template( panel ),
+                    mdTitle: AccountsUI.Panel.title( panel ),
                     mdFooter: 'ac_footer',
                     ... Template.currentData()
                 });
-                AccountsUI.DisplayManager.modalId( id );
+                AccountsUI.Display.modalId( id );
             }
         }
     });
@@ -53,23 +51,23 @@ Template.ac_render_modal.onCreated( function(){
     self.autorun(() => {
         const component = self.AC.component.get();
         if( component ){
-            const panel = AccountsUI.DisplayManager.panel();
+            const panel = AccountsUI.Display.panel();
             if( component.modal() && ( !panel || panel === AC_PANEL_NONE )){
                 if( Modal.count() > 0 ){
                     Modal.close();
                 }
-                AccountsUI.DisplayManager.modalId( null );
+                AccountsUI.Display.modalId( null );
             }
         }
     });
 
     // update title and body
     self.autorun(() => {
-        const panel = AccountsUI.DisplayManager.panel();
+        const panel = AccountsUI.Display.panel();
         if( panel && panel !== AC_PANEL_NONE && Modal.count() > 0 ){
             Modal.set({
-                title: acPanel.title( panel ),
-                body: acPanel.template( panel )
+                title: AccountsUI.Panel.title( panel ),
+                body: AccountsUI.Panel.template( panel )
             });
         }
     });

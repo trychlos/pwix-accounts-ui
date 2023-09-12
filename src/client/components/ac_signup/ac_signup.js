@@ -2,10 +2,10 @@
  * pwix:accounts-ui/src/client/components/ac_signup/ac_signup.js
  * 
  * Parms:
- *  - companion: the acCompanion object
+ *  - managerId: the identified allocated by acManager
  */
 
-import { acCompanion } from '../../classes/ac_companion.class.js';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import '../ac_input_email/ac_input_email.js';
 import '../ac_input_password/ac_input_password.js';
@@ -20,6 +20,7 @@ Template.ac_signup.onCreated( function(){
     //console.debug( 'onCreated', this, Template.currentData());
 
     self.AC = {
+        component: new ReactiveVar( null ),
         emailOk: new ReactiveVar( true ),
         passwordOk: new ReactiveVar( true ),
         twiceOk: new ReactiveVar( true ),
@@ -46,11 +47,11 @@ Template.ac_signup.onCreated( function(){
         }
     };
 
-    // check that companion is a acCompanion
+    // setup the acUserLogin acManager component
     self.autorun(() => {
-        const companion = Template.currentData().companion;
-        if( companion && !( companion instanceof acCompanion )){
-            throw new Error( 'expected acCompanion, found', companion );
+        const managerId = Template.currentData().managerId;
+        if( managerId ){
+            self.AC.component.set( AccountsUI.Manager.component( managerId ));
         }
     });
 });
@@ -70,7 +71,7 @@ Template.ac_signup.helpers({
     // error message
     errorMsg(){
         // even if we have no message at all, we keep at least one blank line
-        return AccountsUI.DisplayManager.errorMsg();
+        return AccountsUI.Display.errorMsg();
     },
 
     // whether email address is permitted
@@ -86,7 +87,7 @@ Template.ac_signup.helpers({
     // parameters for the password input
     parmsTwice(){
         return {
-            companion: this.companion,
+            component: Template.instance().AC.component.get(),
             role: 'signup'
         };
     },
@@ -94,29 +95,33 @@ Template.ac_signup.helpers({
     // parameters for the email address and username inputs
     parmsUser(){
         return {
-            companion: this.companion,
+            component: Template.instance().AC.component.get(),
             new: true
         };
     },
 
     // the text at the first place of the section (if username)
     textOne(){
-        return this.companion.opts().signupTextOne();
+        const component = Template.instance().AC.component.get();
+        return component ? component.opts().signupTextOne() : '';
     },
 
     // the text at the second place of the section (if email)
     textTwo(){
-        return this.companion.opts().signupTextTwo();
+        const component = Template.instance().AC.component.get();
+        return component ? component.opts().signupTextTwo() : '';
     },
 
     // the text at the third place of the section
     textThree(){
-        return this.companion.opts().signupTextThree();
+        const component = Template.instance().AC.component.get();
+        return component ? component.opts().signupTextThree() : '';
     },
 
     // the text at the fourth place of the section
     textFour(){
-        return this.companion.opts().signupTextFour();
+        const component = Template.instance().AC.component.get();
+        return component ? component.opts().signupTextFour() : '';
     }
 });
 

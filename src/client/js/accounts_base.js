@@ -73,7 +73,7 @@ Accounts.onEmailVerificationLink( function( token, done ){
                         if( AccountsUI.opts().verbosity() & AC_VERBOSE_USER ){
                             console.log( 'pwix:accounts-ui triggering', event, parms );
                         }
-                        AccountsUI.EventManager.trigger( event, parms );
+                        AccountsUI.Event.trigger( event, parms );
                         done();
                     }
                 });
@@ -136,7 +136,7 @@ Accounts.onResetPasswordLink( function( token, done ){
     Meteor.callPromise( 'AccountsUI.byResetToken', token )
         .then(( user ) => {
             if( user ){
-                AccountsUI.DisplayManager.ask( AC_PANEL_RESETPWD, null, {
+                AccountsUI.Display.ask( AC_PANEL_RESETPWD, null, {
                     user: user,
                     submitCallback: () => {
                         const passwd = $( '.ac-reset-pwd .ac-newone .ac-input-password input' ).val().trim();
@@ -154,7 +154,7 @@ Accounts.onResetPasswordLink( function( token, done ){
                                 if( AccountsUI.opts().verbosity() & AC_VERBOSE_USER ){
                                     console.log( 'pwix:accounts-ui triggering', event, parms );
                                 }
-                                AccountsUI.EventManager.trigger( event, parms );
+                                AccountsUI.Event.trigger( event, parms );
                                 done();
                             }
                         });

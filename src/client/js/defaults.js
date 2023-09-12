@@ -20,7 +20,7 @@ import { pwixI18n } from 'meteor/pwix:i18n';
  * 
  * - panel: the panel to be displayed at item activation
  * - msgaction: the message to be triggered for simulating the item activation
- *          under the hood, the message handler just requests the specified panel with the corresponding argument
+ *   under the hood, the message handler just requests the specified panel with the corresponding argument
  */
 _stdMenuItems = {
     AC_LOGGED: [

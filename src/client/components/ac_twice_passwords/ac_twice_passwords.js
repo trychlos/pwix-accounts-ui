@@ -7,7 +7,7 @@
  * 'ac-password-data' and 'ac-twice-data' messages.
  * 
  * Parms:
- *  - companion: the acCompanion object
+ *  - component: the acComponent object
  *      Is undefined when invoked from ac_reset_pwd template
  *      Take care!
  *  - role: 'signup|change|reset'
@@ -48,10 +48,10 @@ Template.ac_twice_passwords.onCreated( function(){
 
     self.autorun(() => {
         const fn = Template.currentData().role + 'PasswordTwice';
-        const companion = Template.currentData().companion;
+        const component = Template.currentData().component;
         self.AC.twice.set( 
-            companion && companion.opts[fn] ?
-            companion.opts[fn]() : ( AccountsUI.opts()[fn] ? AccountsUI.opts()[fn]() : AccountsUI.opts().passwordTwice()));
+            component && component.opts[fn] ?
+            component.opts[fn]() : ( AccountsUI.opts()[fn] ? AccountsUI.opts()[fn]() : AccountsUI.opts().passwordTwice()));
     });
 });
 
@@ -63,15 +63,15 @@ Template.ac_twice_passwords.helpers({
 
     // fieldset legend
     legend(){
-        const companion = Template.currentData().companion;
+        const component = Template.currentData().component;
         const signup = Template.currentData().role === 'signup';
-        return signup ? companion.opts().signupLegendPassword() : '';
+        return signup ? component.opts().signupLegendPassword() : '';
     },
 
     // params to first occurrence of new password
     parmNewOne(){
-        const companion = Template.currentData().companion;
-        const mandatoryBorder = companion && companion.opts() ? companion.opts().mandatoryFieldsBorder() : AccountsUI.opts().mandatoryFieldsBorder();
+        const component = Template.currentData().component;
+        const mandatoryBorder = component && component.opts() ? component.opts().mandatoryFieldsBorder() : AccountsUI.opts().mandatoryFieldsBorder();
         return {
             label: pwixI18n.label( I18N, 'twice_passwords.label' ),
             placeholder: pwixI18n.label( I18N, 'twice_passwords.placeholder1' ),
@@ -84,8 +84,8 @@ Template.ac_twice_passwords.helpers({
     // params to second occurrence of new password
     //  do not set as 'new' to not have the 'strength' display
     parmNewTwo(){
-        const companion = Template.currentData().companion;
-        const mandatoryBorder = companion && companion.opts() ? companion.opts().mandatoryFieldsBorder() : AccountsUI.opts().mandatoryFieldsBorder();
+        const component = Template.currentData().component;
+        const mandatoryBorder = component && component.opts() ? component.opts().mandatoryFieldsBorder() : AccountsUI.opts().mandatoryFieldsBorder();
         return {
             label: '',
             placeholder: pwixI18n.label( I18N, 'twice_passwords.placeholder2' ),

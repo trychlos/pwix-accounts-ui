@@ -2,21 +2,25 @@
  * pwix:accounts-ui/src/client/components/ac_signout/ac_signout.js
  * 
  * Parms:
- *  - companion: the acCompanion object
+ *  - managerId: the identified allocated by acManager
  */
 
-import { acCompanion } from '../../classes/ac_companion.class.js';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import './ac_signout.html';
 
 Template.ac_signout.onCreated( function(){
     const self = this;
 
-    // check that companion is a acCompanion
+    self.AC = {
+        component: new ReactiveVar( null )
+    };
+
+    // setup the acUserLogin acManager component
     self.autorun(() => {
-        const companion = Template.currentData().companion;
-        if( companion && !( companion instanceof acCompanion )){
-            throw new Error( 'expected acCompanion, found', companion );
+        const managerId = Template.currentData().managerId;
+        if( managerId ){
+            self.AC.component.set( AccountsUI.Manager.component( managerId ));
         }
     });
 });
@@ -24,6 +28,7 @@ Template.ac_signout.onCreated( function(){
 Template.ac_signout.helpers({
     // the text the section
     textOne(){
-        return this.companion.opts().signoutTextOne();
+        const component = Template.instance().AC.component.get();
+        return component ? component.opts().signoutTextOne() : '';
     }
 });

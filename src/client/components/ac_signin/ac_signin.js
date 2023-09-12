@@ -2,10 +2,10 @@
  * pwix:accounts-ui/src/client/components/ac_signin/ac_signin.js
  * 
  * Parms:
- *  - companion: the acCompanion object
+ *  - managerId: the identified allocated by acManager
  */
 
-import { acCompanion } from '../../classes/ac_companion.class.js';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import '../ac_input_userid/ac_input_userid.js';
 import '../ac_input_password/ac_input_password.js';
@@ -15,11 +15,15 @@ import './ac_signin.html';
 Template.ac_signin.onCreated( function(){
     const self = this;
 
-    // check that companion is a acCompanion
+    self.AC = {
+        component: new ReactiveVar( null )
+    };
+
+    // setup the acUserLogin acManager component
     self.autorun(() => {
-        const companion = Template.currentData().companion;
-        if( companion && !( companion instanceof acCompanion )){
-            throw new Error( 'expected acCompanion, found', companion );
+        const managerId = Template.currentData().managerId;
+        if( managerId ){
+            self.AC.component.set( AccountsUI.Manager.component( managerId ));
         }
     });
 });
@@ -33,21 +37,24 @@ Template.ac_signin.helpers({
     // error message
     //  here, the only error is when server doesn't validate the credentials
     errorMsg(){
-        return AccountsUI.DisplayManager.errorMsg();
+        return AccountsUI.Display.errorMsg();
     },
 
     // a description before the section
     textOne(){
-        return this.companion.opts().signinTextOne();
+        const component = Template.instance().AC.component.get();
+        return component ? component.opts().signinTextOne() : '';
     },
 
     // a description in the middle of the section
     textTwo(){
-        return this.companion.opts().signinTextTwo();
+        const component = Template.instance().AC.component.get();
+        return component ? component.opts().signinTextTwo() : '';
     },
 
     // a description at the endof the section
     textThree(){
-        return this.companion.opts().signinTextThree();
+        const component = Template.instance().AC.component.get();
+        return component ? component.opts().signinTextThree() : '';
     }
 });

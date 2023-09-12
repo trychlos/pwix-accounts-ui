@@ -8,7 +8,7 @@
  * This behavior relies on several classes:
  * 
  * - global classes:
- *   > acDisplayManager is a singleton attached to the global 'AccountsUI' object, and maintains the display (aka the viewport) as a whole
+ *   > acDisplay is a singleton attached to the global 'AccountsUI' object, and maintains the display (aka the viewport) as a whole
  *   > acUser is a singleton attached to the global 'AccountsUI' object, and interfaces the user status.
  * 
  * - local classes:
@@ -68,7 +68,7 @@ Template.acUserLogin.onRendered( function(){
     const self = this;
 
     // ask for the display
-    AccountsUI.DisplayManager.ask( AccountsUI.Manager.component( self.AC.managerId ).opts().initialPanel(), self.AC.managerId );
+    AccountsUI.Display.ask( AccountsUI.Manager.component( self.AC.managerId ).opts().initialPanel(), self.AC.managerId );
 });
 
 Template.acUserLogin.helpers({
@@ -102,7 +102,7 @@ Template.acUserLogin.events({
 
     'ac-display-error .acUserLogin'( event, instance, msg ){
         //console.log( event, instance, msg );
-        AccountsUI.DisplayManager.errorMsg( msg );
+        AccountsUI.Display.errorMsg( msg );
         return false;
     },
 
@@ -121,7 +121,7 @@ Template.acUserLogin.events({
     // set the modal title
     'ac-title .acUserLogin'( event, instance, data ){
         console.log( event, instance, data );
-        AccountsUI.DisplayManager.title( data );
+        AccountsUI.Display.title( data );
         return false;
     }
 });

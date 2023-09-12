@@ -5,12 +5,10 @@
  *  - managerId: the identified allocated by acManager
  */
 
-import { acPanel } from '../../classes/ac_panel.js';
-
 import './ac_render_div.html';
 
 Template.ac_render_div.helpers({
     template(){
-        return acPanel.template( AccountsUI.DisplayManager.panel());
+        return AccountsUI.Panel.template( AccountsUI.Display.panel());
     }
 });

@@ -1,5 +1,5 @@
 /*
- * acDisplayManager class
+ * acDisplay class
  *
  * The single manager of the display service,
  * 
@@ -23,9 +23,7 @@ import { Modal } from 'meteor/pwix:modal';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Tracker } from 'meteor/tracker';
 
-import { acPanel } from './ac_panel.js';
-
-export class acDisplayManager {
+export class acDisplay {
 
     // static data
     //
@@ -48,20 +46,20 @@ export class acDisplayManager {
 
     /**
      * Constructor
-     * @returns {acDisplayManager}
+     * @returns {acDisplay}
      */
     constructor(){
         const self = this;
 
-        if( acDisplayManager.Singleton ){
+        if( acDisplay.Singleton ){
             if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
-                console.log( 'pwix:accounts-ui returning already instanciated acDisplayManager singleton' );
+                console.log( 'pwix:accounts-ui returning already instanciated acDisplay singleton' );
             }
-            return acDisplayManager.Singleton;
+            return acDisplay.Singleton;
         }
 
         if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
-            console.log( 'pwix:accounts-ui instanciating acDisplayManager' );
+            console.log( 'pwix:accounts-ui instanciating acDisplay' );
         }
 
         // trace panel changes
@@ -72,28 +70,27 @@ export class acDisplayManager {
             }
         });
 
-        acDisplayManager.Singleton = this;
+        acDisplay.Singleton = this;
         return this;
     }
 
     /**
      * @summary Request for the display of the specified panel
      * @param {String} panel the panel to be displayed
-     * @param {Object} requester any object instance
+     * @param {String} requester the identifier allocated to the component by acManager
      *  if null, then will be set to ANONYMOUS
-     *  else should implement id() and target() methods
      * @param {Object} parms the optional parms to be passed as a data context to the panel template
-     * @returns {Boolean} whether the acDisplayManager is able to satisfy the request
+     * @returns {Boolean} whether the acDisplay is able to satisfy the request
      *  i.e. whether the display is free before the request and can be allocated to it
      */
     ask( panel, requester, parms={} ){
         if( AccountsUI.opts().verbosity() & AC_VERBOSE_DISP_MANAGER ){
-            console.log( 'pwix:accounts-ui acDisplayManager.ask() self', this );
-            console.log( 'pwix:accounts-ui acDisplayManager.ask() panel', panel );
-            console.log( 'pwix:accounts-ui acDisplayManager.ask() requester', requester );
-            console.log( 'pwix:accounts-ui acDisplayManager.ask() parms', parms );
+            console.log( 'pwix:accounts-ui acDisplay.ask() self', this );
+            console.log( 'pwix:accounts-ui acDisplay.ask() panel', panel );
+            console.log( 'pwix:accounts-ui acDisplay.ask() requester', requester );
+            console.log( 'pwix:accounts-ui acDisplay.ask() parms', parms );
         }
-        acPanel.validate( panel );
+        AccountsUI.Panel.validate( panel );
         if( !requester ){
             requester = ANONYMOUS;
         }
@@ -128,7 +125,7 @@ export class acDisplayManager {
 
     /**
      * @summary Handle modal events
-     *  This is called by acEventManager as an event forwarding
+     *  This is called by Event as an event forwarding
      * @param {Object} event the jQuery event
      * @param {Object} data the data associated to the event by the sender
      * @return {Boolean} true if the message has been successfully handled
@@ -142,11 +139,11 @@ export class acDisplayManager {
                 const panel = this.panel();
                 if( panel && panel !== AC_PANEL_NONE && Modal.count() > 0 && this.modalId() == data.id ){
                     if( AccountsUI.opts().verbosity() & AC_VERBOSE_MODAL ){
-                        console.log( 'pwix:accounts-ui acDisplayManager handling', event.type );
+                        console.log( 'pwix:accounts-ui acDisplay handling', event.type );
                     }
                     this.errorMsg( '' );
                     this.title( '' );
-                    AccountsUI.DisplayManager.release();
+                    AccountsUI.Display.release();
                     return true;
                 }
         }
@@ -184,7 +181,7 @@ export class acDisplayManager {
      */
     release(){
         if( AccountsUI.opts().verbosity() & AC_VERBOSE_DISP_MANAGER ){
-            console.log( 'pwix:accounts-ui acDisplayManager.release()' );
+            console.log( 'pwix:accounts-ui acDisplay.release()' );
         }
         this._requester = null;
         this.panel( AC_PANEL_NONE );

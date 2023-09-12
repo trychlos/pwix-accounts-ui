@@ -3,18 +3,9 @@
  */
 
 import { acConnection } from '../classes/ac_connection.class.js';
+import { acDisplay } from '../classes/ac_display.class.js';
 import { acManager } from '../classes/ac_manager.class.js';
 
-import { acDisplayManager } from '../classes/ac_display_manager.class.js';
-import { acEventManager } from '../classes/ac_event_manager.class.js';
-
-AccountsUI = {
-    ...AccountsUI,
-    ...{
-        Manager: new acManager(),
-        Connection: new acConnection(),
-        //
-        DisplayManager: new acDisplayManager(),
-        EventManager: new acEventManager(),
-    }
-}
+AccountsUI.Manager = new acManager();
+AccountsUI.Connection = new acConnection();
+AccountsUI.Display = new acDisplay();

@@ -2,21 +2,25 @@
  * pwix:accounts-ui/src/client/components/ac_verify_ask/ac_verify_ask.js
  * 
  * Parms:
- *  - companion: the acCompanion object
+ *  - managerId: the identified allocated by acManager
  */
 
-import { acCompanion } from '../../classes/ac_companion.class.js';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import './ac_verify_ask.html';
 
 Template.ac_verify_ask.onCreated( function(){
     const self = this;
 
-    // check that companion is a acCompanion
+    self.AC = {
+        component: new ReactiveVar( null ),
+    };
+
+    // setup the acUserLogin acManager component
     self.autorun(() => {
-        const companion = Template.currentData().companion;
-        if( companion && !( companion instanceof acCompanion )){
-            throw new Error( 'expected acCompanion, found', companion );
+        const managerId = Template.currentData().managerId;
+        if( managerId ){
+            self.AC.component.set( AccountsUI.Manager.component( managerId ));
         }
     });
 });
@@ -24,11 +28,12 @@ Template.ac_verify_ask.onCreated( function(){
 Template.ac_verify_ask.helpers({
     // error message
     errorMsg(){
-        return AccountsUI.DisplayManager.errorMsg();
+        return AccountsUI.Display.errorMsg();
     },
 
     // the text of the section
     textOne(){
-        return this.companion.opts().verifyAskTextOne();
+        const component = Template.instance().AC.component.get();
+        return component ? component.opts().verifyAskTextOne() : '';
     }
 });

@@ -2,10 +2,10 @@
  * pwix:accounts-ui/src/client/components/ac_reset_ask/ac_reset_ask.js
  * 
  * Parms:
- *  - companion: the acCompanion object
+ *  - managerId: the identified allocated by acManager
  */
 
-import { acCompanion } from '../../classes/ac_companion.class.js';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import '../ac_input_email/ac_input_email.js';
 
@@ -15,14 +15,15 @@ Template.ac_reset_ask.onCreated( function(){
     const self = this;
 
     self.AC = {
+        component: new ReactiveVar( null ),
         emailOk: new ReactiveVar( true ) 
     };
 
-    // check that companion is a acCompanion
+    // setup the acUserLogin acManager component
     self.autorun(() => {
-        const companion = Template.currentData().companion;
-        if( companion && !( companion instanceof acCompanion )){
-            throw new Error( 'expected acCompanion, found', companion );
+        const managerId = Template.currentData().managerId;
+        if( managerId ){
+            self.AC.component.set( AccountsUI.Manager.component( managerId ));
         }
     });
 });
@@ -39,17 +40,19 @@ Template.ac_reset_ask.onRendered( function(){
 Template.ac_reset_ask.helpers({
     // error message
     errorMsg(){
-        return AccountsUI.DisplayManager.errorMsg();
+        return AccountsUI.Display.errorMsg();
     },
 
     // the text at the first place of the section
     textOne(){
-        return this.companion.opts().resetAskTextOne();
+        const component = Template.instance().AC.component.get();
+        return component ? component.opts().resetAskTextOne() : '';
     },
 
     // the text at the second place of the section
     textTwo(){
-        return this.companion.opts().resetAskTextTwo();
+        const component = Template.instance().AC.component.get();
+        return component ? component.opts().resetAskTextTwo() : '';
     }
 });
 

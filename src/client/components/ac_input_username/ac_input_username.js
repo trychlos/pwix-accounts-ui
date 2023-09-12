@@ -4,7 +4,7 @@
  * Email input field
  * 
  * Parms:
- *  - companion: the acCompanion object
+ *  - component: the acComponent object
  *  - new: Boolean, whether we are entering a new username, defaulting to false
  */
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';
@@ -81,8 +81,8 @@ Template.ac_input_username.helpers({
 
     // fieldset legend
     legend(){
-        const companion = Template.currentData().companion;
-        return this.new ? companion.opts().signupLegendUsername() : companion.opts().signinLegendUsername();
+        const component = Template.currentData().component;
+        return this.new ? component.opts().signupLegendUsername() : component.opts().signinLegendUsername();
     },
 
     // whether the username is mandatory ?
@@ -92,7 +92,7 @@ Template.ac_input_username.helpers({
 
     // whether the mandatory field must exhibit an ad-hoc colored border ?
     mandatoryBorder(){
-        return Template.instance().AC.mandatoryField() && Template.currentData().companion.opts().mandatoryFieldsBorder() ? 'ac-mandatory-border' : '';
+        return Template.instance().AC.mandatoryField() && Template.currentData().component.opts().mandatoryFieldsBorder() ? 'ac-mandatory-border' : '';
     },
 
     // returns the keyed translated string

@@ -2,7 +2,6 @@
  * pwix:accounts-ui/src/client/classes/ac_component.class.js
  *
  * A Blaze component as managed by acManager.
- * This object also acts as the event handler for this component (and its descendants).
  */
 
 import _ from 'lodash';
@@ -32,10 +31,6 @@ export class acComponent {
 
     // whether the DOM is ready
     _ready = new ReactiveVar( false );
-
-    // the target events handler for this component and its descendants (including modals)
-    //  this is NOT the event handler for reset password and email verification
-    _target = new ReactiveVar( null );
 
     // private methods
     //
@@ -84,13 +79,6 @@ export class acComponent {
         // wait for dom as soon as we are instanciated (there is no need to ask for the caller to recall another method)
         self._waitForDom();
 
-        // when DOM is ready, set this object as the target events handler
-        Tracker.autorun(() => {
-            if( self.ready()){
-                self._target.set( self );
-            }
-        });
-
         return this;
     }
 
@@ -110,10 +98,19 @@ export class acComponent {
     ready( ready ){
         if( ready === true || ready === false ){
             if( AccountsUI.opts().verbosity() & AC_VERBOSE_READY ){
-                console.log( 'pwix:accounts-ui acCompanionDom ready', ready );
+                console.log( 'pwix:accounts-ui acComponent DOM ready', ready );
             }
             this._ready.set( ready );
         }
         return this._ready.get();
+    }
+
+    /**
+     * @summary Trigger an event to this Blaze component
+     * @param {String} event the name of the event, as known by acEvent
+     * @param {Object} data additional arguments, if any, to be sent as a data object associated to the event
+     */
+    trigger( event, data ){
+        $( this._jqSelector ).trigger( event, data );
     }
 }

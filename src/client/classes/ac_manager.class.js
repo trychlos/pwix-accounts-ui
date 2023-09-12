@@ -71,6 +71,7 @@ export class acManager {
         let component = new acComponent( id, instance );
         _.merge( component, {
             className(){ return this.className(); },
+            id(){ return id; }
         });
         this._components[id] = component;
         return id;

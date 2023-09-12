@@ -13,7 +13,6 @@ import { Modal } from 'meteor/pwix:modal';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { acCompanion } from '../../classes/ac_companion.class.js';
-import { acPanel } from '../../classes/ac_panel.js';
 
 import './ac_footer.html';
 
@@ -22,7 +21,7 @@ Template.ac_footer.onCreated( function(){
 
     self.AC = {
         companion: null,
-        buttons: new ReactiveVar( acPanel.buttons( AccountsUI.DisplayManager.panel()))
+        buttons: new ReactiveVar( AccountsUI.Panel.buttons( AccountsUI.Display.panel()))
     };
 
     // get companion
@@ -39,7 +38,7 @@ Template.ac_footer.onCreated( function(){
             const haveCancelButton = self.AC.companion.opts().haveCancelButton();
             //console.debug( 'haveCancelButton', haveCancelButton );
             let _buttons = [];
-            acPanel.buttons( AccountsUI.DisplayManager.panel()).every(( btn ) => {
+            AccountsUI.Panel.buttons( AccountsUI.Display.panel()).every(( btn ) => {
                 //console.debug( btn.class );
                 //console.debug( btn.class.includes( 'ac-cancel' ));
                 if( !btn.class.includes( 'ac-cancel' ) || haveCancelButton ){
@@ -81,7 +80,7 @@ Template.ac_footer.helpers({
 
     // returns the ordered list of links to be displayed depending of the current state
     links(){
-        return acPanel.links( AccountsUI.DisplayManager.panel());
+        return AccountsUI.Panel.links( AccountsUI.Display.panel());
     }
 });
 
@@ -90,7 +89,7 @@ Template.ac_footer.events({
     'click .ac-link'( event, instance ){
         const panel = instance.$( event.currentTarget ).find( 'a' ).attr( 'data-ac-target' );
         //console.debug( panel );
-        AccountsUI.DisplayManager.panel( panel );
+        AccountsUI.Display.panel( panel );
     },
 
     'click .ac-cancel'( event, instance ){
