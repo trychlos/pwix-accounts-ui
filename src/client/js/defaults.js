@@ -91,7 +91,7 @@ function _enableAlways(){
 }
 
 function _enableMailVerified(){
-    return !AccountsUI.User.mailVerified()
+    return !AccountsUI.User.emailIsVerified()
 }
 
 /*

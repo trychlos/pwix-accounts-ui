@@ -3,8 +3,7 @@
  *
  * The central point of event distribution, managed as a singleton.
  * 
- * Note about the event system
- * 
+ * Note about the event system:
  *  We get tied here to jQuery event system, to keep compatibility with other packages.
  *  But we could also have used:
  *      document.body.dispatchEvent( new CustomEvent( event, { bubbles: true, detail: parms }));

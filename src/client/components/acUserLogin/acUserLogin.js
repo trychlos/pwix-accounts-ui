@@ -20,9 +20,9 @@
  * The companion class acts as a display requester, and is then passed as a parameter to each and every child template.
  */
 
-import '../../../common/js/index.js';
+import _ from 'lodash';
 
-import { acCompanion } from '../../classes/ac_companion.class.js';
+import '../../../common/js/index.js';
 
 import '../../stylesheets/ac_accounts.less';
 
@@ -44,26 +44,31 @@ Template.acUserLogin.onCreated( function(){
     const self = this;
 
     self.AC = {
-        companion: new acCompanion( self, Template.currentData())
+        managerId: AccountsUI.Manager.userloginDefine( self ),
+
+        // @returns {Boolean} whether this acUserLogin template should display a dropdown menu
+        //  regarding the current connection state
+        hasDropdown(){
+            const state = AccountsUI.Connection.state();
+            return ( state === AC_LOGGED && AccountsUI.Manager.component( self.AC.managerId ).opts().loggedButtonAction() !== AC_ACT_HIDDEN )
+                || ( state === AC_UNLOGGED && AccountsUI.Manager.component( self.AC.managerId ).opts().unloggedButtonAction() !== AC_ACT_HIDDEN );
+        }
     };
 
     if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
-        console.log( 'pwix:accounts-ui instanciating acUserLogin id='+self.AC.companion.id());
+        console.log( 'pwix:accounts-ui instanciating acUserLogin id='+self.AC.managerId );
     }
 
     self.autorun(() => {
-        self.AC.companion.setOptions( Template.currentData());
+        AccountsUI.Manager.component( self.AC.managerId ).opts().base_set( _.merge( {}, defaults.acUserLogin, Template.currentData()));
     });
 });
 
 Template.acUserLogin.onRendered( function(){
     const self = this;
 
-    // make the acCompanionDom ready
-    self.AC.companion.dom().waitForDom();
-
     // ask for the display
-    AccountsUI.DisplayManager.ask( self.AC.companion.opts().initialPanel(), self.AC.companion );
+    AccountsUI.DisplayManager.ask( AccountsUI.Manager.component( self.AC.managerId ).opts().initialPanel(), self.AC.managerId );
 });
 
 Template.acUserLogin.helpers({
@@ -71,24 +76,24 @@ Template.acUserLogin.helpers({
     // whether this template controls a logged/unlogged user button
     hasDropdown(){
         //console.debug( 'hasDropdown', Template.instance().AC.companion.hasDropdown());
-        return Template.instance().AC.companion.hasDropdown();
+        return Template.instance().AC.hasDropdown();
     },
 
     // set a unique id on the acUserLogin div
     id(){
-        return Template.instance().AC.companion.id();
+        return Template.instance().AC.managerId;
     },
 
     // whether the display must be rendered as a modal one ?
     modal(){
         //console.debug( 'isModal', Template.instance().AC.companion.modal());
-        return Template.instance().AC.companion.modal();
+        return AccountsUI.Manager.component( Template.instance().AC.managerId ).modal();
     },
 
     // provides the acCompanion instance to the child templates
     parms(){
         return {
-            companion: Template.instance().AC.companion
+            managerId: Template.instance().AC.managerId
         };
     }
 });
@@ -119,4 +124,9 @@ Template.acUserLogin.events({
         AccountsUI.DisplayManager.title( data );
         return false;
     }
+});
+
+Template.acUserLogin.onDestroyed( function(){
+    const self = this;
+    AccountsUI.Manager.componentRemove( self.AC.managerId );
 });

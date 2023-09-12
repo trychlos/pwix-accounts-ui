@@ -1,7 +1,7 @@
 /*
  * pwix:accounts-ui/src/client/classes/ac_companion.class.js
  *
- * A companion class for the 'acUserLogin' Blaze template.
+ * A companion class for the 'acUserLogin' component.
  * 
  * This acCompanion class holds the configuration options of the template,
  *  acts as the requester for all displayed templates, and take care
@@ -9,8 +9,6 @@
  */
 
 import _ from 'lodash';
-
-import { Random } from 'meteor/random';
 
 import { acCompanionDom } from './ac_companion_dom.class.js';
 import { acCompanionOptions } from './ac_companion_options.class.js';
@@ -20,11 +18,48 @@ export class acCompanion {
     // static data
     //
 
+    // static methods
+    //
+
+    // private data
+    //
+
+    // the identifier attributed by the manager
+    _managerId = null;
+
+    // private methods
+    //
+
+    // public data
+    //
+
+    // public methods
+    //
+
+    /**
+     * Constructor
+     * @param {String} managerId the identifier attributed by the acManager
+     * @returns {acCompanion}
+     */
+    constructor( managerId ){
+        const self = this;
+
+        if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+            console.log( 'pwix:accounts-ui instanciating acCompanion' );
+        }
+
+        self._managerId = managerId;
+
+        return this;
+    }
+
+    /****************************************************************************************************************************************************************
+     * **************************************************************************************************************************************************************
+     *****************************************************************************************************************************************************************/
+
     // keep here a list of all instanciated named objects
     static NamedInstances = {};
 
-    // static methods
-    //
     /**
      * @param {acCompanion} companionA 
      * @param {acCompanion} companionB 
@@ -41,9 +76,6 @@ export class acCompanion {
     static byName( name ){
         return acCompanion.NamedInstances[name] || null;
     }
-
-    // private data
-    //
 
     // the acUserLogin template instance
     _instance = null;
@@ -83,13 +115,13 @@ export class acCompanion {
             case AC_PANEL_CHANGEPWD:
                 const pwd1 = $( '.ac-change-pwd .ac-old .ac-input' ).val().trim();
                 const pwd2 = $( '.ac-change-pwd .ac-newone .ac-input' ).val().trim();
-                AccountsUI.User.changePwd( pwd1, pwd2, this.target());
+                AccountsUI.Account.changePwd( pwd1, pwd2, this.target());
                 managed = true;
                 break;
             case AC_PANEL_RESETASK:
                 //console.log( 'element', $( '.ac-reset-ask' ));
                 mail = $( '.ac-reset-ask .ac-input-email .ac-input' ).val().trim();
-                AccountsUI.User.resetAsk( mail, this.target());
+                AccountsUI.Account.resetAsk( mail, this.target());
                 managed = true;
                 break;
             case AC_PANEL_SIGNIN:
@@ -97,11 +129,11 @@ export class acCompanion {
                 mail = $( '.ac-signin .ac-input-userid .ac-input' ).val().trim();
                 password = $( '.ac-signin .ac-input-password .ac-input' ).val().trim();
                 //console.log( 'mail',mail,'password', pwd );
-                AccountsUI.User.loginWithPassword( mail, password, this.target());
+                AccountsUI.Account.loginWithPassword( mail, password, this.target());
                 managed = true;
                 break;
             case AC_PANEL_SIGNOUT:
-                AccountsUI.User.logout();
+                AccountsUI.Account.logout();
                 managed = true;
                 break;
             case AC_PANEL_SIGNUP:
@@ -117,33 +149,22 @@ export class acCompanion {
                 //console.debug( 'found autoClose='+autoClose );
                 const autoConnect = this.opts().signupAutoConnect();
                 //console.debug( 'found autoConnect='+autoConnect );
-                AccountsUI.User.createUser( options, this.target(), autoClose, autoConnect );
+                AccountsUI.Account.createUser( options, this.target(), autoClose, autoConnect );
                 if( !autoClose ){
                     $( '.ac-signup' ).trigger( 'ac-clear' );
                 }
                 managed = true;
                 break;
             case AC_PANEL_VERIFYASK:
-                AccountsUI.User.verifyMail( this.target());
+                AccountsUI.Account.verifyMail( this.target());
                 managed = true;
                 break;
         }
         return !managed;
     }
 
-    // public data
-    //
-
-    // public methods
-    //
-
-    /**
-     * Constructor
-     * @param {acUserLogin} instance the acUserLogin Blaze template instance
-     * @param {Object} context optional template data context at runtime
-     * @returns {acCompanion}
-     */
-    constructor( instance, context ){
+    /*
+    constructor( instance ){
         const self = this;
 
         if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
@@ -151,7 +172,6 @@ export class acCompanion {
         }
 
         // allocate a new random unique identifier for this instance
-        self._id = Random.id();
         self._instance = instance;
         self._dom = new acCompanionDom( self );
         self._options = new acCompanionOptions( self, this._default_options( context ));
@@ -165,6 +185,7 @@ export class acCompanion {
         //console.debug( self );
         return this;
     }
+    */
 
     /**
      * @returns {acCompanionDom} the acCompanionDom which manages our DOM
@@ -177,11 +198,11 @@ export class acCompanion {
      * @returns {Array} an array of items as the <li>...</li> inner HTML strings
      */
     dynItemsAfter(){
-        switch( AccountsUI.User.state()){
+        switch( AccountsUI.Connection.state()){
             case AC_LOGGED:
-                return this.opts().loggedItemsAfter();
+                return AccountsUI.Manager.component( this._managerId ).opts().loggedItemsAfter();
             case AC_UNLOGGED:
-                return this.opts().unloggedItemsAfter();
+                return AccountsUI.Manager.component( this._managerId ).opts().unloggedItemsAfter();
         }
         return [];
     }
@@ -190,11 +211,11 @@ export class acCompanion {
      * @returns {Array} an array of items as the <li>...</li> inner HTML strings
      */
     dynItemsBefore(){
-        switch( AccountsUI.User.state()){
+        switch( AccountsUI.Connection.state()){
             case AC_LOGGED:
-                return this.opts().loggedItemsBefore();
+                return AccountsUI.Manager.component( this._managerId ).opts().loggedItemsBefore();
             case AC_UNLOGGED:
-                return this.opts().unloggedItemsBefore();
+                return AccountsUI.Manager.component( this._managerId ).opts().unloggedItemsBefore();
         }
         return [];
     }
@@ -204,15 +225,15 @@ export class acCompanion {
      */
     dynItemsCore(){
         let res = [];
-        switch( AccountsUI.User.state()){
+        switch( AccountsUI.Connection.state()){
             case AC_LOGGED:
-                res = this.opts().loggedItems();
+                res = AccountsUI.Manager.component( this._managerId ).opts().loggedItems();
                 if( res === DEF_CONTENT || _.isEqual( res, [ DEF_CONTENT ] )){
                     res = _buildStandardItems( _stdMenuItems[ AC_LOGGED ] );
                 }
                 break;
             case AC_UNLOGGED:
-                res = this.opts().unloggedItems();
+                res = AccountsUI.Manager.component( this._managerId ).opts().unloggedItems();
                 if( res === DEF_CONTENT || _.isEqual( res, [ DEF_CONTENT ] )){
                     res = _buildStandardItems( _stdMenuItems[ AC_UNLOGGED ] );
                 }
@@ -259,56 +280,6 @@ export class acCompanion {
             case 'ac-submit':
                 return this._handleSubmitEvent( event, data );
         }
-    }
-
-    /**
-     * @returns {Boolean} whether this acUserLogin template should display a dropdown menu
-     */
-    hasDropdown(){
-        const state = AccountsUI.User.state();
-        //console.debug( 'state', state );
-        //console.debug( 'this.opts().loggedButtonAction()', this.opts().loggedButtonAction());
-        //console.debug( 'this.opts().unloggedButtonAction()', this.opts().unloggedButtonAction());
-        return ( state === AC_LOGGED && this.opts().loggedButtonAction() !== AC_ACT_HIDDEN )
-            || ( state === AC_UNLOGGED && this.opts().unloggedButtonAction() !== AC_ACT_HIDDEN );
-    }
-
-    /**
-     * @returns {String} The acCompanion unique identifier
-     *  Also acts as the requester identifier
-     */
-    id(){
-        return this._id;
-    }
-
-    /**
-     * @returns {acUserLogin} the acUserLogin Blaze template
-     */
-    instance(){
-        return this._instance;
-    }
-
-    /**
-     * @returns {Boolean} whether the panels must be rendered as modals
-     */
-    modal(){
-        return this.opts().renderMode() === 'AC_RENDER_MODAL';
-    }
-
-    /**
-     * @returns {Object} the acCompanionOptions from the acUserLogin Blaze template instance
-     */
-    opts(){
-        return this._options;
-    }
-
-    /**
-     * Rationale: when options are passed through a template data context, then we must be able to reset them
-     *  when they change - Hence, we cannot just pass them in the constructor, but must have a dedicated method
-     * @param {Object} opts the template data context at runtime
-     */
-    setOptions( opts ){
-        this._options.base_set( this._default_options( opts ));
     }
 
     /**

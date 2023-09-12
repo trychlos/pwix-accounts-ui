@@ -26,10 +26,10 @@ AccountsUI = {
                 _dropdownItems.dep = new Tracker.Dependency();
                 _dropdownItems.dep.depend();
             }
-            const state = AccountsUI.User.state();
+            const state = AccountsUI.Connection.state();
             if( state !== _dropdownItems.state ){
                 _dropdownItems.state = state;
-                _dropdownItems.items = _buildStandardItems( _stdMenuItems[AccountsUI.User.state()]); //_getMenuItems();
+                _dropdownItems.items = _buildStandardItems( _stdMenuItems[AccountsUI.Connection.state()]); //_getMenuItems();
                 _dropdownItems.dep.changed();
             }
             //console.log( _dropdownItems );

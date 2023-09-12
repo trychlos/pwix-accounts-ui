@@ -3,9 +3,11 @@
  */
 import '../../common/js/index.js';
 
+import './account.js';
 import './accounts_base.js';
 import './clear.js';
 import './defaults.js';
 import './functions.js';
 import './ready.js';
 import './singletons.js';
+import './user.js';

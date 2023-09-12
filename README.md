@@ -1,4 +1,4 @@
-# pwix:accounts-ui - README
+# pwix:accounts-ui
 
 ## Summary
 
@@ -26,32 +26,32 @@
 
 ## What is it ?
 
-*accounts* is an encapsulation of the Meteor Accounts system.
+`pwix:accounts-ui` is an encapsulation of the Meteor Accounts UI system.
 
-It aims to provide a full replacement for [accounts-ui](https://atmospherejs.com/meteor/accounts-ui) while still relying on standard [accounts-password](https://atmospherejs.com/meteor/accounts-password). As a consequence, it expects (and makes use of) a 'users' collection be available in the application database.
+It aims to provide a full replacement for Meteor [accounts-ui](https://atmospherejs.com/meteor/accounts-ui) while still relying on standard [accounts-password](https://atmospherejs.com/meteor/accounts-password). As a consequence, it expects (and makes use of) a 'users' collection be available in the application database.
 
-However, *accounts* is fully configurable and is able to provide different user interfaces to adapt to different contexts.
+However, `pwix:accounts-ui` is fully configurable and is able to provide different user interfaces to adapt to different contexts.
 
 ## How does it work ?
 
-The main *accounts* user interface is the `acUserLogin` template.
+The main `pwix:accounts-ui` user interface is the `acUserLogin` template.
 
 In its default configuration, the `acUserLogin` template provides the full login workflow through beautiful Bootstrap modal dialogs.
-See [the most simple user](#the-most-simple-usage) later.
+See [the most simple usage](#the-most-simple-usage) later.
 
-*accounts* adds to this standard behavior the capability to call `acUserLogin` several times, each time with a different configuration, so that the package is able to nicely handle different running contexts.
+`pwix:accounts-ui` adds to this standard behavior the capability to call `acUserLogin` several times, each time with a different configuration, so that the package is able to nicely handle different running contexts.
 
 As some example use cases, we can evoke:
 
-- defining a first administrator when a user runs the application for the first time, thus displaying a specific form with specific styling
+- defining a first administrator when a user runs the application for the first time, thus displaying a specific form with specific styling, and have a distinct workflow
 
-- reusing the users's management capabilities of *accounts* to provide some sort of users list, users selection, and so on
+- reusing the users's management capabilities of `pwix:accounts-ui` to provide some sort of users list, users selection, and so on
 
-- reusing *accounts* user interface to let a user create account for another one, or for many other ones.
+- reusing `pwix:accounts-ui` user interface to let a user create account for another one, or for many other ones.
 
 Please note that, though several `acUserLogin` templates can be instanciated by the application, and display different things or answer to different use cases, all these instances actually share a single connection state. Their interfaces are always kept consistent.
 
-Last, this *accounts* package is able to fully configure the Meteor Accounts system it relies on, so that the application may fully subcontract the Meteor Accounts configuration to the package.
+Last, this `pwix:accounts-ui` package is able to fully configure the Meteor Accounts system it relies on, so that the application may fully subcontract the Meteor Accounts configuration to the package.
 
 One single configuration place for one application subsystem!
 
@@ -61,7 +61,7 @@ Just insert the template into your component `{{> acUserLogin }}` and:
 
 - a dropdown button will be displayed, the dropdown menu including the standard items which let the user log-in, or ask for reset his password, or sign up for a new account;
 
-- when logged-in, the dropdown button will display his email address, the dropdown menu inclusing the standard items which let the user log out, change his password, or ask for receive a verification link in his mailbox if not already done.
+- when logged-in, the dropdown button will display his email address, the dropdown menu including the standard items which let the user log out, change his password, or ask for receive a verification link in his mailbox if not already done.
 
 That's all, folks!
 
@@ -141,7 +141,7 @@ Known configuration options are:
 
     Whether the user accounts are to be configured with or without a username (resp. an email address), and whether it is optional or mandatory.
 
-    For each of these terms, possible values are:
+    For each of these terms, accepted values are:
 
     - `AC_FIELD_NONE`: the field is not displayed nor considered
     - `AC_FIELD_OPTIONAL`: the input field is proposed to the user, but may be left empty
@@ -149,76 +149,63 @@ Known configuration options are:
 
     At least one of these fields MUST be set as `AC_FIELD_MANDATORY`. Else, the default value will be applied.
 
-    A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.
-
-    Defaut values are:
+    Defauts to:
 
     - `haveMailAddress`: `AC_FIELD_MANDATORY`
     - `haveUsername`: `AC_FIELD_NONE`
 
-    Please be conscious that some features of your application may want display the identifier of a user.   
-    If this is the case, note that it would be a string security hole to let the application display a verified email address as this would be some sort of spam magnet!
-    More, whatever be the requirements of the application, this later MUST take care of allowing needed fields in its schema.
+    Please be conscious that some features of your application may want display an identifier for each user. It would be a security hole to let the application display a verified email address anywhere, as this would be some sort of spam magnet!
 
-- `informResetWrongEmail`
+- `informWrongEmail`
 
     Whether to inform the user that the email address he/she has entered when asking for resetting a password is not known of our users database.
 
     Rationale:
 
-    Meteor default is to return a [403] Something went wrong. Please check your credentials.' error message.
+        Meteor default is to return a [403] Something went wrong. Please check your credentials.' error message.
 
-    Some security guys consider that returning such error would let a malicious user to check which email addresses are registered - or not - in the accounts database, so would lead to a potential confidentiality break.
+        Some security guys consider that returning such error would let a malicious user to check which email addresses are registered - or not - in the accounts database, so would lead to a potential confidentiality break.
 
     This parameter let the application decide what to do:
 
-    - `AC_RESET_EMAILSENT`: say the user that the email has been sucessfully sent, though this is not the case
-    - `AC_RESET_EMAILUNSENT`: say the user that the email cannot be sent, without any other reason
-    - `AC_RESET_EMAILERROR`: say the user that something went wrong (Meteor standard behavior).
+    - `AC_WRONGEMAIL_OK`: say the user that the email has been sucessfully sent, even when this is not the case
+    - `AC_WRONGEMAIL_ERROR`: say the user that something went wrong (Meteor standard behavior).
 
-    Package default is to inform the user that email cannot be sent.
+    Defaults to `AC_WRONGEMAIL_ERROR`.
 
-- `mandatoryFieldsBorder`
+- `coloredBorders`
 
-    Whether the color of the border of the mandatory fields must be set.
+    Whether the borders of fields in the panels should or not be colored, and when:
 
-    Value: `true`|`false`, defaulting to `false`.
+    - `AC_COLORED_NEVER`: do not use colored borders at all
+    - `AC_COLORED_VALIDATION`: use colored borders to exhibit the validation state of the fields
+    - `AC_COLORED_MANDATORY`: use colored borders to exhibit the mandatory character of each field
 
-    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+    Defaults to `AC_COLORED_VALIDATION`.
 
-- `onVerifiedEmailBox`
+- `onUserCreated`
 
-    Whether to display a modal dialog box to confirm to the user that his email has been rightly validated.
+    What to do when a new user account has just been created:
 
-    Defaults to `true`.
+    - nothing
+    - display a confirmation dialog
+    - call a user function
 
-    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+- `onEmailverified`
 
-- `onVerifiedEmailTitle`
-- `onVerifiedEmailMessage`
+    What to do when a email adress has just been verified:
 
-    These two parameters define the content of the modal dialog box displayed to the user that his email has been rightly validated.
-
-    They are only considered if `onVerifiedEmailBox` is `true`.
-
-    Expected data are objects of the form `{ namespace: <namespace>, i18n: <i18n.key> }`
-
-    Default values are respectively:
-
-    - `{ namespace: I18N, i18n: 'user.verify_title' }` for `onVerifiedEmailTitle` parameter
-    - `{ namespace: I18N, i18n: 'user.verify_text' }` for `onVerifiedEmailMessage` parameter.
-
-    A function can be provided by the application for these parms. The function will be called without argument and MUST return one of the accepted values.
+    - nothing
+    - display a confirmation dialog
+    - call a user function
 
 - `passwordLength`
 
     The minimal required password length when setting a new password, either when creating a new account of when changing the password of an existing account.
 
-    The package doesn't hardcodes by itself a minimal 'minimal length', and so will accept even a minimal length of, say, 4 characters!
+    The package doesn't hardcodes by itself a minimal 'minimal length', and so will accept even a minimal length of, say, 1 character!
 
-    Default is eight (8) characters.
-
-    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+    Defaults to eight (8) characters.
 
     **Please note that, for security reasons, you shouldn't set the minimal password length less than this default, unless you are absolutely sure of what you are doing.**
 
@@ -236,9 +223,7 @@ Known configuration options are:
 
     The package doesn't hardcodes by itself a minimal 'required strength', and so will accept even a minimal length of, say, `AC_PWD_VERYWEAK`!
 
-    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
-
-    Default is `AC_PWD_MEDIUM`, which corresponds to somewhat guessable, i.e. can be a protection from unthrottled online attacks.
+    Defaults to `AC_PWD_MEDIUM`.
 
     **Please note that, for security reasons, you shouldn't set the password required strength less than this default, unless you are absolutely sure of what you are doing.**
 
@@ -246,53 +231,34 @@ Known configuration options are:
 
     Whether a new password has to be entered twice.
 
-    Unless otherwise specified, this option applies to both:
+    This option applies to both:
 
     - defining a new account
     - changing the user's password
     - defining a new password after a reset
 
-    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+    Accepted values are `true` or `false`.
 
-    Possible values are `true` or `false`, defaulting to `true`.
+    Defaults to `true`.
 
 - `preferredLabel`
 
     Whether the application prefers identify its users by their email address or their username.
 
-    Possible values are:
+    Accepted values are:
     
     - `AccountsUI.C.PreferredLabel.USERNAME`
     - `AccountsUI.C.PreferredLabel.EMAIL_ADDRESS`
 
-    Defaulting to `AccountsUI.C.PreferredLabel.EMAIL_ADDRESS` though the actually displayed label heavily depends of the runtime configuration as we try to always display something.
-
-    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
-
-- `resetPwdTextOne`
-- `resetPwdTextTwo`
-
-    Display personalization
-
-    These options let the application provides its own content before the input fields of the corresponding panel.
-
-    Value is expected to be a string which contains HTML code, or a function which returns such a string.
-
-- `resetPasswordTwice`
-
-    Whether to request the user to enter twice the password when resetting for an existing account.
-
-    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
-
-    The possible values are `true` or `false`, defaulting to the value of the `passwordTwice` package configuration.
+    Defaults to `AccountsUI.C.PreferredLabel.EMAIL_ADDRESS` though the actually displayed label heavily depends of the runtime configuration as we try to always display something.
 
 - `sendVerificationEmail`
 
     Whether to send a verification email to each newly created user.
 
-    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+    Accepted values are `true` or `false`.
 
-    The possible values are `true` or `false`, defaulting to `true`.
+    Defaults to `true`.
 
 - `usernameLength`
 
@@ -300,9 +266,7 @@ Known configuration options are:
 
     The package doesn't hardcodes by itself a minimal 'minimal length'.
 
-    Default is four (4) characters.
-
-    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+    Defaults to four (4) characters.
 
 - `verbosity`
 
@@ -348,9 +312,9 @@ Known configuration options are:
 
         Trace user-related events trigerring and handling.
 
-    A function can be provided by the application for this parm. The function will be called without argument and MUST return a suitable value.
-    
     Defaults to `AC_VERBOSE_NONE`.
+
+A function can be provided by the application for each of these parameters. The function will be called without argument and must return a suitable value.
 
 Please note that `AccountsUI.configure()` method should be called in the same terms both in client and server sides.
 
@@ -418,7 +382,7 @@ The globally exported object.
 
 ### Blaze components
 
-Besides of the `acUserLogin` template already invoked, the *accounts* package exports following templates:
+Besides of the `acUserLogin` template already invoked, the `pwix:accounts-ui` package exports following templates:
 
 #### `acMenuItems`
 
@@ -436,28 +400,34 @@ Thanks to its numerous options, the `acUserLogin` template may be called several
 many different situations: each `acUserLogin` instance is independently configurable so that it will display or
 not the expected dialogs.
 
-Nonetheless, all the instanciated `acUserLogin` instances share a same singleton object which manages the current
-logged/unlogged connection state. Thanks to this singleton, all the instanciated `acUserLogin` instances share this common
-status, event if they are able to display different things, and provide a consistent user experience.
-
 The template expects to be called with a single configuration object parameter, or maybe nothing at all if all the defaults are to be used.
 Even when providing a configuration object, as all keys are optional, this object can be just empty.
+
+- `withConnectionState`
+
+    There is obviously only one user connected at once in this device for this application. So a single connection state managed by the `pwix:accounts-ui` package, and which defaults to be shared by each and every `acUserLogin` component.
+
+    Some situations will nonetheless take advantage of reusing the Blaze components without considering any other thing than that simple components. Say, for example, when an application administrator wants create several user accounts: obviously these accounts should not be automatically connected at their creation, nor disconnect the administrator, etc.
+
+    Accepted values are `true` or `false`.
+
+    Defaults to `true`.
+
+    When set to `false`, the login workflow is not considered, but accounts are created, mails are sent if asked for, etc.
 
 - `loggedButtonAction`
 - `unloggedButtonAction`
 
     The action triggered when the user clicks on the button.
 
-    Possible values ares:
+    Accepted values ares:
 
     - `AC_ACT_HIDDEN`: the button is not displayed at all
-    - `AC_ACT_NONE`: the button is displayed, but not activable (this is a false button, just a label with the appearance of a button)<
-    - `AC_ACT_DROPDOWN`: the button opens a dropdown menu,
-    - `AC_ACT_BUBBLE`: the *accounts* event handler will do nothing, and let the event bubble up to the application
+    - `AC_ACT_NONE`: the button is displayed, but not activable (this is a false button, just a label with the appearance of a button)
+    - `AC_ACT_DROPDOWN`: the button opens a dropdown menu
+    - `AC_ACT_BUBBLE`: the button is activated, but does nothing; the event bubble up
 
-    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
-
-    Default is `AC_ACT_DROPDOWN`.
+    Defaults to `AC_ACT_DROPDOWN`.
 
 - `loggedButtonClass`
 - `unloggedButtonClass`
@@ -489,7 +459,7 @@ Even when providing a configuration object, as all keys are optional, this objec
     Defaults to:
 
     - a `<span class="fa-regular fa-fw fa-user">` HTML string when unlogged
-    - the `preferredButton` value when logged.
+    - the `preferredLabel` value when logged.
 
 - `loggedItems`
 - `unloggedItems`
@@ -532,49 +502,12 @@ Even when providing a configuration object, as all keys are optional, this objec
     When displayed, whether the template is rendered as a modal dialog of its own, or inside a `<div>...</div>`
     provided by the application (where the template has been inserted).
 
-    Possible values are:
+    Accepted values are:
 
     - `AC_RENDER_MODAL`
     - `AC_RENDER_DIV`
 
-    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
-
-    Default is `AC_RENDER_MODAL`: when visible, the template is rendered as a modal dialog.
-
-    Whatever be the initial choice, the application may still change the rendering mode via the messages:
-
-    - `ac-render-modal`
-    - `ac-render-div`
-
-- `haveCancelButton`
-
-    Whether a `Cancel` button must be proposed.
-
-    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
-
-    Values: `true`|`false`, defaulting to `true`.
-
-- `signupPasswordTwice`
-- `changePasswordTwice`
-
-    Whether to request the user to enter twice the password of a newly created account, or the new password of an existing account.
-
-    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
-
-    The possible values are `true` or `false`, defaulting to the value of the `passwordTwice` package configuration.
-
-- `signupLegendEmail`
-- `signupLegendUsername`
-- `signupLegendPassword`
-- `signinLegendEmail`
-- `signinLegendUsername`
-- `signinLegendPassword`
-
-    The legend to be set for the specified fieldsets, as a string.
-
-    A function can be provided by the application for this parm. The function will be called without argument and MUST return a string.
-
-    Default values are none.
+    Default: to `AC_RENDER_MODAL`: when visible, the template is rendered as a modal dialog.
 
 - `initialPanel`
 
@@ -633,8 +566,6 @@ Even when providing a configuration object, as all keys are optional, this objec
     Whether to auto-close the modal after having created a new user.
 
     A typical use case would be to let an administrator create successively several user accounts.
-
-    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
 
     Values: `true`|`false`, defaulting to `true`.
 

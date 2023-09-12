@@ -5,7 +5,7 @@
  * or as individual items inside of an application menu.
  * 
  * Parms:
- *  - companion: the acCompanion object
+ *  - managerId: the identified allocated by acManager
  */
 
 import { acCompanion } from '../../classes/ac_companion.class.js';
@@ -29,7 +29,7 @@ Template.ac_menu_items.onRendered( function(){
     //  This solution, as a one-line jQuery which doesn't use Blaze helpers, works well.
     self.autorun(() => {
         const menu = self.$( '.ac-menu-items' );
-        const companion = Template.currentData().companion;
+        const companion = AccountsUI.Manager.component( Template.currentData().managerId ).companion;
         if( companion && !( companion instanceof acCompanion )){
             throw new Error( 'expected a acCompanion, found', companion );
         }
@@ -70,7 +70,7 @@ Template.ac_menu_items.events({
         const msg = $( event.currentTarget ).attr( 'data-ac-msg' );
         if( msg ){
             const parms = {
-                requester: Template.currentData().companion,
+                requester: Template.currentData().managerId,
                 panel: $( event.currentTarget ).attr( 'data-ac-panel' )
             };
             if( AccountsUI.opts().verbosity() & AC_VERBOSE_PANEL ){

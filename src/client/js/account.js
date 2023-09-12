@@ -1,83 +1,10 @@
 /*
- * /src/client/classes/ac_user.class.js
+ * pwix:accounts-ui/src/client/js/account.js
  *
- * This class manages the interface with the currently logged-in user.
- * A singleton is attached to the global 'AccountsUI' object.
+ * Manages here the account interactions with the 'users' database (login, creation, logout and so out).
  */
-import { Accounts } from 'meteor/accounts-base';
-import { Tracker } from 'meteor/tracker';
 
-import { pwixI18n as i18n } from 'meteor/pwix:i18n';
-import { Tolert } from 'meteor/pwix:tolert';
-
-export class acUser {
-
-    // static data
-    //
-
-    static Singleton = null;
-
-    // static methods
-    //
-
-    // private data
-    //
-
-    // maintains a LOGGED/UNLOGGED status
-    //  is expected to be exactly consistant with Meteor.user() but adds a (very) thin conceptualization level
-    _state = {
-        dep: null,
-        value: null
-    }
-
-    // private methods
-    //
-
-    /*
-     * Setter only
-     * @param {String} state the new logged-in status
-     * @returns {String} the logged-in status as AC_LOGGED or AC_UNLOGGED
-     * A reactive data source
-     */
-    _stateSet( state ){
-        if( !this._state.dep ){
-            this._state.dep = new Tracker.Dependency();
-        }
-        if( state && ( state === AC_LOGGED || state === AC_UNLOGGED ) && state !== this._state.value ){
-            this._state.value = state;
-            this._state.dep.changed();
-        }
-        return this._state.value;
-    }
-
-    // public data
-    //
-
-    // public methods
-    //
-
-    /**
-     * Constructor
-     * @returns {acUser}
-     */
-    constructor(){
-        if( acUser.Singleton ){
-            console.log( 'pwix:accounts-ui returning already instanciated acUser' );
-            return acUser.Singleton;
-        }
-
-        // this is never displayed as object is instanciated before call to configure()
-        if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
-            console.log( 'pwix:accounts-ui instanciating acUser' );
-        }
-
-        Tracker.autorun(() => {
-            this._stateSet( Meteor.userId() ? AC_LOGGED : AC_UNLOGGED );
-        });
-
-        acUser.Singleton = this;
-        return this;
-    }
+AccountsUI.Account = {
 
     /**
      * Change the user's password
@@ -101,7 +28,7 @@ export class acUser {
                 AccountsUI.EventManager.trigger( event, parms );
             }
         });
-    }
+    },
 
     /**
      * Create a new user with a (mail,password) couple
@@ -164,16 +91,7 @@ export class acUser {
                 }
             });
         }
-    }
-
-    /**
-     * @returns {String} the (first) mail address of the currently logged-in user
-     */
-    emailAddress(){
-        const user = Meteor.user({ fields: { 'username': 1, 'emails': 1 }});
-        const email = user ? user.emails[0].address : '';
-        return email;
-    }
+    },
 
     /**
      * Login with a (mail,password) couple
@@ -197,7 +115,7 @@ export class acUser {
                 AccountsUI.EventManager.trigger( event, parms );
             }
         });
-    }
+    },
 
     /**
      * Logout
@@ -211,14 +129,7 @@ export class acUser {
             console.log( 'pwix:accounts-ui triggering', event, parms );
         }
         AccountsUI.EventManager.trigger( event, parms );
-    }
-
-    /**
-     * @returns {Boolean} whether the (first) mail address is verified
-     */
-    mailVerified(){
-        return Meteor.user() ? Meteor.user().emails[0].verified : false;
-    }
+    },
 
     /**
      * Send a mail to let the user reset his/her password
@@ -238,7 +149,7 @@ export class acUser {
             console.log( 'pwix:accounts-ui triggering', event, parms );
         }
         AccountsUI.EventManager.trigger( event, parms );
-    }
+    },
 
     resetAsk( email, target ){
         const self = this;
@@ -261,26 +172,7 @@ export class acUser {
                 this._resetAskSuccess( email );
             }
         });
-    }
-
-    /**
-     * Getter only
-     * @param {String} state the new logged-in status
-     * @returns {String} the logged-in status as AC_LOGGED or AC_UNLOGGED
-     * A reactive data source
-     */
-    state(){
-        this._state.dep.depend();
-        return this._state.value;
-    }
-
-    /**
-     * @returns {String} the username of the currently logged-in user
-     */
-    username(){
-        const user = Meteor.user({ fields: { 'username': 1, 'emails': 1 }});
-        return user ? user.username : '';
-    }
+    },
 
     /**
      * Re-send a mail to let us verify the user's email
@@ -303,4 +195,4 @@ export class acUser {
                 }
             });
     }
-}
+};

@@ -1,19 +1,20 @@
 /*
  * pwix:accounts-ui/src/client/js/singletons.js
- *
- * - attach the acDisplayManager singleton to AccountsUI
- * - attach the acUser singleton as User to AccountsUI
  */
+
+import { acConnection } from '../classes/ac_connection.class.js';
+import { acManager } from '../classes/ac_manager.class.js';
 
 import { acDisplayManager } from '../classes/ac_display_manager.class.js';
 import { acEventManager } from '../classes/ac_event_manager.class.js';
-import { acUser } from '../classes/ac_user.class.js';
 
 AccountsUI = {
     ...AccountsUI,
     ...{
+        Manager: new acManager(),
+        Connection: new acConnection(),
+        //
         DisplayManager: new acDisplayManager(),
         EventManager: new acEventManager(),
-        User: new acUser()
     }
 }

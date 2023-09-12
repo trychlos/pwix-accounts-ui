@@ -35,8 +35,8 @@ export class acCompanionOptions extends Options.Base {
     // private data
     //
 
-    // the master companion
-    _companion = null;
+    // the identifier attributed by the manager
+    _managerId = null;
 
     // private methods
     //
@@ -54,18 +54,18 @@ export class acCompanionOptions extends Options.Base {
      * In some case where the expected value is a string, the base class also can accept an object with 'i18n' key.
      * All options are accepted as long as the corresponding getter/setter method exists in this derived class.
      * 
-     * @param {acCompanion} companion
-     * @param {Object} options
+     * @param {String} managerId the identifier attributed by the acManager
      * @returns {acCompanionOptions}
      */
-    constructor( companion, options ){
-        super( options );
-
-        this._companion = companion;
+    constructor( managerId ){
+        super();
+        const self = this;
 
         if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
             console.log( 'pwix:accounts-ui instanciating acCompanionOptions' );
         }
+
+        self._managerId = managerId;
 
         return this;
     }

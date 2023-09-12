@@ -6,8 +6,10 @@
  * - or (not exclusive) when no user is logged, and the 'unloggedButtonAction' is not hidden.
  * 
  * Parms:
- *  - companion: the acCompanion object
+ *  - managerId: the identified allocated by acManager
  */
+
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import '../../../common/js/index.js';
 
@@ -19,18 +21,21 @@ Template.ac_dropdown.onCreated( function(){
     const self = this;
 
     self.AC = {
-        companion: Template.currentData().companion,
+        component: new ReactiveVar( null ),
 
         // compute the class of the button
         btnClass( state ){
             let result = '';
-            switch( state ){
-                case AC_LOGGED:
-                    result = self.AC.companion.opts().loggedButtonClass();
-                    break;
-                case AC_UNLOGGED:
-                    result = self.AC.companion.opts().unloggedButtonClass();
-                    break;
+            const component = self.AC.component.get();
+            if( component ){
+                switch( state ){
+                    case AC_LOGGED:
+                        result = component.opts().loggedButtonClass();
+                        break;
+                    case AC_UNLOGGED:
+                        result = component.opts().unloggedButtonClass();
+                        break;
+                }
             }
             return result;
         },
@@ -38,23 +43,39 @@ Template.ac_dropdown.onCreated( function(){
         // set the content of the button
         btnContent( state ){
             let result = '';
-            switch( state ){
-                case AC_LOGGED:
-                    result = self.AC.companion.opts().loggedButtonContent();
-                    break;
-                case AC_UNLOGGED:
-                    result = self.AC.companion.opts().unloggedButtonContent();
-                    break;
+            const component = self.AC.component.get();
+            if( component ){
+                switch( state ){
+                    case AC_LOGGED:
+                        result = component.opts().loggedButtonContent();
+                        break;
+                    case AC_UNLOGGED:
+                        result = component.opts().unloggedButtonContent();
+                        break;
+                }
             }
             return result;
         },
 
         // whether this template has to manage a dropdown menu
         hasDropdown( state ){
-            return ( state === AC_LOGGED && self.AC.companion.opts().loggedButtonAction() === AC_ACT_DROPDOWN )
-                || ( state === AC_UNLOGGED && self.AC.companion.opts().unloggedButtonAction() === AC_ACT_DROPDOWN );
+            let hasDropdown = false;
+            const component = self.AC.component.get();
+            if( component ){
+                hasDropdown = ( state === AC_LOGGED && component.opts().loggedButtonAction() === AC_ACT_DROPDOWN )
+                    || ( state === AC_UNLOGGED && component.opts().unloggedButtonAction() === AC_ACT_DROPDOWN )
+            }
+            return hasDropdown;
         }
     };
+
+    // setup the acUserLogin acManager component
+    self.autorun(() => {
+        const managerId = Template.currentData().managerId;
+        if( managerId ){
+            self.AC.component.set( AccountsUI.Manager.component( managerId ));
+        }
+    });
 });
 
 Template.ac_dropdown.onRendered( function(){
@@ -62,7 +83,7 @@ Template.ac_dropdown.onRendered( function(){
     btn = self.$( '.ac-dropdown button' );
 
     self.autorun(() => {
-        if( self.AC.hasDropdown( AccountsUI.User.state())){
+        if( self.AC.hasDropdown( AccountsUI.Connection.state())){
             btn.attr( 'data-bs-toggle', 'dropdown' );
             btn.attr( 'data-bs-auto-close', 'true' );
             btn.attr( 'aria-expanded', 'false' );
@@ -85,25 +106,25 @@ Template.ac_dropdown.onRendered( function(){
     //  This solution, as a one-line jQuery which doesn't use Blaze helpers, works well.
     self.autorun(() => {
         //console.log( 'btnContent autorun' );
-        btn.html( self.AC.btnContent( AccountsUI.User.state()));
+        btn.html( self.AC.btnContent( AccountsUI.Connection.state()));
     });
 });
 
 Template.ac_dropdown.helpers({
 
     // the classes to be added to the button
-    //  note that the 'dropdown-toggle' bootstrap class displays the down-arrow ':after' the label
+    //  note that the 'dropdown-toggle' bootstrap class displays the down-arrow '::after' the label
     buttonClass(){
         //console.log( 'buttonClass helper' );
-        return Template.instance().AC.btnClass( AccountsUI.User.state());
+        return Template.instance().AC.btnClass( AccountsUI.Connection.state());
     },
 
     // whether we have to manage a dropdown menu
     dropdown(){
-        return Template.instance().AC.hasDropdown( AccountsUI.User.state()) ? 'dropdown' : '';
+        return Template.instance().AC.hasDropdown( AccountsUI.Connection.state()) ? 'dropdown' : '';
     },
 
     hasDropdown(){
-        return Template.instance().AC.hasDropdown( AccountsUI.User.state());
+        return Template.instance().AC.hasDropdown( AccountsUI.Connection.state());
     }
 });
