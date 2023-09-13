@@ -19,7 +19,6 @@ AccountsUI.Event = {
         // a request to display a panel
         'ac-panel-changepwd-event',
         'ac-panel-resetask-event',
-        'ac-panel-resetpwd-event',
         'ac-panel-signin-event',
         'ac-panel-signout-event',
         'ac-panel-signup-event',
@@ -65,7 +64,7 @@ AccountsUI.Event = {
      * @summary Handle 'ac-panel' events
      * @param {Object} event the jQuery event
      * @param {Object} data the data associated to the event by the sender
-     *  coming from ac_menu_items, expects:
+     *  coming from ac_menu_items or acUserLogin, expects:
      *  - requester
      *  - panel
      * @return {Boolean} false to stop the propagation (usually because the event has been handled)
@@ -173,10 +172,11 @@ AccountsUI.Event = {
      * @summary Common event handler
      * @param {Object} event the jQuery event
      * @param {Object} data the data associated to the event by the sender
+     * @param {Object} instance the Blaze.TemplateInstance when the event is forwarded by acUserLogin
      * @return {Boolean} false to stop the propagation (usually because the event has been handled)
      *  Default is to redirect the event if possible.
      */
-    handler( event, data ){
+    handler( event, data, instance ){
         if( AccountsUI.opts().verbosity() & AC_VERBOSE_EVENT ){
             console.log( 'pwix:accounts-ui Event.handler()', event, data );
         }

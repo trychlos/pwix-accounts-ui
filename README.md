@@ -621,17 +621,32 @@ via messages sent to the `<div class="acUserLogin">...</div>`.
 - `ac-panel-signin-event`
 - `ac-panel-signup-event`
 - `ac-panel-resetask-event`
-- `ac-panel-resetpwd-event`
 - `ac-panel-signout-event`
 - `ac-panel-changepwd-event`
 - `ac-panel-verifyask-event`
 
-    Display the targeted panel
+    Display the specified panel.
+
+    No data is expected.
 
 - `ac-render-modal`
 - `ac-render-div`
 
     Change the rendering mode
+
+    No data is expected.
+
+- `ac-display-error`
+
+    Set the error message of the currently displayed panel
+
+    The error message must be set as the data of the event.
+
+- `ac-title`
+
+    Set the title of the currently displayed modal
+
+    The new title must be set as the data of the event.
 
 ### Messages sent on `body` element
 

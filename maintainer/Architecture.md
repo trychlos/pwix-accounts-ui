@@ -10,7 +10,11 @@
 
     All we have to check here is that several `acUserLogin` templates can be managed together while keeping each one their personality.
 
-- The login system also have some features triggered from the top-level, completely outside of the `acUserLogin` flow. Say for example the Change Password feature which is directly triggered by an URL.
+- The login system also have some features triggered from the top-level, completely outside of the `acUserLogin` flow. Two use cases are known:
+
+    - reset password
+    - email verification.
+
     Two options coexist here:
 
     - either create an hidden element, which will act as an event receiver
@@ -20,21 +24,13 @@
 
     Say we attach an event listener to the body, just to not have to design a ghost element, which in all cases should itself be attached to the `body` as we do not have any DOM element whose we are sure it is always present...
 
-## Display manager
+- `acUserLogin` can be displayed inside a `<div>...</div>` of the application, or as a modal dialog. In this later case, events trigerred by the modal are only handleable at the `<body>` level.
 
-This is a singleton class which make sure that the display is allocated to a single requester.
+## Events management
 
-Requesters may be:
+Because we manage modal dialogs, we have a generic event handler bound to the `<body>` of the document: see `AccountsUI.Event` object.
 
-- either one of the several `acUserLogin` instanciated templates
-
-    These templates are identified by a random identifier allocated at run time.
-
-- or one of the out-of-flow functions
-
-    These functions are identified as '`ANONYMOUS`': only one at the time may request the display.
-
-As a consequence, the display manager must be informed, by releasing it, when a panel is closed.
+From `acUserLogin` point of view, all known `ac-` events are forwarded to `AccountsUI.Event`.
 
 ## acUserLogin template
 
@@ -57,6 +53,34 @@ In the detail:
 - this is so the panel which triggers the '`ac-xxxx`' events to the `acUserLogin` template.
 
 The `acUserLogin` template is associated to the `acCompanion` and `acCompanionOptions` classes which take care of of the global interactions with the template.
+
+## Display manager
+
+This is a singleton class which make sure that the display is allocated to a single requester.
+
+Requesters may be:
+
+- either one of the several `acUserLogin` instanciated templates
+
+    These templates are identified by a random identifier allocated at run time.
+
+- or one of the out-of-flow functions
+
+    These functions are identified as '`ANONYMOUS`': only one at the time may request the display.
+
+As a consequence, the display manager must be informed, by releasing it, when a panel is closed.
+
+## Event manager
+
+Events are of three sort:
+
+- events sent by the application to the `acUserLogin` component, as a way to interact with it
+
+- events sent as a result of the selection of an `ac_menu_items` item
+
+- events sent when the user triggers an outside-of-the-flow feature as reset his password or verify his email
+
+- events sent by `acUserLogin` either to inform the application or to manage its own workflow.
 
 ---
 P. Wieser

@@ -100,27 +100,45 @@ Template.acUserLogin.helpers({
 
 Template.acUserLogin.events({
 
+    'ac-panel-changepwd-event/ac-panel-resetask-event/ac-panel-signin-event/ac-panel-signout-event/ac-panel-signup-event/ac-panel-verifyask-event .acUserLogin'( event, instance, data ){
+        let panel = null;
+        Object.keys( _stdMenuItems ).every(( st ) => {
+            _stdMenuItems[st].every(( it ) => {
+                if( it.msgaction === event.type ){
+                    panel = it.panel;
+                }
+                return panel === null;
+            });
+            return panel === null;
+        });
+        if( panel ){
+            AccountsUI.Event.handler( event, {
+                requester: instance.AC.managerId,
+                panel: panel
+            });
+        } else {
+            console.error( 'event', event.type, 'not found or unknown' );
+        }
+        return false;
+    },
+
     'ac-display-error .acUserLogin'( event, instance, msg ){
-        //console.log( event, instance, msg );
         AccountsUI.Display.errorMsg( msg );
         return false;
     },
 
     // change the rendering mode
     'ac-render-modal .acUserLogin'( event, instance ){
-        console.log( event, instance );
-        instance.AC.companion().opts().renderMode( AC_RENDER_MODAL );
+        AccountsUI.Manager.component( instance.AC.managerId ).opts().renderMode( AC_RENDER_MODAL );
         return false;
     },
     'ac-render-div .acUserLogin'( event, instance ){
-        console.log( event, instance );
-        instance.AC.companion().opts().renderMode( AC_RENDER_DIV );
+        AccountsUI.Manager.component( instance.AC.managerId ).opts().renderMode( AC_RENDER_DIV );
         return false;
     },
 
     // set the modal title
     'ac-title .acUserLogin'( event, instance, data ){
-        console.log( event, instance, data );
         AccountsUI.Display.title( data );
         return false;
     }
