@@ -190,15 +190,6 @@ export class acOptions extends Options.Base {
 
     /**
      * Getter/Setter
-     * @param {String|Function} value preferred user label
-     * @returns {String}
-     */
-    preferredLabel( value ){
-        return this.base_gsStringFn( 'preferredLabel', value, { default: defaults.common.preferredLabel, ref: Object.keys( AccountsUI.C.PreferredLabel )});
-    }
-
-    /**
-     * Getter/Setter
      * @param {Boolean|Function} twice whether we want use two password input fields when resetting a user's password.
      * @returns {Boolean}
      */

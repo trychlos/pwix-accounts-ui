@@ -3,12 +3,6 @@
  */
 
 AccountsUI.C = {
-
-    // when choosing a preferred label
-    PreferredLabel: {
-        USERNAME: 'USERNAME',
-        EMAIL_ADDRESS: 'EMAIL_ADDRESS'
-    }
 };
 
 // connection status

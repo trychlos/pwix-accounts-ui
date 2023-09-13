@@ -38,7 +38,6 @@ defaults = {
         passwordLength: 8,
         passwordStrength: AC_PWD_MEDIUM,
         passwordTwice: true,
-        preferredLabel: AccountsUI.C.PreferredLabel.EMAIL_ADDRESS,
         resetPasswordTwice: _passwordTwice,
         resetPwdTextOne: { namespace: I18N, i18n: 'reset_pwd.textOne' },
         resetPwdTextTwo: '',

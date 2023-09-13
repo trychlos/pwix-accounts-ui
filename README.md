@@ -259,17 +259,6 @@ Known configuration options are:
 
     Defaults to `true`.
 
-- `preferredLabel`
-
-    Whether the application prefers identify its users by their email address or their username.
-
-    Accepted values are:
-    
-    - `AccountsUI.C.PreferredLabel.USERNAME`
-    - `AccountsUI.C.PreferredLabel.EMAIL_ADDRESS`
-
-    Defaults to `AccountsUI.C.PreferredLabel.EMAIL_ADDRESS` though the actually displayed label heavily depends of the runtime configuration as we try to always display something.
-
 - `resetPasswordTwice`
 
     Whether to request the user to enter twice the password when resetting for an existing account.
@@ -385,22 +374,6 @@ The globally exported object.
 
     With that name, anyone is so able to provide additional translations.
 
-- `AccountsUI.preferredLabel( id|user [, preferred] )`
-
-    Returns the preferred label for this user.
-
-    The application may have ask for either a username or an email address, or both.
-    When time comes to display an identification string to the user, we need to choose between the username and the email address (if both apply), depending of the preference of the caller.
-
-    The user may be identified by its `_id` string, or by the user document.
-
-    The caller preference is optional, may be one the following values:
-
-    - `AccountsUI.C.PreferredLabel.USERNAME`
-    - `AccountsUI.C.PreferredLabel.EMAIL_ADDRESS`
-
-    Default is the configured value.
-
 - `AccountsUI.ready()`
 
     A client-only method which advertises when the package has been successfully initialized.
@@ -498,7 +471,7 @@ Even when providing a configuration object, as all keys are optional, this objec
     Defaults to:
 
     - a `<span class="fa-regular fa-fw fa-user">` HTML string when unlogged
-    - the `preferredLabel` value when logged.
+    - the email address value when logged.
 
 - `loggedItems`
 - `unloggedItems`

@@ -92,7 +92,7 @@ Template.ac_input_username.helpers({
 
     // whether the mandatory field must exhibit an ad-hoc colored border ?
     mandatoryBorder(){
-        return Template.instance().AC.mandatoryField() && Template.currentData().component.opts().mandatoryFieldsBorder() ? 'ac-mandatory-border' : '';
+        return Template.instance().AC.mandatoryField() && Template.currentData().component.opts().coloredBorders() === AC_COLORED_MANDATORY ? 'ac-mandatory-border' : '';
     },
 
     // returns the keyed translated string

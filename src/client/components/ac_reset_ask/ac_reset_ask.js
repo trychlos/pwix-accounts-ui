@@ -43,6 +43,14 @@ Template.ac_reset_ask.helpers({
         return AccountsUI.Display.errorMsg();
     },
 
+    // parameters for the email address and username inputs
+    parmsUser(){
+        return {
+            component: Template.instance().AC.component.get(),
+            new: false
+        };
+    },
+
     // the text at the first place of the section
     textOne(){
         const component = Template.instance().AC.component.get();

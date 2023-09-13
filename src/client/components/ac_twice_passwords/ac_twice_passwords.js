@@ -71,7 +71,8 @@ Template.ac_twice_passwords.helpers({
     // params to first occurrence of new password
     parmNewOne(){
         const component = Template.currentData().component;
-        const mandatoryBorder = component && component.opts() ? component.opts().mandatoryFieldsBorder() : AccountsUI.opts().mandatoryFieldsBorder();
+        const mandatoryBorder = component && component.opts()
+                ? component.opts().coloredBorders() === AC_COLORED_MANDATORY : AccountsUI.opts().coloredBorders() === AC_COLORED_MANDATORY;
         return {
             label: pwixI18n.label( I18N, 'twice_passwords.label' ),
             placeholder: pwixI18n.label( I18N, 'twice_passwords.placeholder1' ),
@@ -85,7 +86,8 @@ Template.ac_twice_passwords.helpers({
     //  do not set as 'new' to not have the 'strength' display
     parmNewTwo(){
         const component = Template.currentData().component;
-        const mandatoryBorder = component && component.opts() ? component.opts().mandatoryFieldsBorder() : AccountsUI.opts().mandatoryFieldsBorder();
+        const mandatoryBorder = component && component.opts()
+                ? component.opts().coloredBorders() === AC_COLORED_MANDATORY : AccountsUI.opts().coloredBorders() === AC_COLORED_MANDATORY;
         return {
             label: '',
             placeholder: pwixI18n.label( I18N, 'twice_passwords.placeholder2' ),

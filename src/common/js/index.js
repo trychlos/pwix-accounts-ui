@@ -8,6 +8,5 @@ import './i18n.js';
 //
 import './checks.js';
 import './configure.js';
-import './preferred.js';
 import './save_restore.js';
 import './startup.js';

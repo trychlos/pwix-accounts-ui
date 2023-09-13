@@ -8,6 +8,7 @@
 
     - Upgrade pwix:options requirement to 2.1.0
     - Deep code refactoring and configuration parameters evolution (bumping candidate version number)
+    - Remove AccountsUI.preferredLabel() method, moved to pwix:accounts-tools
 
 ### 1.3.0
 

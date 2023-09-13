@@ -40,7 +40,8 @@
 |   65 | 2023- 9-12 | feat: have a onUserCreated parm with nothing, dialog box or user function (but is it relevant client side) |
 |   66 | 2023- 9-12 | feat: honor onEmailverifiedXxxx parms |
 |   67 | 2023- 9-12 | feat: honor coloredBorders parm |
-|   68 |  |  |
+|   68 | 2023- 9-12 | disable submit button on modals (and divs) when the panels is not ok |
+|   69 |  |  |
 
 ---
 ## Done
