@@ -221,19 +221,4 @@ export class acCompanion {
         }
         return !managed;
     }
-
-    /****************************************************************************************************************************************************************
-     * **************************************************************************************************************************************************************
-     *****************************************************************************************************************************************************************/
-
-    // keep here a list of all instanciated named objects
-    static NamedInstances = {};
-
-    /**
-     * @param {String} name the searched name
-     * @returns {acCompanion} the corresponding acCompanion instance, or null
-     */
-    static byName( name ){
-        return acCompanion.NamedInstances[name] || null;
-    }
 }

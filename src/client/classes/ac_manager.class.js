@@ -27,6 +27,9 @@ export class acManager {
     // the list of acUserLogin components indexed by their internal id
     _components = {};
 
+    // keep here a list of all instanciated named objects
+    _named = {};
+
     // private methods
     //
 
@@ -50,6 +53,14 @@ export class acManager {
 
         acManager.Singleton = this;
         return this;
+    }
+
+    /**
+     * @param {String} name the searched name
+     * @returns {acComponent} the corresponding acComponent instance, or null
+     */
+    byName( name ){
+        return this._named[name] || null;
     }
 
     /**
@@ -84,6 +95,15 @@ export class acManager {
      */
     componentRemove( id ){
         delete this._components[id];
+    }
+
+    /**
+     * @summary Name an instance
+     * @param {String} id the internal identifier attributed by this acManager
+     * @param {String} name the name to be attributed
+     */
+    name( id, name ){
+        this._named[name] = id;
     }
 
     /**

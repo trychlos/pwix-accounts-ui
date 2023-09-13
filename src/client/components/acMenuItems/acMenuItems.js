@@ -12,8 +12,6 @@
 
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { acCompanion } from '../../classes/ac_companion.class.js';
-
 import '../ac_menu_items/ac_menu_items.js';
 
 import './acMenuItems.html';
@@ -22,8 +20,7 @@ Template.acMenuItems.onCreated( function(){
     const self = this;
 
     self.AC = {
-        companion: new ReactiveVar( null ),
-        name: new ReactiveVar( null )
+        managerId: new ReactiveVar( null ),
     };
 
     // find the acCompanion by its name
@@ -38,21 +35,21 @@ Template.acMenuItems.onCreated( function(){
     self.autorun(() => {
         const name = self.AC.name.get();
         if( name ){
-            const companion = acCompanion.byName( name );
-            if( companion ){
-                self.AC.companion.set( companion );
+            const component = AccountsUI.Manager.byName( name );
+            if( component ){
+                self.AC.managerId.set( component.id());
             } else {
-                throw new Error( 'unable to find acCompanion by name', name );
+                throw new Error( 'unable to find acComponent by name', name );
             }
         }
     });
 });
 
 Template.acMenuItems.helpers({
-    // provide the acCompanion to ac_menu_items
-    parms(){
+    // provide the managerId to ac_menu_items
+    parmsMenuItems(){
         return {
-            companion: Template.instance().AC.companion.get()
+            managerId: Template.instance().AC.managerId.get()
         };
     }
 });

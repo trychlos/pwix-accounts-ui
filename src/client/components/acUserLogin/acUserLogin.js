@@ -59,8 +59,17 @@ Template.acUserLogin.onCreated( function(){
         console.log( 'pwix:accounts-ui instanciating acUserLogin id='+self.AC.managerId );
     }
 
+    // register the configuration options
     self.autorun(() => {
         AccountsUI.Manager.component( self.AC.managerId ).opts().base_set( _.merge( {}, defaults.acUserLogin, Template.currentData()));
+    });
+
+    // register the name
+    self.autorun(() => {
+        const name = Template.currentData().name;
+        if( name ){
+            AccountsUI.Manager.name( self.AC.managerId, name );
+        }
     });
 });
 

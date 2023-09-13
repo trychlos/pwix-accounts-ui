@@ -415,18 +415,6 @@ not the expected dialogs.
 The template expects to be called with a single configuration object parameter, or maybe nothing at all if all the defaults are to be used.
 Even when providing a configuration object, as all keys are optional, this object can be just empty.
 
-- `withConnectionState`
-
-    There is obviously only one user connected at once in this device for this application. So a single connection state managed by the `pwix:accounts-ui` package, and which defaults to be shared by each and every `acUserLogin` component.
-
-    Some situations will nonetheless take advantage of reusing the Blaze components without considering any other thing than that simple components. Say, for example, when an application administrator wants create several user accounts: obviously these accounts should not be automatically connected at their creation, nor disconnect the administrator, etc.
-
-    Accepted values are `true` or `false`.
-
-    Defaults to `true`.
-
-    When set to `false`, the login workflow is not considered, but accounts are created, mails are sent if asked for, etc.
-
 - `loggedButtonAction`
 - `unloggedButtonAction`
 
@@ -609,7 +597,7 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     Value: any string.
 
-    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+    A function can be provided by the application for this parm. The function will be called without argument and must return one of the accepted values.
 
     Default to none.
 
