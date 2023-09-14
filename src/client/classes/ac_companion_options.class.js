@@ -339,6 +339,15 @@ export class acCompanionOptions extends Options.Base {
 
     /**
      * Getter/Setter
+     * @param {String|Function|Object} str the placeholder of the input email
+     * @returns {String}
+     */
+    signupEmailPlaceholder( str ){
+        return this.base_gsStringObjectFn( 'signupEmailPlaceholder', str, { default: defaults.acUserLogin.signupEmailPlaceholder });
+    }
+
+    /**
+     * Getter/Setter
      * @param {String|Function|Object} str the legend to be set inside of email fieldset
      * @returns {String}
      */
@@ -371,6 +380,24 @@ export class acCompanionOptions extends Options.Base {
      */
     signupLink( flag ){
         return this.base_gsBoolFn( 'signupLink', flag, { default: defaults.acUserLogin.signupLink });
+    }
+
+    /**
+     * Getter/Setter
+     * @param {String|Function|Object} str the placeholder of the first input password
+     * @returns {String}
+     */
+    signupPasswdOnePlaceholder( str ){
+        return this.base_gsStringObjectFn( 'signupPasswdOnePlaceholder', str, { default: defaults.acUserLogin.signupPasswdOnePlaceholder });
+    }
+
+    /**
+     * Getter/Setter
+     * @param {String|Function|Object} str the placeholder of the second input password
+     * @returns {String}
+     */
+    signupPasswdTwoPlaceholder( str ){
+        return this.base_gsStringObjectFn( 'signupPasswdTwoPlaceholder', str, { default: defaults.acUserLogin.signupPasswdTwoPlaceholder });
     }
 
     /**
@@ -422,6 +449,15 @@ export class acCompanionOptions extends Options.Base {
      */
     signupTextFour( label ){
         return this.base_gsStringObjectFn( 'signupTextFour', label, { default: defaults.acUserLogin.signupTextFour });
+    }
+
+    /**
+     * Getter/Setter
+     * @param {String|Function|Object} str the placeholder of the input username
+     * @returns {String}
+     */
+    signupUsernamePlaceholder( str ){
+        return this.base_gsStringObjectFn( 'signupUsernamePlaceholder', str, { default: defaults.acUserLogin.signupUsernamePlaceholder });
     }
 
     /**

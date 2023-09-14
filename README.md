@@ -561,6 +561,17 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     Value is expected to be a string which contains HTML code, or a function which returns such a string.
 
+- `signupEmailPlaceholder`
+- `signupUsernamePlaceholder`
+- `signupPasswdOnePlaceholder`
+- `signupPasswdTwoPlaceholder`
+
+    Display personalization.
+
+    These options let the application provides its own content for the corresponding fields.
+
+    Value is expected to be a string, or a function which returns a string.
+
 - `signinLink`
 - `signupLink`
 - `resetLink`

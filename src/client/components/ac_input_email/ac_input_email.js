@@ -6,6 +6,7 @@
  * Parms:
  *  - component: the acComponent object
  *  - new: true|false whether to check for non-yet existant, defaulting to false
+ *  - placeholder (opt.)
  */
 
 import { pwixI18n as i18n } from 'meteor/pwix:i18n';

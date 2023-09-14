@@ -64,6 +64,7 @@ AccountsUI.Panel = {
                 { class: 'btn-primary ac-submit',   key: 'signup_label' }
             ],
             links: [
+                { key: 'reset_link',  target: AC_PANEL_RESETASK, have: 'resetLink' },
                 { key: 'signin_link', target: AC_PANEL_SIGNIN, have: 'signinLink' }
             ],
             modal_title: { i18n: 'signup.modal_title' },

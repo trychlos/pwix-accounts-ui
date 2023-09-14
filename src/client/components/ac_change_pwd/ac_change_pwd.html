@@ -1,5 +1,6 @@
 <template name="ac_change_pwd">
     <div class="ac-component ac-change-pwd">
+        <form>
 
             {{#if textOne }}
                 <div class="ac-text ac-text-one">{{{ textOne }}}</div>
@@ -10,7 +11,7 @@
             </div>
 
             {{#if textTwo }}
-                <div class="ac-border ac-mt05"></div>
+                <div class="ac-border ac-mt1"></div>
                 <div class="ac-text ac-text-two">{{{ textTwo }}}</div>
             {{/if}}
 
@@ -26,5 +27,8 @@
                 {{{ errorMsg }}}
             </div>
 
+            {{> ac_mandatory_footer }}
+
+        </form>
     </div>
 </template>

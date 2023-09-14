@@ -84,11 +84,13 @@ Template.ac_signup.helpers({
         return Template.instance().AC.haveUsername();
     },
 
-    // parameters for the password input
-    parmsTwice(){
+    // parameters for the email address
+    parmsEmailAddress(){
+        const component = Template.instance().AC.component.get();
         return {
-            component: Template.instance().AC.component.get(),
-            role: 'signup'
+            component: component,
+            new: true,
+            placeholder: component.opts().signupEmailPlaceholder()
         };
     },
 
@@ -97,6 +99,17 @@ Template.ac_signup.helpers({
         return {
             component: Template.instance().AC.component.get(),
             new: true
+        };
+    },
+
+    // parameters for the password input
+    parmsTwice(){
+        const component = Template.instance().AC.component.get();
+        return {
+            component: component,
+            role: 'signup',
+            placeholder1: component.opts().signupPasswdOnePlaceholder(),
+            placeholder2: component.opts().signupPasswdTwoPlaceholder()
         };
     },
 

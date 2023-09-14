@@ -4,7 +4,7 @@
  * Provides various buttons, to be displayed either in a modal footer, or in the bottom of a div.
  * 
  * Parms:
- *  - companion: ANONYMOUS or a acCompanion object
+ *  - managerId, may be empty (and, in this case, submitCallback must be set)
  *  - submitCallback: if provided, a callback which will be called on .ac-submit button click
  *      instead of triggering an 'ac-submit' event
  */
@@ -12,7 +12,7 @@ import { Modal } from 'meteor/pwix:modal';
 import { pwixI18n } from 'meteor/pwix:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { acCompanion } from '../../classes/ac_companion.class.js';
+import { acComponent } from '../../classes/ac_component.class.js';
 
 import './ac_footer.html';
 
@@ -20,22 +20,22 @@ Template.ac_footer.onCreated( function(){
     const self = this;
 
     self.AC = {
-        companion: null,
+        component: null,
         buttons: new ReactiveVar( AccountsUI.Panel.buttons( AccountsUI.Display.panel()))
     };
 
     // get companion
     self.autorun(() => {
-        const companion = Template.currentData().companion;
-        if( companion && companion instanceof acCompanion ){
-            self.AC.companion = companion;
+        const managerId = Template.currentData().managerId;
+        if( managerId ){
+            self.AC.component = AccountsUI.Manager.component( managerId );
         }
     });
 
     // build an adapted buttons list
     self.autorun(() => {
-        if( self.AC.companion ){
-            const haveCancelButton = self.AC.companion.opts().haveCancelButton();
+        if( self.AC.component ){
+            const haveCancelButton = self.AC.component.opts().haveCancelButton();
             //console.debug( 'haveCancelButton', haveCancelButton );
             let _buttons = [];
             AccountsUI.Panel.buttons( AccountsUI.Display.panel()).every(( btn ) => {
@@ -70,7 +70,8 @@ Template.ac_footer.helpers({
     // whether to display this link
     haveLink( link ){
         //console.debug( link );
-        const ret = link.have && ( this.companion && this.companion !== ANONYMOUS ) ? this.companion.opts()[link.have]() : link.have;
+        const component = Template.instance().AC.component;
+        const ret = link.have && ( component && component !== ANONYMOUS ) ? component.opts()[link.have]() : link.have;
         return ret;
     },
 
@@ -85,15 +86,6 @@ Template.ac_footer.helpers({
 });
 
 Template.ac_footer.events({
-
-        // intercept Enter
-    //  this only works in an inputable field has the focus
-    'keydown .ac-footer'( event, instance ){
-        //console.log( event );
-        if( event.keyCode === 13 ){
-            console.log( 'ac-footer pressing Enter' );
-        }
-    },
 
     'click .ac-link'( event, instance ){
         const panel = instance.$( event.currentTarget ).find( 'a' ).attr( 'data-ac-target' );
