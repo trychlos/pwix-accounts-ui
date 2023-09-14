@@ -74,11 +74,12 @@ Template.ac_twice_passwords.helpers({
         const mandatoryBorder = component && component.opts()
                 ? component.opts().coloredBorders() === AC_COLORED_MANDATORY : AccountsUI.opts().coloredBorders() === AC_COLORED_MANDATORY;
         return {
-            label: pwixI18n.label( I18N, 'twice_passwords.label' ),
+            label: this.label || pwixI18n.label( I18N, 'twice_passwords.label' ),
             placeholder: pwixI18n.label( I18N, 'twice_passwords.placeholder1' ),
             new: true,
             checkStrength: true,
-            mandatoryBorder: mandatoryBorder
+            mandatoryBorder: mandatoryBorder,
+            autocomplete: false
         }
     },
 
@@ -91,7 +92,8 @@ Template.ac_twice_passwords.helpers({
         return {
             label: '',
             placeholder: pwixI18n.label( I18N, 'twice_passwords.placeholder2' ),
-            mandatoryBorder: mandatoryBorder
+            mandatoryBorder: mandatoryBorder,
+            autocomplete: false
         }
     },
 
@@ -102,7 +104,9 @@ Template.ac_twice_passwords.helpers({
 });
 
 Template.ac_twice_passwords.events({
-    'keyup .ac-twice-passwords'( event, instance ){
+    'ac-password-data .ac-twice-passwords'( event, instance, data ){
         instance.AC.check();
+        // do not bubble up
+        return false;
     }
 });

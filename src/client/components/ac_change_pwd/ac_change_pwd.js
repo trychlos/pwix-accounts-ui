@@ -45,19 +45,20 @@ Template.ac_change_pwd.helpers({
         return AccountsUI.Display.errorMsg();
     },
 
-    // parameters for the password input
-    parmTwice(){
-        return {
-            companion: this.companion,
-            role: 'change'
-        };
-    },
-
     // params to old password
     labelOld(){
         return {
             label: pwixI18n.label( I18N, 'change_pwd.old_label' )
         }
+    },
+
+    // parameters for the password input
+    parmTwice(){
+        return {
+            component: Template.instance().AC.component.get(),
+            role: 'change',
+            label: pwixI18n.label( I18N, 'change_pwd.new_label' )
+        };
     },
 
     // the text before the old password

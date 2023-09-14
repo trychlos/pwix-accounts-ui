@@ -86,6 +86,15 @@ Template.ac_footer.helpers({
 
 Template.ac_footer.events({
 
+        // intercept Enter
+    //  this only works in an inputable field has the focus
+    'keydown .ac-footer'( event, instance ){
+        //console.log( event );
+        if( event.keyCode === 13 ){
+            console.log( 'ac-footer pressing Enter' );
+        }
+    },
+
     'click .ac-link'( event, instance ){
         const panel = instance.$( event.currentTarget ).find( 'a' ).attr( 'data-ac-target' );
         //console.debug( panel );

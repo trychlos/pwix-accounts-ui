@@ -9,9 +9,10 @@
  *  - checkStrength: Boolean, should be true when entering the first occurrence of a new password
  *  - mandatoryBorder: whether to displayed a colored border for mandatory fields
  *  - new: Boolean, true for entering a new password (so to be checked for its strength)
+ *  - autocomplete: boolean, whether to have an autocomplete attribute, defaulting to true
  */
 
-import { pwixI18n as i18n } from 'meteor/pwix:i18n';
+import { pwixI18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
 
@@ -26,6 +27,7 @@ Template.ac_input_password.onCreated( function(){
     self.AC = {
         inputField: null,
         errorMsg: new ReactiveVar( '' ),
+        isNew : new ReactiveVar( false ),
 
         score: [
             { k:AC_PWD_VERYWEAK,   css: { backgroundColor: '#ff0000' }}, // red
@@ -38,21 +40,26 @@ Template.ac_input_password.onCreated( function(){
 
         // check the strength of the password with https://www.npmjs.com/package/zxcvbn
         //  is only called for a new password
+        // on a new account (which must be specified in data context), we advertise the caller with full data
+        //  else (e.g. signin) we just advertise of the input event
         check(){
             self.AC.errorMsg.set( '' );
             AccountsUI._checkPassword( self.AC.inputField.val() || '' )
                 .then(( result ) => {
-                    // css
-                    self.$( '.ac-strength-bar' ).css( self.AC.score[result.zxcvbn.score].css );
-                    let width = result.password.length ? 1+parseInt( result.zxcvbn.score ) : 0;
-                    self.$( '.ac-strength-bar' ).css({ width: width+'em' });
-                    width = 5-width;
-                    self.$( '.ac-strength-other' ).css({ width: width+'em' });
-                    // only display error message if field is not empty
-                    if( result.errors.length && result.password.length ){
-                        self.AC.errorMsg.set( result.errors[0] );
+                    if( self.AC.isNew.get()){
+                        // css
+                        self.$( '.ac-strength-bar' ).css( self.AC.score[result.zxcvbn.score].css );
+                        let width = result.password.length ? 1+parseInt( result.zxcvbn.score ) : 0;
+                        self.$( '.ac-strength-bar' ).css({ width: width+'em' });
+                        width = 5-width;
+                        self.$( '.ac-strength-other' ).css({ width: width+'em' });
+                        // only display error message if field is not empty
+                        if( result.errors.length && result.password.length ){
+                            self.AC.errorMsg.set( result.errors[0] );
+                        }
                     }
                     // advertises of the current password characteristics
+                    //console.debug( result );
                     self.$( '.ac-input-password' ).trigger( 'ac-password-data', {
                         ok: result.ok,
                         score: result.zxcvbn.score,
@@ -64,15 +71,13 @@ Template.ac_input_password.onCreated( function(){
 
         // provides a translated label
         i18n( key ){
-            return i18n.label( I18N, 'input_password.'+key );
+            return pwixI18n.label( I18N, 'input_password.'+key );
         },
 
         // reinitialize the form
         reset(){
             self.$( 'input' ).val( '' );
-            if( Template.currentData().new ){
-                self.AC.check();
-            }
+            self.AC.check();
         }
     };
 
@@ -86,6 +91,13 @@ Template.ac_input_password.onCreated( function(){
         i += 1;
         return true;
     });
+
+    // get the 'new' parameter
+    self.autorun(() => {
+        if( Template.currentData().new === true || Template.currentData().new === false ){
+            self.AC.isNew.set( Template.currentData().new );
+        }
+    });
 });
 
 Template.ac_input_password.onRendered( function(){
@@ -95,12 +107,16 @@ Template.ac_input_password.onRendered( function(){
     self.AC.inputField = self.$( '.ac-input-password input' );
 
     // initialize the form
-    if( Template.currentData().new ){
-        self.AC.check();
-    }
+    self.AC.check();
 });
 
 Template.ac_input_password.helpers({
+
+    // whether we have an autocomplete on this field ?
+    autocomplete(){
+        const autocomplete = ( this.autocomplete === true || this.autocomplete === false ) ? this.autocomplete : true;
+        return autocomplete ? 'pwix:accounts-ui password' : 'off';
+    },
 
     // whether we must check the strength ?
     checkStrength(){
@@ -143,14 +159,8 @@ Template.ac_input_password.events({
         }
     },
 
-    // on a new account (which must be specified in data context), we advertise the caller with full data
-    //  else (e.g. signin) we just advertise of the input event
-    'input input.ac-input'( event, instance ){
-        if( Template.currentData().new ){
-            instance.AC.check();
-        } else {
-            instance.$( event.currentTarget ).trigger( 'ac-password-data' );
-        }
+    'input .ac-input-password .ac-input'( event, instance ){
+        instance.AC.check();
     },
 
     // reset order sent by the parent form (at least as first initialization)

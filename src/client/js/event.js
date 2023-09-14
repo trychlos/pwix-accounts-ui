@@ -37,8 +37,31 @@ AccountsUI.Event = {
         // the modal events we may want to deal with
         'md-click',
         'md-close',
-        'md-ready'
+        'md-ready',
+        // install a handler on keydown just to intercept 'Enter' key
+        'keydown'
     ],
+
+    /*
+     * @return {Boolean} false to stop the propagation (usually because the event has been handled)
+     *  Here, always let the event bubble up
+     */
+    _handleKeydown( event ){
+        switch( event.type ){
+            case 'keydown':
+                if( event.keyCode === 13 ){
+                    // when we have an Enter key pressed, we want submit the current form (if any)
+                    console.log( 'event pressing Enter' );
+                    const requester = AccountsUI.Display.requester();
+                    if( requester ){
+                        console.debug( 'found requester', requester );
+                        $( 'body .ac-content .ac-submit' ).trigger( 'ac-submit' );
+                    }
+                }
+                break;
+        }
+        return true;
+    },
 
     /*
      * @summary Handle modal events
@@ -181,8 +204,11 @@ AccountsUI.Event = {
         if( AccountsUI.opts().verbosity() & AC_VERBOSE_EVENT ){
             console.log( 'pwix:accounts-ui Event.handler()', event, data );
         }
-        return this._handlePanel( event, data ) && this._handleUser( event, data ) &&
-                this._handleSubmit( event, data ) && this._handleModal( event, data );
+        return this._handleKeydown( event ) &&
+            this._handleModal( event, data ) &&
+            this._handlePanel( event, data ) &&
+            this._handleSubmit( event, data ) &&
+            this._handleUser( event, data );
     },
 
     /**

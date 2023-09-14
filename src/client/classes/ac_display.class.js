@@ -19,7 +19,6 @@
  *  - else the method setup the current panel and return true.
  */
 
-import { Modal } from 'meteor/pwix:modal';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Tracker } from 'meteor/tracker';
 

@@ -1,7 +1,6 @@
 <template name="ac_change_pwd">
     <div class="ac-component ac-change-pwd">
 
-        <form>
             {{#if textOne }}
                 <div class="ac-text ac-text-one">{{{ textOne }}}</div>
             {{/if}}
@@ -11,11 +10,11 @@
             </div>
 
             {{#if textTwo }}
-                <div class="ac-border"></div>
+                <div class="ac-border ac-mt05"></div>
                 <div class="ac-text ac-text-two">{{{ textTwo }}}</div>
             {{/if}}
 
-            <div class="ac-border"></div>
+            <div class="ac-border ac-mt05"></div>
 
             {{> ac_twice_passwords (parmTwice) }}
 
@@ -26,7 +25,6 @@
             <div class="ac-error">
                 {{{ errorMsg }}}
             </div>
-        </form>
 
     </div>
 </template>
