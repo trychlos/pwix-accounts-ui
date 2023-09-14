@@ -59,7 +59,7 @@ Template.ac_signup.onCreated( function(){
 Template.ac_signup.onRendered( function(){
     const self = this;
 
-    self.AC.submitBtn = self.$( '.ac-signup' ).closest( '.acUserLogin' ).find( '.ac-submit' );
+    self.AC.submitBtn = self.$( '.ac-signup' ).closest( '.ac-content' ).find( '.ac-submit' );
     this.AC.resetInput();
 
     self.autorun(() => {

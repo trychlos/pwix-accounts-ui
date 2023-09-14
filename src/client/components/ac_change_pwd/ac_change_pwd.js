@@ -34,7 +34,7 @@ Template.ac_change_pwd.onRendered( function(){
     const self = this;
 
     self.autorun(() => {
-        const btn = self.$( '.ac-change-pwd' ).closest( '.acUserLogin' ).find( '.ac-submit' );
+        const btn = self.$( '.ac-change-pwd' ).closest( '.ac-content' ).find( '.ac-submit' );
         btn.prop( 'disabled', !self.AC.passwordOk.get() || !self.AC.twiceOk.get());
     });
 });

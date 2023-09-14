@@ -16,7 +16,7 @@ Template.ac_reset_ask.onCreated( function(){
 
     self.AC = {
         component: new ReactiveVar( null ),
-        emailOk: new ReactiveVar( true ) 
+        emailOk: new ReactiveVar( false ) 
     };
 
     // setup the acUserLogin acManager component
@@ -32,7 +32,7 @@ Template.ac_reset_ask.onRendered( function(){
     const self = this;
 
     self.autorun(() => {
-        const btn = self.$( '.ac-reset-ask' ).closest( '.acUserLogin' ).find( '.ac-submit' );
+        const btn = self.$( '.ac-reset-ask' ).closest( '.ac-content' ).find( '.ac-submit' );
         btn.prop( 'disabled', !self.AC.emailOk.get());
     });
 });
@@ -65,7 +65,7 @@ Template.ac_reset_ask.helpers({
 });
 
 Template.ac_reset_ask.events({
-    'ac-email-data'( event, instance, data ){
+    'ac-email-data .ac-reset-ask'( event, instance, data ){
         instance.AC.emailOk.set( data.ok );
     }
 });

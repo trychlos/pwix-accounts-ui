@@ -39,6 +39,7 @@ Template.ac_render_modal.onCreated( function(){
                 Modal.run({
                     mdBody: AccountsUI.Panel.template( panel ),
                     mdTitle: AccountsUI.Panel.title( panel ),
+                    mdClassesContent: 'ac-content',
                     mdFooter: 'ac_footer',
                     ... Template.currentData()
                 });

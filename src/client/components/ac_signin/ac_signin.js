@@ -16,7 +16,19 @@ Template.ac_signin.onCreated( function(){
     const self = this;
 
     self.AC = {
-        component: new ReactiveVar( null )
+        component: new ReactiveVar( null ),
+
+        // checks: enable the submit button if bot fields are set
+        checks(){
+            const userid = self.$( '.ac-signin .ac-input-userid .ac-input' ).val() || '';
+            const passwd = self.$( '.ac-signin .ac-input-password .ac-input' ).val() || '';
+            self.AC.enableSubmit( userid.length && passwd.length );
+        },
+
+        // enable the submit button
+        enableSubmit( enable ){
+            self.$( '.ac-signin ').closest( '.ac-content' ).find( '.ac-submit' ).prop( 'disabled', !enable );
+        }
     };
 
     // setup the acUserLogin acManager component
@@ -30,7 +42,9 @@ Template.ac_signin.onCreated( function(){
 
 Template.ac_signin.onRendered( function(){
     const self = this;
-    self.$( '.ac-signin ').closest( '.acUserLogin' ).find( '.ac-submit' ).prop( 'disabled', false );
+
+    // disable the submit button at start
+    self.AC.enableSubmit( false );
 });
 
 Template.ac_signin.helpers({
@@ -56,5 +70,17 @@ Template.ac_signin.helpers({
     textThree(){
         const component = Template.instance().AC.component.get();
         return component ? component.opts().signinTextThree() : '';
+    }
+});
+
+Template.ac_signin.events({
+    // message sent by the userid input component
+    'ac-userid-data .ac-signin'( event, instance, data ){
+        instance.AC.checks();
+    },
+
+    // message sent by the password input component
+    'ac-password-data .ac-signin'( event, instance, data ){
+        instance.AC.checks();
     }
 });

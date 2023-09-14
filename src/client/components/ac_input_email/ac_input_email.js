@@ -24,14 +24,15 @@ Template.ac_input_email.onCreated( function(){
         errorMsg: new ReactiveVar( '' ),
         checkNew: new ReactiveVar( true ),
 
-        // check the current input field (only if new)
+        // check the current input field
         //  let the error message empty if field is empty
+        //  only set an error message for new input
         check(){
             self.AC.errorMsg.set( '' );
             AccountsUI._checkEmailAddress( self.AC.inputField.val())
                 .then(( result ) => {
                     // only display error message if field is not empty
-                    if( result.errors.length && result.email.length ){
+                    if( result.errors.length && result.email.length && self.AC.checkNew.get()){
                         self.AC.errorMsg.set( result.errors[0] );
                     }
                     self.$( '.ac-input-email' ).trigger( 'ac-email-data', { ok: result.ok, email: result.email });
@@ -114,10 +115,8 @@ Template.ac_input_email.helpers({
 });
 
 Template.ac_input_email.events({
-    'keyup input'( event, instance ){
-        if( instance.AC.checkNew.get()){
-            instance.AC.check();
-        }
+    'input input.ac-input'( event, instance ){
+        instance.AC.check();
     },
 
     // reset the form

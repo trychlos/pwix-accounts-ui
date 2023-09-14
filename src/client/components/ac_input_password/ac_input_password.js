@@ -143,9 +143,13 @@ Template.ac_input_password.events({
         }
     },
 
-    'keyup input'( event, instance ){
+    // on a new account (which must be specified in data context), we advertise the caller with full data
+    //  else (e.g. signin) we just advertise of the input event
+    'input input.ac-input'( event, instance ){
         if( Template.currentData().new ){
             instance.AC.check();
+        } else {
+            instance.$( event.currentTarget ).trigger( 'ac-password-data' );
         }
     },
 
