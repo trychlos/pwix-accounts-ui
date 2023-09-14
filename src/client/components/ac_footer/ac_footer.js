@@ -8,8 +8,8 @@
  *  - submitCallback: if provided, a callback which will be called on .ac-submit button click
  *      instead of triggering an 'ac-submit' event
  */
-import { pwixI18n as i18n } from 'meteor/pwix:i18n';
 import { Modal } from 'meteor/pwix:modal';
+import { pwixI18n } from 'meteor/pwix:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { acCompanion } from '../../classes/ac_companion.class.js';
@@ -59,7 +59,7 @@ Template.ac_footer.helpers({
     },
 
     btnLabel( btn ){
-        return btn.key && btn.key.length ? i18n.label( I18N, 'buttons.'+btn.key ) : '';
+        return btn.key && btn.key.length ? pwixI18n.label( I18N, 'buttons.'+btn.key ) : '';
     },
 
     // returns the ordered list of buttons to be displayed depending of the currently displayed template
@@ -75,7 +75,7 @@ Template.ac_footer.helpers({
     },
 
     linkLabel( link ){
-        return link.key && link.key.length ? i18n.label( I18N, 'buttons.'+link.key ) : '';
+        return link.key && link.key.length ? pwixI18n.label( I18N, 'buttons.'+link.key ) : '';
     },
 
     // returns the ordered list of links to be displayed depending of the current state

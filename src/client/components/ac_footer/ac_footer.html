@@ -15,7 +15,7 @@
     
         <div class="ac-right d-flex justify-content-end align-items-center">
             {{#each btn in buttons }}
-                <button type="button" class="btn {{ btnClass btn }}">{{ btnLabel btn }}</button>
+                <button type="{{ btn.type }}" class="btn {{ btnClass btn }}">{{ btnLabel btn }}</button>
             {{/each}}
         </div>
 

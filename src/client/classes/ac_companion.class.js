@@ -34,6 +34,7 @@ export class acCompanion {
         if( AccountsUI.opts().verbosity() & AC_VERBOSE_SUBMIT ){
             console.log( 'pwix:accounts-ui acCompanion handling', event.type, data );
         }
+        const component = AccountsUI.Manager.component( this._managerId );
         let mail = null;
         let password = null;
         let managed = false;
@@ -73,9 +74,9 @@ export class acCompanion {
                     options.email = $( '.ac-signup .ac-input-email .ac-input' ).val().trim();
                 }
                 options.password = $( '.ac-signup .ac-newone .ac-input' ).val().trim();
-                const autoClose = this.opts().signupAutoClose();
+                const autoClose = component.opts().signupAutoClose();
                 //console.debug( 'found autoClose='+autoClose );
-                const autoConnect = this.opts().signupAutoConnect();
+                const autoConnect = component.opts().signupAutoConnect();
                 //console.debug( 'found autoConnect='+autoConnect );
                 AccountsUI.Account.createUser( options, this._target(), autoClose, autoConnect );
                 if( !autoClose ){
