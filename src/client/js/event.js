@@ -51,7 +51,8 @@ AccountsUI.Event = {
         switch( event.type ){
             case 'md-click':
             case 'md-ready':
-                console.log( event, data );
+                //console.log( event, data );
+                //  md-click is never received here as we do not use Modal standard footer
                 break;
             case 'md-close':
                 AccountsUI.Display.handleModal( event, data );

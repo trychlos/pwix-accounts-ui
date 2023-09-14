@@ -2,7 +2,7 @@
  * /src/client/js/panel.js
  */
 
-import { pwixI18n as i18n } from 'meteor/pwix:i18n';
+import { pwixI18n } from 'meteor/pwix:i18n';
 
 AccountsUI.Panel = {
 
@@ -111,7 +111,7 @@ AccountsUI.Panel = {
      */
     title: function( name ){
         const o = AccountsUI.Panel.Refs[name] ? AccountsUI.Panel.Refs[name].modal_title || null : null;
-        return o ? i18n.label( I18N, o.i18n ) : '';
+        return o ? pwixI18n.label( I18N, o.i18n ) : '';
     },
 
     /**
@@ -122,7 +122,7 @@ AccountsUI.Panel = {
         if( !panel ){
             throw new Error( 'empty panel name' );
         }
-        console.log( this );
+        //console.log( this ); // AccountsUI.Panel
         if( !Object.keys( AccountsUI.Panel.Refs ).includes( panel )){
             throw new Error( 'unknown panel', panel );
         }
