@@ -42,7 +42,11 @@ Template.ac_twice_passwords.onCreated( function(){
             // we have to check that the two occurences 'pwd1' and 'pwd2' are the same
             const equalsOk = pwd1 === pwd2;
             self.AC.error.set( equalsOk ? '' : pwixI18n.label( I18N, 'twice_passwords.password_different' ) );
-            self.$( '.ac-twice-passwords' ).trigger( 'ac-twice-data', { ok: equalsOk, length: pwd1.length });
+            self.$( '.ac-twice-passwords' ).trigger( 'ac-twice-data', {
+                ok: equalsOk,
+                length: pwd1.length,
+                password: equalsOk ? pwd1 : null
+            });
         }
     };
 

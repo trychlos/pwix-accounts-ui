@@ -51,11 +51,11 @@ AccountsUI.Event = {
             case 'keydown':
                 if( event.keyCode === 13 ){
                     // when we have an Enter key pressed, we want submit the current form (if any)
-                    console.log( 'event pressing Enter' );
+                    //console.debug( 'event pressing Enter' );
                     const requester = AccountsUI.Display.requester();
                     if( requester ){
-                        console.debug( 'found requester', requester );
-                        $( 'body .ac-content .ac-submit' ).trigger( 'ac-submit' );
+                        //console.debug( 'found requester', requester );
+                        $( 'body .ac-content[data-ac-requester="'+requester+'"] .ac-submit' ).trigger( 'click' );
                     }
                 }
                 break;

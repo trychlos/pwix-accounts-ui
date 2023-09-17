@@ -41,7 +41,8 @@
 |   66 | 2023- 9-12 | feat: honor onEmailverifiedXxxx parms |
 |   67 | 2023- 9-12 | feat: honor coloredBorders parm |
 |   68 | 2023- 9-12 | disable submit button on modals (and divs) when the panels is not ok |
-|   69 |  |  |
+|   69 | 2023- 9-17 | signup panel doesn't get the focus |
+|   70 |  |  |
 
 ---
 ## Done

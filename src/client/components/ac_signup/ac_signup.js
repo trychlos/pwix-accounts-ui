@@ -33,6 +33,7 @@ Template.ac_signup.onCreated( function(){
             return AccountsUI.opts().haveEmailAddress() !== AC_FIELD_NONE;
         },
         haveUsername(){
+            console.debug( 'username', AccountsUI.opts().haveUsername());
             return AccountsUI.opts().haveUsername() !== AC_FIELD_NONE;
         },
         resetInput(){

@@ -1,10 +1,11 @@
 /*
  * pwix:accounts-ui/src/server/js/validate.js
  */
-import { Accounts } from 'meteor/accounts-base';
 
-import SimpleSchema from 'simpl-schema';
 import _ from 'lodash';
+import SimpleSchema from 'simpl-schema';
+
+import { Accounts } from 'meteor/accounts-base';
 
 // Ensuring every user has an email address and/or a username
 Accounts.validateNewUser(( user ) => {
@@ -33,34 +34,39 @@ Accounts.validateNewUser(( user ) => {
         }
     }
     //console.debug( schema );
-    new SimpleSchema( schema ).validate( user );
+    //  cannot really validate the user here as this schema is most probably uncomplete
+    //  just get the errors
+    const validationContext =  new SimpleSchema( schema ).newContext();
+    validationContext.validate( user, { ignore: [ 'keyNotInSchema'] });
+    let isValid = validationContext.isValid();
+    //console.log( isValid );
+    //console.log( validationContext.validationErrors());
 
     // if schema is valid, individually check the datas
-    let ok = true;
-    if( ok && AccountsUI.opts().haveEmailAddress() !== AC_FIELD_NONE ){
+    if( isValid && AccountsUI.opts().haveEmailAddress() !== AC_FIELD_NONE ){
         user.emails.every(( o ) => {
             let result = AccountsUI._checkEmailAddress( o.address );
             if( !result.ok ){
                 console.error( result.errors[0] );
             }
-            ok &= result.ok;
-            return ok;
+            isValid &&= result.ok;
+            return isValid;
         });
     }
-    if( ok && AccountsUI.opts().haveUsername() !== AC_FIELD_NONE ){
+    if( isValid && AccountsUI.opts().haveUsername() !== AC_FIELD_NONE ){
         let result = AccountsUI._checkUsername( user.username );
         if( !result.ok ){
             console.error( result.errors[0] );
         }
-        ok &= result.ok;
+        isValid &&= result.ok;
     }
     // the password is provided as a crypted password in user.services.password.bcrypt
     //  so unable to check it here
-    if( ok && ( !user || !user.services || !user.services.password || !user.services.password.bcrypt )){
+    if( isValid && ( !user || !user.services || !user.services.password || !user.services.password.bcrypt )){
         console.error( 'user.services.password.bcrypt is empty or undefined' );
-        ok = false;
+        isValid = false;
     }
 
     // Return true to allow user creation to proceed
-    return ok;
+    return isValid;
 });

@@ -64,6 +64,7 @@ Template.ac_input_password.onCreated( function(){
                         ok: result.ok,
                         score: result.zxcvbn.score,
                         strength: AccountsUI._scores[result.zxcvbn.score],
+                        password: result.password,
                         length: result.password.length
                     });
                 });

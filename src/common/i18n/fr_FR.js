@@ -23,6 +23,7 @@ AccountsUI.i18n = {
                 new_label: 'Votre nouveau mot de passe',
                 newone_placeholder: 'Saisissez un nouveau mot de passe',
                 newtwo_placeholder: 'Ré-entrez votre nouveau mot de passe',
+                pwds_are_equal: 'L\'ancien et le nouveau mot de passe sont les mêmes'
             },
             dropdown_btn: {
                 unlogged: 'Compte'

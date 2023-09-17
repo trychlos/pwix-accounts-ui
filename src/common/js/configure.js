@@ -60,13 +60,14 @@ AccountsUI._opts = new acOptions( AccountsUI._conf );
  */
 AccountsUI.configure = function( o ){
     if( o && _.isObject( o )){
-        _.merge( AccountsUI._conf, defaults.common, o );
+        _.merge( AccountsUI._conf, o );
         AccountsUI._opts.base_set( AccountsUI._conf );
         // be verbose if asked for
         if( AccountsUI.opts().verbosity() & AC_VERBOSE_CONFIGURE ){
             console.log( 'pwix:accounts-ui configure() with', o, 'building', AccountsUI._conf );
         }
     }
+    //console.debug( AccountsUI._conf );
     // also acts as a getter
     return AccountsUI._conf;
 };

@@ -23,6 +23,7 @@ AccountsUI.i18n = {
                 new_label: 'Your new password',
                 newone_placeholder: 'Enter a new password',
                 newtwo_placeholder: 'Re-enter your new password',
+                pwds_are_equal: 'Old and new passwords are the same'
             },
             dropdown_btn: {
                 unlogged: 'Account'
