@@ -25,6 +25,16 @@ Template.ac_verify_ask.onCreated( function(){
     });
 });
 
+Template.ac_verify_ask.onRendered( function(){
+    const self = this;
+
+    const $acContent = self.$( '.ac-verify-ask' ).closest( '.ac-content' );
+
+    self.autorun(() => {
+        $acContent.attr( 'data-ac-requester', Template.currentData().managerId );
+    });
+});
+
 Template.ac_verify_ask.helpers({
     // error message
     errorMsg(){

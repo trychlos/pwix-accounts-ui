@@ -25,6 +25,16 @@ Template.ac_signout.onCreated( function(){
     });
 });
 
+Template.ac_signout.onRendered( function(){
+    const self = this;
+
+    const $acContent = self.$( '.ac-signout' ).closest( '.ac-content' );
+
+    self.autorun(() => {
+        $acContent.attr( 'data-ac-requester', Template.currentData().managerId );
+    });
+});
+
 Template.ac_signout.helpers({
     // the text the section
     textOne(){

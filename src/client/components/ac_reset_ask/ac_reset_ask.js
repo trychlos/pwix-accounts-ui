@@ -31,9 +31,14 @@ Template.ac_reset_ask.onCreated( function(){
 Template.ac_reset_ask.onRendered( function(){
     const self = this;
 
+    const $acContent = self.$( '.ac-reset-ask' ).closest( '.ac-content' );
+
     self.autorun(() => {
-        const btn = self.$( '.ac-reset-ask' ).closest( '.ac-content' ).find( '.ac-submit' );
-        btn.prop( 'disabled', !self.AC.emailOk.get());
+        $acContent.attr( 'data-ac-requester', Template.currentData().managerId );
+    });
+
+    self.autorun(() => {
+        $acContent.find( '.ac-submit' ).prop( 'disabled', !self.AC.emailOk.get());
     });
 });
 

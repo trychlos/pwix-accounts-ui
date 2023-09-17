@@ -21,14 +21,44 @@ Template.ac_signup.onCreated( function(){
 
     self.AC = {
         component: new ReactiveVar( null ),
-        emailOk: new ReactiveVar( true ),
-        passwordOk: new ReactiveVar( true ),
-        twiceOk: new ReactiveVar( true ),
-        usernameOk: new ReactiveVar( true ),
+        emailOk: new ReactiveVar( false ),
+        twiceOk: new ReactiveVar( false ),
+        usernameOk: new ReactiveVar( false ),
+        checksOk: new ReactiveVar( false ),
 
         // submit button
         submitBtn: null,
 
+        // check each event and its data here
+        checks( event, data ){
+            switch( event.type ){
+                case 'ac-email-data':
+                    self.AC.checkEmail( data );
+                    self.AC.checkPanel();
+                    break;
+                case 'ac-twice-data':
+                    self.AC.checkTwice( data );
+                    self.AC.checkPanel();
+                    break;
+                case 'ac-username-data':
+                    self.AC.checkUsername( data );
+                    self.AC.checkPanel();
+                    break;
+            }
+        },
+        checkEmail( data ){
+            self.AC.emailOk.set( data.ok );
+        },
+        checkPanel(){
+            let isOk = self.AC.emailOk.get() && self.AC.twiceOk.get() && self.AC.usernameOk.get();
+            self.AC.checksOk.set( isOk );
+        },
+        checkTwice( data ){
+            self.AC.twiceOk.set( data.ok );
+        },
+        checkUsername( data ){
+            self.AC.usernameOk.set( data.ok );
+        },
         haveEmailAddress(){
             return AccountsUI.opts().haveEmailAddress() !== AC_FIELD_NONE;
         },
@@ -55,16 +85,26 @@ Template.ac_signup.onCreated( function(){
             self.AC.component.set( AccountsUI.Manager.component( managerId ));
         }
     });
+
+    // setup default values so that field which is not present is always true
+    self.AC.emailOk.set( !self.AC.haveEmailAddress());
+    self.AC.usernameOk.set( !self.AC.haveUsername());
 });
 
 Template.ac_signup.onRendered( function(){
     const self = this;
 
+    const $acContent = self.$( '.ac-signup' ).closest( '.ac-content' );
+
+    self.autorun(() => {
+        $acContent.attr( 'data-ac-requester', Template.currentData().managerId );
+    });
+
     self.AC.submitBtn = self.$( '.ac-signup' ).closest( '.ac-content' ).find( '.ac-submit' );
     this.AC.resetInput();
 
     self.autorun(() => {
-        self.AC.submitBtn.prop( 'disabled', !self.AC.emailOk.get() || !self.AC.passwordOk.get() || !self.AC.twiceOk.get() || !self.AC.usernameOk.get());
+        self.AC.submitBtn.prop( 'disabled', !self.AC.checksOk.get());
     });
 });
 
@@ -143,26 +183,25 @@ Template.ac_signup.events({
     // message sent by the input email component
     'ac-email-data .ac-signup'( event, instance, data ){
         //console.log( 'ac-email-data', data );
-        instance.AC.emailOk.set( data.ok );
-    },
-
-    // message sent by the input password component
-    //  NB: happens that data arrives undefined :( see #24
-    'ac-password-data .ac-signup'( event, instance, data ){
-        //console.log( 'ac-password-data', data );
-        instance.AC.passwordOk.set( data ? data.ok : false );
+        if( data ){
+            instance.AC.checks( event, data );
+        }
     },
 
     // message sent by the twice passwords component
     'ac-twice-data .ac-signup'( event, instance, data ){
         //console.log( 'ac-twice-data', data );
-        instance.AC.twiceOk.set( data ? data.ok : false );
+        if( data ){
+            instance.AC.checks( event, data );
+        }
     },
 
     // message sent by the input username component
     'ac-username-data .ac-signup'( event, instance, data ){
         //console.log( 'ac-username-data', data );
-        instance.AC.usernameOk.set( data.ok );
+        if( data ){
+            instance.AC.checks( event, data );
+        }
     },
 
     // message sent from acUserLogin after having successfully created a new user

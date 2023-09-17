@@ -45,6 +45,12 @@ Template.ac_signin.onRendered( function(){
 
     // disable the submit button at start
     self.AC.enableSubmit( false );
+
+    const $acContent = self.$( '.ac-signin' ).closest( '.ac-content' );
+
+    self.autorun(() => {
+        $acContent.attr( 'data-ac-requester', Template.currentData().managerId );
+    });
 });
 
 Template.ac_signin.helpers({
