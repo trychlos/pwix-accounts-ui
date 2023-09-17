@@ -26,9 +26,6 @@ Template.ac_signup.onCreated( function(){
         usernameOk: new ReactiveVar( false ),
         checksOk: new ReactiveVar( false ),
 
-        // submit button
-        submitBtn: null,
-
         // check each event and its data here
         checks( event, data ){
             switch( event.type ){
@@ -50,7 +47,12 @@ Template.ac_signup.onCreated( function(){
             self.AC.emailOk.set( data.ok );
         },
         checkPanel(){
-            let isOk = self.AC.emailOk.get() && self.AC.twiceOk.get() && self.AC.usernameOk.get();
+            let isOk = self.AC.twiceOk.get();
+            // if an email is mandatory, it must be set here
+            isOk &&= ( AccountsUI.opts().haveEmailAddress() === AC_FIELD_MANDATORY && self.AC.emailOk.get()) || AccountsUI.opts().haveEmailAddress() === AC_FIELD_OPTIONAL;
+            // if a username is mandatory, it must be set here
+            isOk &&= ( AccountsUI.opts().haveUsername() === AC_FIELD_MANDATORY && self.AC.usernameOk.get()) || AccountsUI.opts().haveUsername() === AC_FIELD_OPTIONAL;
+
             self.AC.checksOk.set( isOk );
         },
         checkTwice( data ){
@@ -86,7 +88,7 @@ Template.ac_signup.onCreated( function(){
         }
     });
 
-    // setup default values so that field which is not present is always true
+    // setup initial default values so that field which is not present is always true
     self.AC.emailOk.set( !self.AC.haveEmailAddress());
     self.AC.usernameOk.set( !self.AC.haveUsername());
 });
@@ -100,11 +102,8 @@ Template.ac_signup.onRendered( function(){
         $acContent.attr( 'data-ac-requester', Template.currentData().managerId );
     });
 
-    self.AC.submitBtn = self.$( '.ac-signup' ).closest( '.ac-content' ).find( '.ac-submit' );
-    this.AC.resetInput();
-
     self.autorun(() => {
-        self.AC.submitBtn.prop( 'disabled', !self.AC.checksOk.get());
+        $acContent.find( '.ac-submit' ).prop( 'disabled', !self.AC.checksOk.get());
     });
 });
 
