@@ -26,15 +26,12 @@
 |      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
 |   57 | 2023- 9- 9 | Have a function to be called instead of OnEmailverified() |
 |   58 | 2023- 9- 9 | Have a function to be called after OnEmailverified() |
-|   59 | 2023- 9- 9 | buttons labels should be set as nowrap |
 |   60 | 2023- 9- 9 | with Meteor 2.13, packages constants no more default to be imported by the application => must move them to pwixI18n.C |
-|   61 | 2023- 9- 9 | provide additional classes for modal-content, modal-header, modal-body and modal-footer |
 |   63 | 2023- 9- 9 | in izDate, many errors with textOne, textTwo textThree, textFour, legend and mandatoryBorder when trying to create a new account |
 |   64 | 2023- 9-12 | todo: handle ac-title message - for now, is only used to set a rv var, itself unsused |
 |   65 | 2023- 9-12 | feat: have a onUserCreated parm with nothing, dialog box or user function (but is it relevant client side) |
 |   66 | 2023- 9-12 | feat: honor onEmailverifiedXxxx parms |
 |   67 | 2023- 9-12 | feat: honor coloredBorders parm |
-|   68 | 2023- 9-12 | disable submit button on modals (and divs) when the panels is not ok |
 |   70 |  |  |
 
 ---
@@ -150,8 +147,14 @@
 |      | 2023- 9-18 | These functions are removed as of v 1.4.0-rc |
 |   56 | 2023- 7- 5 | Fix clearPanel() |
 |      | 2023- 9-18 | implemented in input panels |
+|   59 | 2023- 9- 9 | buttons labels should be set as nowrap |
+|      | 2023- 9-18 | done |
+|   61 | 2023- 9- 9 | provide additional classes for modal-content, modal-header, modal-body and modal-footer |
+|      | 2023- 9-17 | the feature is available starting with pwix:modal 1.8.0 |
 |   62 | 2023- 9- 9 | change title of the modals |
 |      | 2023- 9-12 | cancelled as duplicate of #64 |
+|   68 | 2023- 9-12 | disable submit button on modals (and divs) when the panels is not ok |
+|      | 2023- 9-17 | was a bug from code refactoring! fixed |
 |   69 | 2023- 9-17 | signup panel doesn't get the focus |
 |      | 2023- 9-17 | fixed |
 
