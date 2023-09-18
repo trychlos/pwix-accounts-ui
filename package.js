@@ -9,45 +9,7 @@ Package.describe({
 Package.onUse( function( api ){
     configure( api );
     api.export([
-        'AccountsUI',
-        'AC_LOGGED',
-        'AC_UNLOGGED',
-        'AC_ACT_HIDDEN',
-        'AC_ACT_NONE',
-        'AC_ACT_DROPDOWN',
-        'AC_ACT_BUBBLE',
-        'AC_COLORED_NEVER',
-        'AC_COLORED_VALIDATION',
-        'AC_COLORED_MANDATORY',
-        'AC_FIELD_NONE',
-        'AC_FIELD_OPTIONAL',
-        'AC_FIELD_MANDATORY',
-        'AC_PANEL_NONE',
-        'AC_PANEL_CHANGEPWD',
-        'AC_PANEL_RESETASK',
-        'AC_PANEL_RESETPWD',
-        'AC_PANEL_SIGNIN',
-        'AC_PANEL_SIGNOUT',
-        'AC_PANEL_SIGNUP',
-        'AC_PANEL_VERIFYASK',
-        'AC_PWD_VERYWEAK',
-        'AC_PWD_WEAK',
-        'AC_PWD_MEDIUM',
-        'AC_PWD_STRONG',
-        'AC_PWD_VERYSTRONG',
-        'AC_RENDER_MODAL',
-        'AC_RENDER_DIV',
-        'AC_VERBOSE_NONE',
-        'AC_VERBOSE_CONFIGURE',
-        'AC_VERBOSE_DISPLAY',
-        'AC_VERBOSE_INSTANCIATIONS',
-        'AC_VERBOSE_PANEL',
-        'AC_VERBOSE_READY',
-        'AC_VERBOSE_STARTUP',
-        'AC_VERBOSE_SUBMIT',
-        'AC_VERBOSE_USER',
-        'AC_WRONGEMAIL_OK',
-        'AC_WRONGEMAIL_ERROR'
+        'AccountsUI'
     ]);
     api.mainModule( 'src/client/js/index.js', 'client' );
     api.mainModule( 'src/server/js/index.js', 'server' );

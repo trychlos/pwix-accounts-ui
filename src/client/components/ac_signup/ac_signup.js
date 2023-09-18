@@ -49,9 +49,9 @@ Template.ac_signup.onCreated( function(){
         checkPanel(){
             let isOk = self.AC.twiceOk.get();
             // if an email is mandatory, it must be set here
-            isOk &&= ( AccountsUI.opts().haveEmailAddress() === AC_FIELD_MANDATORY && self.AC.emailOk.get()) || AccountsUI.opts().haveEmailAddress() === AC_FIELD_OPTIONAL;
+            isOk &&= ( AccountsUI.opts().haveEmailAddress() === AccountsUI.C.Input.MANDATORY && self.AC.emailOk.get()) || AccountsUI.opts().haveEmailAddress() === AccountsUI.C.Input.OPTIONAL;
             // if a username is mandatory, it must be set here
-            isOk &&= ( AccountsUI.opts().haveUsername() === AC_FIELD_MANDATORY && self.AC.usernameOk.get()) || AccountsUI.opts().haveUsername() === AC_FIELD_OPTIONAL;
+            isOk &&= ( AccountsUI.opts().haveUsername() === AccountsUI.C.Input.MANDATORY && self.AC.usernameOk.get()) || AccountsUI.opts().haveUsername() === AccountsUI.C.Input.OPTIONAL;
 
             self.AC.checksOk.set( isOk );
         },
@@ -62,11 +62,11 @@ Template.ac_signup.onCreated( function(){
             self.AC.usernameOk.set( data.ok );
         },
         haveEmailAddress(){
-            return AccountsUI.opts().haveEmailAddress() !== AC_FIELD_NONE;
+            return AccountsUI.opts().haveEmailAddress() !== AccountsUI.C.Input.NONE;
         },
         haveUsername(){
             console.debug( 'username', AccountsUI.opts().haveUsername());
-            return AccountsUI.opts().haveUsername() !== AC_FIELD_NONE;
+            return AccountsUI.opts().haveUsername() !== AccountsUI.C.Input.NONE;
         },
         resetInput(){
             self.$( '.ac-input-password' ).trigger( 'ac-reset-input' );

@@ -23,7 +23,7 @@ AccountsUI.Account = {
                 Tolert.success( pwixI18n.label( I18N, 'user.changepwd_success' ));
                 const event = 'ac-user-changedpwd-event';
                 const parms = Meteor.user();
-                if( AccountsUI.opts().verbosity() & AC_VERBOSE_USER ){
+                if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
                     console.log( 'pwix:accounts-ui triggering', event, parms );
                 }
                 AccountsUI.Event.trigger( event, parms );
@@ -59,7 +59,7 @@ AccountsUI.Account = {
                 autoConnect: autoConnect
             };
             const event = 'ac-user-created-event';
-            if( AccountsUI.opts().verbosity() & AC_VERBOSE_USER ){
+            if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
                 console.log( 'pwix:accounts-ui triggering', event, parms );
             }
             AccountsUI.Event.trigger( event, parms );
@@ -110,7 +110,7 @@ AccountsUI.Account = {
             } else {
                 const event = 'ac-user-signedin-event';
                 const parms = Meteor.user();
-                if( AccountsUI.opts().verbosity() & AC_VERBOSE_USER ){
+                if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
                     console.log( 'pwix:accounts-ui triggering', event, parms );
                 }
                 AccountsUI.Event.trigger( event, parms );
@@ -126,7 +126,7 @@ AccountsUI.Account = {
         Meteor.logout();
         const event = 'ac-user-signedout-event';
         const parms = user;
-        if( AccountsUI.opts().verbosity() & AC_VERBOSE_USER ){
+        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
             console.log( 'pwix:accounts-ui triggering', event, parms );
         }
         AccountsUI.Event.trigger( event, parms );
@@ -146,7 +146,7 @@ AccountsUI.Account = {
         Tolert.success( pwixI18n.label( I18N, 'user.resetask_success' ));
         const event = 'ac-user-resetasked-event';
         const parms = { email: email };
-        if( AccountsUI.opts().verbosity() & AC_VERBOSE_USER ){
+        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
             console.log( 'pwix:accounts-ui triggering', event, parms );
         }
         AccountsUI.Event.trigger( event, parms );
@@ -158,10 +158,10 @@ AccountsUI.Account = {
             if( err ){
                 console.error( err );
                 switch( AccountsUI.opts().informWrongEmail()){
-                    case AC_WRONGEMAIL_OK:
+                    case AccountsUI.C.WrongEmail.OK:
                         this._resetAskSuccess( email );
                         break;
-                    case AC_WRONGEMAIL_ERROR:
+                    case AccountsUI.C.WrongEmail.ERROR:
                         target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.resetask_credentials' ));
                 }
             } else {
@@ -182,7 +182,7 @@ AccountsUI.Account = {
                     Tolert.success( pwixI18n.label( I18N, 'user.verifyask_success' ));
                     const event = 'ac-user-verifyasked-event';
                     const parms = { ...Meteor.user() };
-                    if( AccountsUI.opts().verbosity() & AC_VERBOSE_USER ){
+                    if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
                         console.log( 'pwix:accounts-ui triggering', event, parms );
                     }
                     AccountsUI.Event.trigger( event, parms );

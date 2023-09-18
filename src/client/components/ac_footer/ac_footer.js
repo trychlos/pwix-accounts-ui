@@ -94,7 +94,7 @@ Template.ac_footer.events({
     },
 
     'click .ac-cancel'( event, instance ){
-        if( AccountsUI.opts().verbosity() & AC_VERBOSE_MODAL ){
+        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.MODAL ){
             console.log( 'pwix:accounts-ui ac_footer closing modal' );
         }
         Modal.close();
@@ -103,12 +103,12 @@ Template.ac_footer.events({
     'click .ac-submit'( event, instance ){
         const submitCallback = Template.currentData().submitCallback;
         if( submitCallback ){
-            if( AccountsUI.opts().verbosity() & AC_VERBOSE_SUBMIT ){
+            if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.SUBMIT ){
                 console.log( 'pwix:accounts-ui ac_footer calling submitCallback()' );
             }
             submitCallback();
         } else {
-            if( AccountsUI.opts().verbosity() & AC_VERBOSE_SUBMIT ){
+            if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.SUBMIT ){
                 console.log( 'pwix:accounts-ui ac_footer triggering', 'ac-submit' );
             }
             instance.$( event.currentTarget ).trigger( 'ac-submit' );

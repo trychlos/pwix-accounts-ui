@@ -26,24 +26,24 @@ function _passwordTwice(){
 
 defaults = {
     common: {
-        haveEmailAddress: AC_FIELD_MANDATORY,
-        haveUsername: AC_FIELD_NONE,
-        informWrongEmail: AC_WRONGEMAIL_ERROR,
-        coloredBorders: AC_COLORED_NEVER,
+        haveEmailAddress: AccountsUI.C.Input.MANDATORY,
+        haveUsername: AccountsUI.C.Input.NONE,
+        informWrongEmail: AccountsUI.C.WrongEmail.ERROR,
+        coloredBorders: AccountsUI.C.Colored.NEVER,
         onEmailVerifiedBeforeFn: null,
         onEmailVerifiedBox: true,
         onEmailVerifiedBoxCb: null,
         onEmailVerifiedBoxMessage: { namespace: I18N, i18n: 'user.verify_text' },
         onEmailVerifiedBoxTitle: { namespace: I18N, i18n: 'user.verify_title' },
         passwordLength: 8,
-        passwordStrength: AC_PWD_MEDIUM,
+        passwordStrength: AccountsUI.C.Password.MEDIUM,
         passwordTwice: true,
         resetPasswordTwice: _passwordTwice,
         resetPwdTextOne: { namespace: I18N, i18n: 'reset_pwd.textOne' },
         resetPwdTextTwo: '',
         sendVerificationEmail: true,
         usernameLength: 4,
-        verbosity: AC_VERBOSE_NONE
+        verbosity: AccountsUI.C.Verbose.NONE
     }
 };
 
@@ -63,7 +63,7 @@ AccountsUI.configure = function( o ){
         _.merge( AccountsUI._conf, o );
         AccountsUI._opts.base_set( AccountsUI._conf );
         // be verbose if asked for
-        if( AccountsUI.opts().verbosity() & AC_VERBOSE_CONFIGURE ){
+        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.CONFIGURE ){
             console.log( 'pwix:accounts-ui configure() with', o, 'building', AccountsUI._conf );
         }
     }

@@ -32,7 +32,7 @@ _set_ready();
 
 // trace readyness changes
 Tracker.autorun(() => {
-    if( AccountsUI.opts().verbosity() & AC_VERBOSE_READY ){
+    if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.READY ){
         console.log( 'AccountsUI.ready()', AccountsUI.ready());
     }
 });

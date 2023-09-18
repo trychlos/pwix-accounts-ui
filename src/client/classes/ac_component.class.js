@@ -68,7 +68,7 @@ export class acComponent {
     constructor( managerId, instance ){
         const self = this;
 
-        if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.INSTANCIATIONS ){
             console.log( 'pwix:accounts-ui instanciating acComponent' );
         }
 
@@ -97,7 +97,7 @@ export class acComponent {
      */
     ready( ready ){
         if( ready === true || ready === false ){
-            if( AccountsUI.opts().verbosity() & AC_VERBOSE_READY ){
+            if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.READY ){
                 console.log( 'pwix:accounts-ui acComponent DOM ready', ready );
             }
             this._ready.set( ready );

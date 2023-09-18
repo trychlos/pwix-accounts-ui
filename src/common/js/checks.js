@@ -34,7 +34,7 @@ AccountsUI = {
             };
             // stop there if the value is empty
             if( !result.email || !result.email.length ){
-                if( AccountsUI.opts().haveEmailAddress() === AC_FIELD_OPTIONAL ){
+                if( AccountsUI.opts().haveEmailAddress() === AccountsUI.C.Input.OPTIONAL ){
                     result.warnings.push( pwixI18n.label( I18N, 'input_email.empty' ));
                 } else {
                     result.ok = false;
@@ -90,7 +90,7 @@ AccountsUI = {
             };
             // stop there if the value is empty
             if( !result.username.length ){
-                result.ok = AccountsUI.opts().haveUsername() === AC_FIELD_OPTIONAL;
+                result.ok = AccountsUI.opts().haveUsername() === AccountsUI.C.Input.OPTIONAL;
                 return Meteor.isClient ? Promise.resolve( result ) : result;
             }
             // check for minimal length
@@ -122,11 +122,11 @@ AccountsUI = {
         },
 
         _scores: [
-            AC_PWD_VERYWEAK,
-            AC_PWD_WEAK,
-            AC_PWD_MEDIUM,
-            AC_PWD_STRONG,
-            AC_PWD_VERYSTRONG
+            AccountsUI.C.Password.VERYWEAK,
+            AccountsUI.C.Password.WEAK,
+            AccountsUI.C.Password.MEDIUM,
+            AccountsUI.C.Password.STRONG,
+            AccountsUI.C.Password.VERYSTRONG
         ],
 
         _computeMinScore(){

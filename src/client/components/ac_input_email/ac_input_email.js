@@ -48,7 +48,7 @@ Template.ac_input_email.onCreated( function(){
         // whether the email address is mandatory ?
         //  true if field is required and new account
         mandatoryField(){
-            return Template.currentData().new && AccountsUI.opts().haveEmailAddress() === AC_FIELD_MANDATORY;
+            return Template.currentData().new && AccountsUI.opts().haveEmailAddress() === AccountsUI.C.Input.MANDATORY;
         },
 
         // reinitialize the form
@@ -106,7 +106,7 @@ Template.ac_input_email.helpers({
 
     // whether the mandatory field must exhibit an ad-hoc colored border ?
     mandatoryBorder(){
-        return Template.instance().AC.mandatoryField() && Template.currentData().component.opts().coloredBorders() === AC_COLORED_MANDATORY ? 'ac-mandatory-border' : '';
+        return Template.instance().AC.mandatoryField() && Template.currentData().component.opts().coloredBorders() === AccountsUI.C.Colored.MANDATORY ? 'ac-mandatory-border' : '';
     },
 
     // returns the translated string

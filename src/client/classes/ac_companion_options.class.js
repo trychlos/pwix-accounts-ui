@@ -17,23 +17,23 @@ export class acCompanionOptions extends Options.Base {
 
     // borders colors
     static BorderedColors = [
-        AC_COLORED_NEVER,
-        AC_COLORED_VALIDATION,
-        AC_COLORED_MANDATORY
+        AccountsUI.C.Colored.NEVER,
+        AccountsUI.C.Colored.VALIDATION,
+        AccountsUI.C.Colored.MANDATORY
     ];
 
     // the known actions
     static Actions = [
-        AC_ACT_HIDDEN,
-        AC_ACT_NONE,
-        AC_ACT_DROPDOWN,
-        AC_ACT_BUBBLE
+        AccountsUI.C.Button.HIDDEN,
+        AccountsUI.C.Button.NONE,
+        AccountsUI.C.Button.DROPDOWN,
+        AccountsUI.C.Button.BUBBLE
     ];
 
     // the known render modes
     static RenderModes = [
-        AC_RENDER_MODAL,
-        AC_RENDER_DIV
+        AccountsUI.C.Render.MODAL,
+        AccountsUI.C.Render.DIV
     ];
 
     // static methods
@@ -68,7 +68,7 @@ export class acCompanionOptions extends Options.Base {
         super();
         const self = this;
 
-        if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.INSTANCIATIONS ){
             console.log( 'pwix:accounts-ui instanciating acCompanionOptions' );
         }
 

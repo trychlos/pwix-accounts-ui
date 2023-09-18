@@ -7,78 +7,7 @@ import { pwixI18n } from 'meteor/pwix:i18n';
 AccountsUI.Panel = {
 
     // the known panels
-    Refs: {
-        AC_PANEL_NONE: {
-        },
-        AC_PANEL_CHANGEPWD: {
-            buttons: [
-                { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
-                { class: 'btn-primary ac-submit',   key: 'ok_label' }
-            ],
-            modal_title: { i18n: 'change_pwd.modal_title' },
-            template: 'ac_change_pwd'
-        },
-        AC_PANEL_RESETASK: {
-            buttons: [
-                { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
-                { class: 'btn-primary ac-submit',   key: 'send_label' }
-            ],
-            links: [
-                { key: 'signin_link', target: AC_PANEL_SIGNIN, have: 'signinLink' },
-                { key: 'signup_link', target: AC_PANEL_SIGNUP, have: 'signupLink' }
-            ],
-            modal_title: { i18n: 'reset_ask.modal_title' },
-            template: 'ac_reset_ask'
-        },
-        AC_PANEL_RESETPWD: {
-            buttons: [
-                { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
-                { class: 'btn-primary ac-submit',   key: 'ok_label' }
-            ],
-            modal_title: { i18n: 'reset_pwd.modal_title' },
-            template: 'ac_reset_pwd'
-        },
-        AC_PANEL_SIGNIN: {
-            buttons: [
-                { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
-                { class: 'btn-primary ac-submit',   key: 'signin_label' }
-            ],
-            links: [
-                { key: 'reset_link',  target: AC_PANEL_RESETASK, have: 'resetLink' },
-                { key: 'signup_link', target: AC_PANEL_SIGNUP,   have: 'signupLink' }
-            ],
-            modal_title: { i18n: 'signin.modal_title' },
-            template: 'ac_signin'
-        },
-        AC_PANEL_SIGNOUT: {
-            buttons: [
-                { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
-                { class: 'btn-primary ac-submit',   key: 'signout_label' }
-            ],
-            modal_title: { i18n: 'signout.modal_title' },
-            template: 'ac_signout'
-        },
-        AC_PANEL_SIGNUP: {
-            buttons: [
-                { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
-                { class: 'btn-primary ac-submit',   key: 'signup_label' }
-            ],
-            links: [
-                { key: 'reset_link',  target: AC_PANEL_RESETASK, have: 'resetLink' },
-                { key: 'signin_link', target: AC_PANEL_SIGNIN, have: 'signinLink' }
-            ],
-            modal_title: { i18n: 'signup.modal_title' },
-            template: 'ac_signup'
-        },
-        AC_PANEL_VERIFYASK: {
-            buttons: [
-                { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
-                { class: 'btn-primary ac-submit',   key: 'send_label' }
-            ],
-            modal_title: { i18n: 'verify_ask.modal_title' },
-            template: 'ac_verify_ask'
-        }
-    },
+    Refs: {},
 
     /**
      * @param {String} name the name of the panel
@@ -128,4 +57,82 @@ AccountsUI.Panel = {
             throw new Error( 'unknown panel', panel );
         }
     }
+};
+
+AccountsUI.Panel.Refs[AccountsUI.C.Panel.NONE] = {
+};
+
+AccountsUI.Panel.Refs[AccountsUI.C.Panel.CHANGEPWD] = {
+    buttons: [
+        { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
+        { class: 'btn-primary ac-submit',   key: 'ok_label' }
+    ],
+    modal_title: { i18n: 'change_pwd.modal_title' },
+    template: 'ac_change_pwd'
+};
+
+AccountsUI.Panel.Refs[AccountsUI.C.Panel.RESETASK] = {
+    buttons: [
+        { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
+        { class: 'btn-primary ac-submit',   key: 'send_label' }
+    ],
+    links: [
+        { key: 'signin_link', target: AccountsUI.C.Panel.SIGNIN, have: 'signinLink' },
+        { key: 'signup_link', target: AccountsUI.C.Panel.SIGNUP, have: 'signupLink' }
+    ],
+    modal_title: { i18n: 'reset_ask.modal_title' },
+    template: 'ac_reset_ask'
+};
+
+AccountsUI.Panel.Refs[AccountsUI.C.Panel.RESETPWD] = {
+    buttons: [
+        { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
+        { class: 'btn-primary ac-submit',   key: 'ok_label' }
+    ],
+    modal_title: { i18n: 'reset_pwd.modal_title' },
+    template: 'ac_reset_pwd'
+};
+
+AccountsUI.Panel.Refs[AccountsUI.C.Panel.SIGNIN] = {
+    buttons: [
+        { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
+        { class: 'btn-primary ac-submit',   key: 'signin_label' }
+    ],
+    links: [
+        { key: 'reset_link',  target: AccountsUI.C.Panel.RESETASK, have: 'resetLink' },
+        { key: 'signup_link', target: AccountsUI.C.Panel.SIGNUP,   have: 'signupLink' }
+    ],
+    modal_title: { i18n: 'signin.modal_title' },
+    template: 'ac_signin'
+};
+
+AccountsUI.Panel.Refs[AccountsUI.C.Panel.SIGNOUT] = {
+    buttons: [
+        { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
+        { class: 'btn-primary ac-submit',   key: 'signout_label' }
+    ],
+    modal_title: { i18n: 'signout.modal_title' },
+    template: 'ac_signout'
+};
+
+AccountsUI.Panel.Refs[AccountsUI.C.Panel.SIGNUP] = {
+    buttons: [
+        { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
+        { class: 'btn-primary ac-submit',   key: 'signup_label' }
+    ],
+    links: [
+        { key: 'reset_link',  target: AccountsUI.C.Panel.RESETASK, have: 'resetLink' },
+        { key: 'signin_link', target: AccountsUI.C.Panel.SIGNIN, have: 'signinLink' }
+    ],
+    modal_title: { i18n: 'signup.modal_title' },
+    template: 'ac_signup'
+};
+
+AccountsUI.Panel.Refs[AccountsUI.C.Panel.VERIFYASK] = {
+    buttons: [
+        { class: 'btn-secondary ac-cancel', key: 'cancel_label' },
+        { class: 'btn-primary ac-submit',   key: 'send_label' }
+    ],
+    modal_title: { i18n: 'verify_ask.modal_title' },
+    template: 'ac_verify_ask'
 };

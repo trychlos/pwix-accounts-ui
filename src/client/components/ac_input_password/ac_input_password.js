@@ -30,11 +30,11 @@ Template.ac_input_password.onCreated( function(){
         isNew : new ReactiveVar( false ),
 
         score: [
-            { k:AC_PWD_VERYWEAK,   css: { backgroundColor: '#ff0000' }}, // red
-            { k:AC_PWD_WEAK,       css: { backgroundColor: '#cc3300' }},
-            { k:AC_PWD_MEDIUM,     css: { backgroundColor: '#669900' }},
-            { k:AC_PWD_STRONG,     css: { backgroundColor: '#33cc00' }},
-            { k:AC_PWD_VERYSTRONG, css: { backgroundColor: '#00ff00' }}, // green
+            { k:AccountsUI.C.Password.VERYWEAK,   css: { backgroundColor: '#ff0000' }}, // red
+            { k:AccountsUI.C.Password.WEAK,       css: { backgroundColor: '#cc3300' }},
+            { k:AccountsUI.C.Password.MEDIUM,     css: { backgroundColor: '#669900' }},
+            { k:AccountsUI.C.Password.STRONG,     css: { backgroundColor: '#33cc00' }},
+            { k:AccountsUI.C.Password.VERYSTRONG, css: { backgroundColor: '#00ff00' }}, // green
         ],
         minScore: -1,
 

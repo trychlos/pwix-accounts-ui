@@ -53,20 +53,20 @@ export class acDisplay {
         const self = this;
 
         if( acDisplay.Singleton ){
-            if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+            if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.INSTANCIATIONS ){
                 console.log( 'pwix:accounts-ui returning already instanciated acDisplay singleton' );
             }
             return acDisplay.Singleton;
         }
 
-        if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.INSTANCIATIONS ){
             console.log( 'pwix:accounts-ui instanciating acDisplay' );
         }
 
         // trace panel changes
         Tracker.autorun(() => {
             const panel = this.panel();
-            if( AccountsUI.opts().verbosity() & AC_VERBOSE_PANEL ){
+            if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.PANEL ){
                 console.log( 'pwix:accounts-ui acDisplay.panel()', panel );
             }
         });
@@ -85,7 +85,7 @@ export class acDisplay {
      *  i.e. whether the display is free before the request and can be allocated to it
      */
     ask( panel, requester, parms={} ){
-        if( AccountsUI.opts().verbosity() & AC_VERBOSE_DISPLAY ){
+        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.DISPLAY ){
             console.log( 'pwix:accounts-ui acDisplay.ask() self', this );
             console.log( 'pwix:accounts-ui acDisplay.ask() panel', panel );
             console.log( 'pwix:accounts-ui acDisplay.ask() requester', requester );
@@ -100,8 +100,8 @@ export class acDisplay {
             console.log( 'refusing request as already used by another requester' );
             return false;
         }
-        // asking for AC_PANEL_NONE is same than releasing
-        if( panel === AC_PANEL_NONE ){
+        // asking for AccountsUI.C.Panel.NONE is same than releasing
+        if( panel === AccountsUI.C.Panel.NONE ){
             this.release();
             return true;
         }
@@ -140,8 +140,8 @@ export class acDisplay {
                 const panel = this.panel();
                 const managerId = data && data.parms ? data.parms.managerId : null;
                 const component = managerId ? AccountsUI.Manager.component( managerId ) : null;
-                if( panel && panel !== AC_PANEL_NONE && component instanceof acComponent ){
-                    if( AccountsUI.opts().verbosity() & AC_VERBOSE_DISPLAY || AccountsUI.opts().verbosity() & AC_VERBOSE_MODAL ){
+                if( panel && panel !== AccountsUI.C.Panel.NONE && component instanceof acComponent ){
+                    if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.DISPLAY || AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.MODAL ){
                         console.log( 'pwix:accounts-ui acDisplay handling', event.type );
                     }
                     this.errorMsg( '' );
@@ -170,11 +170,11 @@ export class acDisplay {
      * @summary Release the current requester
      */
     release(){
-        if( AccountsUI.opts().verbosity() & AC_VERBOSE_DISPLAY ){
+        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.DISPLAY ){
             console.log( 'pwix:accounts-ui acDisplay.release()' );
         }
         this._requester = null;
-        this.panel( AC_PANEL_NONE );
+        this.panel( AccountsUI.C.Panel.NONE );
     }
 
     /**

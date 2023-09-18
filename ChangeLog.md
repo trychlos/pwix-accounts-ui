@@ -13,6 +13,7 @@
     - Have a 'data-ac-name' attribute on acUserLogin (todo #20)
     - Remove save() and restore() methods (obsoleting todo #55)
     - Implement clearPanel() function (todo #56)
+    - Replace all exported constants with the AccountsUI.C object (todo #60)
 
 ### 1.3.0
 
@@ -28,7 +29,7 @@
     - Define save() and restore() methods
     - Define clearPanel() method
     - Upgrade pwix:options requirement to v 2.0.0
-    - Define new AC_VERBOSE_HANDLED verbosity level
+    - Define new AccountsUI.C.Verbose.HANDLED verbosity level
     - Make sure we only close modals we have ourselves opened (fix pwix:cookie-manager#26)
 
 ### 1.2.5
@@ -59,9 +60,9 @@
 
     - Provide new AccountsUI.i18n.namespace() method to let anyone improve the i18n translations (todo #49)
     - Add screenshots to the documentation
-    - Remove unused AC_VERBOSE_PANEL_HANDLE constant
-    - Consolidate AC_VERBOSE_SUBMIT_HANDLE and AC_VERBOSE_SUBMIT_TRIGGER constants into AC_VERBOSE_SUBMIT
-    - Consolidate AC_VERBOSE_USER_HANDLE and AC_VERBOSE_USER_TRIGGER constants into AC_VERBOSE_USER
+    - Remove unused AccountsUI.C.Verbose.PANEL_HANDLE constant
+    - Consolidate AccountsUI.C.Verbose.SUBMIT_HANDLE and AccountsUI.C.Verbose.SUBMIT_TRIGGER constants into AccountsUI.C.Verbose.SUBMIT
+    - Consolidate AccountsUI.C.Verbose.USER_HANDLE and AccountsUI.C.Verbose.USER_TRIGGER constants into AccountsUI.C.Verbose.USER
     - Add lodash dependency
     - configure() now acts both as a getter and a setter
 

@@ -14,22 +14,22 @@ Accounts.validateNewUser(( user ) => {
         createdAt: { type: Date },
         services: { type: Object, blackbox: true }
     };
-    if( AccountsUI.opts().haveEmailAddress() !== AC_FIELD_NONE ){
+    if( AccountsUI.opts().haveEmailAddress() !== AccountsUI.C.Input.NONE ){
         _.merge( schema, {
             emails: { type: Array },
             'emails.$': { type: Object },
             'emails.$.address': { type: String },
             'emails.$.verified': { type: Boolean },
         });
-        if( AccountsUI.opts().haveEmailAddress() === AC_FIELD_OPTIONAL ){
+        if( AccountsUI.opts().haveEmailAddress() === AccountsUI.C.Input.OPTIONAL ){
             schema.emails.optional = true;
         }
     }
-    if( AccountsUI.opts().haveUsername() !== AC_FIELD_NONE ){
+    if( AccountsUI.opts().haveUsername() !== AccountsUI.C.Input.NONE ){
         _.merge( schema, {
             username: { type: String }
         });
-        if( AccountsUI.opts().haveUsername() === AC_FIELD_OPTIONAL ){
+        if( AccountsUI.opts().haveUsername() === AccountsUI.C.Input.OPTIONAL ){
             schema.username.optional = true;
         }
     }
@@ -43,7 +43,7 @@ Accounts.validateNewUser(( user ) => {
     //console.log( validationContext.validationErrors());
 
     // if schema is valid, individually check the datas
-    if( isValid && AccountsUI.opts().haveEmailAddress() !== AC_FIELD_NONE ){
+    if( isValid && AccountsUI.opts().haveEmailAddress() !== AccountsUI.C.Input.NONE ){
         user.emails.every(( o ) => {
             let result = AccountsUI._checkEmailAddress( o.address );
             if( !result.ok ){
@@ -53,7 +53,7 @@ Accounts.validateNewUser(( user ) => {
             return isValid;
         });
     }
-    if( isValid && AccountsUI.opts().haveUsername() !== AC_FIELD_NONE ){
+    if( isValid && AccountsUI.opts().haveUsername() !== AccountsUI.C.Input.NONE ){
         let result = AccountsUI._checkUsername( user.username );
         if( !result.ok ){
             console.error( result.errors[0] );

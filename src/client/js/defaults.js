@@ -24,14 +24,14 @@ import { pwixI18n } from 'meteor/pwix:i18n';
  */
 
 _stdMenuItems = {
-    AC_LOGGED: [
+    AccountsUI.C.Connection.LOGGED: [
         {
             id: 'ac-signout-item',
             aclass: 'ac-signout',
             faicon: 'fa-right-from-bracket',
             labelkey: 'signout',
             enablefn: _enableAlways,
-            panel: 'AC_PANEL_SIGNOUT',
+            panel: 'AccountsUI.C.Panel.SIGNOUT',
             msgaction: 'ac-panel-signout-event'
         },
         {
@@ -40,7 +40,7 @@ _stdMenuItems = {
             faicon: 'fa-passport',
             labelkey: 'changepwd',
             enablefn: _enableAlways,
-            panel: 'AC_PANEL_CHANGEPWD',
+            panel: 'AccountsUI.C.Panel.CHANGEPWD',
             msgaction: 'ac-panel-changepwd-event'
         },
         {
@@ -49,18 +49,18 @@ _stdMenuItems = {
             faicon: 'fa-envelope-circle-check',
             labelkey: 'verifyask',
             enablefn: _enableMailVerified,
-            panel: 'AC_PANEL_VERIFYASK',
+            panel: 'AccountsUI.C.Panel.VERIFYASK',
             msgaction: 'ac-panel-verifyask-event'
         }
     ],
-    AC_UNLOGGED: [
+    AccountsUI.C.Connection.UNLOGGED: [
         {
             id: 'ac-signin-item',
             aclass: 'ac-signin',
             faicon: 'fa-user',
             labelkey: 'signin',
             enablefn: _enableAlways,
-            panel: 'AC_PANEL_SIGNIN',
+            panel: 'AccountsUI.C.Panel.SIGNIN',
             msgaction: 'ac-panel-signin-event'
         },
         {
@@ -69,7 +69,7 @@ _stdMenuItems = {
             faicon: 'fa-user-plus',
             labelkey: 'signup',
             enablefn: _enableAlways,
-            panel: 'AC_PANEL_SIGNUP',
+            panel: 'AccountsUI.C.Panel.SIGNUP',
             msgaction: 'ac-panel-signup-event'
         },
         {
@@ -78,7 +78,7 @@ _stdMenuItems = {
             faicon: 'fa-lock-open',
             labelkey: 'resetask',
             enablefn: _enableAlways,
-            panel: 'AC_PANEL_RESETASK',
+            panel: 'AccountsUI.C.Panel.RESETASK',
             msgaction: 'ac-panel-resetask-event'
         },
     ]
@@ -96,7 +96,7 @@ function _enableMailVerified(){
 }
 
 /*
- * @param {Array} the stdMenuItems[AC_LOGGED] (resp AC_UNLOGGED) source array
+ * @param {Array} the stdMenuItems[AccountsUI.C.Connection.LOGGED] (resp AccountsUI.C.Connection.UNLOGGED) source array
  * @returns {Array} an array of items as the <li>...</li> inner HTML strings
  */
 _buildStandardItems = function( source ){
@@ -140,8 +140,8 @@ function _passwordTwice(){
 
 _.merge( defaults, {
     acUserLogin: {
-        loggedButtonAction: AC_ACT_DROPDOWN,
-        unloggedButtonAction: AC_ACT_DROPDOWN,
+        loggedButtonAction: AccountsUI.C.Button.DROPDOWN,
+        unloggedButtonAction: AccountsUI.C.Button.DROPDOWN,
         loggedButtonClass: 'dropdown-toggle',
         unloggedButtonClass: '',
         loggedButtonContent: _emailAddress,
@@ -152,11 +152,11 @@ _.merge( defaults, {
         unloggedItemsAfter: [],
         loggedItemsBefore: [],
         unloggedItemsBefore: [],
-        renderMode: AC_RENDER_MODAL,
+        renderMode: AccountsUI.C.Render.MODAL,
         haveCancelButton: true,
         signupPasswordTwice: _passwordTwice,
         changePasswordTwice: _passwordTwice,
-        initialPanel: AC_PANEL_NONE,
+        initialPanel: AccountsUI.C.Panel.NONE,
         coloredBorders: _coloredBorders,
         changePwdTextOne: '',
         changePwdTextTwo: '',

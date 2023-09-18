@@ -41,13 +41,13 @@ export class acManager {
         const self = this;
 
         if( acManager.Singleton ){
-            if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+            if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.INSTANCIATIONS ){
                 console.log( 'pwix:accounts-ui returning already instanciated acManager singleton' );
             }
             return acManager.Singleton;
         }
 
-        if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.INSTANCIATIONS ){
             console.log( 'pwix:accounts-ui instanciating acManager' );
         }
 
@@ -118,7 +118,7 @@ export class acManager {
         _.merge( component, {
             companion: new acCompanion( id ),
             options: new acCompanionOptions( id ),
-            modal(){ return this.opts().renderMode() === 'AC_RENDER_MODAL'; },
+            modal(){ return this.opts().renderMode() === 'AccountsUI.C.Render.MODAL'; },
             opts(){ return this.options; }
         });
         return id;

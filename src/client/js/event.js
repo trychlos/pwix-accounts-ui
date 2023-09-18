@@ -107,14 +107,14 @@ AccountsUI.Event = {
             case 'ac-panel-signout-event':
             case 'ac-panel-signup-event':
             case 'ac-panel-verifyask-event':
-                if( AccountsUI.opts().verbosity() & AC_VERBOSE_PANEL ){
+                if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.PANEL ){
                     console.log( 'pwix:accounts-ui Event handling', event.type, data );
                 }
                 requester = data.requester;
                 if( requester ){
                     const component = AccountsUI.Manager.component( requester );
                     if( component ){
-                        if( AccountsUI.opts().verbosity() & AC_VERBOSE_PANEL ){
+                        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.PANEL ){
                             console.log( 'pwix:accounts-ui Event forwarding to requester', requester );
                         }
                         component.companion.handleEvent( event, data );
@@ -148,7 +148,7 @@ AccountsUI.Event = {
             //  then we must have a current requester capable of handling this event
             //  no data is expected
             case 'ac-submit':
-                if( AccountsUI.opts().verbosity() & AC_VERBOSE_SUBMIT ){
+                if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.SUBMIT ){
                     console.log( 'pwix:accounts-ui Event handling', event.type, data );
                 }
                 //console.debug( AccountsUI.Display );
@@ -186,14 +186,14 @@ AccountsUI.Event = {
             case 'ac-user-resetdone-event':
             case 'ac-user-verifyasked-event':
             case 'ac-user-verifieddone-event':
-                if( AccountsUI.opts().verbosity() & AC_VERBOSE_USER ){
+                if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
                     console.log( 'pwix:accounts-ui Event handling', event.type, data );
                 }
                 //console.debug( event, data );
                 //console.debug( 'requester', AccountsUI.Display.requester());
                 //console.debug( 'panel', AccountsUI.Display.panel());
                 if( event.type !== 'ac-user-verifieddone-event' && data.autoClose !== false && Modal.count()){
-                    if( AccountsUI.opts().verbosity() & AC_VERBOSE_MODAL ){
+                    if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.MODAL ){
                         console.log( 'pwix:accounts-ui Event closing modal' );
                     }
                     Modal.close();
@@ -211,7 +211,7 @@ AccountsUI.Event = {
      *  Default is to redirect the event if possible.
      */
     handler( event, data, instance ){
-        if( AccountsUI.opts().verbosity() & AC_VERBOSE_EVENT ){
+        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.EVENT ){
             console.log( 'pwix:accounts-ui Event.handler()', event, data );
         }
         return this._handleKeydown( event ) &&

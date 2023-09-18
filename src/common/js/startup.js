@@ -3,7 +3,7 @@
  */
 
 Meteor.startup( function(){
-    if( AccountsUI.opts().verbosity() & AC_VERBOSE_STARTUP ){
+    if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.STARTUP ){
         console.log( 'pwix:accounts-ui AccountsUI', AccountsUI );
     }
 });

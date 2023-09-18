@@ -50,12 +50,12 @@ Template.acUserLogin.onCreated( function(){
         //  regarding the current connection state
         hasDropdown(){
             const state = AccountsUI.Connection.state();
-            return ( state === AC_LOGGED && AccountsUI.Manager.component( self.AC.managerId ).opts().loggedButtonAction() !== AC_ACT_HIDDEN )
-                || ( state === AC_UNLOGGED && AccountsUI.Manager.component( self.AC.managerId ).opts().unloggedButtonAction() !== AC_ACT_HIDDEN );
+            return ( state === AccountsUI.C.Connection.LOGGED && AccountsUI.Manager.component( self.AC.managerId ).opts().loggedButtonAction() !== AccountsUI.C.Button.HIDDEN )
+                || ( state === AccountsUI.C.Connection.UNLOGGED && AccountsUI.Manager.component( self.AC.managerId ).opts().unloggedButtonAction() !== AccountsUI.C.Button.HIDDEN );
         }
     };
 
-    if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+    if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.INSTANCIATIONS ){
         console.log( 'pwix:accounts-ui instanciating acUserLogin id='+self.AC.managerId );
     }
 
@@ -146,11 +146,11 @@ Template.acUserLogin.events({
 
     // change the rendering mode
     'ac-render-modal .acUserLogin'( event, instance ){
-        AccountsUI.Manager.component( instance.AC.managerId ).opts().renderMode( AC_RENDER_MODAL );
+        AccountsUI.Manager.component( instance.AC.managerId ).opts().renderMode( AccountsUI.C.Render.MODAL );
         return false;
     },
     'ac-render-div .acUserLogin'( event, instance ){
-        AccountsUI.Manager.component( instance.AC.managerId ).opts().renderMode( AC_RENDER_DIV );
+        AccountsUI.Manager.component( instance.AC.managerId ).opts().renderMode( AccountsUI.C.Render.DIV );
         return false;
     },
 

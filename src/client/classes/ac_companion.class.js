@@ -31,7 +31,7 @@ export class acCompanion {
      * @returns {Boolean} whether we have successfully managed the event
      */
     _handleSubmitEvent( event, data ){
-        if( AccountsUI.opts().verbosity() & AC_VERBOSE_SUBMIT ){
+        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.SUBMIT ){
             console.log( 'pwix:accounts-ui acCompanion handling', event.type, data );
         }
         const component = AccountsUI.Manager.component( this._managerId );
@@ -40,20 +40,20 @@ export class acCompanion {
         let managed = false;
         const panel = AccountsUI.Display.panel();
         switch( panel ){
-            case AC_PANEL_CHANGEPWD:
+            case AccountsUI.C.Panel.CHANGEPWD:
                 //console.debug( this );
                 const pwd1 = $( '.ac-change-pwd .ac-old .ac-input' ).val().trim();
                 const pwd2 = $( '.ac-change-pwd .ac-newone .ac-input' ).val().trim();
                 AccountsUI.Account.changePwd( pwd1, pwd2, this._target());
                 managed = true;
                 break;
-            case AC_PANEL_RESETASK:
+            case AccountsUI.C.Panel.RESETASK:
                 //console.log( 'element', $( '.ac-reset-ask' ));
                 mail = $( '.ac-reset-ask .ac-input-email .ac-input' ).val().trim();
                 AccountsUI.Account.resetAsk( mail, this._target());
                 managed = true;
                 break;
-            case AC_PANEL_SIGNIN:
+            case AccountsUI.C.Panel.SIGNIN:
                 // 'mail' here may be either an email address or a username
                 mail = $( '.ac-signin .ac-input-userid .ac-input' ).val().trim();
                 password = $( '.ac-signin .ac-input-password .ac-input' ).val().trim();
@@ -61,16 +61,16 @@ export class acCompanion {
                 AccountsUI.Account.loginWithPassword( mail, password, this._target());
                 managed = true;
                 break;
-            case AC_PANEL_SIGNOUT:
+            case AccountsUI.C.Panel.SIGNOUT:
                 AccountsUI.Account.logout();
                 managed = true;
                 break;
-            case AC_PANEL_SIGNUP:
+            case AccountsUI.C.Panel.SIGNUP:
                 let options = {};
-                if( AccountsUI.opts().haveUsername() !== AC_FIELD_NONE ){
+                if( AccountsUI.opts().haveUsername() !== AccountsUI.C.Input.NONE ){
                     options.username = $( '.ac-signup .ac-input-username .ac-input' ).val().trim();
                 }
-                if( AccountsUI.opts().haveEmailAddress() !== AC_FIELD_NONE ){
+                if( AccountsUI.opts().haveEmailAddress() !== AccountsUI.C.Input.NONE ){
                     options.email = $( '.ac-signup .ac-input-email .ac-input' ).val().trim();
                 }
                 options.password = $( '.ac-signup .ac-newone .ac-input' ).val().trim();
@@ -84,7 +84,7 @@ export class acCompanion {
                 }
                 managed = true;
                 break;
-            case AC_PANEL_VERIFYASK:
+            case AccountsUI.C.Panel.VERIFYASK:
                 AccountsUI.Account.verifyMail( this._target());
                 managed = true;
                 break;
@@ -112,7 +112,7 @@ export class acCompanion {
     constructor( managerId ){
         const self = this;
 
-        if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.INSTANCIATIONS ){
             console.log( 'pwix:accounts-ui instanciating acCompanion' );
         }
 
@@ -126,9 +126,9 @@ export class acCompanion {
      */
     dynItemsAfter(){
         switch( AccountsUI.Connection.state()){
-            case AC_LOGGED:
+            case AccountsUI.C.Connection.LOGGED:
                 return AccountsUI.Manager.component( this._managerId ).opts().loggedItemsAfter();
-            case AC_UNLOGGED:
+            case AccountsUI.C.Connection.UNLOGGED:
                 return AccountsUI.Manager.component( this._managerId ).opts().unloggedItemsAfter();
         }
         return [];
@@ -139,9 +139,9 @@ export class acCompanion {
      */
     dynItemsBefore(){
         switch( AccountsUI.Connection.state()){
-            case AC_LOGGED:
+            case AccountsUI.C.Connection.LOGGED:
                 return AccountsUI.Manager.component( this._managerId ).opts().loggedItemsBefore();
-            case AC_UNLOGGED:
+            case AccountsUI.C.Connection.UNLOGGED:
                 return AccountsUI.Manager.component( this._managerId ).opts().unloggedItemsBefore();
         }
         return [];
@@ -153,16 +153,16 @@ export class acCompanion {
     dynItemsCore(){
         let res = [];
         switch( AccountsUI.Connection.state()){
-            case AC_LOGGED:
+            case AccountsUI.C.Connection.LOGGED:
                 res = AccountsUI.Manager.component( this._managerId ).opts().loggedItems();
                 if( res === DEF_CONTENT || _.isEqual( res, [ DEF_CONTENT ] )){
-                    res = _buildStandardItems( _stdMenuItems[ AC_LOGGED ] );
+                    res = _buildStandardItems( _stdMenuItems[ AccountsUI.C.Connection.LOGGED ] );
                 }
                 break;
-            case AC_UNLOGGED:
+            case AccountsUI.C.Connection.UNLOGGED:
                 res = AccountsUI.Manager.component( this._managerId ).opts().unloggedItems();
                 if( res === DEF_CONTENT || _.isEqual( res, [ DEF_CONTENT ] )){
-                    res = _buildStandardItems( _stdMenuItems[ AC_UNLOGGED ] );
+                    res = _buildStandardItems( _stdMenuItems[ AccountsUI.C.Connection.UNLOGGED ] );
                 }
                 break;
         }
@@ -203,7 +203,7 @@ export class acCompanion {
                         } else if( !data.panel ){
                             console.error( 'panel expected, but found empty' );
                         } else {
-                            if( AccountsUI.opts().verbosity() & AC_VERBOSE_PANEL ){
+                            if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.PANEL ){
                                 console.log( 'pwix:accounts-ui acCompanion handling', event.type, data );
                             }
                             managed = AccountsUI.Display.ask( data.panel, data.requester );

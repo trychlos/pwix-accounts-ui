@@ -43,7 +43,7 @@ Template.ac_input_username.onCreated( function(){
         // whether the username is mandatory ?
         //  true if field is required and new account
         mandatoryField(){
-            return Template.currentData().new && AccountsUI.opts().haveUsername() === AC_FIELD_MANDATORY;
+            return Template.currentData().new && AccountsUI.opts().haveUsername() === AccountsUI.C.Input.MANDATORY;
         },
 
         // reinitialize the form
@@ -92,7 +92,7 @@ Template.ac_input_username.helpers({
 
     // whether the mandatory field must exhibit an ad-hoc colored border ?
     mandatoryBorder(){
-        return Template.instance().AC.mandatoryField() && Template.currentData().component.opts().coloredBorders() === AC_COLORED_MANDATORY ? 'ac-mandatory-border' : '';
+        return Template.instance().AC.mandatoryField() && Template.currentData().component.opts().coloredBorders() === AccountsUI.C.Colored.MANDATORY ? 'ac-mandatory-border' : '';
     },
 
     // returns the keyed translated string

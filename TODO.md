@@ -26,7 +26,6 @@
 |      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
 |   57 | 2023- 9- 9 | Have a function to be called instead of OnEmailverified() |
 |   58 | 2023- 9- 9 | Have a function to be called after OnEmailverified() |
-|   60 | 2023- 9- 9 | with Meteor 2.13, packages constants no more default to be imported by the application => must move them to pwixI18n.C |
 |   63 | 2023- 9- 9 | in izDate, many errors with textOne, textTwo textThree, textFour, legend and mandatoryBorder when trying to create a new account |
 |   64 | 2023- 9-12 | todo: handle ac-title message - for now, is only used to set a rv var, itself unsused |
 |   65 | 2023- 9-12 | feat: have a onUserCreated parm with nothing, dialog box or user function (but is it relevant client side) |
@@ -59,11 +58,11 @@
 |      | 2023- 1-26 | publication is disabled (commented out) |
 |   10 | 2023- 1-21 | use constantes rather than just strings when configuring |
 |      |            | AC_UI_BOOTSTRAP, AC_UI_JQUERY |
-|      |            | AC_PWD_VERYWEAK, AC_PWD_WEAK, AC_PWD_MEDIUM, AC_PWD_STRONG, AC_PWD_VERYSTRONG |
+|      |            | AccountsUI.C.Password.VERYWEAK, AccountsUI.C.Password.WEAK, AccountsUI.C.Password.MEDIUM, AccountsUI.C.Password.STRONG, AccountsUI.C.Password.VERYSTRONG |
 |      |            | AC_FLD_NO, AC_FLD_OPTIONAL, AC_FLD_MANDATORY |
 |      |            | AC_DISP_ID, AC_DISP_EMAIL, AC_DISP_USERNAME |
-|      |            | AC_ACT_HIDDEN, AC_ACT_NONE, AC_ACT_DROPDOWN, AC_ACT_BUBBLE |
-|      |            | AC_RENDER_MODAL, AC_RENDER_DIV |
+|      |            | AccountsUI.C.Button.HIDDEN, AccountsUI.C.Button.NONE, AccountsUI.C.Button.DROPDOWN, AccountsUI.C.Button.BUBBLE |
+|      |            | AccountsUI.C.Render.MODAL, AccountsUI.C.Render.DIV |
 |      | 2023- 1-23 | done in v0.90.1 |
 |   11 | 2023- 1-21 | rename password.min_length configuration to passwordLength |
 |      | 2023- 1-23 | done in v0.90.1 |
@@ -148,6 +147,8 @@
 |   56 | 2023- 7- 5 | Fix clearPanel() |
 |      | 2023- 9-18 | implemented in input panels |
 |   59 | 2023- 9- 9 | buttons labels should be set as nowrap |
+|      | 2023- 9-18 | done |
+|   60 | 2023- 9- 9 | with Meteor 2.13, packages constants no more default to be imported by the application => must move them to pwixI18n.C |
 |      | 2023- 9-18 | done |
 |   61 | 2023- 9- 9 | provide additional classes for modal-content, modal-header, modal-body and modal-footer |
 |      | 2023- 9-17 | the feature is available starting with pwix:modal 1.8.0 |

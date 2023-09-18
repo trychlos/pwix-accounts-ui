@@ -143,16 +143,16 @@ Known configuration options are:
 
     For each of these terms, accepted values are:
 
-    - `AC_FIELD_NONE`: the field is not displayed nor considered
-    - `AC_FIELD_OPTIONAL`: the input field is proposed to the user, but may be left empty
-    - `AC_FIELD_MANDATORY`: the input field must be filled by the user
+    - `AccountsUI.C.Input.NONE`: the field is not displayed nor considered
+    - `AccountsUI.C.Input.OPTIONAL`: the input field is proposed to the user, but may be left empty
+    - `AccountsUI.C.Input.MANDATORY`: the input field must be filled by the user
 
-    At least one of these fields MUST be set as `AC_FIELD_MANDATORY`. Else, the default value will be applied.
+    At least one of these fields MUST be set as `AccountsUI.C.Input.MANDATORY`. Else, the default value will be applied.
 
     Defauts to:
 
-    - `haveMailAddress`: `AC_FIELD_MANDATORY`
-    - `haveUsername`: `AC_FIELD_NONE`
+    - `haveMailAddress`: `AccountsUI.C.Input.MANDATORY`
+    - `haveUsername`: `AccountsUI.C.Input.NONE`
 
     Please be conscious that some features of your application may want display an identifier for each user. It would be a security hole to let the application display a verified email address anywhere, as this would be some sort of spam magnet!
 
@@ -168,20 +168,20 @@ Known configuration options are:
 
     This parameter let the application decide what to do:
 
-    - `AC_WRONGEMAIL_OK`: say the user that the email has been sucessfully sent, even when this is not the case
-    - `AC_WRONGEMAIL_ERROR`: say the user that something went wrong (Meteor standard behavior).
+    - `AccountsUI.C.WrongEmail.OK`: say the user that the email has been sucessfully sent, even when this is not the case
+    - `AccountsUI.C.WrongEmail.ERROR`: say the user that something went wrong (Meteor standard behavior).
 
-    Defaults to `AC_WRONGEMAIL_ERROR`.
+    Defaults to `AccountsUI.C.WrongEmail.ERROR`.
 
 - `coloredBorders`
 
     Whether the borders of fields in the panels should or not be colored, and when:
 
-    - `AC_COLORED_NEVER`: do not use colored borders at all
-    - `AC_COLORED_VALIDATION`: use colored borders to exhibit the validation state of the fields
-    - `AC_COLORED_MANDATORY`: use colored borders to exhibit the mandatory character of each field
+    - `AccountsUI.C.Colored.NEVER`: do not use colored borders at all
+    - `AccountsUI.C.Colored.VALIDATION`: use colored borders to exhibit the validation state of the fields
+    - `AccountsUI.C.Colored.MANDATORY`: use colored borders to exhibit the mandatory character of each field
 
-    Defaults to `AC_COLORED_NEVER`: the error messages are red-colored, but the fields themselves stay normal colored.
+    Defaults to `AccountsUI.C.Colored.NEVER`: the error messages are red-colored, but the fields themselves stay normal colored.
 
 - `onEmailVerifiedBeforeFn`
 
@@ -233,15 +233,15 @@ Known configuration options are:
 
     `pwix:accounts-ui` makes use of the [zxcvbn](https://www.npmjs.com/package/zxcvbn) package to estimate the strength of entered passwords. The estimated strength can take folloging values:
 
-    - `AC_PWD_VERYWEAK`: too guessable, risky password (guesses < 10^3)
-    - `AC_PWD_WEAK`: very guessable, protection from throttled online attacks (guesses < 10^6)
-    - `AC_PWD_MEDIUM`: somewhat guessable, protection from unthrottled online attacks (guesses < 10^8)
-    - `AC_PWD_STRONG`: safely unguessable, moderate protection from offline slow-hash scenario (guesses < 10^10)
-    - `AC_PWD_VERYSTRONG`: very unguessable, strong protection from offline slow-hash scenario (guesses >= 10^10)
+    - `AccountsUI.C.Password.VERYWEAK`: too guessable, risky password (guesses < 10^3)
+    - `AccountsUI.C.Password.WEAK`: very guessable, protection from throttled online attacks (guesses < 10^6)
+    - `AccountsUI.C.Password.MEDIUM`: somewhat guessable, protection from unthrottled online attacks (guesses < 10^8)
+    - `AccountsUI.C.Password.STRONG`: safely unguessable, moderate protection from offline slow-hash scenario (guesses < 10^10)
+    - `AccountsUI.C.Password.VERYSTRONG`: very unguessable, strong protection from offline slow-hash scenario (guesses >= 10^10)
 
-    The package doesn't hardcodes by itself a minimal 'required strength', and so will accept even a minimal length of, say, `AC_PWD_VERYWEAK`!
+    The package doesn't hardcodes by itself a minimal 'required strength', and so will accept even a minimal length of, say, `AccountsUI.C.Password.VERYWEAK`!
 
-    Defaults to `AC_PWD_MEDIUM`.
+    Defaults to `AccountsUI.C.Password.MEDIUM`.
 
     **Please note that, for security reasons, you shouldn't set the password required strength less than this default, unless you are absolutely sure of what you are doing.**
 
@@ -296,51 +296,51 @@ Known configuration options are:
 
     The verbosity level as:
     
-    - `AC_VERBOSE_NONE`
+    - `AccountsUI.C.Verbose.NONE`
     
     or an OR-ed value of integer constants:
 
-    - `AC_VERBOSE_CONFIGURE`
+    - `AccountsUI.C.Verbose.CONFIGURE`
 
         Trace configuration operations
 
-    - `AC_VERBOSE_DISPLAY`
+    - `AccountsUI.C.Verbose.DISPLAY`
 
         Trace `acDisplay` operations
 
-    - `AC_VERBOSE_EVENT`
+    - `AccountsUI.C.Verbose.EVENT`
 
         Trace all handled events
 
-    - `AC_VERBOSE_INSTANCIATIONS`
+    - `AccountsUI.C.Verbose.INSTANCIATIONS`
 
         Trace classes instanciations
 
-    - `AC_VERBOSE_MODAL`
+    - `AccountsUI.C.Verbose.MODAL`
 
         Trace modal changes
 
-    - `AC_VERBOSE_PANEL`
+    - `AccountsUI.C.Verbose.PANEL`
 
         Trace panel changes
 
-    - `AC_VERBOSE_READY`
+    - `AccountsUI.C.Verbose.READY`
 
         Emit a log message when the readyness status of the client changes
 
-    - `AC_VERBOSE_STARTUP`
+    - `AccountsUI.C.Verbose.STARTUP`
 
         Emit a log message at startup; the `Meteor` object is dumped at that moment
 
-    - `AC_VERBOSE_SUBMIT`
+    - `AccountsUI.C.Verbose.SUBMIT`
 
         Trace submit-related events trigerring and handling.
 
-    - `AC_VERBOSE_USER`
+    - `AccountsUI.C.Verbose.USER`
 
         Trace user-related events trigerring and handling.
 
-    Defaults to `AC_VERBOSE_NONE`.
+    Defaults to `AccountsUI.C.Verbose.NONE`.
 
 A function can be provided by the application for each of these parameters. The function will be called without argument and must return a suitable value.
 
@@ -410,12 +410,12 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     Accepted values ares:
 
-    - `AC_ACT_HIDDEN`: the button is not displayed at all
-    - `AC_ACT_NONE`: the button is displayed, but not activable (this is a false button, just a label with the appearance of a button)
-    - `AC_ACT_DROPDOWN`: the button opens a dropdown menu
-    - `AC_ACT_BUBBLE`: the button is activated, but does nothing; the event bubble up
+    - `AccountsUI.C.Button.HIDDEN`: the button is not displayed at all
+    - `AccountsUI.C.Button.NONE`: the button is displayed, but not activable (this is a false button, just a label with the appearance of a button)
+    - `AccountsUI.C.Button.DROPDOWN`: the button opens a dropdown menu
+    - `AccountsUI.C.Button.BUBBLE`: the button is activated, but does nothing; the event bubble up
 
-    Defaults to `AC_ACT_DROPDOWN`.
+    Defaults to `AccountsUI.C.Button.DROPDOWN`.
 
 - `loggedButtonClass`
 - `unloggedButtonClass`
@@ -492,10 +492,10 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     Accepted values are:
 
-    - `AC_RENDER_MODAL`
-    - `AC_RENDER_DIV`
+    - `AccountsUI.C.Render.MODAL`
+    - `AccountsUI.C.Render.DIV`
 
-    Default: to `AC_RENDER_MODAL`: when visible, the template is rendered as a modal dialog.
+    Default: to `AccountsUI.C.Render.MODAL`: when visible, the template is rendered as a modal dialog.
 
 - `initialPanel`
 
@@ -506,25 +506,25 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     Possible values are:
 
-    - `AC_PANEL_NONE`
-    - `AC_PANEL_SIGNIN`
-    - `AC_PANEL_SIGNUP`
-    - `AC_PANEL_RESETASK`
-    - `AC_PANEL_SIGNOUT`
-    - `AC_PANEL_CHANGEPWD`
-    - `AC_PANEL_VERIFYASK`
+    - `AccountsUI.C.Panel.NONE`
+    - `AccountsUI.C.Panel.SIGNIN`
+    - `AccountsUI.C.Panel.SIGNUP`
+    - `AccountsUI.C.Panel.RESETASK`
+    - `AccountsUI.C.Panel.SIGNOUT`
+    - `AccountsUI.C.Panel.CHANGEPWD`
+    - `AccountsUI.C.Panel.VERIFYASK`
 
     A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
 
-    Default: `AC_PANEL_NONE`
+    Default: `AccountsUI.C.Panel.NONE`
 
 - `coloredBorders`
 
     Whether the borders of fields in the panels should or not be colored, and when:
 
-    - `AC_COLORED_NEVER`: do not use colored borders at all
-    - `AC_COLORED_VALIDATION`: use colored borders to exhibit the validation state of the fields
-    - `AC_COLORED_MANDATORY`: use colored borders to exhibit the mandatory character of each field
+    - `AccountsUI.C.Colored.NEVER`: do not use colored borders at all
+    - `AccountsUI.C.Colored.VALIDATION`: use colored borders to exhibit the validation state of the fields
+    - `AccountsUI.C.Colored.MANDATORY`: use colored borders to exhibit the mandatory character of each field
 
     Defaults to the value configured at the package level.
 
@@ -661,49 +661,46 @@ In the same time, the `acUserLogin` template advertises of its contexts:
 
 ### Constants
 
-- `AC_LOGGED`
-- `AC_UNLOGGED`
+- `AccountsUI.C.Connection.LOGGED`
+- `AccountsUI.C.Connection.UNLOGGED`
 
-- `AC_ACT_HIDDEN`
-- `AC_ACT_NONE`
-- `AC_ACT_DROPDOWN`
-- `AC_ACT_BUBBLE`
+- `AccountsUI.C.Button.HIDDEN`
+- `AccountsUI.C.Button.NONE`
+- `AccountsUI.C.Button.DROPDOWN`
+- `AccountsUI.C.Button.BUBBLE`
 
-- `AC_FIELD_NONE`
-- `AC_FIELD_OPTIONAL`
-- `AC_FIELD_MANDATORY`
+- `AccountsUI.C.Input.NONE`
+- `AccountsUI.C.Input.OPTIONAL`
+- `AccountsUI.C.Input.MANDATORY`
 
-- `AC_PANEL_NONE`
-- `AC_PANEL_CHANGEPWD`
-- `AC_PANEL_RESETASK`
-- `AC_PANEL_SIGNIN`
-- `AC_PANEL_SIGNOUT`
-- `AC_PANEL_SIGNUP`
-- `AC_PANEL_VERIFYASK`
+- `AccountsUI.C.Panel.NONE`
+- `AccountsUI.C.Panel.CHANGEPWD`
+- `AccountsUI.C.Panel.RESETASK`
+- `AccountsUI.C.Panel.SIGNIN`
+- `AccountsUI.C.Panel.SIGNOUT`
+- `AccountsUI.C.Panel.SIGNUP`
+- `AccountsUI.C.Panel.VERIFYASK`
 
-- `AC_PWD_VERYWEAK`
-- `AC_PWD_WEAK`
-- `AC_PWD_MEDIUM`
-- `AC_PWD_STRONG`
-- `AC_PWD_VERYSTRONG`
+- `AccountsUI.C.Password.VERYWEAK`
+- `AccountsUI.C.Password.WEAK`
+- `AccountsUI.C.Password.MEDIUM`
+- `AccountsUI.C.Password.STRONG`
+- `AccountsUI.C.Password.VERYSTRONG`
 
-- `AC_RENDER_MODAL`
-- `AC_RENDER_DIV`
+- `AccountsUI.C.Render.MODAL`
+- `AccountsUI.C.Render.DIV`
 
-- `AC_USERNAME`
-- `AC_EMAIL_ADDRESS`
-
-- `AC_VERBOSE_NONE`,
-- `AC_VERBOSE_CONFIGURE`,
-- `AC_VERBOSE_DISPLAY`,
-- `AC_VERBOSE_EVENT`,
-- `AC_VERBOSE_INSTANCIATIONS`,
-- `AC_VERBOSE_MODAL`,
-- `AC_VERBOSE_PANEL`,
-- `AC_VERBOSE_READY`,
-- `AC_VERBOSE_STARTUP`,
-- `AC_VERBOSE_SUBMIT`,
-- `AC_VERBOSE_USER`
+- `AccountsUI.C.Verbose.NONE`,
+- `AccountsUI.C.Verbose.CONFIGURE`,
+- `AccountsUI.C.Verbose.DISPLAY`,
+- `AccountsUI.C.Verbose.EVENT`,
+- `AccountsUI.C.Verbose.INSTANCIATIONS`,
+- `AccountsUI.C.Verbose.MODAL`,
+- `AccountsUI.C.Verbose.PANEL`,
+- `AccountsUI.C.Verbose.READY`,
+- `AccountsUI.C.Verbose.STARTUP`,
+- `AccountsUI.C.Verbose.SUBMIT`,
+- `AccountsUI.C.Verbose.USER`
 
 ## Advanced use cases
 

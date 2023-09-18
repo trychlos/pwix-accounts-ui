@@ -3,69 +3,84 @@
  */
 
 AccountsUI.C = {
+
+    // action of the button
+    Button: {
+        HIDDEN: 'AC_ACT_HIDDEN',
+        NONE: 'AC_ACT_NONE',
+        DROPDOWN: 'AC_ACT_DROPDOWN',
+        BUBBLE: 'AC_ACT_BUBBLE'
+    },
+
+    // colored borders
+    Colored: {
+        NEVER: 'AC_COLORED_NEVER',
+        VALIDATION: 'AC_COLORED_VALIDATION',
+        MANDATORY: 'AC_COLORED_MANDATORY'
+    },
+
+    // connection status
+    Connection: {
+        LOGGED: 'AC_LOGGED',
+        UNLOGGED: 'AC_UNLOGGED'
+    },
+
+    // username / email address input rule
+    Input: {
+        NONE: 'AC_FIELD_NONE',
+        OPTIONAL: 'AC_FIELD_OPTIONAL',
+        MANDATORY: 'AC_FIELD_MANDATORY'
+    },
+
+
+    // known panels
+    Panel: {
+        NONE: 'AC_PANEL_NONE',
+        CHANGEPWD: 'AC_PANEL_CHANGEPWD',
+        RESETASK: 'AC_PANEL_RESETASK',
+        RESETPWD: 'AC_PANEL_RESETPWD',
+        SIGNIN: 'AC_PANEL_SIGNIN',
+        SIGNOUT: 'AC_PANEL_SIGNOUT',
+        SIGNUP: 'AC_PANEL_SIGNUP',
+        VERIFYASK: 'AC_PANEL_VERIFYASK'
+    },
+
+    // password estimated strength
+    Password: {
+        VERYWEAK: 'AC_PWD_VERYWEAK',
+        WEAK: 'AC_PWD_WEAK',
+        MEDIUM: 'AC_PWD_MEDIUM',
+        STRONG: 'AC_PWD_STRONG',
+        VERYSTRONG: 'AC_PWD_VERYSTRONG'
+    },
+
+    // rendering mode
+    Render: {
+        MODAL: 'AC_RENDER_MODAL',
+        DIV: 'AC_RENDER_DIV'
+    },
+
+    // verbosity level
+    Verbose: {
+        NONE:           0,
+        CONFIGURE:      0x01 <<  0,
+        STARTUP:        0x01 <<  1,
+        INSTANCIATIONS: 0x01 <<  2,
+        READY:          0x01 <<  3,     // when ready(), client-only
+        DISPLAY:        0x01 <<  4,
+        EVENT:          0x01 <<  5,
+        PANEL:          0x01 <<  6,
+        USER:           0x01 <<  7,
+        SUBMIT:         0x01 <<  8,
+        MODAL:          0x01 <<  9
+    },
+
+    // what to do when email cannot be sent
+    WrongEmail: {
+        OK: 'AccountsUI.C.WrongEmail.OK',
+        ERROR: 'AccountsUI.C.WrongEmail.ERROR'
+    }
 };
-
-// connection status
-AC_LOGGED = 'AC_LOGGED';
-AC_UNLOGGED = 'AC_UNLOGGED';
-
-// action of the button
-AC_ACT_HIDDEN = 'AC_ACT_HIDDEN';
-AC_ACT_NONE = 'AC_ACT_NONE';
-AC_ACT_DROPDOWN = 'AC_ACT_DROPDOWN';
-AC_ACT_BUBBLE = 'AC_ACT_BUBBLE';
-
-// colored borders
-AC_COLORED_NEVER = 'AC_COLORED_NEVER';
-AC_COLORED_VALIDATION = 'AC_COLORED_VALIDATION';
-AC_COLORED_MANDATORY = 'AC_COLORED_MANDATORY';
-
-// username / email address input rule
-AC_FIELD_NONE = 'AC_FIELD_NONE';
-AC_FIELD_OPTIONAL = 'AC_FIELD_OPTIONAL';
-AC_FIELD_MANDATORY = 'AC_FIELD_MANDATORY';
-
-// known panels
-AC_PANEL_NONE = 'AC_PANEL_NONE';
-AC_PANEL_CHANGEPWD = 'AC_PANEL_CHANGEPWD';
-AC_PANEL_RESETASK = 'AC_PANEL_RESETASK';
-AC_PANEL_RESETPWD = 'AC_PANEL_RESETPWD';
-AC_PANEL_SIGNIN = 'AC_PANEL_SIGNIN';
-AC_PANEL_SIGNOUT = 'AC_PANEL_SIGNOUT';
-AC_PANEL_SIGNUP = 'AC_PANEL_SIGNUP';
-AC_PANEL_VERIFYASK = 'AC_PANEL_VERIFYASK';
-
-// password estimated strength
-AC_PWD_VERYWEAK = 'AC_PWD_VERYWEAK';
-AC_PWD_WEAK = 'AC_PWD_WEAK';
-AC_PWD_MEDIUM = 'AC_PWD_MEDIUM';
-AC_PWD_STRONG = 'AC_PWD_STRONG';
-AC_PWD_VERYSTRONG = 'AC_PWD_VERYSTRONG';
-
-// rendering mode
-AC_RENDER_MODAL = 'AC_RENDER_MODAL';
-AC_RENDER_DIV = 'AC_RENDER_DIV';
-
-// what to do when email cannot be sent
-AC_WRONGEMAIL_OK = 'AC_WRONGEMAIL_OK';
-AC_WRONGEMAIL_ERROR = 'AC_WRONGEMAIL_ERROR';
-//AC_RESET_EMAILERROR = 'AC_RESET_EMAILERROR'
-
-// verbosity level
-AC_VERBOSE_NONE           = 0x00;
-AC_VERBOSE_CONFIGURE      = 0x01 <<  0;
-AC_VERBOSE_STARTUP        = 0x01 <<  1;
-AC_VERBOSE_INSTANCIATIONS = 0x01 <<  2;
-AC_VERBOSE_READY          = 0x01 <<  3;     // when ready(), client-only
-AC_VERBOSE_DISPLAY        = 0x01 <<  4;
-AC_VERBOSE_EVENT          = 0x01 <<  5;
-AC_VERBOSE_PANEL          = 0x01 <<  6;
-// = 0x01 <<  7;
-AC_VERBOSE_USER           = 0x01 <<  8;
-// = 0x01 <<  9;
-AC_VERBOSE_SUBMIT         = 0x01 << 10;
-// = 0x01 << 11;
-AC_VERBOSE_MODAL          = 0x01 << 12;
 
 // non exported internal constant as i18n namespace
 I18N = 'pwix:accounts-ui:i18n'

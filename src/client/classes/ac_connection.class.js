@@ -33,14 +33,14 @@ export class acConnection {
     /*
      * Setter only
      * @param {String} state the new logged-in status
-     * @returns {String} the logged-in status as AC_LOGGED or AC_UNLOGGED
+     * @returns {String} the logged-in status as AccountsUI.C.Connection.LOGGED or AccountsUI.C.Connection.UNLOGGED
      * A reactive data source
      */
     _stateSet( state ){
         if( !this._state.dep ){
             this._state.dep = new Tracker.Dependency();
         }
-        if( state && ( state === AC_LOGGED || state === AC_UNLOGGED ) && state !== this._state.value ){
+        if( state && ( state === AccountsUI.C.Connection.LOGGED || state === AccountsUI.C.Connection.UNLOGGED ) && state !== this._state.value ){
             this._state.value = state;
             this._state.dep.changed();
         }
@@ -63,12 +63,12 @@ export class acConnection {
             return acConnection.Singleton;
         }
 
-        if( AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.INSTANCIATIONS ){
             console.log( 'pwix:accounts-ui instanciating acConnection' );
         }
 
         Tracker.autorun(() => {
-            this._stateSet( Meteor.userId() ? AC_LOGGED : AC_UNLOGGED );
+            this._stateSet( Meteor.userId() ? AccountsUI.C.Connection.LOGGED : AccountsUI.C.Connection.UNLOGGED );
         });
 
         acConnection.Singleton = this;
@@ -78,7 +78,7 @@ export class acConnection {
     /**
      * Getter
      * @param {String} state the new logged-in status
-     * @returns {String} the logged-in status as AC_LOGGED or AC_UNLOGGED
+     * @returns {String} the logged-in status as AccountsUI.C.Connection.LOGGED or AccountsUI.C.Connection.UNLOGGED
      * A reactive data source
      */
     state(){

@@ -17,31 +17,31 @@ export class acOptions extends Options.Base {
 
     // borders colors
     static BorderedColors = [
-        AC_COLORED_NEVER,
-        AC_COLORED_VALIDATION,
-        AC_COLORED_MANDATORY
+        AccountsUI.C.Colored.NEVER,
+        AccountsUI.C.Colored.VALIDATION,
+        AccountsUI.C.Colored.MANDATORY
     ];
 
     // fields management
     static Fields = [
-        AC_FIELD_NONE,
-        AC_FIELD_OPTIONAL,
-        AC_FIELD_MANDATORY
+        AccountsUI.C.Input.NONE,
+        AccountsUI.C.Input.OPTIONAL,
+        AccountsUI.C.Input.MANDATORY
     ];
 
     // inform the user of a wrong email
     static WrongEmail = [
-        AC_WRONGEMAIL_OK,
-        AC_WRONGEMAIL_ERROR
+        AccountsUI.C.WrongEmail.OK,
+        AccountsUI.C.WrongEmail.ERROR
     ];
 
     // password strength
     static Strength = [
-        AC_PWD_VERYWEAK,
-        AC_PWD_WEAK,
-        AC_PWD_MEDIUM,
-        AC_PWD_STRONG,
-        AC_PWD_VERYSTRONG
+        AccountsUI.C.Password.VERYWEAK,
+        AccountsUI.C.Password.WEAK,
+        AccountsUI.C.Password.MEDIUM,
+        AccountsUI.C.Password.STRONG,
+        AccountsUI.C.Password.VERYSTRONG
     ];
 
     // private data
@@ -70,7 +70,7 @@ export class acOptions extends Options.Base {
         super( options );
         const self = this;
 
-        if( AccountsUI.opts() && AccountsUI.opts().verbosity() & AC_VERBOSE_INSTANCIATIONS ){
+        if( AccountsUI.opts() && AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.INSTANCIATIONS ){
             console.log( 'pwix:accounts-ui instanciating acOptions' );
         }
 

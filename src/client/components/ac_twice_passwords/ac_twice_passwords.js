@@ -76,7 +76,7 @@ Template.ac_twice_passwords.helpers({
     parmNewOne(){
         const component = Template.currentData().component;
         const mandatoryBorder = component && component.opts()
-                ? component.opts().coloredBorders() === AC_COLORED_MANDATORY : AccountsUI.opts().coloredBorders() === AC_COLORED_MANDATORY;
+                ? component.opts().coloredBorders() === AccountsUI.C.Colored.MANDATORY : AccountsUI.opts().coloredBorders() === AccountsUI.C.Colored.MANDATORY;
         return {
             label: this.label || pwixI18n.label( I18N, 'twice_passwords.label' ),
             placeholder: this.placeholder1 || pwixI18n.label( I18N, 'twice_passwords.placeholder1' ),
@@ -92,7 +92,7 @@ Template.ac_twice_passwords.helpers({
     parmNewTwo(){
         const component = Template.currentData().component;
         const mandatoryBorder = component && component.opts()
-                ? component.opts().coloredBorders() === AC_COLORED_MANDATORY : AccountsUI.opts().coloredBorders() === AC_COLORED_MANDATORY;
+                ? component.opts().coloredBorders() === AccountsUI.C.Colored.MANDATORY : AccountsUI.opts().coloredBorders() === AccountsUI.C.Colored.MANDATORY;
         return {
             label: '',
             placeholder: this.placeholder2 || pwixI18n.label( I18N, 'twice_passwords.placeholder2' ),

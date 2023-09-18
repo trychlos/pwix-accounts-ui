@@ -29,10 +29,10 @@ Template.ac_dropdown.onCreated( function(){
             const component = self.AC.component.get();
             if( component ){
                 switch( state ){
-                    case AC_LOGGED:
+                    case AccountsUI.C.Connection.LOGGED:
                         result = component.opts().loggedButtonClass();
                         break;
-                    case AC_UNLOGGED:
+                    case AccountsUI.C.Connection.UNLOGGED:
                         result = component.opts().unloggedButtonClass();
                         break;
                 }
@@ -46,10 +46,10 @@ Template.ac_dropdown.onCreated( function(){
             const component = self.AC.component.get();
             if( component ){
                 switch( state ){
-                    case AC_LOGGED:
+                    case AccountsUI.C.Connection.LOGGED:
                         result = component.opts().loggedButtonContent();
                         break;
-                    case AC_UNLOGGED:
+                    case AccountsUI.C.Connection.UNLOGGED:
                         result = component.opts().unloggedButtonContent();
                         break;
                 }
@@ -62,8 +62,8 @@ Template.ac_dropdown.onCreated( function(){
             let hasDropdown = false;
             const component = self.AC.component.get();
             if( component ){
-                hasDropdown = ( state === AC_LOGGED && component.opts().loggedButtonAction() === AC_ACT_DROPDOWN )
-                    || ( state === AC_UNLOGGED && component.opts().unloggedButtonAction() === AC_ACT_DROPDOWN )
+                hasDropdown = ( state === AccountsUI.C.Connection.LOGGED && component.opts().loggedButtonAction() === AccountsUI.C.Button.DROPDOWN )
+                    || ( state === AccountsUI.C.Connection.UNLOGGED && component.opts().unloggedButtonAction() === AccountsUI.C.Button.DROPDOWN )
             }
             return hasDropdown;
         }

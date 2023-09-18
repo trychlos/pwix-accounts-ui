@@ -32,8 +32,8 @@ Template.ac_render_modal.onCreated( function(){
         const component = self.AC.component.get();
         if( component ){
             const panel = AccountsUI.Display.panel();
-            if( panel && panel !== AC_PANEL_NONE && Modal.count() === 0 && component.id() === AccountsUI.Display.requester()){
-                if( AccountsUI.opts().verbosity() & AC_VERBOSE_MODAL ){
+            if( panel && panel !== AccountsUI.C.Panel.NONE && Modal.count() === 0 && component.id() === AccountsUI.Display.requester()){
+                if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.MODAL ){
                     console.log( 'pwix:accounts-ui ac_render_modal run the '+panel+' modal' );
                 }
                 Modal.run({
@@ -48,12 +48,12 @@ Template.ac_render_modal.onCreated( function(){
     });
 
     // whether we want close the current modal ?
-    //  one should NEVER directly set the AC_PANEL_NONE - the right way is to DisplayManager.release()
+    //  one should NEVER directly set the AccountsUI.C.Panel.NONE - the right way is to DisplayManager.release()
     self.autorun(() => {
         const component = self.AC.component.get();
         if( component && component.modal()){
             const panel = AccountsUI.Display.panel();
-            if( !panel || panel === AC_PANEL_NONE ){
+            if( !panel || panel === AccountsUI.C.Panel.NONE ){
                 if( Modal.count() > 0 ){
                     Modal.close();
                 }
@@ -66,7 +66,7 @@ Template.ac_render_modal.onCreated( function(){
         const component = self.AC.component.get();
         if( component && component.modal()){
             const panel = AccountsUI.Display.panel();
-            if( panel && panel !== AC_PANEL_NONE && Modal.count() > 0 ){
+            if( panel && panel !== AccountsUI.C.Panel.NONE && Modal.count() > 0 ){
                 Modal.set({
                     title: AccountsUI.Panel.title( panel ),
                     body: AccountsUI.Panel.template( panel )
