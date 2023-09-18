@@ -52,9 +52,8 @@ Accounts.onEmailVerificationLink( function( token, done ){
                 user.services.email.verificationTokens.every(( it ) => {
                     if( it.token === token ){
                         email = it.address;
-                        return false;
                     }
-                    return true;
+                    return email === null;
                 });
                 Accounts.verifyEmail( token, ( err ) => {
                     if( err ){

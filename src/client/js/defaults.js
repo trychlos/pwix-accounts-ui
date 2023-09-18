@@ -23,66 +23,67 @@ import { pwixI18n } from 'meteor/pwix:i18n';
  *   under the hood, the message handler just requests the specified panel with the corresponding argument
  */
 
-_stdMenuItems = {
-    AccountsUI.C.Connection.LOGGED: [
-        {
-            id: 'ac-signout-item',
-            aclass: 'ac-signout',
-            faicon: 'fa-right-from-bracket',
-            labelkey: 'signout',
-            enablefn: _enableAlways,
-            panel: 'AccountsUI.C.Panel.SIGNOUT',
-            msgaction: 'ac-panel-signout-event'
-        },
-        {
-            id: 'ac-changepwd-item',
-            aclass: 'ac-changepwd',
-            faicon: 'fa-passport',
-            labelkey: 'changepwd',
-            enablefn: _enableAlways,
-            panel: 'AccountsUI.C.Panel.CHANGEPWD',
-            msgaction: 'ac-panel-changepwd-event'
-        },
-        {
-            id: 'ac-verifyask-item',
-            aclass: 'ac-verifyask',
-            faicon: 'fa-envelope-circle-check',
-            labelkey: 'verifyask',
-            enablefn: _enableMailVerified,
-            panel: 'AccountsUI.C.Panel.VERIFYASK',
-            msgaction: 'ac-panel-verifyask-event'
-        }
-    ],
-    AccountsUI.C.Connection.UNLOGGED: [
-        {
-            id: 'ac-signin-item',
-            aclass: 'ac-signin',
-            faicon: 'fa-user',
-            labelkey: 'signin',
-            enablefn: _enableAlways,
-            panel: 'AccountsUI.C.Panel.SIGNIN',
-            msgaction: 'ac-panel-signin-event'
-        },
-        {
-            id: 'ac-signup-item',
-            aclass: 'ac-signup',
-            faicon: 'fa-user-plus',
-            labelkey: 'signup',
-            enablefn: _enableAlways,
-            panel: 'AccountsUI.C.Panel.SIGNUP',
-            msgaction: 'ac-panel-signup-event'
-        },
-        {
-            id: 'ac-resetask-item',
-            aclass: 'ac-resetask',
-            faicon: 'fa-lock-open',
-            labelkey: 'resetask',
-            enablefn: _enableAlways,
-            panel: 'AccountsUI.C.Panel.RESETASK',
-            msgaction: 'ac-panel-resetask-event'
-        },
-    ]
-};
+_stdMenuItems = {};
+
+_stdMenuItems[AccountsUI.C.Connection.LOGGED] = [
+    {
+        id: 'ac-signout-item',
+        aclass: 'ac-signout',
+        faicon: 'fa-right-from-bracket',
+        labelkey: 'signout',
+        enablefn: _enableAlways,
+        panel: 'AccountsUI.C.Panel.SIGNOUT',
+        msgaction: 'ac-panel-signout-event'
+    },
+    {
+        id: 'ac-changepwd-item',
+        aclass: 'ac-changepwd',
+        faicon: 'fa-passport',
+        labelkey: 'changepwd',
+        enablefn: _enableAlways,
+        panel: 'AccountsUI.C.Panel.CHANGEPWD',
+        msgaction: 'ac-panel-changepwd-event'
+    },
+    {
+        id: 'ac-verifyask-item',
+        aclass: 'ac-verifyask',
+        faicon: 'fa-envelope-circle-check',
+        labelkey: 'verifyask',
+        enablefn: _enableMailVerified,
+        panel: 'AccountsUI.C.Panel.VERIFYASK',
+        msgaction: 'ac-panel-verifyask-event'
+    }
+];
+
+_stdMenuItems[AccountsUI.C.Connection.UNLOGGED] = [
+    {
+        id: 'ac-signin-item',
+        aclass: 'ac-signin',
+        faicon: 'fa-user',
+        labelkey: 'signin',
+        enablefn: _enableAlways,
+        panel: 'AccountsUI.C.Panel.SIGNIN',
+        msgaction: 'ac-panel-signin-event'
+    },
+    {
+        id: 'ac-signup-item',
+        aclass: 'ac-signup',
+        faicon: 'fa-user-plus',
+        labelkey: 'signup',
+        enablefn: _enableAlways,
+        panel: 'AccountsUI.C.Panel.SIGNUP',
+        msgaction: 'ac-panel-signup-event'
+    },
+    {
+        id: 'ac-resetask-item',
+        aclass: 'ac-resetask',
+        faicon: 'fa-lock-open',
+        labelkey: 'resetask',
+        enablefn: _enableAlways,
+        panel: 'AccountsUI.C.Panel.RESETASK',
+        msgaction: 'ac-panel-resetask-event'
+    },
+];
 
 /*
  * whether to enable the items
