@@ -78,6 +78,14 @@ Template.acUserLogin.onRendered( function(){
 
     // ask for the display
     AccountsUI.Display.ask( AccountsUI.Manager.component( self.AC.managerId ).opts().initialPanel(), self.AC.managerId );
+
+    // set the name attribute if any
+    self.autorun(() => {
+        const name = Template.currentData().name;
+        if( name ){
+            self.$( '.acUserLogin' ).attr( 'data-ac-name', name );
+        }
+    });
 });
 
 Template.acUserLogin.helpers({

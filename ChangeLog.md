@@ -10,6 +10,7 @@
     - Deep code refactoring and configuration parameters evolution (bumping candidate version number)
     - Remove AccountsUI.preferredLabel() method, moved to pwix:accounts-tools
     - Make sure old and new passwords are different when changing a password
+    - Have a 'data-ac-name' attribute on acUserLogin (todo #20)
 
 ### 1.3.0
 
