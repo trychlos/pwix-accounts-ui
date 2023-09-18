@@ -13,21 +13,17 @@
 |    2 | 2023- 1-20 | provides a button with a configurable label 'login with Zimbra' |
 |    3 | 2023- 1-20 | provides a button to connect to the future chosen identity manager |
 |    8 | 2023- 1-21 | develop a small SPA application to provide tests for the package |
-|   13 | 2023- 1-21 | be able to handle all Meteor Accounts configuration |
-|   14 | 2023- 1-21 | provide enrollment (see for example accounts-ui) |
-|   24 | 2023- 1-25 | BUG data associated to ac-password-data message is received as undefined when length=0 |
-|      | 2023- 1-29 | as a work-around has been found, this is very low priority |
-|   26 | 2023- 1-25 | let the user change his email address |
+|      | 2023- 9-18 | better try to define a test suite to make sure all entered fields are rightly written in database |
+|   13 | 2023- 1-21 | feat: be able to handle all Meteor Accounts configuration |
+|   14 | 2023- 1-21 | feat: provide enrollment (see for example accounts-ui) |
+|   26 | 2023- 1-25 | feat: let the user change his email address |
 |      | 2023- 1-29 | implies to define a new dropdown item and a new panel |
-|   27 | 2023- 1-25 | let the user change his username |
+|   27 | 2023- 1-25 | feat: let the user change his username |
 |      | 2023- 1-29 | implies to define a new dropdown item and a new panel |
-|   28 | 2023- 1-25 | have a profile dialog with all change options |
+|   28 | 2023- 1-25 | feat: have a profile dialog with all change options |
 |      | 2023- 1-29 | implies to define a new dropdown item and a new panel |
-|      | 2023- 2-20 | export components as acUserPanel (the panel) and acUserModal (a modal dialog which contains the panel) |
-|   29 | 2023- 1-26 | manage several email addresses per user |
+|   29 | 2023- 1-26 | feat: manage several email addresses per user |
 |      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
-|   50 | 2023- 6-22 | have an automated way to associates a div (resp. a modal) to its acUserLogin or a data-ac attribute |
-|   55 | 2023- 7- 5 | Fix save/restore() |
 |   56 | 2023- 7- 5 | Fix clearPanel() |
 |   57 | 2023- 9- 9 | Have a function to be called instead of OnEmailverified() |
 |   58 | 2023- 9- 9 | Have a function to be called after OnEmailverified() |
@@ -96,6 +92,9 @@
 |      | 2023- 1-25 | eye is ok, but should not prevent these two input fields |
 |      | 2023- 1-25 | if this option is confirmed, should apply both to signup and change_pwd and reset_pwd |
 |      | 2023- 1-26 | done in v0.90.1 |
+|   24 | 2023- 1-25 | BUG data associated to ac-password-data message is received as undefined when length=0 |
+|      | 2023- 1-29 | as a work-around has been found, this is very low priority |
+|      | 2023- 9-18 | actually this empty message is only received during Blaze initialization - so cancel the todo |
 |   25 | 2023- 1-25 | reset_ask make sure we take an email address |
 |      | 2023- 1-26 | done |
 |   30 | 2023- 1-26 | send ac-user-resetpwd message from Accounts.onResetPasswordLink() function |
@@ -138,6 +137,8 @@
 |      | 2023- 6- 9 | done |
 |   49 | 2023- 6-12 | let another package add a translation to this one - this requires at least exporting the i18n namespace |
 |      | 2023- 6-12 | done |
+|   50 | 2023- 6-22 | have an automated way to associates a div (resp. a modal) to its acUserLogin or a data-ac attribute |
+|      | 2023- 9-18 | done e.g. in event manager to associate the 'Enter' key with a acComponent and its acCompanion |
 |   51 | 2023- 6-22 | default acUserLogin dropdown is not styled as a button but should |
 |      | 2023- 6-22 | this is a acUserLogin configuration option (not a bug, but a feature) |
 |   52 | 2023- 6-22 | default acUserLogin display a signup modal at start! (maybe because of pwiSAA?) |
@@ -146,6 +147,8 @@
 |      | 2023- 6-26 | fixed |
 |   54 | 2023- 6-22 | dropdown items are not reactive to the language |
 |      | 2023- 6-23 | fixed |
+|   55 | 2023- 7- 5 | Fix save/restore() |
+|      | 2023- 9-18 | These functions are removed as of v 1.4.0-rc |
 |   62 | 2023- 9- 9 | change title of the modals |
 |      | 2023- 9-12 | cancelled as duplicate of #64 |
 |   69 | 2023- 9-17 | signup panel doesn't get the focus |

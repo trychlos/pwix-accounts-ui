@@ -380,18 +380,6 @@ The globally exported object.
 
     A reactive data source.
 
-- `AccountsUI.restore( prefix )`
-
-    Restore previously saved package parameters whose name begins with `prefix`.
-
-- `AccountsUI.saveOnce( prefix )`
-
-    Save (once) all package parameters whose name begins with `prefix`.
-
-    The save is done in memory, and doesn't survive to a page reload. This function should so be called at every application initialization.
-
-    This may be useful when another package wants to temporarily set its own parameters, in place of those provided by the application.
-
 ### Blaze components
 
 Besides of the `acUserLogin` template already invoked, the `pwix:accounts-ui` package exports following templates:
