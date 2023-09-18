@@ -28,6 +28,11 @@ Template.ac_signin.onCreated( function(){
         // enable the submit button
         enableSubmit( enable ){
             self.$( '.ac-signin ').closest( '.ac-content' ).find( '.ac-submit' ).prop( 'disabled', !enable );
+        },
+
+        // clear the panel
+        clear(){
+            self.$( 'input' ).val( '' );
         }
     };
 
@@ -88,5 +93,11 @@ Template.ac_signin.events({
     // message sent by the password input component
     'ac-password-data .ac-signin'( event, instance, data ){
         instance.AC.checks();
+    },
+
+    // clear the panel
+    //  this is only for completude as this has almost no chance to be used
+    'ac-clear-panel-fwd .ac-signin'( event, instance ){
+        instance.AC.clear();
     }
 });

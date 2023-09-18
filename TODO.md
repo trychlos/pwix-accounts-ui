@@ -24,7 +24,6 @@
 |      | 2023- 1-29 | implies to define a new dropdown item and a new panel |
 |   29 | 2023- 1-26 | feat: manage several email addresses per user |
 |      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
-|   56 | 2023- 7- 5 | Fix clearPanel() |
 |   57 | 2023- 9- 9 | Have a function to be called instead of OnEmailverified() |
 |   58 | 2023- 9- 9 | Have a function to be called after OnEmailverified() |
 |   59 | 2023- 9- 9 | buttons labels should be set as nowrap |
@@ -149,6 +148,8 @@
 |      | 2023- 6-23 | fixed |
 |   55 | 2023- 7- 5 | Fix save/restore() |
 |      | 2023- 9-18 | These functions are removed as of v 1.4.0-rc |
+|   56 | 2023- 7- 5 | Fix clearPanel() |
+|      | 2023- 9-18 | implemented in input panels |
 |   62 | 2023- 9- 9 | change title of the modals |
 |      | 2023- 9-12 | cancelled as duplicate of #64 |
 |   69 | 2023- 9-17 | signup panel doesn't get the focus |

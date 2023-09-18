@@ -12,6 +12,7 @@
     - Make sure old and new passwords are different when changing a password
     - Have a 'data-ac-name' attribute on acUserLogin (todo #20)
     - Remove save() and restore() methods (obsoleting todo #55)
+    - Implement clearPanel() function (todo #56)
 
 ### 1.3.0
 

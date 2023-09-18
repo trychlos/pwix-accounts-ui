@@ -34,6 +34,8 @@ AccountsUI.Event = {
         'ac-user-verifieddone-event',
         // when submitting a modal not attached to any Blaze template event handler
         'ac-submit',
+        // asking to clear the current panel
+        'ac-clear-panel',
         // the modal events we may want to deal with
         'md-click',
         'md-close',
@@ -95,6 +97,7 @@ AccountsUI.Event = {
      *  Here, let the event bubble up
      */
     _handlePanel( event, data ){
+        let requester = null;
         switch( event.type ){
             // a dropdown item asks for a panel
             //  as these events are triggered from standard dropdown items, they should convey an acCompanion
@@ -107,7 +110,7 @@ AccountsUI.Event = {
                 if( AccountsUI.opts().verbosity() & AC_VERBOSE_PANEL ){
                     console.log( 'pwix:accounts-ui Event handling', event.type, data );
                 }
-                const requester = data.requester;
+                requester = data.requester;
                 if( requester ){
                     const component = AccountsUI.Manager.component( requester );
                     if( component ){
@@ -121,6 +124,13 @@ AccountsUI.Event = {
                 } else {
                     console.error( 'requester empty while expecting acComponent identifier' );
                 }
+                break;
+            case 'ac-clear-panel':
+                requester = AccountsUI.Display.requester();
+                if( requester ){
+                    $( 'body .ac-content[data-ac-requester="'+requester+'"] .ac-panel' ).trigger( 'ac-clear-panel-fwd' );
+                }
+            break;
         }
         return true;
     },

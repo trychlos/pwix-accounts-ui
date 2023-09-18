@@ -57,6 +57,11 @@ Template.ac_change_pwd.onCreated( function(){
             //console.debug( data );
             self.AC.twiceVal = data.password;
             self.AC.twiceOk.set( data.ok );
+        },
+
+        // clear the panel
+        clear(){
+            self.$( 'input' ).val( '' );
         }
     };
 
@@ -143,5 +148,11 @@ Template.ac_change_pwd.events({
         if( data ){
             instance.AC.checks( event, data );
         }
+    },
+
+    // clear the panel
+    //  this is only for completude as this has almost no chance to be used
+    'ac-clear-panel-fwd .ac-change-pwd'( event, instance ){
+        instance.AC.clear();
     }
 });

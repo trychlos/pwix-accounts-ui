@@ -7,5 +7,5 @@
  * @locus Client
  */
 AccountsUI.clearPanel = function(){
-    console.debug( 'clearing panel' );
+    $( 'body' ).trigger( 'ac-clear-panel' );
 };

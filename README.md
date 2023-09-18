@@ -655,6 +655,10 @@ In the same time, the `acUserLogin` template advertises of its contexts:
 - `ac-user-resetdone-event` + `emailAddress`
 - `ac-user-verifieddone-event` + `emailAddress`
 
+    Ask for an action
+
+- `ac-clear-panel`
+
 ### Constants
 
 - `AC_LOGGED`

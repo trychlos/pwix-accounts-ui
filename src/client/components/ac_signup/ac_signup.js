@@ -208,5 +208,12 @@ Template.ac_signup.events({
     'ac-clear .ac-signup'( event, instance ){
         instance.AC.resetInput();
         return false;
+    },
+
+    // clear the panel
+    //  this is only for completude as this has almost no chance to be used
+    'ac-clear-panel-fwd .ac-signup'( event, instance ){
+        instance.AC.resetInput();
+        return false;
     }
 });
