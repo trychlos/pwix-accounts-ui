@@ -118,7 +118,7 @@ export class acManager {
         _.merge( component, {
             companion: new acCompanion( id ),
             options: new acCompanionOptions( id ),
-            modal(){ return this.opts().renderMode() === 'AccountsUI.C.Render.MODAL'; },
+            modal(){ return this.opts().renderMode() === AccountsUI.C.Render.MODAL; },
             opts(){ return this.options; }
         });
         return id;

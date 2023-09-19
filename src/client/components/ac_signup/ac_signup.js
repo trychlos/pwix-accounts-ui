@@ -65,7 +65,7 @@ Template.ac_signup.onCreated( function(){
             return AccountsUI.opts().haveEmailAddress() !== AccountsUI.C.Input.NONE;
         },
         haveUsername(){
-            console.debug( 'username', AccountsUI.opts().haveUsername());
+            //console.debug( 'username', AccountsUI.opts().haveUsername());
             return AccountsUI.opts().haveUsername() !== AccountsUI.C.Input.NONE;
         },
         resetInput(){

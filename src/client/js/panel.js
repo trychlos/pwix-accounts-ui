@@ -49,6 +49,7 @@ AccountsUI.Panel = {
      * @throws {Error}
      */
     validate: function( panel ){
+        //console.debug( 'panel', panel );
         if( !panel ){
             throw new Error( 'empty panel name' );
         }

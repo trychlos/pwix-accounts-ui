@@ -103,8 +103,9 @@ Template.acUserLogin.helpers({
 
     // whether the display must be rendered as a modal one ?
     modal(){
-        //console.debug( 'isModal', Template.instance().AC.companion.modal());
-        return AccountsUI.Manager.component( Template.instance().AC.managerId ).modal();
+        const isModal = AccountsUI.Manager.component( Template.instance().AC.managerId ).modal();
+        //console.debug( 'isModal', isModal );
+        return isModal;
     },
 
     // provides the acCompanion instance to the child templates
@@ -129,6 +130,7 @@ Template.acUserLogin.events({
             return panel === null;
         });
         if( panel ){
+            console.debug( 'panel', panel );
             AccountsUI.Event.handler( event, {
                 requester: instance.AC.managerId,
                 panel: panel
