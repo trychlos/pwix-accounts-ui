@@ -32,7 +32,7 @@ _stdMenuItems[AccountsUI.C.Connection.LOGGED] = [
         faicon: 'fa-right-from-bracket',
         labelkey: 'signout',
         enablefn: _enableAlways,
-        panel: 'AccountsUI.C.Panel.SIGNOUT',
+        panel: AccountsUI.C.Panel.SIGNOUT,
         msgaction: 'ac-panel-signout-event'
     },
     {
@@ -41,7 +41,7 @@ _stdMenuItems[AccountsUI.C.Connection.LOGGED] = [
         faicon: 'fa-passport',
         labelkey: 'changepwd',
         enablefn: _enableAlways,
-        panel: 'AccountsUI.C.Panel.CHANGEPWD',
+        panel: AccountsUI.C.Panel.CHANGEPWD,
         msgaction: 'ac-panel-changepwd-event'
     },
     {
@@ -50,7 +50,7 @@ _stdMenuItems[AccountsUI.C.Connection.LOGGED] = [
         faicon: 'fa-envelope-circle-check',
         labelkey: 'verifyask',
         enablefn: _enableMailVerified,
-        panel: 'AccountsUI.C.Panel.VERIFYASK',
+        panel: AccountsUI.C.Panel.VERIFYASK,
         msgaction: 'ac-panel-verifyask-event'
     }
 ];
@@ -62,7 +62,7 @@ _stdMenuItems[AccountsUI.C.Connection.UNLOGGED] = [
         faicon: 'fa-user',
         labelkey: 'signin',
         enablefn: _enableAlways,
-        panel: 'AccountsUI.C.Panel.SIGNIN',
+        panel: AccountsUI.C.Panel.SIGNIN,
         msgaction: 'ac-panel-signin-event'
     },
     {
@@ -71,7 +71,7 @@ _stdMenuItems[AccountsUI.C.Connection.UNLOGGED] = [
         faicon: 'fa-user-plus',
         labelkey: 'signup',
         enablefn: _enableAlways,
-        panel: 'AccountsUI.C.Panel.SIGNUP',
+        panel: AccountsUI.C.Panel.SIGNUP,
         msgaction: 'ac-panel-signup-event'
     },
     {
@@ -80,7 +80,7 @@ _stdMenuItems[AccountsUI.C.Connection.UNLOGGED] = [
         faicon: 'fa-lock-open',
         labelkey: 'resetask',
         enablefn: _enableAlways,
-        panel: 'AccountsUI.C.Panel.RESETASK',
+        panel: AccountsUI.C.Panel.RESETASK,
         msgaction: 'ac-panel-resetask-event'
     },
 ];
