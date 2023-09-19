@@ -41,8 +41,7 @@ AccountsUI.Event = {
         'md-close',
         'md-ready',
         // install a handler on keydown just to intercept 'Enter' key
-        'keydown',
-        'submit'
+        'keydown'
     ],
 
     /*
@@ -50,7 +49,6 @@ AccountsUI.Event = {
      *  Here, always let the event bubble up
      */
     _handleKeydown( event ){
-        /*
         switch( event.type ){
             case 'keydown':
                 if( event.keyCode === 13 ){
@@ -64,7 +62,6 @@ AccountsUI.Event = {
                 }
                 break;
         }
-        */
         return true;
     },
 
@@ -166,14 +163,6 @@ AccountsUI.Event = {
                     }
                 } else {
                     console.error( 'requester empty while handing ac-submit event' );
-                }
-                break;
-            case 'submit':
-                requester = AccountsUI.Display.requester();
-                if( requester ){
-                    //console.debug( 'found requester', requester );
-                    $( 'body .ac-content[data-ac-requester="'+requester+'"] .ac-submit' ).trigger( 'click' );
-                    return false;
                 }
                 break;
         }

@@ -46,6 +46,7 @@ Template.ac_input_password.onCreated( function(){
             self.AC.errorMsg.set( '' );
             AccountsUI._checkPassword( self.AC.inputField.val() || '' )
                 .then(( result ) => {
+                    //console.debug( result );
                     if( self.AC.isNew.get()){
                         // css
                         self.$( '.ac-strength-bar' ).css( self.AC.score[result.zxcvbn.score].css );

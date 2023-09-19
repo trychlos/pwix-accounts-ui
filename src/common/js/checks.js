@@ -71,6 +71,48 @@ AccountsUI = {
         },
 
         /*
+         * @summary: check that the proposed candidate password is valid
+         * @locus Anywhere
+         * @param {String} password the password to be checked
+         * @returns {Promise} which eventually resolves to the check result, as:
+         *  - ok: true|false
+         *  - errors: [] an array of localized error messages
+         *  - warnings: [] an array of localized warning messages
+         *  - password: password,
+         *  - minScore: the minimal computed score depending of the required strength
+         *  - zxcvbn: the zxcvbn computed result
+         */
+        _checkPassword( password ){
+            let result = {
+                ok: true,
+                errors: [],
+                warnings: [],
+                password: password || '',
+                minScore: -1,
+                zxcvbn: null
+            };
+            // compute min score function of required complexity
+            result.minScore = AccountsUI._computeMinScore();
+            // compute complexity
+            result.zxcvbn = zxcvbn( result.password );
+            // check for minimal length
+            if( result.password.length < AccountsUI.opts().passwordLength()){
+                result.ok = false;
+                result.errors.push( pwixI18n.label( I18N, 'input_password.too_short' ));
+                //console.debug( 'result', result, 'minPasswordLength', AccountsUI.opts().passwordLength());
+                return Meteor.isClient ? Promise.resolve( result ) : result;
+            }
+            // check for complexity
+            if( result.zxcvbn.score < result.minScore ){
+                result.ok = false;
+                result.errors.push( pwixI18n.label( I18N, 'input_password.too_weak' ));
+                return Meteor.isClient ? Promise.resolve( result ) : result;
+            }
+            // return
+            return Promise.resolve( result );
+        },
+
+        /*
          * @summary: check that the proposed candidate username is valid, and not already exists
          * @locus Anywhere
          * @param {String} username the username to be checked
@@ -141,49 +183,6 @@ AccountsUI = {
                 return true;
             });
             return minScore;
-        },
-
-        /*
-         * @summary: check that the proposed candidate password is valid
-         * @locus Anywhere
-         * @param {String} password the password to be checked
-         * @returns {Promise} on client side which resolves to the check result,
-         * @returns {Object} the check result itself on the server side, as:
-         *  - ok: true|false
-         *  - errors: [] an array of localized error messages
-         *  - warnings: [] an array of localized warning messages
-         *  - password: password,
-         *  - minScore: the minimal computed score depending of the required strength
-         *  - zxcvbn: the zxcvbn computed result
-         */
-        _checkPassword( password ){
-            let result = {
-                ok: true,
-                errors: [],
-                warnings: [],
-                password: password || '',
-                minScore: -1,
-                zxcvbn: null
-            };
-            // compute min score function of required complexity
-            result.minScore = AccountsUI._computeMinScore();
-            // compute complexity
-            result.zxcvbn = zxcvbn( result.password );
-            // check for minimal length
-            if( result.password.length < AccountsUI.opts().passwordLength()){
-                result.ok = false;
-                result.errors.push( pwixI18n.label( I18N, 'input_password.too_short' ));
-                //console.debug( 'result', result, 'minPasswordLength', AccountsUI.opts().passwordLength());
-                return Meteor.isClient ? Promise.resolve( result ) : result;
-            }
-            // check for complexity
-            if( result.zxcvbn.score < result.minScore ){
-                result.ok = false;
-                result.errors.push( pwixI18n.label( I18N, 'input_password.too_weak' ));
-                return Meteor.isClient ? Promise.resolve( result ) : result;
-            }
-            // return
-            return Meteor.isClient ? Promise.resolve( result ) : result;
         }
     }
 };
