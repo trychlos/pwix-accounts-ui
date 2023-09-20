@@ -14,6 +14,7 @@
     - Remove save() and restore() methods (obsoleting todo #55)
     - Implement clearPanel() function (todo #56)
     - Replace all exported constants with the AccountsUI.C object (todo #60)
+    - Release the display when acUserLogin is destroyed
 
 ### 1.3.0
 

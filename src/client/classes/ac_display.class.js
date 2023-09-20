@@ -167,14 +167,17 @@ export class acDisplay {
     }
 
     /**
-     * @summary Release the current requester
+     * @summary Release the specified requester, or inconditionally
+     * @param {String} requester
      */
-    release(){
+    release( requester ){
         if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.DISPLAY ){
-            console.log( 'pwix:accounts-ui acDisplay.release()' );
+            console.log( 'pwix:accounts-ui acDisplay.release()', requester );
         }
-        this._requester = null;
-        this.panel( AccountsUI.C.Panel.NONE );
+        if( !requester || requester === this._requester ){
+            this._requester = null;
+            this.panel( AccountsUI.C.Panel.NONE );
+        }
     }
 
     /**

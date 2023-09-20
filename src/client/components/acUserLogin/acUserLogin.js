@@ -165,5 +165,6 @@ Template.acUserLogin.events({
 
 Template.acUserLogin.onDestroyed( function(){
     const self = this;
+    AccountsUI.Display.release( self.AC.managerId );
     AccountsUI.Manager.componentRemove( self.AC.managerId );
 });
