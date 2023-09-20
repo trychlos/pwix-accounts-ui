@@ -64,7 +64,8 @@ AccountsUI.configure = function( o ){
         AccountsUI._opts.base_set( AccountsUI._conf );
         // be verbose if asked for
         if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.CONFIGURE ){
-            console.log( 'pwix:accounts-ui configure() with', o, 'building', AccountsUI._conf );
+            //console.log( 'pwix:accounts-ui configure() with', o, 'building', AccountsUI._conf );
+            console.log( 'pwix:accounts-ui configure() with', o );
         }
     }
     //console.debug( AccountsUI._conf );
