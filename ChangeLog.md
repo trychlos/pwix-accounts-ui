@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.4.0-rc
+### 1.4.0
 
-    Release date: 
+    Release date: 2023-10-11
 
     - Upgrade pwix:options requirement to 2.1.0
     - Deep code refactoring and configuration parameters evolution (bumping candidate version number)
@@ -108,4 +108,4 @@
 
 ---
 P. Wieser
-- Last updated on 2023, Sept. 4th
+- Last updated on 2023, Oct. 11th
