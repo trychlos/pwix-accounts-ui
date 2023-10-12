@@ -280,6 +280,8 @@ Known configuration options are:
 
     Whether to send a verification email to each newly created user.
 
+    This should be kept by the application consistent with the same parameter of `accounts-base` Meteor package.
+
     Accepted values are `true` or `false`.
 
     Defaults to `true`.

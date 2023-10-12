@@ -79,6 +79,7 @@ Meteor.methods({
     //  - url
     //  - options
     'AccountsUI.sendVerificationEmail'( id ){
+        console.debug( 'AccountsUI.sendVerificationEmail' );
         return Accounts.sendVerificationEmail( id );
     },
 
@@ -86,6 +87,7 @@ Meteor.methods({
         const u = Accounts.findUserByEmail( email );
         //console.debug( u );
         if( u ){
+            console.debug( 'AccountsUI.sendVerificationEmailByEmail' );
             Accounts.sendVerificationEmail( u._id );
         }
     }

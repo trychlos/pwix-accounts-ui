@@ -11,6 +11,7 @@
     - Define new haveOKButton acUserLogin configuration parameter
     - Fix ac-signup panel check
     - Define new ac-signup-ok event
+    - Fix verification email sending twice when autoConnect is true
 
 ### 1.4.0
 

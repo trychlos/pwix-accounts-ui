@@ -64,7 +64,8 @@ AccountsUI.Account = {
             }
             AccountsUI.Event.trigger( event, parms );
             // send a verification mail if asked for
-            if( options.email && AccountsUI.opts().sendVerificationEmail()){
+            // not that createUser already does that
+            if( !autoConnect && options.email && AccountsUI.opts().sendVerificationEmail()){
                 Meteor.call( 'AccountsUI.sendVerificationEmailByEmail', options.email, ( err, res ) => {
                     if( err ){
                         console.error( err );
