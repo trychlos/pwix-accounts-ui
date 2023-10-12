@@ -25,13 +25,18 @@ AccountsUI.C = {
         UNLOGGED: 'AC_UNLOGGED'
     },
 
+    // what to initially display ?
+    Display: {
+        DROPDOWNBUTTON: 'AC_DISPLAY_DROPDOWNBUTTON',
+        PANEL: 'AC_DISPLAY_PANEL'
+    },
+
     // username / email address input rule
     Input: {
         NONE: 'AC_FIELD_NONE',
         OPTIONAL: 'AC_FIELD_OPTIONAL',
         MANDATORY: 'AC_FIELD_MANDATORY'
     },
-
 
     // known panels
     Panel: {

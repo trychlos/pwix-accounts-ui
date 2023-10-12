@@ -4,7 +4,7 @@
  * Email input field
  * 
  * Parms:
- *  - component: the acComponent object
+ *  - AC: the acUserLogin internal data structure
  *  - new: true|false whether to check for non-yet existant, defaulting to false
  *  - placeholder (opt.)
  */
@@ -95,8 +95,7 @@ Template.ac_input_email.helpers({
 
     // fieldset legend
     legend(){
-        const component = Template.currentData().component;
-        return this.new ? component.opts().signupLegendEmail() : component.opts().signinLegendEmail();
+        return this.new ? this.AC.options.signupLegendEmail() : this.AC.options.signinLegendEmail();
     },
 
     // whether the email address is mandatory ?
@@ -106,7 +105,7 @@ Template.ac_input_email.helpers({
 
     // whether the mandatory field must exhibit an ad-hoc colored border ?
     mandatoryBorder(){
-        return Template.instance().AC.mandatoryField() && Template.currentData().component.opts().coloredBorders() === AccountsUI.C.Colored.MANDATORY ? 'ac-mandatory-border' : '';
+        return Template.instance().AC.mandatoryField() && this.AC.options.coloredBorders() === AccountsUI.C.Colored.MANDATORY ? 'ac-mandatory-border' : '';
     },
 
     // returns the translated string

@@ -1,26 +1,15 @@
 /*
  * pwix:accounts-ui/src/client/components/acUserLogin/acUserLogin.js
  *
- * Main user login template
- *
- * Is callable many times so that a different set of parameters produces different (though, of course, consistent) results.
- *
- * This behavior relies on several classes:
- * 
- * - global classes:
- *   > acDisplay is a singleton attached to the global 'AccountsUI' object, and maintains the display (aka the viewport) as a whole
- *   > acUser is a singleton attached to the global 'AccountsUI' object, and interfaces the user status.
- * 
- * - local classes:
- *   > acCompanionOptions the configuration options provided by the caller (or their defaults)
- *   > acCompanion a companion class which glues together this Blaze template instance with other classes
- * 
- * The template is instanciated here (and potentially several times as explained above), and uniquely identified by the id of its companion class.
- * The acCompanion and acCompanionOptions objects are attached to this instance.
- * The companion class acts as a display requester, and is then passed as a parameter to each and every child template.
+ * Main user login template.
+ * It is callable many times so that a different set of parameters produces different (though, of course, consistent) results.
  */
 
 import _ from 'lodash';
+
+import { Random } from 'meteor/random';
+
+import { acCompanionOptions } from '../../classes/ac_companion_options.class.js';
 
 import '../../../common/js/index.js';
 
@@ -39,6 +28,7 @@ import '../ac_signup/ac_signup.js';
 import '../ac_verify_ask/ac_verify_ask.js';
 
 import '../acMandatoryField/acMandatoryField.js';
+import '../acMandatoryFooter/acMandatoryFooter.js';
 
 import './acUserLogin.html';
 
@@ -46,15 +36,12 @@ Template.acUserLogin.onCreated( function(){
     const self = this;
 
     self.AC = {
-        managerId: AccountsUI.Manager.userloginDefine( self ),
-
-        // @returns {Boolean} whether this acUserLogin template should display a dropdown menu
-        //  regarding the current connection state
-        hasDropdown(){
-            const state = AccountsUI.Connection.state();
-            return ( state === AccountsUI.C.Connection.LOGGED && AccountsUI.Manager.component( self.AC.managerId ).opts().loggedButtonAction() !== AccountsUI.C.Button.HIDDEN )
-                || ( state === AccountsUI.C.Connection.UNLOGGED && AccountsUI.Manager.component( self.AC.managerId ).opts().unloggedButtonAction() !== AccountsUI.C.Button.HIDDEN );
-        }
+        id: Random.id(),
+        options: new acCompanionOptions(),
+        // this event target (useful when a modal is opened)
+        target: null,
+        // the currently displayed panel for this acUserLogin workflow
+        panel: null
     };
 
     if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.INSTANCIATIONS ){
@@ -63,57 +50,58 @@ Template.acUserLogin.onCreated( function(){
 
     // register the configuration options
     self.autorun(() => {
-        AccountsUI.Manager.component( self.AC.managerId ).opts().base_set( _.merge( {}, defaults.acUserLogin, Template.currentData()));
-    });
-
-    // register the name
-    self.autorun(() => {
-        const name = Template.currentData().name;
-        if( name ){
-            AccountsUI.Manager.name( self.AC.managerId, name );
-        }
+        self.AC.options.base_set( _.merge( {}, defaults.acUserLogin, Template.currentData()));
     });
 });
 
 Template.acUserLogin.onRendered( function(){
     const self = this;
 
-    // ask for the display
-    AccountsUI.Display.ask( AccountsUI.Manager.component( self.AC.managerId ).opts().initialPanel(), self.AC.managerId );
-
     // set the name attribute if any
     self.autorun(() => {
-        const name = Template.currentData().name;
+        const name = self.AC.options.name();
         if( name ){
+            AccountsUI.Manager.name( name, self );
             self.$( '.acUserLogin' ).attr( 'data-ac-name', name );
         }
     });
+
+    // set the event target to this component
+    self.AC.target = self.$( '.acUserLogin#'+self.AC.id );
 });
 
 Template.acUserLogin.helpers({
 
-    // whether this template controls a logged/unlogged user button
+    // whether this template must be initially displayed as a dropdown button
     hasDropdown(){
-        //console.debug( 'hasDropdown', Template.instance().AC.companion.hasDropdown());
-        return Template.instance().AC.hasDropdown();
+        return Template.instance().AC.options.initialDisplay() === AccountsUI.C.Display.DROPDOWNBUTTON;
+    },
+
+    // whether this template must be initially displayed as a panel
+    //  if an initial panel is asked for, then set it
+    hasPanel(){
+        const AC = Template.instance().AC;
+        const hasPanel = Boolean( AC.options.initialDisplay() === AccountsUI.C.Display.PANEL );
+        if( hasPanel ){
+            AC.panel = AC.options.initialPanel();
+        }
+        return hasPanel;
     },
 
     // set a unique id on the acUserLogin div
     id(){
-        return Template.instance().AC.managerId;
+        return Template.instance().AC.id;
     },
 
     // whether the display must be rendered as a modal one ?
     modal(){
-        const isModal = AccountsUI.Manager.component( Template.instance().AC.managerId ).modal();
-        //console.debug( 'isModal', isModal );
-        return isModal;
+        return Template.instance().AC.options.renderMode() === AccountsUI.C.Render.MODAL;
     },
 
-    // provides the acCompanion instance to the child templates
+    // do not pass the raw configuration options, but provides our own data to the child templates
     parms(){
         return {
-            managerId: Template.instance().AC.managerId
+            AC: Template.instance().AC
         };
     }
 });

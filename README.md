@@ -366,7 +366,15 @@ The globally exported object.
 
     A client-only method which returns the list of standard dropdown items, depending of the current user connection state.
 
-    The returned value is an array where each item is a HTML string '`<a>...</a>`'.
+    The returned value is an array of HTML strings '`<a>...</a>`'.
+
+    A reactive data source.
+
+- `AccountsUI.dropdownItemsExt()`
+
+    A client-only method which returns the list of standard dropdown items, depending of the current user connection state.
+
+    The returned value is an array of the definition objects. This is so the exact same poppulation than `AccountsUI.dropdownItems()` above, but with all item details.
 
     A reactive data source.
 
@@ -419,27 +427,32 @@ not the expected dialogs.
 The template expects to be called with a single configuration object parameter, or maybe nothing at all if all the defaults are to be used.
 Even when providing a configuration object, as all keys are optional, this object can be just empty.
 
-- `loggedButtonAction`
-- `unloggedButtonAction`
+- `currentUser`
 
-    The action triggered when the user clicks on the button.
+    Whether the component is expected to reflect the current user status.
 
-    Accepted values ares:
+    Accepted values are `true`|`false`, defaulting to `true`.
 
-    - `AccountsUI.C.Button.HIDDEN`: the button is not displayed at all
-    - `AccountsUI.C.Button.NONE`: the button is displayed, but not activable (this is a false button, just a label with the appearance of a button)
-    - `AccountsUI.C.Button.DROPDOWN`: the button opens a dropdown menu
-    - `AccountsUI.C.Button.BUBBLE`: the button is activated, but does nothing; the event bubble up
+- `initialDisplay`
 
-    Defaults to `AccountsUI.C.Button.DROPDOWN`.
+    What to initially display ?
+
+    Accepted values are:
+
+    - `AccountsUI.C.Display.DROPDOWNBUTTON`: displays a button which itself displays a dropdown menu, see below for its content
+    - `AccountsUI.C.Display.PANEL`: displays a panel, see below for its content
+
+    Defaults to `AccountsUI.C.Display.DROPDOWNBUTTON`.
 
 - `loggedButtonClass`
 - `unloggedButtonClass`
 
-    Classes to be added to a displayed button.
+    The classes to be added to the button.
 
-    Only applies if the button is shown (cf. `loggedButtonAction` and `unloggedButtonAction` parms).
-    
+    Only applies when:
+    - `currentUser` is `true`
+    - `initialDisplay` is `AccountsUI.C.Display.DROPDOWNBUTTON`
+
     The provided value is expected to be a string, or a function which takes no argument and returns a string.
 
     Defaults to:
@@ -447,14 +460,16 @@ Even when providing a configuration object, as all keys are optional, this objec
     - empty when unlogged (no added class)
     - `dropdown-toggle` when logged;
 
-    in conjonction with default `loggedButtonContent`, the effect is to display the user email address with a small down-arrow after the text.
+    In conjonction with default `loggedButtonContent`, the effect is to display the user email address with a small down-arrow after the text.
 
 - `loggedButtonContent`
 - `unloggedButtonContent`
 
     The content to be displayed in the shown button.
 
-    Only applies if the button is visible (cf. `loggedButtonAction` and, `unloggedButtonAction` parms)
+    Only applies when:
+    - `currentUser` is `true`
+    - `initialDisplay` is `AccountsUI.C.Display.DROPDOWNBUTTON`
 
     The content is expected to be a HTML string to be inserted in place of the default value;
     this HTML string may (should ?) also embeds needed class names and other styles.
@@ -470,57 +485,68 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     Items to be displayed in replacement of the standard ones.
 
-    Only applies if a dropdown menu is to be opened as the button action.
+    Only applies when:
+    - `currentUser` is `true`
+    - `initialDisplay` is `AccountsUI.C.Display.DROPDOWNBUTTON`
 
-    Value: a single HTML string which is expected to be the `<li>...</li>` inner HTML,
+    Accepted values are a single HTML string which is expected to be the `<li>...</li>` inner HTML,
     or an array of such strings, or a function which takes no argument and returns a single HTML string or an array.
 
-    Default: standard items.
+    Defaults to the standard items.
 
 - `loggedItemsAfter`
 - `unloggedItemsAfter`
 
     Items to be added after the standard items of the dropdown menu.
 
-    Only applies if a dropdown menu is to be opened as the button action.
+    Only applies when:
+    - `currentUser` is `true`
+    - `initialDisplay` is `AccountsUI.C.Display.DROPDOWNBUTTON`
 
-    Value: a single HTML string which is expected to be the `<li>...</li>` inner HTML,
+    Accepted values are a single HTML string which is expected to be the `<li>...</li>` inner HTML,
     or an array of such strings, or a function which takes no argument and returns a single HTML string or an array.
 
-    Default: none.
+    Defaults to none.
 
 - `loggedItemsBefore`
 - `unloggedItemsBefore`
 
     Items to be added before the standard items of the dropdown menu.
 
-    Only applies if a dropdown menu is to be opened as the button action.
+    Only applies when:
+    - `currentUser` is `true`
+    - `initialDisplay` is `AccountsUI.C.Display.DROPDOWNBUTTON`
 
-    Value: a single HTML string which is expected to be the `<li>...</li>` inner HTML,
+    Accepted values are a single HTML string which is expected to be the `<li>...</li>` inner HTML,
     or an array of such strings, or a function which takes no argument and returns a single HTML string or an array.
 
-    Default: none.
+    Defaults to none.
 
 - `renderMode`
 
     When displayed, whether the template is rendered as a modal dialog of its own, or inside a `<div>...</div>`
     provided by the application (where the template has been inserted).
 
+    This configuration parameter applies whether we are following the usual account workflow for the current user, or when we only want display a panel.
+
     Accepted values are:
 
     - `AccountsUI.C.Render.MODAL`
     - `AccountsUI.C.Render.DIV`
 
-    Default: to `AccountsUI.C.Render.MODAL`: when visible, the template is rendered as a modal dialog.
+    Defaults to `AccountsUI.C.Render.MODAL`: when visible, the panels are rendered in a modal dialog.
 
 - `initialPanel`
 
     Through the `acUserLogin` template, the application may also use this package to display any of the *accounts* panels, outside of
-    the normal login/logout workflow. This is accomplished by configuring for displaying a single panel.
+    the normal login/logout workflow. This is accomplished by configuring the component to display a single panel.
 
     This parameter designates the panel to be initially displayed when this `acUserLogin` template is instanciated.
 
-    Possible values are:
+    Only applies when:
+    - `initialDisplay` is `AccountsUI.C.Display.PANEL`
+
+    Accepted values are:
 
     - `AccountsUI.C.Panel.NONE`
     - `AccountsUI.C.Panel.SIGNIN`
@@ -532,13 +558,13 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
 
-    Default: `AccountsUI.C.Panel.NONE`
+    Defaults to `AccountsUI.C.Panel.NONE`.
 
 - `changePasswordTwice`
 
     Whether we make use of the two password input fields when changing a user's password.
 
-    Default: `true`
+    Defaults to the value configured at the package level.
 
 - `coloredBorders`
 
@@ -553,9 +579,9 @@ Even when providing a configuration object, as all keys are optional, this objec
 - `haveCancelButton`
 - `haveOKButton`
 
-    Whether the panel should display a `Cancel` (resp. a `OK`) button.
+    Whether the displayed panel should display a `Cancel` (resp. a `OK`) button.
 
-    Default: `true`
+    Defaults to `true`.
 
 - `changePwdTextOne`
 - `changePwdTextTwo`
@@ -568,15 +594,15 @@ Even when providing a configuration object, as all keys are optional, this objec
 - `signoutTextOne`
 - `signupTextOne`
 - `signupTextTwo`
-- `signuTextThree`
+- `signupTextThree`
 - `signupTextFour`
 - `verifyAskTextOne`
 
     Display personalization.
 
-    These options let the application provides its own content before the input fields of the corresponding panel.
+    These options let the application provides its own content before the corresponding input fields of the corresponding panel.
 
-    Value is expected to be a string which contains HTML code, or a function which returns such a string.
+    Accepted values are a HTML string, or a function which returns such a string, defaulting to none.
 
 - `signupEmailPlaceholder`
 - `signupUsernamePlaceholder`
@@ -587,17 +613,17 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     These options let the application provides its own content for the corresponding fields.
 
-    Value is expected to be a string, or a function which returns a string.
+    Accepted values are expected to be a string, or a function which returns a string.
 
 - `signinLink`
 - `signupLink`
 - `resetLink`
 
-    Whether to display the relevant link in the bottom of the relevant panels.
+    Whether to display the corresponding link in the bottom of the relevant panels.
 
     A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
 
-    Values: `true`|`false`, defaulting to `true`.
+    Accepted values are `true`|`false`, defaulting to `true`.
 
 - `signinLegendEmail`
 - `signinLegendPassword`
@@ -605,7 +631,7 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     The legend to be set inside of the respective fieldsets of the signin panel.
 
-    Default to none.
+    Defaults to none.
 
 - `signupLegendEmail`
 - `signupLegendPassword`
@@ -613,13 +639,13 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     The legend to be set inside of the respective fieldsets of the signup panel.
 
-    Default to none.
+    Defaults to none.
 
 - `signupPasswordTwice`
 
     Whether we make use of the two password input fields when creating a new account.
 
-    Default: `true`
+    Defaults to the value configured at the package level.
 
 - `signupAutoClose`
 
@@ -627,7 +653,7 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     A typical use case would be to let an administrator create successively several user accounts.
 
-    Values: `true`|`false`, defaulting to `true`.
+    Accepted values are `true`|`false`, defaulting to `true`.
 
 - `signupAutoConnect`
 
@@ -635,7 +661,7 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
 
-    Values: `true`|`false`, defaulting to `true`.
+    Accepted values are `true`|`false`, defaulting to `true`.
 
 - `name`
 
@@ -645,11 +671,9 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     `name` is an optional, though unique when set, name attributed by the application to *this* `acUserLogin` instance.
 
-    Value: any string.
+    Accepted values is any non empty string, or a function which will be called without argument and must return such a non empty string.
 
-    A function can be provided by the application for this parm. The function will be called without argument and must return one of the accepted values.
-
-    Default to none.
+    Defaults to none.
 
 ### Messages sendable to acUserLogin
 

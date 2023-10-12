@@ -1,15 +1,9 @@
 /*
  * pwix:accounts-ui/src/client/components/ac_dropdown/ac_dropdown.js
  * 
- * The 'acUserLogin' template make sure that this template is only rendered when needed, i.e.:
- * - either a user is logged-in, and the 'loggedButtonAction' is not hidden,
- * - or (not exclusive) when no user is logged, and the 'unloggedButtonAction' is not hidden.
- * 
  * Parms:
- *  - managerId: the identifier allocated by acManager
+ *  - AC: the acUserLogin internal data structure
  */
-
-import { ReactiveVar } from 'meteor/reactive-var';
 
 import '../../../common/js/index.js';
 
@@ -21,19 +15,19 @@ Template.ac_dropdown.onCreated( function(){
     const self = this;
 
     self.AC = {
-        component: new ReactiveVar( null ),
-
         // compute the class of the button
-        btnClass( state ){
+        //  this depend of the provided configuration options, and maybe also of the current user connection state
+        buttonClass( parentAC ){
+            const currentUser = parentAC.options.currentUser();
             let result = '';
-            const component = self.AC.component.get();
-            if( component ){
+            if( currentUser ){
+                state = AccountsUI.Connection.state();
                 switch( state ){
                     case AccountsUI.C.Connection.LOGGED:
-                        result = component.opts().loggedButtonClass();
+                        result = parentAC.options.loggedButtonClass();
                         break;
                     case AccountsUI.C.Connection.UNLOGGED:
-                        result = component.opts().unloggedButtonClass();
+                        result = parentAC.options.unloggedButtonClass();
                         break;
                 }
             }
@@ -41,58 +35,28 @@ Template.ac_dropdown.onCreated( function(){
         },
 
         // set the content of the button
-        btnContent( state ){
+        buttonContent( parentAC ){
+            const currentUser = parentAC.options.currentUser();
             let result = '';
-            const component = self.AC.component.get();
-            if( component ){
+            if( currentUser ){
+                state = AccountsUI.Connection.state();
                 switch( state ){
                     case AccountsUI.C.Connection.LOGGED:
-                        result = component.opts().loggedButtonContent();
+                        result = parentAC.options.loggedButtonContent();
                         break;
                     case AccountsUI.C.Connection.UNLOGGED:
-                        result = component.opts().unloggedButtonContent();
+                        result = parentAC.options.unloggedButtonContent();
                         break;
                 }
             }
             return result;
-        },
-
-        // whether this template has to manage a dropdown menu
-        hasDropdown( state ){
-            let hasDropdown = false;
-            const component = self.AC.component.get();
-            if( component ){
-                hasDropdown = ( state === AccountsUI.C.Connection.LOGGED && component.opts().loggedButtonAction() === AccountsUI.C.Button.DROPDOWN )
-                    || ( state === AccountsUI.C.Connection.UNLOGGED && component.opts().unloggedButtonAction() === AccountsUI.C.Button.DROPDOWN )
-            }
-            return hasDropdown;
         }
     };
-
-    // setup the acUserLogin acManager component
-    self.autorun(() => {
-        const managerId = Template.currentData().managerId;
-        if( managerId ){
-            self.AC.component.set( AccountsUI.Manager.component( managerId ));
-        }
-    });
 });
 
 Template.ac_dropdown.onRendered( function(){
     const self = this;
     btn = self.$( '.ac-dropdown button' );
-
-    self.autorun(() => {
-        if( self.AC.hasDropdown( AccountsUI.Connection.state())){
-            btn.attr( 'data-bs-toggle', 'dropdown' );
-            btn.attr( 'data-bs-auto-close', 'true' );
-            btn.attr( 'aria-expanded', 'false' );
-        } else {
-            btn.attr( 'data-bs-toggle', '' );
-            btn.attr( 'data-bs-auto-close', '' );
-            btn.attr( 'aria-expanded', '' );
-        }
-    });
 
     // a small note for the maintainer!
     //  first try has been to use a triple-braces helper '{{{ buttonContent }}}' to feed the data into the DOM
@@ -106,25 +70,19 @@ Template.ac_dropdown.onRendered( function(){
     //  This solution, as a one-line jQuery which doesn't use Blaze helpers, works well.
     self.autorun(() => {
         //console.log( 'btnContent autorun' );
-        btn.html( self.AC.btnContent( AccountsUI.Connection.state()));
+        btn.html( self.AC.buttonContent( Template.currentData().AC ));
     });
 });
 
 Template.ac_dropdown.helpers({
-
     // the classes to be added to the button
     //  note that the 'dropdown-toggle' bootstrap class displays the down-arrow '::after' the label
     buttonClass(){
-        //console.log( 'buttonClass helper' );
-        return Template.instance().AC.btnClass( AccountsUI.Connection.state());
+        return Template.instance().AC.buttonClass( this.AC );
     },
-
-    // whether we have to manage a dropdown menu
-    dropdown(){
-        return Template.instance().AC.hasDropdown( AccountsUI.Connection.state()) ? 'dropdown' : '';
-    },
-
-    hasDropdown(){
-        return Template.instance().AC.hasDropdown( AccountsUI.Connection.state());
+    // obviously only display a dropdown menu if there is at least one item
+    //  for now just display the dropdown
+    emptyDropdown(){
+        return false;
     }
 });

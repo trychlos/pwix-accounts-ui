@@ -2,7 +2,7 @@
  * pwix:accounts-ui/src/client/components/ac_signup/ac_signup.js
  * 
  * Parms:
- *  - managerId: the identifier allocated by acManager
+ *  - AC: the acUserLogin internal data structure
  */
 
 import { ReactiveVar } from 'meteor/reactive-var';
@@ -10,7 +10,6 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import '../ac_input_email/ac_input_email.js';
 import '../ac_input_password/ac_input_password.js';
 import '../ac_input_username/ac_input_username.js';
-import '../acMandatoryFooter/acMandatoryFooter.js';
 import '../ac_twice_passwords/ac_twice_passwords.js';
 
 import './ac_signup.html';
@@ -20,7 +19,6 @@ Template.ac_signup.onCreated( function(){
     //console.debug( 'onCreated', this, Template.currentData());
 
     self.AC = {
-        component: new ReactiveVar( null ),
         emailOk: new ReactiveVar( false ),
         twiceOk: new ReactiveVar( false ),
         usernameOk: new ReactiveVar( false ),
@@ -83,14 +81,6 @@ Template.ac_signup.onCreated( function(){
         }
     };
 
-    // setup the acUserLogin acManager component
-    self.autorun(() => {
-        const managerId = Template.currentData().managerId;
-        if( managerId ){
-            self.AC.component.set( AccountsUI.Manager.component( managerId ));
-        }
-    });
-
     // setup initial default values so that field which is not present is always true
     self.AC.emailOk.set( !self.AC.haveEmailAddress());
     self.AC.usernameOk.set( !self.AC.haveUsername());
@@ -131,55 +121,49 @@ Template.ac_signup.helpers({
 
     // parameters for the email address
     parmsEmailAddress(){
-        const component = Template.instance().AC.component.get();
         return {
-            component: component,
+            AC: this.AC,
             new: true,
-            placeholder: component.opts().signupEmailPlaceholder()
+            placeholder: this.AC.options.signupEmailPlaceholder()
         };
     },
 
     // parameters for the email address and username inputs
     parmsUser(){
         return {
-            component: Template.instance().AC.component.get(),
+            AC: this.AC,
             new: true
         };
     },
 
     // parameters for the password input
     parmsTwice(){
-        const component = Template.instance().AC.component.get();
         return {
-            component: component,
+            AC: this.AC,
             role: 'signup',
-            placeholder1: component.opts().signupPasswdOnePlaceholder(),
-            placeholder2: component.opts().signupPasswdTwoPlaceholder()
+            placeholder1: this.AC.options.signupPasswdOnePlaceholder(),
+            placeholder2: this.AC.options.signupPasswdTwoPlaceholder()
         };
     },
 
     // the text at the first place of the section (if username)
     textOne(){
-        const component = Template.instance().AC.component.get();
-        return component ? component.opts().signupTextOne() : '';
+        return this.AC.options.signupTextOne();
     },
 
     // the text at the second place of the section (if email)
     textTwo(){
-        const component = Template.instance().AC.component.get();
-        return component ? component.opts().signupTextTwo() : '';
+        return this.AC.options.signupTextTwo();
     },
 
     // the text at the third place of the section
     textThree(){
-        const component = Template.instance().AC.component.get();
-        return component ? component.opts().signupTextThree() : '';
+        return this.AC.options.signupTextThree();
     },
 
     // the text at the fourth place of the section
     textFour(){
-        const component = Template.instance().AC.component.get();
-        return component ? component.opts().signupTextFour() : '';
+        return this.AC.options.signupTextFour();
     }
 });
 

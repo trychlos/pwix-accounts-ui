@@ -7,10 +7,12 @@
                 {{> ac_dropdown (parms) }}
             {{/if}}
 
-            {{#if modal }}
-                {{> ac_render_modal (parms) }}
-            {{else}}
-                {{> ac_render_div (parms) }}
+            {{#if hasPanel }}
+                {{#if modal }}
+                    {{> ac_render_modal (parms) }}
+                {{else}}
+                    {{> ac_render_div (parms) }}
+                {{/if}}
             {{/if}}
 
         </div>

@@ -1,15 +1,15 @@
 <template name="ac_dropdown">
-    <div class="ac-dropdown {{ dropdown }}">
+    <div class="ac-dropdown dropdown">
 
-        <button class="btn ac-btn {{ buttonClass }}" type="button">
+        <button class="btn ac-btn {{ buttonClass }}" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <!-- content is dynamically applied from a onRendered().autorun() -->
         </button>
 
-        {{#if hasDropdown }}
+        {{#unless emptyDropdown }}
             <ul class="dropdown-menu">
                 {{> ac_menu_items }}
             </ul>
-        {{/if}}
+        {{/unless}}
 
     </div>
 </template>

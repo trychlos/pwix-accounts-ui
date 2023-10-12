@@ -4,15 +4,14 @@
  * Provides various buttons, to be displayed either in a modal footer, or in the bottom of a div.
  * 
  * Parms:
- *  - managerId, may be empty (and, in this case, submitCallback must be set)
+ *  - AC: the acUserLogin internal data structure
  *  - submitCallback: if provided, a callback which will be called on .ac-submit button click
  *      instead of triggering an 'ac-submit' event
+ *      this is needed because a modal (with a footer) can be displayed outside of the acUserLogin workflow
  */
 import { Modal } from 'meteor/pwix:modal';
 import { pwixI18n } from 'meteor/pwix:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
-
-import { acComponent } from '../../classes/ac_component.class.js';
 
 import './ac_footer.html';
 
@@ -20,40 +19,30 @@ Template.ac_footer.onCreated( function(){
     const self = this;
 
     self.AC = {
-        component: null,
         buttons: new ReactiveVar( [] )
     };
 
-    // get companion
-    self.autorun(() => {
-        const managerId = Template.currentData().managerId;
-        if( managerId ){
-            self.AC.component = AccountsUI.Manager.component( managerId );
-        }
-    });
-
     // build an adapted buttons list
     self.autorun(() => {
-        if( self.AC.component ){
-            const haveCancelButton = self.AC.component.opts().haveCancelButton();
-            const haveOKButton = self.AC.component.opts().haveOKButton();
-            //console.debug( 'haveCancelButton', haveCancelButton );
-            let _buttons = [];
-            AccountsUI.Panel.buttons( AccountsUI.Display.panel()).every(( btn ) => {
-                if( btn.class.includes( 'ac-cancel' )){
-                    if( haveCancelButton ){
-                        _buttons.push( btn );
-                    }
+        const parentAC = Template.currentData().AC
+        const haveCancelButton = parentAC.options.haveCancelButton();
+        const haveOKButton = parentAC.options.haveOKButton();
+        //console.debug( 'haveCancelButton', haveCancelButton );
+        let _buttons = [];
+        AccountsUI.Panel.buttons( parentAC.panel ).every(( btn ) => {
+            if( btn.class.includes( 'ac-cancel' )){
+                if( haveCancelButton ){
+                    _buttons.push( btn );
                 }
-                if( btn.class.includes( 'ac-submit' )){
-                    if( haveOKButton ){
-                        _buttons.push( btn );
-                    }
+            }
+            if( btn.class.includes( 'ac-submit' )){
+                if( haveOKButton ){
+                    _buttons.push( btn );
                 }
-                return true;
-            });
-            self.AC.buttons.set( _buttons );
-        }
+            }
+            return true;
+        });
+        self.AC.buttons.set( _buttons );
     });
 });
 
@@ -76,8 +65,7 @@ Template.ac_footer.helpers({
     // whether to display this link
     haveLink( link ){
         //console.debug( link );
-        const component = Template.instance().AC.component;
-        const ret = link.have && ( component && component !== ANONYMOUS ) ? component.opts()[link.have]() : link.have;
+        const ret = link.have && ( this.AC && this.AC.options ) ? cthis.AC.options[link.have]() : link.have;
         return ret;
     },
 

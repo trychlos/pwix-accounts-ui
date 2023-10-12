@@ -2,7 +2,7 @@
  * pwix:accounts-ui/src/client/components/ac_render_modal/ac_render_modal.js
  * 
  * Parms:
- *  - managerId: the identifier allocated by acManager
+ *  - AC: the acUserLogin internal data structure
  */
 
 import { Modal } from 'meteor/pwix:modal';

@@ -22,12 +22,10 @@ export class acCompanionOptions extends Options.Base {
         AccountsUI.C.Colored.MANDATORY
     ];
 
-    // the known actions
-    static Actions = [
-        AccountsUI.C.Button.HIDDEN,
-        AccountsUI.C.Button.NONE,
-        AccountsUI.C.Button.DROPDOWN,
-        AccountsUI.C.Button.BUBBLE
+    // the known initial displays
+    static Display = [
+        AccountsUI.C.Display.DROPDOWNBUTTON,
+        AccountsUI.C.Display.PANEL
     ];
 
     // the known render modes
@@ -41,9 +39,6 @@ export class acCompanionOptions extends Options.Base {
 
     // private data
     //
-
-    // the identifier attributed by the manager
-    _managerId = null;
 
     // private methods
     //
@@ -61,22 +56,15 @@ export class acCompanionOptions extends Options.Base {
      * In some case where the expected value is a string, the base class also can accept an object with 'i18n' key.
      * All options are accepted as long as the corresponding getter/setter method exists in this derived class.
      * 
-     * @param {String} managerId the identifier attributed by the acManager
      * @returns {acCompanionOptions}
      */
-    constructor( managerId ){
+    constructor(){
         super();
         const self = this;
 
         if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.INSTANCIATIONS ){
             console.log( 'pwix:accounts-ui instanciating acCompanionOptions' );
         }
-
-        self._managerId = managerId;
-
-        _.merge( self, {
-            coloredBorders( arg ){ return this.base_gsStringFn( 'coloredBorders', arg, { default: defaults.acUserLogin.coloredBorders, ref: acCompanionOptions.ColoredBorders }); },
-        });
 
         return this;
     }
@@ -122,6 +110,25 @@ export class acCompanionOptions extends Options.Base {
 
     /**
      * Getter/Setter
+     * Whether the field borders must be colored, and how ?
+     * @param {String|Function} mode a string or a function which returns a string
+     * @returns {String}
+     */
+    coloredBorders( mode ){
+        return this.base_gsStringObjectFn( 'coloredBorders', mode, { default: defaults.acUserLogin.coloredBorders, ref: acCompanionOptions.BorderedColors });
+    }
+
+    /**
+     * Getter/Setter
+     * @param {Boolean|Function} flag whether we are following the connection status of the current user
+     * @returns {Boolean}
+     */
+    currentUser( flag ){
+        return this.base_gsBoolFn( 'currentUser', flag, { default: defaults.acUserLogin.currentUser });
+    }
+
+    /**
+     * Getter/Setter
      * @param {Boolean|Function} flag whether to display a 'Cancel' button
      * @returns {Boolean}
      */
@@ -140,20 +147,21 @@ export class acCompanionOptions extends Options.Base {
 
     /**
      * Getter/Setter
+     * What is the initial display of the component ?
+     * @param {String|Function} mode a string or a function which returns a string
+     * @returns {String}
+     */
+    initialDisplay( mode ){
+        return this.base_gsStringObjectFn( 'initialDisplay', mode, { default: defaults.acUserLogin.initialDisplay, ref: acCompanionOptions.Display });
+    }
+
+    /**
+     * Getter/Setter
      * @param {String|Function} panel the initial panel to be displayed
      * @returns {String} the initial panel
      */
     initialPanel( panel ){
         return this.base_gsStringObjectFn( 'initialPanel', panel, { default: defaults.acUserLogin.initialPanel, ref: Object.keys( AccountsUI.Panel.Refs ) });
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Function} action the action triggered by the 'logged' button
-     * @returns {String}
-     */
-    loggedButtonAction( action ){
-        return this.base_gsStringObjectFn( 'loggedButtonAction', action, { default: defaults.acUserLogin.loggedButtonAction, ref: acCompanionOptions.Actions });
     }
 
     /**
@@ -467,15 +475,6 @@ export class acCompanionOptions extends Options.Base {
      */
     signupUsernamePlaceholder( str ){
         return this.base_gsStringObjectFn( 'signupUsernamePlaceholder', str, { default: defaults.acUserLogin.signupUsernamePlaceholder });
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Function} action the action triggered by the 'unlogged' button
-     * @returns {String}
-     */
-    unloggedButtonAction( action ){
-        return this.base_gsStringObjectFn( 'unloggedButtonAction', action, { default: defaults.acUserLogin.unloggedButtonAction, ref: acCompanionOptions.Actions });
     }
 
     /**

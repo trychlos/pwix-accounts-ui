@@ -122,54 +122,6 @@ export class acCompanion {
     }
 
     /**
-     * @returns {Array} an array of items as the <li>...</li> inner HTML strings
-     */
-    dynItemsAfter(){
-        switch( AccountsUI.Connection.state()){
-            case AccountsUI.C.Connection.LOGGED:
-                return AccountsUI.Manager.component( this._managerId ).opts().loggedItemsAfter();
-            case AccountsUI.C.Connection.UNLOGGED:
-                return AccountsUI.Manager.component( this._managerId ).opts().unloggedItemsAfter();
-        }
-        return [];
-    }
-
-    /**
-     * @returns {Array} an array of items as the <li>...</li> inner HTML strings
-     */
-    dynItemsBefore(){
-        switch( AccountsUI.Connection.state()){
-            case AccountsUI.C.Connection.LOGGED:
-                return AccountsUI.Manager.component( this._managerId ).opts().loggedItemsBefore();
-            case AccountsUI.C.Connection.UNLOGGED:
-                return AccountsUI.Manager.component( this._managerId ).opts().unloggedItemsBefore();
-        }
-        return [];
-    }
-
-    /**
-     * @returns {Array} an array of items as the <li>...</li> inner HTML strings
-     */
-    dynItemsCore(){
-        let res = [];
-        switch( AccountsUI.Connection.state()){
-            case AccountsUI.C.Connection.LOGGED:
-                res = AccountsUI.Manager.component( this._managerId ).opts().loggedItems();
-                if( res === DEF_CONTENT || _.isEqual( res, [ DEF_CONTENT ] )){
-                    res = _buildStandardItems( _stdMenuItems[ AccountsUI.C.Connection.LOGGED ] );
-                }
-                break;
-            case AccountsUI.C.Connection.UNLOGGED:
-                res = AccountsUI.Manager.component( this._managerId ).opts().unloggedItems();
-                if( res === DEF_CONTENT || _.isEqual( res, [ DEF_CONTENT ] )){
-                    res = _buildStandardItems( _stdMenuItems[ AccountsUI.C.Connection.UNLOGGED ] );
-                }
-                break;
-        }
-        return res;
-    }
-
-    /**
      * @summary A generic event handler for acUserLogin
      *  This is called by Event as an event forwarding
      *  If the provided data contains a requester, we can check that we are actually the right target

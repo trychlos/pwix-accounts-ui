@@ -7,7 +7,7 @@
  * 'ac-password-data' and 'ac-twice-data' messages.
  * 
  * Parms:
- *  - component: the acComponent object
+ *  - AC: the acUserLogin internal data structure
  *      Is undefined when invoked from ac_reset_pwd template
  *      Take care!
  *  - role: 'signup|change|reset'
@@ -52,10 +52,10 @@ Template.ac_twice_passwords.onCreated( function(){
 
     self.autorun(() => {
         const fn = Template.currentData().role + 'PasswordTwice';
-        const component = Template.currentData().component;
+        const parentAC = Template.currentData().AC;
         self.AC.twice.set( 
-            component && component.opts[fn] ?
-            component.opts[fn]() : ( AccountsUI.opts()[fn] ? AccountsUI.opts()[fn]() : AccountsUI.opts().passwordTwice()));
+            parentAC && parentAC.options && parentAC.options[fn] ?
+            parentAC.options[fn]() : ( AccountsUI.opts()[fn] ? AccountsUI.opts()[fn]() : AccountsUI.opts().passwordTwice()));
     });
 });
 
@@ -67,16 +67,14 @@ Template.ac_twice_passwords.helpers({
 
     // fieldset legend
     legend(){
-        const component = Template.currentData().component;
-        const signup = Template.currentData().role === 'signup';
-        return signup ? component.opts().signupLegendPassword() : '';
+        const signup = ( this.role === 'signup' );
+        return signup ? this.AC.options.signupLegendPassword() : '';
     },
 
     // params to first occurrence of new password
     parmNewOne(){
-        const component = Template.currentData().component;
-        const mandatoryBorder = component && component.opts()
-                ? component.opts().coloredBorders() === AccountsUI.C.Colored.MANDATORY : AccountsUI.opts().coloredBorders() === AccountsUI.C.Colored.MANDATORY;
+        const mandatoryBorder = this.AC && this.AC.options
+                ? this.AC.options.coloredBorders() === AccountsUI.C.Colored.MANDATORY : AccountsUI.opts().coloredBorders() === AccountsUI.C.Colored.MANDATORY;
         return {
             label: this.label || pwixI18n.label( I18N, 'twice_passwords.label' ),
             placeholder: this.placeholder1 || pwixI18n.label( I18N, 'twice_passwords.placeholder1' ),
@@ -90,9 +88,8 @@ Template.ac_twice_passwords.helpers({
     // params to second occurrence of new password
     //  do not set as 'new' to not have the 'strength' display
     parmNewTwo(){
-        const component = Template.currentData().component;
-        const mandatoryBorder = component && component.opts()
-                ? component.opts().coloredBorders() === AccountsUI.C.Colored.MANDATORY : AccountsUI.opts().coloredBorders() === AccountsUI.C.Colored.MANDATORY;
+        const mandatoryBorder = this.AC && this.AC.options
+                ? this.AC.options.coloredBorders() === AccountsUI.C.Colored.MANDATORY : AccountsUI.opts().coloredBorders() === AccountsUI.C.Colored.MANDATORY;
         return {
             label: '',
             placeholder: this.placeholder2 || pwixI18n.label( I18N, 'twice_passwords.placeholder2' ),

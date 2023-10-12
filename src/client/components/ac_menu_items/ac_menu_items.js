@@ -5,7 +5,7 @@
  * or as individual items inside of an application menu.
  * 
  * Parms:
- *  - managerId: the identifier allocated by acManager
+ *  - AC: the acUserLogin internal data structure
  */
 
 import { acCompanion } from '../../classes/ac_companion.class.js';
@@ -29,57 +29,31 @@ Template.ac_menu_items.onRendered( function(){
     //  This solution, as a one-line jQuery which doesn't use Blaze helpers, works well.
     self.autorun(() => {
         const menu = self.$( '.ac-menu-items' );
-        const companion = AccountsUI.Manager.component( Template.currentData().managerId ).companion;
-        if( companion && !( companion instanceof acCompanion )){
-            throw new Error( 'expected a acCompanion, found', companion );
-        }
-        if( menu ){
-            ddItems = [];
-            if( companion ){
-                const before = companion.dynItemsBefore();
-                before.every(( it ) => {
-                    ddItems.push( it );
-                    return true;
-                });
-            }
-            const std = companion.dynItemsCore();
-            std.every(( it ) => {
-                ddItems.push( it );
-                return true;
-            });
-            if( companion ){
-                const after = companion.dynItemsAfter();
-                after.every(( it ) => {
-                    ddItems.push( it );
-                    return true;
-                });
-            }
-            let html = '';
-            ddItems.every(( it ) => {
-                html += '<li>'+it+'</li>\n';
-                return true;
-            });
-            menu.html( html );
-        }
+        const ddItems = AccountsUI.menuItems( Template.currentData().AC.options );
+        let html = '';
+        ddItems.every(( it ) => {
+            html += '<li>'+it+'</li>\n';
+            return true;
+        });
+        menu.html( html );
     });
 });
 
 Template.ac_menu_items.events({
+
     'click .ac-dropdown-item'( event, instance ){
         //console.log( event, instance );
         const msg = $( event.currentTarget ).attr( 'data-ac-msg' );
         if( msg ){
             const parms = {
-                requester: Template.currentData().managerId,
+                AC: this.AC,
                 panel: $( event.currentTarget ).attr( 'data-ac-panel' )
             };
             if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.PANEL ){
                 console.log( 'pwix:accounts-ui ac_menu_items triggering', msg, parms );
             }
-            // will bubble up to Event.handler()
-            //  where the handler will ask the panel for the 'companion' requester
-            //console.debug( msg );
-            //console.debug( parms );
+            // whatever be the chosen render mode, this event will pass through acUserLogin before bubbling up to Event.handler()
+            console.debug( msg, parms );
             $( event.currentTarget ).trigger( msg, parms );
         }
     }
