@@ -155,6 +155,7 @@ _.merge( defaults, {
         unloggedItemsBefore: [],
         renderMode: AccountsUI.C.Render.MODAL,
         haveCancelButton: true,
+        haveOKButton: true,
         signupPasswordTwice: _passwordTwice,
         changePasswordTwice: _passwordTwice,
         initialPanel: AccountsUI.C.Panel.NONE,

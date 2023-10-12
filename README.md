@@ -532,6 +532,12 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     Default: `AccountsUI.C.Panel.NONE`
 
+- `changePasswordTwice`
+
+    Whether we make use of the two password input fields when changing a user's password.
+
+    Default: `true`
+
 - `coloredBorders`
 
     Whether the borders of fields in the panels should or not be colored, and when:
@@ -541,6 +547,13 @@ Even when providing a configuration object, as all keys are optional, this objec
     - `AccountsUI.C.Colored.MANDATORY`: use colored borders to exhibit the mandatory character of each field
 
     Defaults to the value configured at the package level.
+
+- `haveCancelButton`
+- `haveOKButton`
+
+    Whether the panel should display a `Cancel` (resp. a `OK`) button.
+
+    Default: `true`
 
 - `changePwdTextOne`
 - `changePwdTextTwo`
@@ -583,6 +596,28 @@ Even when providing a configuration object, as all keys are optional, this objec
     A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
 
     Values: `true`|`false`, defaulting to `true`.
+
+- `signinLegendEmail`
+- `signinLegendPassword`
+- `signinLegendUsername`
+
+    The legend to be set inside of the respective fieldsets of the signin panel.
+
+    Default to none.
+
+- `signupLegendEmail`
+- `signupLegendPassword`
+- `signupLegendUsername`
+
+    The legend to be set inside of the respective fieldsets of the signup panel.
+
+    Default to none.
+
+- `signupPasswordTwice`
+
+    Whether we make use of the two password input fields when creating a new account.
+
+    Default: `true`
 
 - `signupAutoClose`
 

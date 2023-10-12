@@ -131,6 +131,15 @@ export class acCompanionOptions extends Options.Base {
 
     /**
      * Getter/Setter
+     * @param {Boolean|Function} flag whether to display a 'OK' button
+     * @returns {Boolean}
+     */
+    haveOKButton( flag ){
+        return this.base_gsBoolFn( 'haveOKButton', flag, { default: defaults.acUserLogin.haveOKButton });
+    }
+
+    /**
+     * Getter/Setter
      * @param {String|Function} panel the initial panel to be displayed
      * @returns {String} the initial panel
      */

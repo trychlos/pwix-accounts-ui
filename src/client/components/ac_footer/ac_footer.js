@@ -21,7 +21,7 @@ Template.ac_footer.onCreated( function(){
 
     self.AC = {
         component: null,
-        buttons: new ReactiveVar( AccountsUI.Panel.buttons( AccountsUI.Display.panel()))
+        buttons: new ReactiveVar( [] )
     };
 
     // get companion
@@ -36,13 +36,19 @@ Template.ac_footer.onCreated( function(){
     self.autorun(() => {
         if( self.AC.component ){
             const haveCancelButton = self.AC.component.opts().haveCancelButton();
+            const haveOKButton = self.AC.component.opts().haveOKButton();
             //console.debug( 'haveCancelButton', haveCancelButton );
             let _buttons = [];
             AccountsUI.Panel.buttons( AccountsUI.Display.panel()).every(( btn ) => {
-                //console.debug( btn.class );
-                //console.debug( btn.class.includes( 'ac-cancel' ));
-                if( !btn.class.includes( 'ac-cancel' ) || haveCancelButton ){
-                    _buttons.push( btn );
+                if( btn.class.includes( 'ac-cancel' )){
+                    if( haveCancelButton ){
+                        _buttons.push( btn );
+                    }
+                }
+                if( btn.class.includes( 'ac-submit' )){
+                    if( haveOKButton ){
+                        _buttons.push( btn );
+                    }
                 }
                 return true;
             });

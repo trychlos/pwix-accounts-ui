@@ -8,6 +8,7 @@
 
     - Publish acMandatoryField component (bumping candidate version number)
     - Publish acMandatoryFooter component
+    - Define new haveOKButton acUserLogin configuration parameter
 
 ### 1.4.0
 
