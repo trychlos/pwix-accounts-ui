@@ -89,24 +89,16 @@
     form > div:not( .ac-error ):not( :first-child ){
         margin-top: 0.5em;
     }
-    .ac-mandatory-footer {
-        position: relative;
-        bottom: -0.5em;
-        margin-top: 1em;
+    form > div.ac-mandatory-footer {
+        margin-top: 1em !important;
     }
-    .ac-mandatory-indicator:not( :first-child ) {
+    .ac-label .acMandatoryField img {
         margin-left: 0.25em;
     }
     .ac-mandatory-legend {
         margin-left: 0.5em;
-    }
-    .ac-mandatory-indicator,
-    .ac-mandatory-legend {
         font-size: 85%;
         color: var( --bs-orange );
-    }
-    .ac-mandatory-indicator sup {
-        top: -0.4em;
     }
     .ac-mandatory-border {
         border-color: var( --bs-orange );
@@ -151,5 +143,20 @@
         @media screen and ( max-width: @ui-sm-width ){
             margin-top: 0.5em;
         }
+    }
+}
+
+// a filter which converts from black to --bs-orange
+//  see https://stackoverflow.com/questions/22252472/how-can-i-change-the-color-of-an-svg-element
+.ac-mandatory-color {
+    filter: invert(58%) sepia(50%) saturate(3115%) hue-rotate(349deg) brightness(101%) contrast(104%);
+}
+
+.acMandatoryField {
+    display: inline-block;
+    img {
+        position: relative;
+        bottom: 0.25em;
+        left: 0.1em;
     }
 }

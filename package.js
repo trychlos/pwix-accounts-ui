@@ -1,6 +1,6 @@
 Package.describe({
     name: 'pwix:accounts-ui',
-    version: '1.4.1-rc',
+    version: '1.5.0-rc',
     summary: 'A Bootstrap-based user interface for Meteor:accounts-password (or Meteor:accounts-ui reinvented)',
     git: 'https://github.com/trychlos/pwix-accounts-ui',
     documentation: 'README.md'
@@ -37,8 +37,10 @@ function configure( api ){
     api.use( 'pwix:tolert@1.4.0' );
     api.use( 'random', 'client' );
     api.use( 'tmeasday:check-npm-versions@1.0.2', 'server' );
+    api.addFiles( 'src/client/components/acMandatoryField/acMandatoryField.js', 'client' );
     api.addFiles( 'src/client/components/acMenuItems/acMenuItems.js', 'client' );
     api.addFiles( 'src/client/components/acUserLogin/acUserLogin.js', 'client' );
+    api.addAssets( 'src/client/svg/asterisk.svg', 'client' );
 }
 
 // NPM dependencies are checked in /src/server/js/check_npms.js

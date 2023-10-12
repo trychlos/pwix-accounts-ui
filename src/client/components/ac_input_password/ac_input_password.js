@@ -16,8 +16,6 @@ import { pwixI18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
 
-import '../ac_mandatory_field/ac_mandatory_field.html';
-
 import './ac_input_password.html';
 
 Template.ac_input_password.onCreated( function(){

@@ -2,11 +2,11 @@
 
 ## ChangeLog
 
-### 1.4.1-rc
+### 1.5.0-rc
 
     Release date: 
 
-    - 
+    - Publish acMandatoryField component (bumping candidate version number)
 
 ### 1.4.0
 

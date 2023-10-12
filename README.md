@@ -384,6 +384,16 @@ The globally exported object.
 
 Besides of the `acUserLogin` template already invoked, the `pwix:accounts-ui` package exports following templates:
 
+#### `acMandatoryField`
+
+Display a small svg icon to indicate a mandatory field.
+
+A use case is when the application wishes a `acUserLogin` panel inside of one of its own forms, and wishes re-use the same look and feel.
+
+The template can be called with following parameters:
+
+- `acMandatoryRatio` which indicates the ratio to be applied to the current font size, defaulting to 80%.
+
 #### `acMenuItems`
 
 This template displays the list of `<li>...</li>` items of the menu to be displayed regarding the current connection state.

@@ -38,6 +38,8 @@ import '../ac_signout/ac_signout.js';
 import '../ac_signup/ac_signup.js';
 import '../ac_verify_ask/ac_verify_ask.js';
 
+import '../acMandatoryField/acMandatoryField.js';
+
 import './acUserLogin.html';
 
 Template.acUserLogin.onCreated( function(){

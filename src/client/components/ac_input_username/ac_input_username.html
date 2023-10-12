@@ -4,10 +4,10 @@
         <fieldset>
             <legend>{{ legend }}</legend>
 
-            <div class="d-flex justify-content-start align-items-center ac-label ">
+            <div class="d-flex justify-content-start align-items-center ac-label">
                 <div class="form-label">{{ text "label" }}</div>
                 {{#if mandatoryField }}
-                    {{> ac_mandatory_field }}
+                    {{> acMandatoryField }}
                 {{/if}}
                 <div class="flex-grow-1"></div>
             </div>
