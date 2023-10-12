@@ -9,6 +9,8 @@
     - Publish acMandatoryField component (bumping candidate version number)
     - Publish acMandatoryFooter component
     - Define new haveOKButton acUserLogin configuration parameter
+    - Fix ac-signup panel check
+    - Define new ac-signup-ok event
 
 ### 1.4.0
 

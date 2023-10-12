@@ -49,10 +49,13 @@ Template.ac_signup.onCreated( function(){
         checkPanel(){
             let isOk = self.AC.twiceOk.get();
             // if an email is mandatory, it must be set here
-            isOk &&= ( AccountsUI.opts().haveEmailAddress() === AccountsUI.C.Input.MANDATORY && self.AC.emailOk.get()) || AccountsUI.opts().haveEmailAddress() === AccountsUI.C.Input.OPTIONAL;
+            if( AccountsUI.opts().haveEmailAddress() !== AccountsUI.C.Input.NONE ){
+                isOk &&= self.AC.emailOk.get();
+            }
             // if a username is mandatory, it must be set here
-            isOk &&= ( AccountsUI.opts().haveUsername() === AccountsUI.C.Input.MANDATORY && self.AC.usernameOk.get()) || AccountsUI.opts().haveUsername() === AccountsUI.C.Input.OPTIONAL;
-
+            if( AccountsUI.opts().haveUsername() !== AccountsUI.C.Input.NONE ){
+                isOk &&= self.AC.usernameOk.get();
+            }
             self.AC.checksOk.set( isOk );
         },
         checkTwice( data ){
@@ -103,7 +106,9 @@ Template.ac_signup.onRendered( function(){
     });
 
     self.autorun(() => {
-        $acContent.find( '.ac-submit' ).prop( 'disabled', !self.AC.checksOk.get());
+        const ok = self.AC.checksOk.get();
+        $acContent.find( '.ac-submit' ).prop( 'disabled', !ok );
+        self.$( '.ac-signup' ).trigger( 'ac-signup-ok', { ok: ok });
     });
 });
 
