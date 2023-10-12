@@ -89,16 +89,11 @@
     form > div:not( .ac-error ):not( :first-child ){
         margin-top: 0.5em;
     }
-    form > div.ac-mandatory-footer {
+    form > div.acMandatoryFooter {
         margin-top: 1em !important;
     }
     .ac-label .acMandatoryField img {
         margin-left: 0.25em;
-    }
-    .ac-mandatory-legend {
-        margin-left: 0.5em;
-        font-size: 85%;
-        color: var( --bs-orange );
     }
     .ac-mandatory-border {
         border-color: var( --bs-orange );
@@ -158,5 +153,13 @@
         position: relative;
         bottom: 0.25em;
         left: 0.1em;
+    }
+}
+
+.acMandatoryFooter {
+    .label {
+        margin-left: 0.5em;
+        font-size: 85%;
+        color: var( --bs-orange );
     }
 }

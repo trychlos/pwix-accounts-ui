@@ -10,7 +10,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import '../ac_input_email/ac_input_email.js';
 import '../ac_input_password/ac_input_password.js';
 import '../ac_input_username/ac_input_username.js';
-import '../ac_mandatory_footer/ac_mandatory_footer.js';
+import '../acMandatoryFooter/acMandatoryFooter.js';
 import '../ac_twice_passwords/ac_twice_passwords.js';
 
 import './ac_signup.html';

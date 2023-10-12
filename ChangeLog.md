@@ -7,6 +7,7 @@
     Release date: 
 
     - Publish acMandatoryField component (bumping candidate version number)
+    - Publish acMandatoryFooter component
 
 ### 1.4.0
 

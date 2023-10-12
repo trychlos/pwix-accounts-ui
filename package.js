@@ -38,6 +38,7 @@ function configure( api ){
     api.use( 'random', 'client' );
     api.use( 'tmeasday:check-npm-versions@1.0.2', 'server' );
     api.addFiles( 'src/client/components/acMandatoryField/acMandatoryField.js', 'client' );
+    api.addFiles( 'src/client/components/acMandatoryFooter/acMandatoryFooter.js', 'client' );
     api.addFiles( 'src/client/components/acMenuItems/acMenuItems.js', 'client' );
     api.addFiles( 'src/client/components/acUserLogin/acUserLogin.js', 'client' );
     api.addAssets( 'src/client/svg/asterisk.svg', 'client' );

@@ -394,6 +394,10 @@ The template can be called with following parameters:
 
 - `acMandatoryRatio` which indicates the ratio to be applied to the current font size, defaulting to 80%.
 
+#### `acMandatoryFooter`
+
+The 'Mandatory fields' label footer.
+
 #### `acMenuItems`
 
 This template displays the list of `<li>...</li>` items of the menu to be displayed regarding the current connection state.
