@@ -2,7 +2,7 @@
  * pwix:accounts-ui/src/client/components/ac_reset_ask/ac_reset_ask.js
  * 
  * Parms:
- *  - managerId: the identifier allocated by acManager
+ *  - AC: the acUserLogin internal data structure
  */
 
 import { ReactiveVar } from 'meteor/reactive-var';
@@ -15,31 +15,24 @@ Template.ac_reset_ask.onCreated( function(){
     const self = this;
 
     self.AC = {
-        component: new ReactiveVar( null ),
         emailOk: new ReactiveVar( false ) 
     };
-
-    // setup the acUserLogin acManager component
-    self.autorun(() => {
-        const managerId = Template.currentData().managerId;
-        if( managerId ){
-            self.AC.component.set( AccountsUI.Manager.component( managerId ));
-        }
-    });
 });
 
 Template.ac_reset_ask.onRendered( function(){
     const self = this;
+    const parentAC = Template.currentData().AC;
 
     const $acContent = self.$( '.ac-reset-ask' ).closest( '.ac-content' );
 
     self.autorun(() => {
-        $acContent.attr( 'data-ac-requester', Template.currentData().managerId );
-    });
-
-    self.autorun(() => {
         $acContent.find( '.ac-submit' ).prop( 'disabled', !self.AC.emailOk.get());
     });
+
+    // on a modal, let ac-content intercept Enter keypressed
+    if( parentAC.options.renderMode() === AccountsUI.C.Render.MODAL ){
+        $acContent.on( 'keydown', function( event ){ if( event.keyCode === 13 ){ parentAC.target.trigger( 'ac-enter', event ); }});
+    }
 });
 
 Template.ac_reset_ask.helpers({
@@ -51,21 +44,19 @@ Template.ac_reset_ask.helpers({
     // parameters for the email address and username inputs
     parmsUser(){
         return {
-            component: Template.instance().AC.component.get(),
+            AC: this.AC,
             new: false
         };
     },
 
     // the text at the first place of the section
     textOne(){
-        const component = Template.instance().AC.component.get();
-        return component ? component.opts().resetAskTextOne() : '';
+        return this.AC.options.resetAskTextOne();
     },
 
     // the text at the second place of the section
     textTwo(){
-        const component = Template.instance().AC.component.get();
-        return component ? component.opts().resetAskTextTwo() : '';
+        return this.AC.options.resetAskTextTwo();
     }
 });
 

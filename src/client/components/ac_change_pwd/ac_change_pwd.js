@@ -2,10 +2,10 @@
  * pwix:accounts-ui/src/client/components/ac_change_pwd/ac_change_pwd.js
  * 
  * Parms:
- *  - managerId: the identifier allocated by acManager
+ *  - AC: the acUserLogin internal data structure
  */
-import { pwixI18n } from 'meteor/pwix:i18n';
 
+import { pwixI18n } from 'meteor/pwix:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import '../ac_input_password/ac_input_password.js';
@@ -16,7 +16,6 @@ Template.ac_change_pwd.onCreated( function(){
     const self = this;
 
     self.AC = {
-        component: new ReactiveVar( null ),
         passwordOk: new ReactiveVar( false ),
         passwordVal: null,
         twiceOk: new ReactiveVar( false ),
@@ -57,36 +56,25 @@ Template.ac_change_pwd.onCreated( function(){
             //console.debug( data );
             self.AC.twiceVal = data.password;
             self.AC.twiceOk.set( data.ok );
-        },
-
-        // clear the panel
-        clear(){
-            self.$( 'input' ).val( '' );
         }
     };
-
-    // setup the acUserLogin acManager component
-    self.autorun(() => {
-        const managerId = Template.currentData().managerId;
-        if( managerId ){
-            self.AC.component.set( AccountsUI.Manager.component( managerId ));
-        }
-    });
 });
 
 Template.ac_change_pwd.onRendered( function(){
     const self = this;
+    const parentAC = Template.currentData().AC;
 
     const $acContent = self.$( '.ac-change-pwd' ).closest( '.ac-content' );
-
-    self.autorun(() => {
-        $acContent.attr( 'data-ac-requester', Template.currentData().managerId );
-    });
 
     self.autorun(() => {
         //console.debug( self );
         $acContent.find( '.ac-submit' ).prop( 'disabled', !self.AC.checksOk.get());
     });
+
+    // on a modal, let ac-content intercept Enter keypressed
+    if( parentAC.options.renderMode() === AccountsUI.C.Render.MODAL ){
+        $acContent.on( 'keydown', function( event ){ if( event.keyCode === 13 ){ parentAC.target.trigger( 'ac-enter', event ); }});
+    }
 });
 
 Template.ac_change_pwd.helpers({
@@ -105,7 +93,7 @@ Template.ac_change_pwd.helpers({
     // parameters for the password input
     parmTwice(){
         return {
-            component: Template.instance().AC.component.get(),
+            AC: this.AC,
             role: 'change',
             label: pwixI18n.label( I18N, 'change_pwd.new_label' )
         };
@@ -113,20 +101,17 @@ Template.ac_change_pwd.helpers({
 
     // the text before the old password
     textOne(){
-        const component = Template.instance().AC.component.get();
-        return component ? component.opts().changePwdTextOne() : '';
+        return this.AC.options.changePwdTextOne();
     },
 
     // the text between old and new passwords
     textTwo(){
-        const component = Template.instance().AC.component.get();
-        return component ? component.opts().changePwdTextTwo() : '';
+        return this.AC.options.changePwdTextTwo();
     },
 
     // the text after new passwords
     textThree(){
-        const component = Template.instance().AC.component.get();
-        return component ? component.opts().changePwdTextThree() : '';
+        return this.AC.options.changePwdTextThree();
     }
 });
 
@@ -148,11 +133,5 @@ Template.ac_change_pwd.events({
         if( data ){
             instance.AC.checks( event, data );
         }
-    },
-
-    // clear the panel
-    //  this is only for completude as this has almost no chance to be used
-    'ac-clear-panel-fwd .ac-change-pwd'( event, instance ){
-        instance.AC.clear();
     }
 });

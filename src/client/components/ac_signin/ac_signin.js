@@ -2,10 +2,8 @@
  * pwix:accounts-ui/src/client/components/ac_signin/ac_signin.js
  * 
  * Parms:
- *  - managerId: the identifier allocated by acManager
+ *  - AC: the acUserLogin internal data structure
  */
-
-import { ReactiveVar } from 'meteor/reactive-var';
 
 import '../ac_input_userid/ac_input_userid.js';
 import '../ac_input_password/ac_input_password.js';
@@ -16,8 +14,6 @@ Template.ac_signin.onCreated( function(){
     const self = this;
 
     self.AC = {
-        component: new ReactiveVar( null ),
-
         // checks: enable the submit button if bot fields are set
         checks(){
             const userid = self.$( '.ac-signin .ac-input-userid .ac-input' ).val() || '';
@@ -28,34 +24,21 @@ Template.ac_signin.onCreated( function(){
         // enable the submit button
         enableSubmit( enable ){
             self.$( '.ac-signin ').closest( '.ac-content' ).find( '.ac-submit' ).prop( 'disabled', !enable );
-        },
-
-        // clear the panel
-        clear(){
-            self.$( 'input' ).val( '' );
         }
     };
-
-    // setup the acUserLogin acManager component
-    self.autorun(() => {
-        const managerId = Template.currentData().managerId;
-        if( managerId ){
-            self.AC.component.set( AccountsUI.Manager.component( managerId ));
-        }
-    });
 });
 
 Template.ac_signin.onRendered( function(){
     const self = this;
+    const parentAC = Template.currentData().AC;
 
     // disable the submit button at start
     self.AC.enableSubmit( false );
 
-    const $acContent = self.$( '.ac-signin' ).closest( '.ac-content' );
-
-    self.autorun(() => {
-        $acContent.attr( 'data-ac-requester', Template.currentData().managerId );
-    });
+    // on a modal, let ac-content intercept Enter keypressed
+    if( parentAC.options.renderMode() === AccountsUI.C.Render.MODAL ){
+        self.$( '.ac-signin ').closest( '.ac-content' ).on( 'keydown', function( event ){ if( event.keyCode === 13 ){ parentAC.target.trigger( 'ac-enter', event ); }});
+    }
 });
 
 Template.ac_signin.helpers({
@@ -67,20 +50,17 @@ Template.ac_signin.helpers({
 
     // a description before the section
     textOne(){
-        const component = Template.instance().AC.component.get();
-        return component ? component.opts().signinTextOne() : '';
+        return this.AC.options.signinTextOne();
     },
 
     // a description in the middle of the section
     textTwo(){
-        const component = Template.instance().AC.component.get();
-        return component ? component.opts().signinTextTwo() : '';
+        return this.AC.options.signinTextTwo();
     },
 
     // a description at the endof the section
     textThree(){
-        const component = Template.instance().AC.component.get();
-        return component ? component.opts().signinTextThree() : '';
+        return this.AC.options.signinTextThree();
     }
 });
 
@@ -93,11 +73,5 @@ Template.ac_signin.events({
     // message sent by the password input component
     'ac-password-data .ac-signin'( event, instance, data ){
         instance.AC.checks();
-    },
-
-    // clear the panel
-    //  this is only for completude as this has almost no chance to be used
-    'ac-clear-panel-fwd .ac-signin'( event, instance ){
-        instance.AC.clear();
     }
 });

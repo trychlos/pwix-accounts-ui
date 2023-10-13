@@ -11,10 +11,11 @@ AccountsUI.Account = {
      * Change the user's password
      * @param {String} oldpwd the current password
      * @param {String} newpwd the new password to be set
-     * @param {Object} target the target of the sent events
+     * @param {Object} opts, object options with following keys:
+     *  - target: the target of the to-be-sent events, defaulting to 'body' element
      */
-    changePwd( oldpwd, newpwd, target ){
-        const self = this;
+    changePwd( oldpwd, newpwd, opts={} ){
+        const target = opts.target || $( 'body' );
         Accounts.changePassword( oldpwd, newpwd, ( err ) => {
             if( err ){
                 console.error( err );
@@ -26,7 +27,7 @@ AccountsUI.Account = {
                 if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
                     console.log( 'pwix:accounts-ui triggering', event, parms );
                 }
-                AccountsUI.Event.trigger( event, parms );
+                target.trigger( event, parms );
             }
         });
     },
@@ -37,13 +38,18 @@ AccountsUI.Account = {
      * We try to verify emails, so send simultaneouly (in the background) an email to check that.
      * Note that the 'Accounts.createUser()' method doesn't force any security rule on the password.
      * We have to rely on AccountsUI.fn.validatePassword() for that.
-     * @param {Object} options as expected by Accounts.createUser
-     * @param {Object} target the target of the sent events
-     * @param {Boolean} autoClose whether to automatically close the modal on successful creation
-     * @param {Boolean} autoConnect whether to automatically login the newly created user
+     * @param {Object}  object options as expected by Accounts.createUser()
+     * @param {Object} opts, object options with following keys:
+     *  - target: the target of the to-be-sent events, defaulting to 'body' element
+     *  - autoClose: whether to automatically close the modal on successful creation, defaulting to true
+     *  - autoConnect: whether to automatically login the newly created user, defaulting to true
+     * 
+     * Note that Accounts.createUser() is to be called on the client side only and, not only auto-connnects the newly created user account,
+     * but also automatically sends a verification link by email.
+     * So, if we do not want this autoconnection, we have to call the server-side method, and send ourselves the verification email.
      */
-    createUser( options, target, autoClose=true, autoConnect=true ){
-        const self = this;
+    createUser( createUserOptions, opts={} ){
+        const target = opts.target || $( 'body' );
         // the error handler
         const _errorFn = function( err ){
             console.error( err );
@@ -51,22 +57,21 @@ AccountsUI.Account = {
         };
         // the success handler
         const _successFn = function(){
-            delete options.password;
+            delete createUserOptions.password;
             const parms = {
                 ...Meteor.user(),
-                options: { ...options },
-                autoClose: autoClose,
-                autoConnect: autoConnect
+                createUserOptions: { ...createUserOptions },
+                opts: { ...opts }
             };
             const event = 'ac-user-created-event';
             if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
                 console.log( 'pwix:accounts-ui triggering', event, parms );
             }
-            AccountsUI.Event.trigger( event, parms );
+            target.trigger( event, parms );
             // send a verification mail if asked for
             // not that createUser already does that
-            if( !autoConnect && options.email && AccountsUI.opts().sendVerificationEmail()){
-                Meteor.call( 'AccountsUI.sendVerificationEmailByEmail', options.email, ( err, res ) => {
+            if( opts.autoConnect === false && createUserOptions.email && AccountsUI.opts().sendVerificationEmail()){
+                Meteor.call( 'AccountsUI.sendVerificationEmailByEmail', createUserOptions.email, ( err, res ) => {
                     if( err ){
                         console.error( err );
                     }
@@ -74,22 +79,22 @@ AccountsUI.Account = {
             }
         };
         // the main code
-        if( autoConnect ){
-            Accounts.createUser( options, ( err, res ) => {
+        if( opts.autoConnect !== false ){
+            Accounts.createUser( createUserOptions, ( err, res ) => {
                 if( err ){
                     _errorFn( err );
                 } else {
                     _successFn();
-                    Tolert.success( pwixI18n.label( I18N, 'user.signup_autoconnect', options.email ));
+                    Tolert.success( pwixI18n.label( I18N, 'user.signup_autoconnect', createUserOptions.email ));
                 }
             });
         } else {
-            Meteor.call( 'AccountsUI.createUser', options, ( err, res ) => {
+            Meteor.call( 'AccountsUI.createUser', createUserOptions, ( err, res ) => {
                 if( err ){
                     _errorFn( err );
                 } else {
                     _successFn();
-                    Tolert.success( pwixI18n.label( I18N, 'user.signup_noconnect', options.email ));
+                    Tolert.success( pwixI18n.label( I18N, 'user.signup_noconnect', createUserOptions.email ));
                 }
             });
         }
@@ -100,10 +105,11 @@ AccountsUI.Account = {
      * Change the connection state to 'LOGGED' if OK, or send an 'ac-error' message to the target
      * @param {String} userid the entered username or mail address
      * @param {String} password the entered password
-     * @param {Object} target the target of the sent events
+     * @param {Object} opts, object options with following keys:
+     *  - target: the target of the to-be-sent events, defaulting to 'body' element
      */
-    loginWithPassword( userid, password, target ){
-        const self = this;
+    loginWithPassword( userid, password, opts={} ){
+        const target = opts.target || $( 'body' );
         Meteor.loginWithPassword( userid, password, ( err ) => {
             if( err ){
                 console.error( err );
@@ -114,15 +120,18 @@ AccountsUI.Account = {
                 if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
                     console.log( 'pwix:accounts-ui triggering', event, parms );
                 }
-                AccountsUI.Event.trigger( event, parms );
+                target.trigger( event, parms );
             }
         });
     },
 
     /**
      * Logout
+     * @param {Object} opts, object options with following keys:
+     *  - target: the target of the to-be-sent events, defaulting to 'body' element
      */
-    logout(){
+    logout( opts={} ){
+        const target = opts.target || $( 'body' );
         const user = { ...Meteor.user() };
         Meteor.logout();
         const event = 'ac-user-signedout-event';
@@ -130,53 +139,56 @@ AccountsUI.Account = {
         if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
             console.log( 'pwix:accounts-ui triggering', event, parms );
         }
-        AccountsUI.Event.trigger( event, parms );
+        target.trigger( event, parms );
     },
 
     /**
      * Send a mail to let the user reset his/her password
      * @param {String} email the entered mail address
-     * @param {Object} target the target of the sent events
+     * @param {Object} opts, object options with following keys:
+     *  - target: the target of the to-be-sent events, defaulting to 'body' element
      * 
      * Note: if the asked email doesn't exist in the users database, then we receive an error message
      *  [403] Something went wrong. Please check your credentials.
      * This may create a security hole which let a malicious user to validate that such email address is or not registered in our application.
      * So it is a package configuration to send back this error to the user, or to say him that an email has been sent (event if this is not true).
      */
-    _resetAskSuccess( email ){
-        Tolert.success( pwixI18n.label( I18N, 'user.resetask_success' ));
-        const event = 'ac-user-resetasked-event';
-        const parms = { email: email };
-        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
-            console.log( 'pwix:accounts-ui triggering', event, parms );
-        }
-        AccountsUI.Event.trigger( event, parms );
-    },
-
-    resetAsk( email, target ){
-        const self = this;
+    resetAsk( email, opts={} ){
+        const target = opts.target || $( 'body' );
+        // the success handler
+        const _resetAskSuccess = function(){
+            Tolert.success( pwixI18n.label( I18N, 'user.resetask_success' ));
+            const event = 'ac-user-resetasked-event';
+            const parms = { email: email };
+            if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
+                console.log( 'pwix:accounts-ui triggering', event, parms );
+            }
+            target.trigger( event, parms );
+        };
+        // the main code
         Accounts.forgotPassword({ email: email }, ( err ) => {
             if( err ){
                 console.error( err );
                 switch( AccountsUI.opts().informWrongEmail()){
                     case AccountsUI.C.WrongEmail.OK:
-                        this._resetAskSuccess( email );
+                        _resetAskSuccess( email, opts );
                         break;
                     case AccountsUI.C.WrongEmail.ERROR:
                         target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.resetask_credentials' ));
                 }
             } else {
-                this._resetAskSuccess( email );
+                _resetAskSuccess( email, opts );
             }
         });
     },
 
     /**
      * Re-send a mail to let us verify the user's email
-     * @param {Object} target the target of the sent events
+     * @param {Object} opts, object options with following keys:
+     *  - target: the target of the to-be-sent events, defaulting to 'body' element
      */
-    verifyMail( target ){
-        const self = this;
+    verifyMail( opts={} ){
+        const target = opts.target || $( 'body' );
         Meteor.callPromise( 'AccountsUI.sendVerificationEmail', Meteor.userId())
             .then(( result ) => {
                 if( result ){
@@ -186,7 +198,7 @@ AccountsUI.Account = {
                     if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
                         console.log( 'pwix:accounts-ui triggering', event, parms );
                     }
-                    AccountsUI.Event.trigger( event, parms );
+                    target.trigger( event, parms );
                 } else {
                     Tolert.error( pwixI18n.label( I18N, 'user.verifyask_error' ));
                 }

@@ -52,8 +52,8 @@ Template.ac_menu_items.events({
             if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.PANEL ){
                 console.log( 'pwix:accounts-ui ac_menu_items triggering', msg, parms );
             }
-            // whatever be the chosen render mode, this event will pass through acUserLogin before bubbling up to Event.handler()
-            console.debug( msg, parms );
+            // whatever be the chosen render mode, this event will pass through acUserLogin before bubbling up
+            //console.debug( msg, parms );
             $( event.currentTarget ).trigger( msg, parms );
         }
     }

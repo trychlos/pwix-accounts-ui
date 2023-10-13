@@ -358,9 +358,9 @@ The globally exported object.
 
 ### Methods
 
-- `AccountsUI.clearPanel()`
+- `AccountsUI.clearPanel( name )`
 
-    A client-only method which clears the current panel.
+    A client-only method which clears the panel currently displayed by the named `acUserLogin` instance.
 
 - `AccountsUI.dropdownItems()`
 
@@ -710,33 +710,37 @@ via messages sent to the `<div class="acUserLogin">...</div>`.
 
     The new title must be set as the data of the event.
 
-### Messages sent on `body` element
+### Messages visible to the application
 
-In the same time, the `acUserLogin` template advertises of its contexts:
+- on the `body` element
 
-- `ac-panel-transition` + `{ previous, next }`
+    - `ac-user-resetdone-event` + `emailAddress`
+    - `ac-user-verifieddone-event` + `emailAddress`
 
-    Advertises of a panel transition, with previous and new panels
+        Advertises of a realized action on the user account, outside of any `acUserLogin` workflow
 
-- `ac-user-changepwd-event` + `emailAddress`
-- `ac-user-created-event` + `emailAddress`
-- `ac-user-signedin-event` + `userId`
-- `ac-user-signedout-event` + `emailAddress`
-- `ac-user-resetasked-event` + `emailAddress`
-- `ac-user-verifyasked-event` + `emailAddress`
+- on the `acUserLogin` element
 
-    Advertises of a realized action on the user account
+    - `ac-user-changepwd-event` + `emailAddress`
+    - `ac-user-created-event` + `emailAddress`
+    - `ac-user-signedin-event` + `userId`
+    - `ac-user-signedout-event` + `emailAddress`
+    - `ac-user-resetasked-event` + `emailAddress`
+    - `ac-user-verifyasked-event` + `emailAddress`
 
-- `ac-user-resetdone-event` + `emailAddress`
-- `ac-user-verifieddone-event` + `emailAddress`
+        Advertises of a realized action on the user account
 
-    Advertises of a panel status
+    - `ac-signup-ok` + `ok`
 
-- `ac-signup-ok` + `ok`
+        Advertizes of the current validity status of the signup panel.
 
-    Ask for an action
+- on a displayed panel
 
-- `ac-clear-panel`
+    - `ac-clear-panel`
+
+        Message sent from the `AccountsUI.clearPanel()` method, asking the panel to clear itself.
+
+        At the moment, only the signup panel handles this event.
 
 ### Constants
 

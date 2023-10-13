@@ -53,12 +53,16 @@ AccountsUI.Event = {
             case 'keydown':
                 if( event.keyCode === 13 ){
                     // when we have an Enter key pressed, we want submit the current form (if any)
+                    //  this is managed by the modal if any
+                    //  handle that here if rendered as a div ?
                     //console.debug( 'event pressing Enter' );
+                    /*
                     const requester = AccountsUI.Display.requester();
                     if( requester ){
                         //console.debug( 'found requester', requester );
                         $( 'body .ac-content[data-ac-requester="'+requester+'"] .ac-submit' ).trigger( 'click' );
                     }
+                    */
                 }
                 break;
         }
@@ -78,6 +82,7 @@ AccountsUI.Event = {
             case 'md-ready':
                 //console.log( event, data );
                 //  md-click is never received here as we do not use Modal standard footer
+                //  md-ready is only for information
                 break;
             case 'md-close':
                 AccountsUI.Display.handleModal( event, data );
@@ -91,14 +96,14 @@ AccountsUI.Event = {
      * @param {Object} event the jQuery event
      * @param {Object} data the data associated to the event by the sender
      *  coming from ac_menu_items or acUserLogin, expects:
-     *  - requester
+     *  - AC the acUserLogin data structure
      *  - panel
      * @return {Boolean} false to stop the propagation (usually because the event has been handled)
      *  Here, let the event bubble up
      */
     _handlePanel( event, data ){
-        let requester = null;
         switch( event.type ){
+            /*
             // a dropdown item asks for a panel
             //  as these events are triggered from standard dropdown items, they should convey an acCompanion
             case 'ac-panel-changepwd-event':
@@ -110,21 +115,16 @@ AccountsUI.Event = {
                 if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.PANEL ){
                     console.log( 'pwix:accounts-ui Event handling', event.type, data );
                 }
-                requester = data.requester;
-                if( requester ){
-                    const component = AccountsUI.Manager.component( requester );
-                    if( component ){
-                        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.PANEL ){
-                            console.log( 'pwix:accounts-ui Event forwarding to requester', requester );
-                        }
-                        component.companion.handleEvent( event, data );
-                    } else {
-                        console.error( 'expected acComponent identifier, found', requester );
+                if( data.AC ){
+                    if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.PANEL ){
+                        console.log( 'pwix:accounts-ui Event forwarding to requester', requester );
                     }
+                    component.companion.handleEvent( event, data );
                 } else {
                     console.error( 'requester empty while expecting acComponent identifier' );
                 }
                 break;
+                */
             case 'ac-clear-panel':
                 requester = AccountsUI.Display.requester();
                 if( requester ){

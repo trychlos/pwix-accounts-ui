@@ -88,18 +88,20 @@ Template.ac_signup.onCreated( function(){
 
 Template.ac_signup.onRendered( function(){
     const self = this;
+    const parentAC = Template.currentData().AC;
 
     const $acContent = self.$( '.ac-signup' ).closest( '.ac-content' );
 
     self.autorun(() => {
-        $acContent.attr( 'data-ac-requester', Template.currentData().managerId );
-    });
-
-    self.autorun(() => {
         const ok = self.AC.checksOk.get();
         $acContent.find( '.ac-submit' ).prop( 'disabled', !ok );
-        self.$( '.ac-signup' ).trigger( 'ac-signup-ok', { ok: ok });
+        parentAC.target.trigger( 'ac-signup-ok', { ok: ok });
     });
+
+    // on a modal, let ac-content intercept Enter keypressed
+    if( parentAC.options.renderMode() === AccountsUI.C.Render.MODAL ){
+        self.$( '.ac-signin ').closest( '.ac-content' ).on( 'keydown', function( event ){ if( event.keyCode === 13 ){ parentAC.target.trigger( 'ac-enter', event ); }});
+    }
 });
 
 Template.ac_signup.helpers({
@@ -194,14 +196,7 @@ Template.ac_signup.events({
 
     // message sent from acUserLogin after having successfully created a new user
     //  clear the input fields to prepare the creation of another account
-    'ac-clear .ac-signup'( event, instance ){
-        instance.AC.resetInput();
-        return false;
-    },
-
-    // clear the panel
-    //  this is only for completude as this has almost no chance to be used
-    'ac-clear-panel-fwd .ac-signup'( event, instance ){
+    'ac-clear-panel .ac-signup'( event, instance ){
         instance.AC.resetInput();
         return false;
     }

@@ -137,6 +137,7 @@ export class acCompanion {
     handleEvent( event, data ){
         let managed = false;
         switch( event.type ){
+            /*
             // message sent by dropdown items (ac_menu_items)
             //  data is { requester, panel }
             case 'ac-panel-changepwd-event':
@@ -165,6 +166,7 @@ export class acCompanion {
                     }
                 }
                 break;
+                */
 
             // message sent from ac_footer
             //  no data is expected

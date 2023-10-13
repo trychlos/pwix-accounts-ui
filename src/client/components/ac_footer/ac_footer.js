@@ -29,7 +29,7 @@ Template.ac_footer.onCreated( function(){
         const haveOKButton = parentAC.options.haveOKButton();
         //console.debug( 'haveCancelButton', haveCancelButton );
         let _buttons = [];
-        AccountsUI.Panel.buttons( parentAC.panel ).every(( btn ) => {
+        AccountsUI.Panel.buttons( parentAC.panel.get()).every(( btn ) => {
             if( btn.class.includes( 'ac-cancel' )){
                 if( haveCancelButton ){
                     _buttons.push( btn );
@@ -65,7 +65,7 @@ Template.ac_footer.helpers({
     // whether to display this link
     haveLink( link ){
         //console.debug( link );
-        const ret = link.have && ( this.AC && this.AC.options ) ? cthis.AC.options[link.have]() : link.have;
+        const ret = link.have && ( this.AC ? this.AC.options[link.have]() : link.have );
         return ret;
     },
 
@@ -75,7 +75,7 @@ Template.ac_footer.helpers({
 
     // returns the ordered list of links to be displayed depending of the current state
     links(){
-        return AccountsUI.Panel.links( AccountsUI.Display.panel());
+        return AccountsUI.Panel.links( this.AC.panel.get());
     }
 });
 
@@ -84,14 +84,16 @@ Template.ac_footer.events({
     'click .ac-link'( event, instance ){
         const panel = instance.$( event.currentTarget ).find( 'a' ).attr( 'data-ac-target' );
         //console.debug( panel );
-        AccountsUI.Display.panel( panel );
+        this.AC.panel.set( panel );
     },
 
     'click .ac-cancel'( event, instance ){
         if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.MODAL ){
             console.log( 'pwix:accounts-ui ac_footer closing modal' );
         }
-        Modal.close();
+        if( this.AC.options.renderMode() === AccountsUI.C.Render.MODAL ){
+            Modal.close();
+        }
     },
 
     'click .ac-submit'( event, instance ){
@@ -105,7 +107,7 @@ Template.ac_footer.events({
             if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.SUBMIT ){
                 console.log( 'pwix:accounts-ui ac_footer triggering', 'ac-submit' );
             }
-            instance.$( event.currentTarget ).trigger( 'ac-submit' );
+            this.AC.target.trigger( 'ac-submit' );
         }
     }
 });

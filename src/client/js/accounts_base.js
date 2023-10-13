@@ -76,7 +76,7 @@ Accounts.onEmailVerificationLink( function( token, done ){
                         if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
                             console.log( 'pwix:accounts-ui triggering', event, parms );
                         }
-                        AccountsUI.Event.trigger( event, parms );
+                        $( 'body' ).trigger( event, parms );
                         done();
                     }
                 });
@@ -157,7 +157,7 @@ Accounts.onResetPasswordLink( function( token, done ){
                                 if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
                                     console.log( 'pwix:accounts-ui triggering', event, parms );
                                 }
-                                AccountsUI.Event.trigger( event, parms );
+                                $( 'body' ).trigger( event, parms );
                                 done();
                             }
                         });
