@@ -38,14 +38,18 @@ Template.ac_reset_ask.onRendered( function(){
 Template.ac_reset_ask.helpers({
     // error message
     errorMsg(){
-        return AccountsUI.fn.errorMsg();
+        return '<p>'+( AccountsUI.fn.errorMsg() || '&nbsp;' )+'</p>';
     },
 
-    // parameters for the email address and username inputs
-    parmsUser(){
+    // parameters for the email address inputs
+    //  because that asking for reset a password REQUIRES an email address, whatever be the AccountsUI configuration
+    parmsInputEmail(){
         return {
             AC: this.AC,
-            new: false
+            wantsNew: false,
+            wantsMandatory: false,
+            wantsError: false,
+            withFieldset: false
         };
     },
 
@@ -61,7 +65,14 @@ Template.ac_reset_ask.helpers({
 });
 
 Template.ac_reset_ask.events({
+    // redirect to acUserLogin
+    'ac-display-error .ac-reset-ask'( event, instance, data ){
+        this.AC.target.trigger( event.type, data );
+    },
+
+    // input-email status
     'ac-email-data .ac-reset-ask'( event, instance, data ){
+        console.debug( data );
         instance.AC.emailOk.set( data.ok );
     }
 });

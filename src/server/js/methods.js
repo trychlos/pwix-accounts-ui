@@ -20,6 +20,7 @@ _cleanUser = function ( user ){
 };
 
 AccountsUI._byEmailAddress = function( email ){
+    console.debug( email );
     return _cleanUser( Accounts.findUserByEmail( email ));
 };
 
@@ -36,7 +37,7 @@ Meteor.methods({
 
     // find a user by his email address
     'AccountsUI.byEmailAddress'( email ){
-        //console.debug( 'AccountsUI.byEmailAddress' );
+        console.debug( 'AccountsUI.byEmailAddress', email );
         return AccountsUI._byEmailAddress( email );
     },
 

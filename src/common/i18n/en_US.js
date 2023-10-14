@@ -38,6 +38,7 @@ AccountsUI.i18n = {
             },
             input_email: {
                 label: 'Mail address:',
+                legend: 'Mail address',
                 placeholder: 'Enter your email address, e.g. name@example.com',
                 already_exists: 'Email address already known',
                 empty: 'Empty or undefined email address',
@@ -67,10 +68,12 @@ AccountsUI.i18n = {
             },
             reset_ask: {
                 modal_title: 'Lost password ?',
-                textOne: 'By clicking on the below "Send" button, we will send a mail to the specified mail address.'
-                    +' This mail will include a link which will let you freely change your password.'
-                    +' Please be conscious that the provided link will have a limited life.<br />'
-                    +' Do not run the process if you do not have an access to your mailbox.<br /><p>&nbsp;</p>'
+                textOne: ''
+                    +'<p>By clicking on the below "Send" button, we will send a mail to the specified mail address.'
+                    +' This mail will include a link which will let you freely change your password.</p>'
+                    +'<p>&nbsp;</p>'
+                    +'<p><i>Please be conscious that the provided link will have a limited life.'
+                    +' Do not run the process if you do not have an access to your mailbox.</i></p>'
             },
             reset_pwd: {
                 modal_title: 'Reset your password',

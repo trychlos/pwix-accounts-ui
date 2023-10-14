@@ -59,6 +59,12 @@ AccountsUI.C = {
         VERYSTRONG: 'AC_PWD_VERYSTRONG'
     },
 
+    // error reason
+    Reason: {
+        EMAIL_EMPTY: 'AC_REASON_EMAIL_EMPTY',
+        EMAIL_SYNTAX: 'AC_REASON_EMAIL_SYNTAX'
+    },
+
     // rendering mode
     Render: {
         MODAL: 'AC_RENDER_MODAL',

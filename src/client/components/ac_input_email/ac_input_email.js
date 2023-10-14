@@ -5,100 +5,111 @@
  * 
  * Parms:
  *  - AC: the acUserLogin internal data structure
- *  - new: true|false whether to check for non-yet existant, defaulting to false
- *  - placeholder (opt.)
+ *  - wantsNew: whether an existing email must be reported as an error, defaulting to true
+ *  - wantsMandatory: whether we want display the mandatory indicator if applies, defaulting to true
+ *  - wantsError: whether we want a dedicated error message here, defaulting to true
+ *  - withFieldset: whether we want the input be inside a fieldset (which implies a legend), defaulting to true
+ *  - placeholder: the input placeholder, defaulting to placeholder translated from 'input_email.placeholder'
+ *  - label: the input label, defaulting to label translated from 'input_email.label'
+ *  - legend: the fieldset legend, defaulting to legend translated from 'input_email.legend'
  */
 
-import { pwixI18n as i18n } from 'meteor/pwix:i18n';
+import { pwixI18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
 
 import './ac_input_email.html';
 
-Template.ac_input_email.onCreated( function(){
+Template.ac_input_email.helpers({
+    // whether we have a fieldset (and a legend)
+    haveFieldset(){
+        return this.withFieldset !== false;
+    },
+
+    // fieldset legend
+    legend(){
+        return Object.keys( this ).includes( 'legend' ) ? this.legend : pwixI18n.label( I18N, 'input_email.legend' );
+    }
+});
+
+/***
+ *** sub-template
+ ***/
+
+ Template.ac_input_email_sub.onCreated( function(){
     const self = this;
-    //console.log( self );
-    //console.debug( Template.currentData());
+    //console.log( self, Template.currentData());
 
     self.AC = {
-        inputField: null,
         errorMsg: new ReactiveVar( '' ),
-        checkNew: new ReactiveVar( true ),
 
         // check the current input field
         //  let the error message empty if field is empty
-        //  only set an error message for new input
         check(){
-            self.AC.errorMsg.set( '' );
-            AccountsUI._checkEmailAddress( self.AC.inputField.val())
+            self.AC.displayError( '' );
+            const wantsNew = Boolean( Template.currentData().wantsNew !== false );
+            AccountsUI._checkEmailAddress( self.$( '.ac-input-email-sub input' ).val(), { testExistance: wantsNew })
                 .then(( result ) => {
-                    // only display error message if field is not empty
-                    if( result.errors.length && result.email.length && self.AC.checkNew.get()){
-                        self.AC.errorMsg.set( result.errors[0] );
+                    console.debug( result );
+                    // only display an error message if field is not empty
+                    if( result.email.length ){
+                        if( !result.ok ){
+                            self.AC.displayError( pwixI18n.label( I18N, 'input_email.invalid' ));
+                        } else if( wantsNew && result.exists ){
+                            self.AC.displayError( pwixI18n.label( I18N, 'input_email.already_exists' ));
+                        }
                     }
                     self.$( '.ac-input-email' ).trigger( 'ac-email-data', { ok: result.ok, email: result.email });
                 });
         },
 
-        // provides a translated label
-        i18n( key ){
-            return i18n.label( I18N, 'input_email.'+key );
+        // display an error message, either locally (here) ou at the panel level
+        displayError( msg ){
+            //const wantsError = Boolean( Template.currentData().wantsError !== false );
+            // see https://stackoverflow.com/questions/39271499/template-actual-data-context/39272483#39272483
+            const wantsError = Boolean( Blaze.getData( self.view ).wantsError !== false );
+            if( wantsError ){
+                self.AC.errorMsg.set( msg );
+            } else {
+                self.$( '.ac-input-email-sub' ).trigger( 'ac-display-error', msg );
+            }
         },
 
         // whether the email address is mandatory ?
-        //  true if field is required and new account
         mandatoryField(){
-            return Template.currentData().new && AccountsUI.opts().haveEmailAddress() === AccountsUI.C.Input.MANDATORY;
+            return ( Template.currentData().wantsMandatory !== false ) && ( AccountsUI.opts().haveEmailAddress() === AccountsUI.C.Input.MANDATORY );
         },
 
         // reinitialize the form
         reset(){
             self.$( 'input' ).val( '' );
-            if( self.AC.checkNew.get()){
-                self.AC.check();
-            }
+            self.AC.check();
         }
     };
-
-    // setup reactive vars
-    self.autorun(() => {
-        const newx = Template.currentData().new;
-        if( newx === true || newx === false ){
-            self.AC.checkNew.set( newx );
-        } else {
-            self.AC.checkNew.set( false );
-        }
-    });
 });
 
-Template.ac_input_email.onRendered( function(){
-    const self = this;
-
-    // get the input field
-    self.AC.inputField = self.$( '.ac-input-email input' );
-
-    // initialize the form
-    self.AC.reset();
+Template.ac_input_email_sub.onRendered( function(){
+    // initialize the form, so that is is checked (though empty) and send the input-email status event
+    this.AC.reset();
 });
 
-Template.ac_input_email.helpers({
-    // whether we have to check anything
-    checks(){
-        const AC = Template.instance().AC;
-        return AC.checkNew.get();
-    },
-
+Template.ac_input_email_sub.helpers({
     // an error message if new password
     errorMsg(){
-        return '<p>'+Template.instance().AC.errorMsg.get()+'</p>';
+        return '<p>'+( Template.instance().AC.errorMsg.get() || '&nbsp;' )+'</p>';
     },
 
-    // fieldset legend
-    legend(){
-        return this.new ? this.AC.options.signupLegendEmail() : this.AC.options.signinLegendEmail();
+    // whether we want display a dedicated error message here
+    haveError(){
+        return this.wantsError !== false;
     },
 
-    // whether the email address is mandatory ?
+    // returns the translated string
+    i18n( key ){
+        return Object.keys( this ).includes( key ) ? this[key] : pwixI18n.label( I18N, 'input_email.'+key );
+    },
+
+    // whether the email address must be indicated as mandatory ?
     mandatoryField(){
         return Template.instance().AC.mandatoryField();
     },
@@ -106,21 +117,11 @@ Template.ac_input_email.helpers({
     // whether the mandatory field must exhibit an ad-hoc colored border ?
     mandatoryBorder(){
         return Template.instance().AC.mandatoryField() && this.AC.options.coloredBorders() === AccountsUI.C.Colored.MANDATORY ? 'ac-mandatory-border' : '';
-    },
-
-    // returns the translated string
-    text( key ){
-        return Object.keys( this ).includes( key ) ? this[key] : Template.instance().AC.i18n( key );
     }
 });
 
-Template.ac_input_email.events({
+Template.ac_input_email_sub.events({
     'input input.ac-input'( event, instance ){
         instance.AC.check();
-    },
-
-    // reset the form
-    'ac-reset-input .ac-input-email'( event, instance ){
-        instance.AC.reset();
     }
 });

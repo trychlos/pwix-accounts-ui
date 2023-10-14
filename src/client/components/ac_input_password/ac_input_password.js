@@ -161,10 +161,5 @@ Template.ac_input_password.events({
 
     'input .ac-input-password .ac-input'( event, instance ){
         instance.AC.check();
-    },
-
-    // reset order sent by the parent form (at least as first initialization)
-    'ac-reset-input .ac-input-password'( event, instance ){
-        instance.AC.reset();
     }
 });

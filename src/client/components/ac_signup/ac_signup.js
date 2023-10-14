@@ -69,15 +69,10 @@ Template.ac_signup.onCreated( function(){
             //console.debug( 'username', AccountsUI.opts().haveUsername());
             return AccountsUI.opts().haveUsername() !== AccountsUI.C.Input.NONE;
         },
-        resetInput(){
-            self.$( '.ac-input-password' ).trigger( 'ac-reset-input' );
-            if( self.AC.haveEmailAddress()){
-                self.$( '.ac-input-email' ).trigger( 'ac-reset-input' );
-            }
-            if( self.AC.haveUsername()){
-                self.$( '.ac-input-username' ).trigger( 'ac-reset-input' );
-            }
-            self.$( 'input' ).first().focus();
+        clearPanel(){
+            self.$( 'input' )
+                .val( '' )
+                .first().focus();
         }
     };
 
@@ -197,7 +192,7 @@ Template.ac_signup.events({
     // message sent from acUserLogin after having successfully created a new user
     //  clear the input fields to prepare the creation of another account
     'ac-clear-panel .ac-signup'( event, instance ){
-        instance.AC.resetInput();
+        instance.AC.clearPanel();
         return false;
     }
 });

@@ -38,6 +38,7 @@ AccountsUI.i18n = {
             },
             input_email: {
                 label: 'Adresse de messagerie :',
+                legend: 'Adresse de messagerie',
                 placeholder: 'Saisissez votre adresse de messagerie (ex.: nom@example.com)',
                 already_exists: 'L\'adresse de messagerie existe déjà',
                 empty: 'L\'adresse de messagerie est vide ou non définie',
@@ -67,11 +68,12 @@ AccountsUI.i18n = {
             },
             reset_ask: {
                 modal_title: 'Mot de passe oublié ?',
-                textOne: 'Lorsque vous aurez pressé le bouton "Envoyer" ci-dessous, nous enverrons un message vers votre adresse de messagerie.<br />'
-                    +'Ce message contiendra un lien sur lequel vous devrez cliquer, et qui vous permettra de ré-initialiser votre mot de passe.<br />'
-                    +'<br />'
-                    +'<i>Notez s\'il vous plait que, pour des raisons de sécurité, ce lien a une durée de vie limitée (env. 30mn par défaut). '
-                    +'N\'exécutez pas cette opération si vous n\'avez pas accès à votre boite de messagerie.</i>'
+                textOne: ''
+                    +'<p>Lorsque vous aurez pressé le bouton "Envoyer" ci-dessous, nous enverrons un message vers votre adresse de messagerie.'
+                    +' Ce message contiendra un lien sur lequel vous devrez cliquer, et qui vous permettra de ré-initialiser votre mot de passe.</p>'
+                    +'<p>&nbsp;</p>'
+                    +'<p><i>Notez s\'il vous plait que, pour des raisons de sécurité, ce lien a une durée de vie limitée (env. 30mn par défaut).'
+                    +' N\'exécutez pas cette opération si vous n\'avez pas accès à votre boite de messagerie.</i></p>'
             },
             reset_pwd: {
                 modal_title: 'Réinitialisez votre mot de passe',

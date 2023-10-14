@@ -6,14 +6,14 @@
                 <div class="ac-text ac-text-one">{{{ textOne }}}</div>
             {{/if}}
 
-            {{> ac_input_email (parmsUser) }}
+            {{> ac_input_email (parmsInputEmail) }}
 
             {{#if textTwo }}
                 <div class="ac-text ac-text-two">{{{ textTwo }}}</div>
             {{/if}}
 
             <div class="ac-error">
-                <p>{{ errorMsg }}</p>
+                {{{ errorMsg }}}
             </div>
         </form>
 

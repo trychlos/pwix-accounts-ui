@@ -105,10 +105,5 @@ Template.ac_input_username.events({
         if( Template.currentData().new ){
             instance.AC.check();
         }
-    },
-
-    // reset the form
-    'ac-reset-input .ac-input-username'( event, instance ){
-        instance.AC.reset();
     }
 });

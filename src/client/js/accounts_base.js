@@ -5,7 +5,8 @@
 import { Accounts } from 'meteor/accounts-base';
 
 import { Bootbox } from 'meteor/pwix:bootbox';
-import { pwixI18n as i18n } from 'meteor/pwix:i18n';
+import { Modal } from 'meteor/pwix:modal';
+import { pwixI18n } from 'meteor/pwix:i18n';
 
 import '../../common/js/index.js';
 
@@ -37,8 +38,8 @@ import '../components/ac_reset_pwd/ac_reset_pwd.js';
 
 _verifyExpired = function(){
     Bootbox.alert({
-        title: i18n.label( I18N, 'user.verify_title' ),
-        message: i18n.label( I18N, 'user.verify_error' )
+        title: pwixI18n.label( I18N, 'user.verify_title' ),
+        message: pwixI18n.label( I18N, 'user.verify_error' )
     });
 }
 
@@ -127,8 +128,8 @@ Accounts.onEmailVerificationLink( function( token, done ){
 
 _resetExpired = function(){
     Bootbox.alert({
-        title: i18n.label( I18N, 'user.resetpwd_title' ),
-        message: i18n.label( I18N, 'user.resetpwd_error' )
+        title: pwixI18n.label( I18N, 'user.resetpwd_title' ),
+        message: pwixI18n.label( I18N, 'user.resetpwd_error' )
     });
 }
 
@@ -139,7 +140,9 @@ Accounts.onResetPasswordLink( function( token, done ){
     Meteor.callPromise( 'AccountsUI.byResetToken', token )
         .then(( user ) => {
             if( user ){
-                AccountsUI.Display.ask( AccountsUI.C.Panel.RESETPWD, null, {
+                Modal.run({
+                    mdBody: 'ac_reset_pwd',
+                    mdFooter: 'ac_footer',
                     user: user,
                     submitCallback: () => {
                         const passwd = $( '.ac-reset-pwd .ac-newone .ac-input-password input' ).val().trim();
@@ -149,8 +152,8 @@ Accounts.onResetPasswordLink( function( token, done ){
                                 _resetExpired();
                             } else {
                                 Bootbox.alert({
-                                    title: i18n.label( I18N, 'user.resetpwd_title' ),
-                                    message: i18n.label( I18N, 'user.resetpwd_text' )
+                                    title: pwixI18n.label( I18N, 'user.resetpwd_title' ),
+                                    message: pwixI18n.label( I18N, 'user.resetpwd_text' )
                                 });
                                 const event = 'ac-user-resetdone-event';
                                 const parms = { email: user.services.password.reset.email };

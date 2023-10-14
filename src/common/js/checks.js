@@ -2,10 +2,11 @@
  * pwix:accounts-ui/src/common/js/checks.js
  */
 
-import { pwixI18n } from 'meteor/pwix:i18n';
-
+import _ from 'lodash';
 import emailValidator from 'email-validator';
 import zxcvbn from 'zxcvbn';
+
+import { pwixI18n } from 'meteor/pwix:i18n';
 
 AccountsUI = {
     ...AccountsUI,
@@ -14,60 +15,115 @@ AccountsUI = {
         // Rationale: we need as usual check functions both on client and on server side.
         //  But server side requires synchronous results while client side works better with asynchronous code
         //
+
         /*
          * @summary: check that the proposed candidate email address is valid, and not already exists
          * @locus Anywhere
          * @param {String} email the email address to be checked
+         * @param {Object} opts:
+         *  - testSyntax: true|false, defaulting to true (test the syntax, returning an error if empty or bad syntax)
+         *  - testExistance: true|false, defaulting to true (test the existance, positionning the flag in result object)
          * @returns {Promise} on client side which resolves to the check result,
          * @returns {Object} the check result itself on the server side, as:
          *  - ok: true|false
-         *  - errors: [] an array of localized error messages
-         *  - warnings: [] an array of localized warning messages
+         *  - exists: undefined|true|false
+         *  - reason: the first reason for the tests have been false
          *  - email: trimmed lowercase email address
          */
-        _checkEmailAddress( email ){
+        _checkEmailAddress( email, opts={} ){
             let result = {
-                ok: true,
-                email: ( email ? email.trim() : '' ).toLowerCase(),
-                errors: [],
-                warnings: []
+                ok: undefined,
+                exists: undefined,
+                reason: undefined,
+                email: ( email ? email.trim() : '' ).toLowerCase()
             };
-            // stop there if the value is empty
+            // if the value is empty
             if( !result.email || !result.email.length ){
-                if( AccountsUI.opts().haveEmailAddress() === AccountsUI.C.Input.OPTIONAL ){
-                    result.warnings.push( pwixI18n.label( I18N, 'input_email.empty' ));
-                } else {
-                    result.ok = false;
-                    result.errors.push( pwixI18n.label( I18N, 'input_email.empty' ));
-                }
-                return Meteor.isClient ? Promise.resolve( result ) : result;
-            }
-            // if the email address syntactically correct ?
-            if( !emailValidator.validate( result.email )){
                 result.ok = false;
-                result.errors.push( pwixI18n.label( I18N, 'input_email.invalid' ));
+                result.reason = AccountsUI.C.Reason.EMAIL_EMPTY;
                 return Meteor.isClient ? Promise.resolve( result ) : result;
             }
+            // client side
+            if( Meteor.isClient ){
+                return Promise.resolve( result )
+                    .then(( res ) => {
+                        return ( opts.testSyntax !== false ) ? this._checkEmailAddressSyntax( res.email ) : Promise.resolve( result );
+                    })
+                    .then(( res ) => {
+                        _.merge( result, res );
+                        return ( opts.testExistance !== false && res.ok !== false ) ? this._checkEmailAddressExists( result.email ) : Promise.resolve( result );
+                    })
+                    .then(( res ) => {
+                        _.merge( result, res );
+                        return Promise.resolve( result );
+                    });
+            }
+            // server side
+            let res;
+            if( opts.testSyntax !== false ){
+                res = this._checkEmailAddressSyntax( result.email );
+                _.merge( result, res );
+            }
+            if( opts.testExistance !== false && result.ok !== false ){
+                res = this._checkEmailAddressExists( result.email );
+                _.merge( result, res );
+            }
+            return result;
+        },
+
+        /*
+         * @summary: check that the proposed candidate email address is syntaxically valid
+         * @locus Anywhere
+         * @param {String} email the email address to be checked
+         * @returns {Promise} on client side which resolves to the check result,
+         * @returns {Object} the check result itself on the server side, as:
+         *  - ok: true|false: whether the syntax is ok or not
+         *  - reason: undefined|set: if not ok, the reason of the returned error
+         */
+        _checkEmailAddressSyntax( email ){
+            let result = {
+                ok: undefined,
+                reason: undefined
+            };
+            // is the email address syntactically correct ?
+            if( emailValidator.validate( email )){
+                result.ok = true;
+            } else {
+                result.ok = false;
+                result.reason = AccountsUI.C.Reason.EMAIL_SYNTAX;
+            }
+            return Meteor.isClient ? Promise.resolve( result ) : result;
+        },
+
+        /*
+         * @summary: check whether the candidate email address exists in our system
+         * @locus Anywhere
+         * @param {String} email the email address to be checked
+         * @returns {Promise} on client side which resolves to the check result,
+         * @returns {Object} the check result itself on the server side, as:
+         *  - exists: true|false
+         */
+        _checkEmailAddressExists( email ){
+            let result = {
+                exists: undefined
+            };
             // check for unicity
             if( Meteor.isClient ){
-                return Meteor.callPromise( 'AccountsUI.byEmailAddress', result.email )
+                console.debug( email );
+                return Meteor.callPromise( 'AccountsUI.byEmailAddress', email )
                     .then(( res, err ) => {
                         if( err ){
                             console.error( err );
-                        } else if( res ){
-                            result.ok = false;
-                            result.errors.push( pwixI18n.label( I18N, 'input_email.already_exists' ));
+                        } else {
+                            result.exists = ( res ? true : false );
                         }
                         return result;
                     });
-            } else {
-                const user = AccountsUI._byEmailAddress( result.email );
-                if( user ){
-                    result.ok = false;
-                    result.errors.push( pwixI18n.label( I18N, 'input_email.already_exists' ));
-                }
-                return result;
             }
+            // server side
+            const user = AccountsUI._byEmailAddress( email );
+            result.exists = ( res ? true : false );
+            return result;
         },
 
         /*
