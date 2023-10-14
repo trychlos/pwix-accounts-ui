@@ -30,15 +30,12 @@ Template.ac_signin.onCreated( function(){
 
 Template.ac_signin.onRendered( function(){
     const self = this;
-    const parentAC = Template.currentData().AC;
 
     // disable the submit button at start
     self.AC.enableSubmit( false );
 
-    // on a modal, let ac-content intercept Enter keypressed
-    if( parentAC.options.renderMode() === AccountsUI.C.Render.MODAL ){
-        self.$( '.ac-signin ').closest( '.ac-content' ).on( 'keydown', function( event ){ if( event.keyCode === 13 ){ parentAC.target.trigger( 'ac-enter', event ); }});
-    }
+    // monitor the modal events if apply
+    Template.currentData().AC.monitorModalEvents( self.$( '.ac-signin' ));
 });
 
 Template.ac_signin.helpers({

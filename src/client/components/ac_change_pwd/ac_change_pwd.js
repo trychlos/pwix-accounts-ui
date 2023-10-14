@@ -62,19 +62,13 @@ Template.ac_change_pwd.onCreated( function(){
 
 Template.ac_change_pwd.onRendered( function(){
     const self = this;
-    const parentAC = Template.currentData().AC;
-
-    const $acContent = self.$( '.ac-change-pwd' ).closest( '.ac-content' );
 
     self.autorun(() => {
-        //console.debug( self );
-        $acContent.find( '.ac-submit' ).prop( 'disabled', !self.AC.checksOk.get());
+        self.$( '.ac-change-pwd .ac-submit' ).prop( 'disabled', !self.AC.checksOk.get());
     });
 
-    // on a modal, let ac-content intercept Enter keypressed
-    if( parentAC.options.renderMode() === AccountsUI.C.Render.MODAL ){
-        $acContent.on( 'keydown', function( event ){ if( event.keyCode === 13 ){ parentAC.target.trigger( 'ac-enter', event ); }});
-    }
+    // monitor the modal events if apply
+    Template.currentData().AC.monitorModalEvents( self.$( '.ac-change-pwd' ));
 });
 
 Template.ac_change_pwd.helpers({

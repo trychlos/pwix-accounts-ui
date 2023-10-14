@@ -83,20 +83,15 @@ Template.ac_signup.onCreated( function(){
 
 Template.ac_signup.onRendered( function(){
     const self = this;
-    const parentAC = Template.currentData().AC;
-
-    const $acContent = self.$( '.ac-signup' ).closest( '.ac-content' );
 
     self.autorun(() => {
         const ok = self.AC.checksOk.get();
-        $acContent.find( '.ac-submit' ).prop( 'disabled', !ok );
-        parentAC.target.trigger( 'ac-signup-ok', { ok: ok });
+        self.$( '.ac-signup .ac-submit' ).prop( 'disabled', !ok );
+        Template.currentData().AC.target.trigger( 'ac-signup-ok', { ok: ok });
     });
 
-    // on a modal, let ac-content intercept Enter keypressed
-    if( parentAC.options.renderMode() === AccountsUI.C.Render.MODAL ){
-        self.$( '.ac-signin ').closest( '.ac-content' ).on( 'keydown', function( event ){ if( event.keyCode === 13 ){ parentAC.target.trigger( 'ac-enter', event ); }});
-    }
+    // monitor the modal events if apply
+    Template.currentData().AC.monitorModalEvents( self.$( '.ac-signup' ));
 });
 
 Template.ac_signup.helpers({

@@ -43,24 +43,33 @@ Template.acUserLogin.onCreated( function(){
         target: null,
         // the currently displayed panel for this acUserLogin workflow
         panelRV: new ReactiveVar( AccountsUI.C.Panel.NONE ),
-        // the current panel title
-        titleRV: new ReactiveVar( '' ),
 
-        // a getter/setter
+        // monitor the modal events (when apply)
+        //  called from the panels.onRendered() function
+        monitorModalEvents( $panel ){
+            if( self.AC.options.renderMode() === AccountsUI.C.Render.MODAL ){
+                // reset the current panel when the modal closes
+                $panel.closest( '.md-modal' ).on( 'md-close', ( event ) => {
+                    if( Modal.count() && self.AC.panel() !== AccountsUI.C.Panel.NONE ){
+                        self.AC.panel( AccountsUI.C.Panel.NONE );
+                    }
+                });
+                // intercept Enter keypressed
+                $panel.closest( '.ac-content' ).on( 'keydown', ( event ) => {
+                    if( event.keyCode === 13 ){
+                        self.AC.target.trigger( 'ac-enter', event );
+                    }
+                });
+            }
+        },
+
+        // a getter/setter for the current panel
         panel( panel ){
             if( panel !== undefined ){
                 self.AC.panelRV.set( panel || AccountsUI.C.Panel.NONE );
                 AccountsUI.fn.errorMsg( '' );
             }
             return self.AC.panelRV.get();
-        },
-
-        // a getter/setter
-        title( title ){
-            if( title !== undefined ){
-                self.AC.titleRV.set( title );
-            }
-            return self.AC.titleRV.get();
         }
     };
 

@@ -37,8 +37,8 @@ AccountsUI.i18n = {
                 resetask: 'Reset my password'
             },
             input_email: {
-                label: 'Mail address:',
-                legend: 'Mail address',
+                label: 'Email address:',
+                legend: 'Email address',
                 placeholder: 'Enter your email address, e.g. name@example.com',
                 already_exists: 'Email address already known',
                 empty: 'Empty or undefined email address',
@@ -98,6 +98,7 @@ AccountsUI.i18n = {
             },
             twice_passwords: {
                 label: 'Password:',
+                legend: 'Password',
                 placeholder1: 'Enter a password',
                 placeholder2: 'Re-enter the password',
                 password_different: 'Passwords are different'
@@ -112,7 +113,7 @@ AccountsUI.i18n = {
                 changepwd_error: 'Unable to change the password.',
                 changepwd_success: 'Password successfully changed',
                 resetask_credentials: 'Unable to send a reset link, please check your credentials',
-                resetask_success: 'Reset mail successfully sent',
+                resetask_success: 'Reset email successfully sent',
                 resetpwd_title: 'Password reset',
                 resetpwd_text: 'Hi.<br />Your password has been successfully reset.<br />You are now automatically logged-in.',
                 resetpwd_error: 'Humm... Sorry, but your token has expired. I\'am unfortunately unable to reset your password.<br />You have to re-ask for a new reset link.',

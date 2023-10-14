@@ -1,38 +1,39 @@
+<template name="ac_input_email">
+    <div class="ac-input-email">
 
-<template name="ac_input_email_sub">
-    <div class="ac-input-email-sub">
-
-        <div class="d-flex justify-content-start align-items-center ac-label">
-            <div class="form-label">{{ i18n "label" }}</div>
-            {{#if mandatoryField }}
-                {{> acMandatoryField }}
-            {{/if}}
-            <div class="flex-grow-1"></div>
-        </div>
-
-        <div>
-            <input type="email" class="form-control ac-input {{ mandatoryBorder }}" placeholder="{{ i18n "placeholder" }}" autocomplete="pwix:accounts-ui email" />
-        </div>
-
-        {{#if haveError }}
-            <div class="ac-error">
-                {{{ errorMsg }}}
-            </div>
+        {{#if withFieldset }}
+            <fieldset>
+                <legend>{{ text "legend" }}</legend>
+                    {{> ac_input_email_sub }}
+            </fieldset>
+        {{else}}
+            {{> ac_input_email_sub }}
         {{/if}}
 
     </div>
 </template>
 
-<template name="ac_input_email">
-    <div class="ac-input-email">
+<template name="ac_input_email_sub">
+    <div class="ac-input-email-sub">
 
-        {{#if haveFieldset }}
-            <fieldset>
-                <legend>{{ legend }}</legend>
-                    {{> ac_input_email_sub }}
-            </fieldset>
-        {{else}}
-            {{> ac_input_email_sub }}
+        <div class="d-flex justify-content-start align-items-center ac-label">
+            <div class="form-label">{{ text "label" }}</div>
+
+            {{#if withMandatoryField }}
+                {{> acMandatoryField }}
+            {{/if}}
+
+            <div class="flex-grow-1"></div>
+        </div>
+
+        <div>
+            <input type="email" class="form-control ac-input {{ mandatoryBorder }}" placeholder="{{ text "placeholder" }}" autocomplete="pwix:accounts-ui email" />
+        </div>
+
+        {{#if withError }}
+            <div class="ac-error">
+                {{{ errorMsg }}}
+            </div>
         {{/if}}
 
     </div>

@@ -109,7 +109,6 @@ AccountsUI = {
             };
             // check for unicity
             if( Meteor.isClient ){
-                console.debug( email );
                 return Meteor.callPromise( 'AccountsUI.byEmailAddress', email )
                     .then(( res, err ) => {
                         if( err ){

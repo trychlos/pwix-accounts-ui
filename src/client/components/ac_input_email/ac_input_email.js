@@ -5,13 +5,13 @@
  * 
  * Parms:
  *  - AC: the acUserLogin internal data structure
- *  - wantsNew: whether an existing email must be reported as an error, defaulting to true
- *  - wantsMandatory: whether we want display the mandatory indicator if applies, defaulting to true
- *  - wantsError: whether we want a dedicated error message here, defaulting to true
- *  - withFieldset: whether we want the input be inside a fieldset (which implies a legend), defaulting to true
- *  - placeholder: the input placeholder, defaulting to placeholder translated from 'input_email.placeholder'
- *  - label: the input label, defaulting to label translated from 'input_email.label'
- *  - legend: the fieldset legend, defaulting to legend translated from 'input_email.legend'
+ *  - wantsNew: whether an existing email must be reported as an error, defaulting to false
+ *  - withError: whether we want a dedicated error message here, defaulting to false
+ *  - withFieldset: whether we want the input be inside a fieldset (which implies a legend), defaulting to false
+ *  - withMandatoryField: whether we want display the mandatory indicator if applies, defaulting to false
+ *  - label: the form label, defaulting to 'Email address:'
+ *  - placeholder: the input placeholder, defaulting to 'Enter your email address, e.g. name@example.com'
+ *  - legend: the fieldset legend, defaulting to legend translated from 'Email address'
  */
 
 import { pwixI18n } from 'meteor/pwix:i18n';
@@ -21,14 +21,9 @@ import '../../../common/js/index.js';
 import './ac_input_email.html';
 
 Template.ac_input_email.helpers({
-    // whether we have a fieldset (and a legend)
-    haveFieldset(){
-        return this.withFieldset !== false;
-    },
-
-    // fieldset legend
-    legend(){
-        return Object.keys( this ).includes( 'legend' ) ? this.legend : pwixI18n.label( I18N, 'input_email.legend' );
+    // returns the text, maybe from data context, defaulting to the translated string
+    text( key ){
+        return Object.keys( this ).includes( key ) ? this[key] : pwixI18n.label( I18N, 'input_email.'+key );
     }
 });
 
@@ -47,7 +42,7 @@ Template.ac_input_email.helpers({
         //  let the error message empty if field is empty
         check(){
             self.AC.displayError( '' );
-            const wantsNew = Boolean( Template.currentData().wantsNew !== false );
+            const wantsNew = Boolean( Template.currentData().wantsNew === true );
             AccountsUI._checkEmailAddress( self.$( '.ac-input-email-sub input' ).val(), { testExistance: wantsNew })
                 .then(( result ) => {
                     //console.debug( result );
@@ -65,19 +60,14 @@ Template.ac_input_email.helpers({
 
         // display an error message, either locally (here) ou at the panel level
         displayError( msg ){
-            //const wantsError = Boolean( Template.currentData().wantsError !== false );
+            //const withError = Boolean( Template.currentData().withError !== false );
             // see https://stackoverflow.com/questions/39271499/template-actual-data-context/39272483#39272483
-            const wantsError = Boolean( Blaze.getData( self.view ).wantsError !== false );
-            if( wantsError ){
+            const withError = Boolean( Blaze.getData( self.view ).withError === true );
+            if( withError ){
                 self.AC.errorMsg.set( msg );
             } else {
                 self.$( '.ac-input-email-sub' ).trigger( 'ac-display-error', msg );
             }
-        },
-
-        // whether the email address is mandatory ?
-        mandatoryField(){
-            return ( Template.currentData().wantsMandatory !== false ) && ( AccountsUI.opts().haveEmailAddress() === AccountsUI.C.Input.MANDATORY );
         },
 
         // reinitialize the form
@@ -100,24 +90,14 @@ Template.ac_input_email_sub.helpers({
         return '<p>'+( Template.instance().AC.errorMsg.get() || '&nbsp;' )+'</p>';
     },
 
-    // whether we want display a dedicated error message here
-    haveError(){
-        return this.wantsError !== false;
-    },
-
-    // returns the translated string
-    i18n( key ){
-        return Object.keys( this ).includes( key ) ? this[key] : pwixI18n.label( I18N, 'input_email.'+key );
-    },
-
-    // whether the email address must be indicated as mandatory ?
-    mandatoryField(){
-        return Template.instance().AC.mandatoryField();
-    },
-
     // whether the mandatory field must exhibit an ad-hoc colored border ?
     mandatoryBorder(){
-        return Template.instance().AC.mandatoryField() && this.AC.options.coloredBorders() === AccountsUI.C.Colored.MANDATORY ? 'ac-mandatory-border' : '';
+        return this.AC.options.coloredBorders() === AccountsUI.C.Colored.MANDATORY ? 'ac-mandatory-border' : '';
+    },
+
+    // returns the text, maybe from data context, defaulting to the translated string
+    text( key ){
+        return Object.keys( this ).includes( key ) ? this[key] : pwixI18n.label( I18N, 'input_email.'+key );
     }
 });
 

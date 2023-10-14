@@ -98,6 +98,7 @@ AccountsUI.i18n = {
             },
             twice_passwords: {
                 label: 'Mot de passe :',
+                legend: 'Mot de passe',
                 placeholder1: 'Saisissez votre mot de passe',
                 placeholder2: 'Saisissez à nouveau votre mot de passe',
                 password_different: 'Les mots de passe sont différents'

@@ -1,16 +1,21 @@
 /*
  * pwix:accounts-ui/src/client/components/ac_input_password/ac_input_password.js
  *
- * Password input field
+ * Password input field.
  * 
  * Parms:
- *  - label: String, defaulting to 'Password'
- *  - placeholder: String, defaulting to 'Enter your password'
- *  - checkStrength: Boolean, should be true when entering the first occurrence of a new password
- *  - mandatoryBorder: whether to displayed a colored border for mandatory fields
- *  - new: Boolean, true for entering a new password (so to be checked for its strength)
- *  - autocomplete: boolean, whether to have an autocomplete attribute, defaulting to true
- */
+ *  - AC: the acUserLogin internal data structure
+ *      Is undefined when invoked from ac_reset_pwd template (via ac_twice_passwords)
+ *      Take care!
+ *  - withAutocomplete: whether to have an autocomplete attribute, defaulting to false (to be set to true for a login panel)
+ *  - withError: whether we want a dedicated error message here, defaulting to false
+ *  - withMandatoryBorder: whether we want display the mandatory borders on input field, defaulting to acUserLogin configured option
+ *  - withMandatoryField: whether we want display the mandatory indicator, defaulting to false
+ *  - withStrength: whether to check for input password strength, defaulting to false
+ *  - label: the form label, defaulting to 'Password'
+ *  - placeholder: the input placeholder, defaulting to 'Enter your password'
+ *  - strength: the div label, defaulting to 'Strength:'
+ *  */
 
 import { pwixI18n } from 'meteor/pwix:i18n';
 
@@ -23,9 +28,7 @@ Template.ac_input_password.onCreated( function(){
     //console.log( self );
 
     self.AC = {
-        inputField: null,
         errorMsg: new ReactiveVar( '' ),
-        isNew : new ReactiveVar( false ),
 
         score: [
             { k:AccountsUI.C.Password.VERYWEAK,   css: { backgroundColor: '#ff0000' }}, // red
@@ -41,11 +44,12 @@ Template.ac_input_password.onCreated( function(){
         // on a new account (which must be specified in data context), we advertise the caller with full data
         //  else (e.g. signin) we just advertise of the input event
         check(){
-            self.AC.errorMsg.set( '' );
-            AccountsUI._checkPassword( self.AC.inputField.val() || '' )
+            self.AC.displayError( '' );
+            const withStrength = Template.currentData().withStrength == true;
+            AccountsUI._checkPassword( self.$( '.ac-input-password input' ).val() || '' )
                 .then(( result ) => {
                     //console.debug( result );
-                    if( self.AC.isNew.get()){
+                    if( withStrength ){
                         // css
                         self.$( '.ac-strength-bar' ).css( self.AC.score[result.zxcvbn.score].css );
                         let width = result.password.length ? 1+parseInt( result.zxcvbn.score ) : 0;
@@ -54,7 +58,7 @@ Template.ac_input_password.onCreated( function(){
                         self.$( '.ac-strength-other' ).css({ width: width+'em' });
                         // only display error message if field is not empty
                         if( result.errors.length && result.password.length ){
-                            self.AC.errorMsg.set( result.errors[0] );
+                            self.AC.displayError( result.errors[0] );
                         }
                     }
                     // advertises of the current password characteristics
@@ -69,9 +73,16 @@ Template.ac_input_password.onCreated( function(){
                 });
         },
 
-        // provides a translated label
-        i18n( key ){
-            return pwixI18n.label( I18N, 'input_password.'+key );
+        // display an error message, either locally (here) ou at the panel level
+        displayError( msg ){
+            //const withError = Boolean( Template.currentData().withError !== false );
+            // see https://stackoverflow.com/questions/39271499/template-actual-data-context/39272483#39272483
+            const withError = Boolean( Blaze.getData( self.view ).withError === true );
+            if( withError ){
+                self.AC.errorMsg.set( msg );
+            } else {
+                self.$( '.ac-input-password' ).trigger( 'ac-display-error', msg );
+            }
         },
 
         // reinitialize the form
@@ -91,13 +102,6 @@ Template.ac_input_password.onCreated( function(){
         i += 1;
         return true;
     });
-
-    // get the 'new' parameter
-    self.autorun(() => {
-        if( Template.currentData().new === true || Template.currentData().new === false ){
-            self.AC.isNew.set( Template.currentData().new );
-        }
-    });
 });
 
 Template.ac_input_password.onRendered( function(){
@@ -114,34 +118,31 @@ Template.ac_input_password.helpers({
 
     // whether we have an autocomplete on this field ?
     autocomplete(){
-        const autocomplete = ( this.autocomplete === true || this.autocomplete === false ) ? this.autocomplete : true;
-        return autocomplete ? 'pwix:accounts-ui password' : 'off';
+        return this.withAutocomplete === true ? 'pwix:accounts-ui password' : 'off';
     },
 
-    // whether we must check the strength ?
-    checkStrength(){
-        return this.checkStrength || false;
-    },
-
-    // an error message if new password
+    // a dedicated error message
+    //  when used, always keep the area height so that the display is kept stable
     errorMsg(){
-        const str = Template.instance().AC.errorMsg.get();
-        return str.length ? str : ' ';
-    },
-
-    // whether we are entering a new password
-    isNew(){
-        return this.new || false;
+        return '<p>'+( Template.instance().AC.errorMsg.get() || '&nbsp;' )+'</p>';
     },
 
     // whether the mandatory field must exhibit an ad-hoc colored border ?
     mandatoryBorder(){
-        return this.mandatoryBorder ? 'ac-mandatory-border' : '';
+        let classe = '';
+        if( Object.keys( this ).includes( 'withMandatoryBorder' )){
+            classe = this.withMandatoryBorder ? 'ac-mandatory-border' : '';
+        } else if( this.AC && this.AC.options ){
+            classe = this.AC.options.coloredBorders() === AccountsUI.C.Colored.MANDATORY ? 'ac-mandatory-border' : '';
+        } else {
+            console.warn( 'no withMandatoryBorder in data context, and AC not provided' );
+        }
+        return classe;
     },
 
-    // returns the default text or the provided one
+    // returns the text, maybe from data context, defaulting to the translated string
     text( key ){
-        return Object.keys( this ).includes( key ) ? this[key] : Template.instance().AC.i18n( key );
+        return Object.keys( this ).includes( key ) ? this[key] : pwixI18n.label( I18N, 'input_password.'+key );
     }
 });
 

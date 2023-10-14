@@ -7,6 +7,7 @@
  * We do not check either the username or the email address or the password validities before trying to connect.
  * 
  * Parms:
+ *  - AC: the acUserLogin internal data structure
  *  - label: String, defaulting to 'Identifier'
  *  - placeholder: String, defaulting to 'Enter your username or your email address'
  */
