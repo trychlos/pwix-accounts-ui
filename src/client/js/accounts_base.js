@@ -126,25 +126,27 @@ Accounts.onEmailVerificationLink( function( token, done ){
 //  to be temporarily suspended. If user A completes the form, then it automatically logs in.
 //  Else, user B is re-connected.
 
-_resetExpired = function(){
-    Bootbox.alert({
-        title: pwixI18n.label( I18N, 'user.resetpwd_title' ),
-        message: pwixI18n.label( I18N, 'user.resetpwd_error' )
-    });
-}
-
 Accounts.onResetPasswordLink( function( token, done ){
     //console.log( 'onResetPasswordLink token='+token );
     //console.log( 'Accounts._getPasswordResetTokenLifetimeMs', Accounts._getPasswordResetTokenLifetimeMs());
     //console.log( 'onResetPasswordLink', Meteor.user());
+    // error handling
+    const _resetExpired = function(){
+        Bootbox.alert({
+            title: pwixI18n.label( I18N, 'user.resetpwd_title' ),
+            message: pwixI18n.label( I18N, 'user.resetpwd_error' )
+        });
+    };
+    // main code    
     Meteor.callPromise( 'AccountsUI.byResetToken', token )
         .then(( user ) => {
             if( user ){
                 Modal.run({
                     mdBody: 'ac_reset_pwd',
-                    mdFooter: 'ac_footer',
+                    mdButtons: [ Modal.C.Button.CANCEL, { id: Modal.C.Button.OK, dismiss: true }],
+                    mdTitle: pwixI18n.label( I18N, 'reset_pwd.modal_title' ),
                     user: user,
-                    submitCallback: () => {
+                    cb: () => {
                         const passwd = $( '.ac-reset-pwd .ac-newone .ac-input-password input' ).val().trim();
                         Accounts.resetPassword( token, passwd, ( err ) => {
                             if( err ){

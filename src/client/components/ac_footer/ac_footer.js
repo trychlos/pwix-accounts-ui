@@ -2,12 +2,10 @@
  * pwix:accounts-ui/src/client/components/ac_footer/ac_footer.js
  *
  * Provides various buttons, to be displayed either in a modal footer, or in the bottom of a div.
+ * To be used only inside the normal acUserLogin workflow.
  * 
  * Parms:
  *  - AC: the acUserLogin internal data structure
- *  - submitCallback: if provided, a callback which will be called on .ac-submit button click
- *      instead of triggering an 'ac-submit' event
- *      this is needed because a modal (with a footer) can be displayed outside of the acUserLogin workflow
  */
 import { Modal } from 'meteor/pwix:modal';
 import { pwixI18n } from 'meteor/pwix:i18n';
@@ -97,17 +95,9 @@ Template.ac_footer.events({
     },
 
     'click .ac-submit'( event, instance ){
-        const submitCallback = Template.currentData().submitCallback;
-        if( submitCallback ){
-            if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.SUBMIT ){
-                console.log( 'pwix:accounts-ui ac_footer calling submitCallback()' );
-            }
-            submitCallback();
-        } else {
-            if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.SUBMIT ){
-                console.log( 'pwix:accounts-ui ac_footer triggering', 'ac-submit' );
-            }
-            this.AC.target.trigger( 'ac-submit' );
+        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.SUBMIT ){
+            console.log( 'pwix:accounts-ui ac_footer triggering', 'ac-submit' );
         }
+        this.AC.target.trigger( 'ac-submit' );
     }
 });

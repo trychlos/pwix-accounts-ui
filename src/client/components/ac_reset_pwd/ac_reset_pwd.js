@@ -6,12 +6,16 @@
  * 
  * Please note that this panel is run OUTSIDE of usual 'acUserLogin' flow.
  * We so do NOT have any particular acUserLogin information.
+ * But we are sure than we are runing inside a Modal.
  * 
  * Parms:
  * - user
+ * - cb
  */
 
 import printf from 'printf';
+
+import { Modal } from 'meteor/pwix:modal';
 
 import '../../../common/js/index.js';
 
@@ -43,6 +47,9 @@ Template.ac_reset_pwd.onRendered( function(){
         const btn = self.$( '.ac-reset-pwd .ac-submit' );
         btn.prop( 'disabled', !self.AC.passwordOk.get() || !self.AC.twiceOk.get());
     });
+
+    // make sure we are the target of the modal messages
+    Modal.set({ target: self.$( '.ac-reset-pwd' )});
 });
 
 Template.ac_reset_pwd.helpers({
@@ -78,10 +85,17 @@ Template.ac_reset_pwd.events({
         instance.AC.twiceOk.set( data ? data.ok : false );
     },
 
+    // Modal transforms the Enter key into a md-click on OK button
+    'md-click .ac-reset-pwd'( event, instance, data ){
+        if( data.button.id === Modal.C.Button.OK ){
+            instance.$( '.ac-reset-pwd' ).trigger( 'ac-submit' );
+        }
+    },
+
     // on Submit button
     'ac-submit .ac-reset-pwd'( event, instance ){
-        console.log( event );
+        //console.log( event );
         const pwd = instance.$( '.ac-newone .ac-input-password input' ).val().trim();
-        Template.currentData().cb( pwd );
+        this.cb( pwd );
     }
 });

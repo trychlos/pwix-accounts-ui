@@ -50,7 +50,7 @@ Template.ac_input_email.helpers({
             const wantsNew = Boolean( Template.currentData().wantsNew !== false );
             AccountsUI._checkEmailAddress( self.$( '.ac-input-email-sub input' ).val(), { testExistance: wantsNew })
                 .then(( result ) => {
-                    console.debug( result );
+                    //console.debug( result );
                     // only display an error message if field is not empty
                     if( result.email.length ){
                         if( !result.ok ){
@@ -59,7 +59,7 @@ Template.ac_input_email.helpers({
                             self.AC.displayError( pwixI18n.label( I18N, 'input_email.already_exists' ));
                         }
                     }
-                    self.$( '.ac-input-email' ).trigger( 'ac-email-data', { ok: result.ok, email: result.email });
+                    self.$( '.ac-input-email-sub' ).trigger( 'ac-email-data', { ok: result.ok, email: result.email });
                 });
         },
 
@@ -94,7 +94,8 @@ Template.ac_input_email_sub.onRendered( function(){
 });
 
 Template.ac_input_email_sub.helpers({
-    // an error message if new password
+    // a dedicated error message
+    //  when used, always keep the area height so that the display is kept stable
     errorMsg(){
         return '<p>'+( Template.instance().AC.errorMsg.get() || '&nbsp;' )+'</p>';
     },
