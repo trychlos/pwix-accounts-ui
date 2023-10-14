@@ -8,8 +8,6 @@
  *  - AC: the acUserLogin internal data structure
  */
 
-import { acCompanion } from '../../classes/ac_companion.class.js';
-
 import './ac_menu_items.html';
 
 Template.ac_menu_items.onRendered( function(){
@@ -17,7 +15,7 @@ Template.ac_menu_items.onRendered( function(){
     //console.log( self, Template.currentData());
 
     // a small note for the maintainer!
-    //  the acCompanion dynItemsBefore/Standard/After() returns the button content as a HTML string
+    //  the _itemsBefore/Standard/After() returns the button content as a HTML string
     //  first try has been to use a triple-braces helper '{{{ buttonContent }}}' to feed the data into the DOM
     //  it happens that this doesn't work as each content update seems to be added to the previous content
     //  visual effect is for example to have several user icons :(
@@ -29,7 +27,7 @@ Template.ac_menu_items.onRendered( function(){
     //  This solution, as a one-line jQuery which doesn't use Blaze helpers, works well.
     self.autorun(() => {
         const menu = self.$( '.ac-menu-items' );
-        const ddItems = AccountsUI.menuItems( Template.currentData().AC.options );
+        const ddItems = AccountsUI.fn.menuItems( Template.currentData().AC.options );
         let html = '';
         ddItems.every(( it ) => {
             html += '<li>'+it+'</li>\n';

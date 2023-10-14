@@ -42,7 +42,7 @@ Template.ac_change_pwd.onCreated( function(){
             if( isOk ){
                 isOk &&= self.AC.passwordVal && self.AC.twiceVal && self.AC.passwordVal !== self.AC.twiceVal;
                 if( self.AC.passwordVal && self.AC.passwordVal.length > 0 && self.AC.passwordVal === self.AC.twiceVal ){
-                    AccountsUI.Display.errorMsg( pwixI18n.label( I18N, 'change_pwd.pwds_are_equal' ));
+                    AccountsUI.fn.errorMsg( pwixI18n.label( I18N, 'change_pwd.pwds_are_equal' ));
                 }
             }
             self.AC.checksOk.set( isOk );
@@ -80,7 +80,7 @@ Template.ac_change_pwd.onRendered( function(){
 Template.ac_change_pwd.helpers({
     // error message
     errorMsg(){
-        return AccountsUI.Display.errorMsg();
+        return AccountsUI.fn.errorMsg();
     },
 
     // params to old password
@@ -120,7 +120,7 @@ Template.ac_change_pwd.events({
     //  NB: happens that data arrives undefined :( see #24
     'ac-password-data .ac-change-pwd'( event, instance, data ){
         //console.log( 'ac-password-data', data );
-        AccountsUI.Display.errorMsg( '' );
+        AccountsUI.fn.errorMsg( '' );
         if( data ){
             instance.AC.checks( event, data );
         }
@@ -129,7 +129,7 @@ Template.ac_change_pwd.events({
     // message sent by the twice passwords component
     'ac-twice-data .ac-change-pwd'( event, instance, data ){
         //console.log( 'ac-twice-data', data );
-        AccountsUI.Display.errorMsg( '' );
+        AccountsUI.fn.errorMsg( '' );
         if( data ){
             instance.AC.checks( event, data );
         }

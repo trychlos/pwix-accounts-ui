@@ -45,7 +45,7 @@ Template.ac_signin.helpers({
     // error message
     //  here, the only error is when server doesn't validate the credentials
     errorMsg(){
-        return AccountsUI.Display.errorMsg();
+        return AccountsUI.fn.errorMsg();
     },
 
     // a description before the section

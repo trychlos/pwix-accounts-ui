@@ -362,6 +362,10 @@ The globally exported object.
 
     A client-only method which clears the panel currently displayed by the named `acUserLogin` instance.
 
+    Parameters are:
+
+    - `name`: the name given to `acUserLogin` component when defining it
+
 - `AccountsUI.dropdownItems()`
 
     A client-only method which returns the list of standard dropdown items, depending of the current user connection state.
@@ -383,6 +387,18 @@ The globally exported object.
     This method returns the `pwix:i18n` namespace of the `pwix:accounts-ui` package.
 
     With that name, anyone is so able to provide additional translations.
+
+- `AccountsUI.namedDropdownItems( name )`
+
+    A client-only method which returns the full list of menu items to be displayed in regard with the current connection state, and the relevant `acUserLogin` configuration parameters.
+
+    The returned value is an array of HTML strings '`<a>...</a>`'.
+
+    Parameters are:
+
+    - `name`: the name given to `acUserLogin` component when defining it
+
+    A reactive data source.
 
 - `AccountsUI.ready()`
 
@@ -489,7 +505,7 @@ Even when providing a configuration object, as all keys are optional, this objec
     - `currentUser` is `true`
     - `initialDisplay` is `AccountsUI.C.Display.DROPDOWNBUTTON`
 
-    Accepted values are a single HTML string which is expected to be the `<li>...</li>` inner HTML,
+    Accepted values are a single HTML string which is expected to be the `<li>...</li>` inner content,
     or an array of such strings, or a function which takes no argument and returns a single HTML string or an array.
 
     Defaults to the standard items.
@@ -809,7 +825,7 @@ The packages defines and makes use of these standard items.
 | ac-signup-item | triggers the message 'ac-panel-signup' |
 | ac-resetask-item | triggers the message 'ac-panel-resetask' |
 
-The full list of the dropdown items may be obtained by the application via the `AccountsUI.dropdownItems()` reactive method.
+The full list of the dropdown items may be obtained by the application via the `AccountsUI.dropdownItems()` (resp. `AccountsUI.dropdownItemsExt()`) reactive methods.
 
 The activation of one of these standard items triggers the display of a panel which let the user enter
 the required informations.

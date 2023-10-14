@@ -38,7 +38,7 @@ Template.ac_reset_ask.onRendered( function(){
 Template.ac_reset_ask.helpers({
     // error message
     errorMsg(){
-        return AccountsUI.Display.errorMsg();
+        return AccountsUI.fn.errorMsg();
     },
 
     // parameters for the email address and username inputs

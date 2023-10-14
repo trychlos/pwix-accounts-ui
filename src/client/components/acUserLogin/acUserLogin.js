@@ -63,7 +63,7 @@ Template.acUserLogin.onRendered( function(){
     self.autorun(() => {
         const name = self.AC.options.name();
         if( name ){
-            AccountsUI.Manager.name( name, self );
+            AccountsUI.fn.nameAdd( name, self );
             self.$( '.acUserLogin' ).attr( 'data-ac-name', name );
         }
     });
@@ -132,7 +132,7 @@ Template.acUserLogin.events({
     },
 
     'ac-display-error .acUserLogin'( event, instance, msg ){
-        AccountsUI.Display.errorMsg( msg );
+        AccountsUI.fn.errorMsg( msg );
         return false;
     },
 
@@ -222,16 +222,16 @@ Template.acUserLogin.events({
         return !managed;
     },
 
-    // set the modal title
+    // set the panel title
     'ac-title .acUserLogin'( event, instance, data ){
-        AccountsUI.Display.title( data );
+        AccountsUI.fn.title( data );
         return false;
     },
 
     // we want intercept the Enter keypress
     //  it is naturally bubbled up here when rendering as div
     //  when rendering as modal, panels bind the event to AC.target
-    // data here is the orginal 'keydown' event
+    // data here is the original 'keydown' event
     'ac-enter .acUserLogin'( event, instance, data ){
         //console.debug( 'Enter' );
         instance.$( '.acUserLogin' ).trigger( 'ac-submit' );
@@ -240,5 +240,5 @@ Template.acUserLogin.events({
 
 Template.acUserLogin.onDestroyed( function(){
     const self = this;
-    AccountsUI.Manager.remove( self.AC.options.name());
+    AccountsUI.fn.nameRemove( self.AC.options.name());
 });

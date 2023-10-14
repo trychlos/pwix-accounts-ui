@@ -18,63 +18,31 @@ _dropdownItemsExt = {
     items: []
 };
 
-_menuItemsExt = {
+_namedItems = {
     dep: null,
     state: null,
     items: []
 };
 
-/*
- * @returns {Array} an array of items as the <li>...</li> inner HTML strings
- */
-const _menuItemsAfter = function( opts, state ){
-    switch( state ){
-        case AccountsUI.C.Connection.LOGGED:
-            return opts.loggedItemsAfter();
-        case AccountsUI.C.Connection.UNLOGGED:
-            return opts.unloggedItemsAfter();
-    }
-    return [];
-}
-
-/*
- * @returns {Array} an array of items as the <li>...</li> inner HTML strings
- */
-const _menuItemsBefore = function( opts, state ){
-    switch( state ){
-        case AccountsUI.C.Connection.LOGGED:
-            return opts.loggedItemsBefore();
-        case AccountsUI.C.Connection.UNLOGGED:
-            return opts.unloggedItemsBefore();
-    }
-    return [];
-}
-
-/*
- * @returns {Array} an array of items as the <li>...</li> inner HTML strings
- */
-const _menuItemsCore = function( opts, state ){
-    let res = [];
-    switch( state ){
-        case AccountsUI.C.Connection.LOGGED:
-            res = opts.loggedItems();
-            if( res === DEF_CONTENT || _.isEqual( res, [ DEF_CONTENT ] )){
-                res = _buildStandardItems( _stdMenuItems[state] );
-            }
-            break;
-        case AccountsUI.C.Connection.UNLOGGED:
-            res = opts.unloggedItems();
-            if( res === DEF_CONTENT || _.isEqual( res, [ DEF_CONTENT ] )){
-                res = _buildStandardItems( _stdMenuItems[state] );
-            }
-            break;
-    }
-    return res;
-}
-
 AccountsUI = {
     ...AccountsUI,
     ...{
+
+        /**
+         * @summary Clears the panel currently displayed by the named instance
+         * @locus Client
+         * @param {String} name the name of the target acUserLogin instance
+         */
+        clearPanel( name ){
+            const instance = AccountsUI.fn.nameGet( name );
+            if( instance ){
+                const panel = instance.AC.panel.get();
+                if( panel && panel !== AccountsUI.C.Panel.NONE ){
+                    instance.$( '.ac-panel' ).trigger( 'ac-clear-panel' );
+                }
+            }
+        },
+
         /**
          * @locus Client
          * @returns {Array} the list of dropdown items to be displayed regarding the
@@ -123,30 +91,27 @@ AccountsUI = {
 
         /**
          * @locus Client
-         * @param {acCompanionOptions} opts the configuration options passed to acUserLogin
+         * @param {String} name the acUserLogin name
          * @returns {Array} the list of dropdown items to be displayed regarding the
-         *  current user connection state.
+         *  current user connection state and the acUserLogin configuration.
          *  A reactive data source.
          */
-        menuItems( opts ){
-            if( !_menuItemsExt.dep ){
-                _menuItemsExt.dep = new Tracker.Dependency();
-                _menuItemsExt.dep.depend();
+        namedDropdownItems( name ){
+            if( !_namedItems.dep ){
+                _namedItems.dep = new Tracker.Dependency();
+                _namedItems.dep.depend();
             }
-            const currentUser = opts.currentUser();
-            if( currentUser ){
+            const instance = AccountsUI.fn.nameGet( name );
+            if( instance ){
                 const state = AccountsUI.Connection.state();
-                if( state !== _menuItemsExt.state ){
+                if( state !== _namedItems.state ){
                     _menuItemsExt.state = state;
-                    //_menuItemsExt.items = _menuItemsBefore( opts ).concat( );
-                    const _before = _menuItemsBefore( opts, state );
-                    const _core = _before.concat( _menuItemsCore( opts, state ));
-                    _menuItemsExt.items = _core.concat( _menuItemsAfter( opts, state ));
-                    _menuItemsExt.dep.changed();
+                    _namedItems.items = AccountsUI.fn.menuItems( instance.AC.options );
+                    _namedItems.dep.changed();
                 }
             }
             //console.log( _dropdownItems );
-            return _menuItemsExt.items;
+            return _namedItems.items;
         }
     }
 };

@@ -108,7 +108,7 @@ Template.ac_signup.helpers({
     // error message
     errorMsg(){
         // even if we have no message at all, we keep at least one blank line
-        return AccountsUI.Display.errorMsg();
+        return AccountsUI.fn.errorMsg();
     },
 
     // whether email address is permitted

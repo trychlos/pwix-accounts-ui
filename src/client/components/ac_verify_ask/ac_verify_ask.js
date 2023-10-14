@@ -10,7 +10,7 @@ import './ac_verify_ask.html';
 Template.ac_verify_ask.helpers({
     // error message
     errorMsg(){
-        return AccountsUI.Display.errorMsg();
+        return AccountsUI.fn.errorMsg();
     },
 
     // the text of the section
