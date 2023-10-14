@@ -36,7 +36,7 @@ AccountsUI = {
         clearPanel( name ){
             const instance = AccountsUI.fn.nameGet( name );
             if( instance ){
-                const panel = instance.AC.panel.get();
+                const panel = instance.AC.panel();
                 if( panel && panel !== AccountsUI.C.Panel.NONE ){
                     instance.$( '.ac-panel' ).trigger( 'ac-clear-panel' );
                 }

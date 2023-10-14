@@ -42,7 +42,26 @@ Template.acUserLogin.onCreated( function(){
         // this event target (useful when a modal is opened)
         target: null,
         // the currently displayed panel for this acUserLogin workflow
-        panel: new ReactiveVar( AccountsUI.C.Panel.NONE )
+        panelRV: new ReactiveVar( AccountsUI.C.Panel.NONE ),
+        // the current panel title
+        titleRV: new ReactiveVar( '' ),
+
+        // a getter/setter
+        panel( panel ){
+            if( panel !== undefined ){
+                self.AC.panelRV.set( panel || AccountsUI.C.Panel.NONE );
+                AccountsUI.fn.errorMsg( '' );
+            }
+            return self.AC.panelRV.get();
+        },
+
+        // a getter/setter
+        title( title ){
+            if( title !== undefined ){
+                self.AC.titleRV.set( title );
+            }
+            return self.AC.titleRV.get();
+        }
     };
 
     if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.INSTANCIATIONS ){
@@ -52,8 +71,10 @@ Template.acUserLogin.onCreated( function(){
     // register the configuration options
     self.autorun(() => {
         self.AC.options.base_set( _.merge( {}, defaults.acUserLogin, Template.currentData()));
-        self.AC.panel.set( self.AC.options.initialPanel() || AccountsUI.C.Panel.NONE );
     });
+
+    // be not reactive to future changes to initialPanel
+    self.AC.panel( self.AC.options.initialPanel() || AccountsUI.C.Panel.NONE );
 });
 
 Template.acUserLogin.onRendered( function(){
@@ -80,19 +101,6 @@ Template.acUserLogin.helpers({
         return Template.instance().AC.options.initialDisplay() === AccountsUI.C.Display.DROPDOWNBUTTON;
     },
 
-    // whether this template must be initially displayed as a panel
-    //  if an initial panel is asked for, then set it
-    /*
-    hasPanel(){
-        const AC = Template.instance().AC;
-        const hasPanel = Boolean( AC.options.initialDisplay() === AccountsUI.C.Display.PANEL );
-        if( hasPanel ){
-            AC.panel = AC.options.initialPanel();
-        }
-        return hasPanel;
-    },
-    */
-
     // set a unique id on the acUserLogin div
     id(){
         return Template.instance().AC.id;
@@ -115,35 +123,25 @@ Template.acUserLogin.events({
 
     // handler here the message which want change the displayed panel (or open a new one)
     'ac-panel-changepwd-event/ac-panel-resetask-event/ac-panel-signin-event/ac-panel-signout-event/ac-panel-signup-event/ac-panel-verifyask-event .acUserLogin'( event, instance, data ){
-        let panel = null;
-        Object.keys( _stdMenuItems ).every(( st ) => {
-            _stdMenuItems[st].every(( it ) => {
-                if( it.msgaction === event.type ){
-                    panel = it.panel;
-                }
-                return panel === null;
-            });
-            return panel === null;
-        });
+        let panel = AccountsUI.Panel.fromEvent( event.type );
         console.debug( event.type, '->', panel );
-        panel = panel || AccountsUI.C.Panel.NONE;
-        instance.AC.panel.set( panel );
-        return false;
+        instance.AC.panel( panel );
+    },
+
+    'ac-close .acUserLogin'( event, instance ){
+        instance.AC.panel( AccountsUI.C.Panel.NONE );
     },
 
     'ac-display-error .acUserLogin'( event, instance, msg ){
         AccountsUI.fn.errorMsg( msg );
-        return false;
     },
 
     // change the rendering mode
     'ac-render-modal .acUserLogin'( event, instance ){
         instance.AC.options.renderMode( AccountsUI.C.Render.MODAL );
-        return false;
     },
     'ac-render-div .acUserLogin'( event, instance ){
         instance.AC.options.renderMode( AccountsUI.C.Render.DIV );
-        return false;
     },
 
     // handle form submission
@@ -154,8 +152,7 @@ Template.acUserLogin.events({
         let mail = null;
         let password = null;
         let managed = false;
-        let close = false;
-        const panel = instance.AC.panel.get();
+        const panel = instance.AC.panel();
         switch( panel ){
             case AccountsUI.C.Panel.CHANGEPWD:
                 //console.debug( this );
@@ -163,14 +160,12 @@ Template.acUserLogin.events({
                 const pwd2 = $( '.ac-change-pwd .ac-newone .ac-input' ).val().trim();
                 AccountsUI.Account.changePwd( pwd1, pwd2, { target: instance.AC.target });
                 managed = true;
-                close = true;
                 break;
             case AccountsUI.C.Panel.RESETASK:
                 //console.log( 'element', $( '.ac-reset-ask' ));
                 mail = $( '.ac-reset-ask .ac-input-email .ac-input' ).val().trim();
                 AccountsUI.Account.resetAsk( mail, { target: instance.AC.target });
                 managed = true;
-                close = true;
                 break;
             case AccountsUI.C.Panel.SIGNIN:
                 // 'mail' here may be either an email address or a username
@@ -179,12 +174,10 @@ Template.acUserLogin.events({
                 //console.log( 'mail',mail,'password', pwd );
                 AccountsUI.Account.loginWithPassword( mail, password, { target: instance.AC.target });
                 managed = true;
-                close = true;
                 break;
             case AccountsUI.C.Panel.SIGNOUT:
                 AccountsUI.Account.logout({ target: instance.AC.target });
                 managed = true;
-                close = true;
                 break;
             case AccountsUI.C.Panel.SIGNUP:
                 let options = {};
@@ -208,24 +201,18 @@ Template.acUserLogin.events({
                     $( '.ac-signup' ).trigger( 'ac-clear-panel' );
                 }
                 managed = true;
-                close = !autoClose;
                 break;
             case AccountsUI.C.Panel.VERIFYASK:
                 AccountsUI.Account.verifyMail({ target: instance.AC.target });
                 managed = true;
-                close = true;
                 break;
-        }
-        if( close ){
-            instance.AC.panel.set( AccountsUI.C.Panel.NONE );
         }
         return !managed;
     },
 
     // set the panel title
     'ac-title .acUserLogin'( event, instance, data ){
-        AccountsUI.fn.title( data );
-        return false;
+        self.AC.title( data );
     },
 
     // we want intercept the Enter keypress

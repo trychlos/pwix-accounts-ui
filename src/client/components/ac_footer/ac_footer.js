@@ -29,7 +29,7 @@ Template.ac_footer.onCreated( function(){
         const haveOKButton = parentAC.options.haveOKButton();
         //console.debug( 'haveCancelButton', haveCancelButton );
         let _buttons = [];
-        AccountsUI.Panel.buttons( parentAC.panel.get()).every(( btn ) => {
+        AccountsUI.Panel.buttons( parentAC.panel()).every(( btn ) => {
             if( btn.class.includes( 'ac-cancel' )){
                 if( haveCancelButton ){
                     _buttons.push( btn );
@@ -75,7 +75,7 @@ Template.ac_footer.helpers({
 
     // returns the ordered list of links to be displayed depending of the current state
     links(){
-        return AccountsUI.Panel.links( this.AC.panel.get());
+        return AccountsUI.Panel.links( this.AC.panel());
     }
 });
 
@@ -84,7 +84,7 @@ Template.ac_footer.events({
     'click .ac-link'( event, instance ){
         const panel = instance.$( event.currentTarget ).find( 'a' ).attr( 'data-ac-target' );
         //console.debug( panel );
-        this.AC.panel.set( panel );
+        this.AC.panel( panel );
     },
 
     'click .ac-cancel'( event, instance ){

@@ -41,7 +41,7 @@ Template.ac_menu_items.events({
 
     'click .ac-dropdown-item'( event, instance ){
         //console.log( event, instance );
-        const msg = $( event.currentTarget ).attr( 'data-ac-msg' );
+        const msg = $( event.currentTarget ).attr( 'data-ac-event' );
         if( msg ){
             const parms = {
                 AC: this.AC,

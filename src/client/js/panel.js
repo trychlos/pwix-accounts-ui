@@ -1,5 +1,8 @@
 /*
  * /src/client/js/panel.js
+ *
+ * The actual 'panel' ReactiveVar is maintained by the acUserLogin instance.
+ * Just provide here somme common functions (and a list of managed panels)
  */
 
 import { pwixI18n } from 'meteor/pwix:i18n';
@@ -15,6 +18,22 @@ AccountsUI.Panel = {
      */
     buttons: function( name ){
         return AccountsUI.Panel.Refs[name] ? AccountsUI.Panel.Refs[name].buttons || [] : [];
+    },
+
+    /*
+     * @summary Convert an event type to the requested panel
+     * @param {String} event the event type
+     * @returns {String} the corresponding panel or null
+     */
+    fromEvent( event ){
+        let panel = null;
+        Object.keys( this.Refs ).every(( p ) => {
+            if( this.Refs[p].event === event ){
+                panel = p;
+            }
+            return panel === null;
+        });
+        return panel;
     },
 
     /**
@@ -44,20 +63,17 @@ AccountsUI.Panel = {
         return o ? pwixI18n.label( I18N, o.i18n ) : '';
     },
 
-    /**
-     * Validate that the provided panel is a valid one, i.e. a known, non-empty, string.
-     * @throws {Error}
+    /*
+     * @param {String} a panel name
+     * @returns {String} the event name required to display this panel
      */
-    validate: function( panel ){
-        //console.debug( 'panel', panel );
-        if( !panel ){
-            throw new Error( 'empty panel name' );
+    toEvent( panel ){
+        let event = null;
+        if( Object.keys( this.Refs ).includes( panel )){
+            event = this.Refs[panel].event;
         }
-        //console.log( this ); // AccountsUI.Panel
-        if( !Object.keys( AccountsUI.Panel.Refs ).includes( panel )){
-            throw new Error( 'unknown panel', panel );
-        }
-    }
+        return event;
+    },
 };
 
 AccountsUI.Panel.Refs[AccountsUI.C.Panel.NONE] = {
@@ -69,7 +85,8 @@ AccountsUI.Panel.Refs[AccountsUI.C.Panel.CHANGEPWD] = {
         { class: 'btn-primary ac-submit',   key: 'ok_label' }
     ],
     modal_title: { i18n: 'change_pwd.modal_title' },
-    template: 'ac_change_pwd'
+    template: 'ac_change_pwd',
+    event: 'ac-panel-changepwd-event'
 };
 
 AccountsUI.Panel.Refs[AccountsUI.C.Panel.RESETASK] = {
@@ -82,7 +99,8 @@ AccountsUI.Panel.Refs[AccountsUI.C.Panel.RESETASK] = {
         { key: 'signup_link', target: AccountsUI.C.Panel.SIGNUP, have: 'signupLink' }
     ],
     modal_title: { i18n: 'reset_ask.modal_title' },
-    template: 'ac_reset_ask'
+    template: 'ac_reset_ask',
+    event: 'ac-panel-resetask-event'
 };
 
 AccountsUI.Panel.Refs[AccountsUI.C.Panel.RESETPWD] = {
@@ -104,7 +122,8 @@ AccountsUI.Panel.Refs[AccountsUI.C.Panel.SIGNIN] = {
         { key: 'signup_link', target: AccountsUI.C.Panel.SIGNUP,   have: 'signupLink' }
     ],
     modal_title: { i18n: 'signin.modal_title' },
-    template: 'ac_signin'
+    template: 'ac_signin',
+    event: 'ac-panel-signin-event'
 };
 
 AccountsUI.Panel.Refs[AccountsUI.C.Panel.SIGNOUT] = {
@@ -113,7 +132,8 @@ AccountsUI.Panel.Refs[AccountsUI.C.Panel.SIGNOUT] = {
         { class: 'btn-primary ac-submit',   key: 'signout_label' }
     ],
     modal_title: { i18n: 'signout.modal_title' },
-    template: 'ac_signout'
+    template: 'ac_signout',
+    event: 'ac-panel-signout-event'
 };
 
 AccountsUI.Panel.Refs[AccountsUI.C.Panel.SIGNUP] = {
@@ -126,7 +146,8 @@ AccountsUI.Panel.Refs[AccountsUI.C.Panel.SIGNUP] = {
         { key: 'signin_link', target: AccountsUI.C.Panel.SIGNIN, have: 'signinLink' }
     ],
     modal_title: { i18n: 'signup.modal_title' },
-    template: 'ac_signup'
+    template: 'ac_signup',
+    event: 'ac-panel-signup-event'
 };
 
 AccountsUI.Panel.Refs[AccountsUI.C.Panel.VERIFYASK] = {
@@ -135,5 +156,6 @@ AccountsUI.Panel.Refs[AccountsUI.C.Panel.VERIFYASK] = {
         { class: 'btn-primary ac-submit',   key: 'send_label' }
     ],
     modal_title: { i18n: 'verify_ask.modal_title' },
-    template: 'ac_verify_ask'
+    template: 'ac_verify_ask',
+    event: 'ac-panel-verifyask-event'
 };

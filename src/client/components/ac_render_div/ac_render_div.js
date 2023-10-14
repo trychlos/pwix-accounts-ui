@@ -9,6 +9,6 @@ import './ac_render_div.html';
 
 Template.ac_render_div.helpers({
     template(){
-        return AccountsUI.Panel.template( this.AC.panel.get());
+        return AccountsUI.Panel.template( this.AC.panel());
     }
 });

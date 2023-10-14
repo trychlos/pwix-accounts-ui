@@ -22,7 +22,7 @@ Template.ac_render_modal.onCreated( function(){
     // whether we have to open a new dialog ?
     self.autorun(() => {
         if( parentAC && parentAC.options.renderMode() === AccountsUI.C.Render.MODAL ){
-            const panel = parentAC.panel.get();
+            const panel = parentAC.panel();
             if( panel && panel !== AccountsUI.C.Panel.NONE && Modal.count() === 0 ){
                 if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.MODAL ){
                     console.log( 'pwix:accounts-ui ac_render_modal run the '+panel+' modal' );
@@ -41,7 +41,7 @@ Template.ac_render_modal.onCreated( function(){
     // whether we want close the current modal ?
     self.autorun(() => {
         if( parentAC && parentAC.options.renderMode() === AccountsUI.C.Render.MODAL ){
-            const panel = parentAC.panel.get();
+            const panel = parentAC.panel();
             if( !panel || panel === AccountsUI.C.Panel.NONE ){
                 if( Modal.count() > 0 ){
                     Modal.close();
@@ -53,7 +53,7 @@ Template.ac_render_modal.onCreated( function(){
     // update title and body
     self.autorun(() => {
         if( parentAC && parentAC.options.renderMode() === AccountsUI.C.Render.MODAL ){
-            const panel = parentAC.panel.get();
+            const panel = parentAC.panel();
             if( panel && panel !== AccountsUI.C.Panel.NONE && Modal.count() > 0 ){
                 Modal.set({
                     title: AccountsUI.Panel.title( panel ),

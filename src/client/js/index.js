@@ -10,6 +10,7 @@ AccountsUI.Connection = new acConnection();
 
 import './account.js';
 import './accounts_base.js';
+import './bodyevents.js';
 import './defaults.js';
 import './functions.js';
 import './panel.js';

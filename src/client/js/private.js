@@ -18,10 +18,8 @@ _menuItems = {
 _named = {};
 
 // error message
+//  defined here to be useable even in resetpwd modal
 _errorMsg = new ReactiveVar( '' );
-
-// panel title
-_title = new ReactiveVar( '' );
 
 AccountsUI.fn = {
 
@@ -140,17 +138,5 @@ AccountsUI.fn = {
         if( name ){
             delete _named[name];
         }
-    },
-
-    /*
-     * Getter/Setter
-     * @param {String} title a new title for the modal
-     * @returns {String} the current title
-     */
-    title( title ){
-        if( title !== undefined ){
-            _title.set( title );
-        }
-        return _title.get();
     }
 };

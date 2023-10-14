@@ -576,6 +576,8 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     Defaults to `AccountsUI.C.Panel.NONE`.
 
+    Additional note: even if a Blaze template is expected to be reactive to its parameters, please be conscious that this one is only here to provide an initial value. We make sure that the behavior of the `acUserLogin` component is *not* reactive to changes to this parameter after initialization.
+
 - `changePasswordTwice`
 
     Whether we make use of the two password input fields when changing a user's password.

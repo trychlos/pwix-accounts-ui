@@ -19,8 +19,6 @@ import { pwixI18n } from 'meteor/pwix:i18n';
  * Properties
  * 
  * - panel: the panel to be displayed at item activation
- * - msgaction: the message to be triggered for simulating the item activation
- *   under the hood, the message handler just requests the specified panel with the corresponding argument
  */
 
 _stdMenuItems = {};
@@ -32,8 +30,7 @@ _stdMenuItems[AccountsUI.C.Connection.LOGGED] = [
         faicon: 'fa-right-from-bracket',
         labelkey: 'signout',
         enablefn: _enableAlways,
-        panel: AccountsUI.C.Panel.SIGNOUT,
-        msgaction: 'ac-panel-signout-event'
+        panel: AccountsUI.C.Panel.SIGNOUT
     },
     {
         id: 'ac-changepwd-item',
@@ -41,8 +38,7 @@ _stdMenuItems[AccountsUI.C.Connection.LOGGED] = [
         faicon: 'fa-passport',
         labelkey: 'changepwd',
         enablefn: _enableAlways,
-        panel: AccountsUI.C.Panel.CHANGEPWD,
-        msgaction: 'ac-panel-changepwd-event'
+        panel: AccountsUI.C.Panel.CHANGEPWD
     },
     {
         id: 'ac-verifyask-item',
@@ -50,8 +46,7 @@ _stdMenuItems[AccountsUI.C.Connection.LOGGED] = [
         faicon: 'fa-envelope-circle-check',
         labelkey: 'verifyask',
         enablefn: _enableMailVerified,
-        panel: AccountsUI.C.Panel.VERIFYASK,
-        msgaction: 'ac-panel-verifyask-event'
+        panel: AccountsUI.C.Panel.VERIFYASK
     }
 ];
 
@@ -62,8 +57,7 @@ _stdMenuItems[AccountsUI.C.Connection.UNLOGGED] = [
         faicon: 'fa-user',
         labelkey: 'signin',
         enablefn: _enableAlways,
-        panel: AccountsUI.C.Panel.SIGNIN,
-        msgaction: 'ac-panel-signin-event'
+        panel: AccountsUI.C.Panel.SIGNIN
     },
     {
         id: 'ac-signup-item',
@@ -71,8 +65,7 @@ _stdMenuItems[AccountsUI.C.Connection.UNLOGGED] = [
         faicon: 'fa-user-plus',
         labelkey: 'signup',
         enablefn: _enableAlways,
-        panel: AccountsUI.C.Panel.SIGNUP,
-        msgaction: 'ac-panel-signup-event'
+        panel: AccountsUI.C.Panel.SIGNUP
     },
     {
         id: 'ac-resetask-item',
@@ -80,8 +73,7 @@ _stdMenuItems[AccountsUI.C.Connection.UNLOGGED] = [
         faicon: 'fa-lock-open',
         labelkey: 'resetask',
         enablefn: _enableAlways,
-        panel: AccountsUI.C.Panel.RESETASK,
-        msgaction: 'ac-panel-resetask-event'
+        panel: AccountsUI.C.Panel.RESETASK
     },
 ];
 
@@ -107,7 +99,7 @@ _buildStandardItems = function( source ){
         if( it.enablefn && !it.enablefn()){
             html += ' disabled';
         }
-        html += '" href="#" data-ac-msg="'+it.msgaction+'" data-ac-panel="'+it.panel+'"';
+        html += '" href="#" data-ac-event="'+AccountsUI.Panel.toEvent( it.panel )+'" data-ac-panel="'+it.panel+'"';
         html += '>';
         html += '<span class="fa-solid fa-fw '+it.faicon+'"></span>';
         html += '<p>'+pwixI18n.label( I18N, 'features.'+it.labelkey )+'</p>';

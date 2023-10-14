@@ -77,6 +77,8 @@ AccountsUI.Account = {
                     }
                 });
             }
+            // last close the modal
+            target.trigger( 'ac-close' );
         };
         // the main code
         if( opts.autoConnect !== false ){
@@ -121,6 +123,8 @@ AccountsUI.Account = {
                     console.log( 'pwix:accounts-ui triggering', event, parms );
                 }
                 target.trigger( event, parms );
+                // last close the modal
+                target.trigger( 'ac-close' );
             }
         });
     },
@@ -140,6 +144,8 @@ AccountsUI.Account = {
             console.log( 'pwix:accounts-ui triggering', event, parms );
         }
         target.trigger( event, parms );
+        // last close the modal
+        target.trigger( 'ac-close' );
     },
 
     /**
@@ -164,6 +170,8 @@ AccountsUI.Account = {
                 console.log( 'pwix:accounts-ui triggering', event, parms );
             }
             target.trigger( event, parms );
+            // last close the modal
+            target.trigger( 'ac-close' );
         };
         // the main code
         Accounts.forgotPassword({ email: email }, ( err ) => {
@@ -199,6 +207,8 @@ AccountsUI.Account = {
                         console.log( 'pwix:accounts-ui triggering', event, parms );
                     }
                     target.trigger( event, parms );
+                    // last close the modal
+                    target.trigger( 'ac-close' );
                 } else {
                     Tolert.error( pwixI18n.label( I18N, 'user.verifyask_error' ));
                 }
