@@ -716,18 +716,6 @@ via messages sent to the `<div class="acUserLogin">...</div>`.
 
     No data is expected.
 
-- `ac-display-error`
-
-    Set the error message of the currently displayed panel
-
-    The error message must be set as the data of the event.
-
-- `ac-title`
-
-    Set the title of the currently displayed modal
-
-    The new title must be set as the data of the event.
-
 ### Messages visible to the application
 
 - on the `body` element

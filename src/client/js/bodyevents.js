@@ -28,7 +28,6 @@ _refs = [
     'ac-render-div',
     'ac-render-modal',
     'ac-submit',
-    'ac-title',
     // the modal events we may want to deal with
     'md-click',
     'md-close',

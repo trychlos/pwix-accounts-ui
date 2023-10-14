@@ -210,11 +210,6 @@ Template.acUserLogin.events({
         return !managed;
     },
 
-    // set the panel title
-    'ac-title .acUserLogin'( event, instance, data ){
-        self.AC.title( data );
-    },
-
     // we want intercept the Enter keypress
     //  it is naturally bubbled up here when rendering as div
     //  when rendering as modal, panels bind the event to AC.target

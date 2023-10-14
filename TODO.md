@@ -25,7 +25,6 @@
 |   29 | 2023- 1-26 | feat: manage several email addresses per user |
 |      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
 |   63 | 2023- 9- 9 | in izDate, many errors with textOne, textTwo textThree, textFour, legend and mandatoryBorder when trying to create a new account |
-|   64 | 2023- 9-12 | todo: handle ac-title message - for now, is only used to set a rv var, itself unsused |
 |   65 | 2023- 9-12 | feat: have a onUserCreated parm with nothing, dialog box or user function (but is it relevant client side) |
 |   67 | 2023- 9-12 | feat: honor coloredBorders parm |
 |   70 |  |  |
@@ -155,6 +154,8 @@
 |      | 2023- 9-17 | the feature is available starting with pwix:modal 1.8.0 |
 |   62 | 2023- 9- 9 | change title of the modals |
 |      | 2023- 9-12 | cancelled as duplicate of #64 |
+|   64 | 2023- 9-12 | todo: handle ac-title message - for now, is only used to set a rv var, itself unsused |
+|      | 2023-10-14 | event is removed |
 |   66 | 2023- 9-12 | feat: honor onEmailverifiedXxxx parms |
 |      | 2023- 9-18 | done |
 |   68 | 2023- 9-12 | disable submit button on modals (and divs) when the panels is not ok |
