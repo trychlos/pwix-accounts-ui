@@ -184,25 +184,19 @@ Template.ac_signup.events({
     // message sent by the input email component
     'ac-email-data .ac-signup'( event, instance, data ){
         //console.log( event, data );
-        if( data ){
-            instance.AC.checks( event, data );
-        }
+        instance.AC.checks( event, data );
     },
 
     // message sent by the twice passwords component
     'ac-twice-data .ac-signup'( event, instance, data ){
         //console.log( 'ac-twice-data', data );
-        if( data ){
-            instance.AC.checks( event, data );
-        }
+        instance.AC.checks( event, data );
     },
 
     // message sent by the input username component
     'ac-username-data .ac-signup'( event, instance, data ){
         //console.log( 'ac-username-data', data );
-        if( data ){
-            instance.AC.checks( event, data );
-        }
+        instance.AC.checks( event, data );
     },
 
     // message sent from acUserLogin after having successfully created a new user

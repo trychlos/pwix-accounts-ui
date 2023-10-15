@@ -86,6 +86,8 @@
 |   24 | 2023- 1-25 | BUG data associated to ac-password-data message is received as undefined when length=0 |
 |      | 2023- 1-29 | as a work-around has been found, this is very low priority |
 |      | 2023- 9-18 | actually this empty message is only received during Blaze initialization - so cancel the todo |
+|      | 2023-10-15 | happens that there is nothing to do with Blaze rendering, but with the presence of a 'length' property. See also https://api.jquery.com/trigger/ |
+|      |            | so 'length' result property is renamed ac-length |
 |   25 | 2023- 1-25 | reset_ask make sure we take an email address |
 |      | 2023- 1-26 | done |
 |   30 | 2023- 1-26 | send ac-user-resetpwd message from Accounts.onResetPasswordLink() function |

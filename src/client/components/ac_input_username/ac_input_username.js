@@ -48,7 +48,7 @@ Template.ac_input_username_sub.onCreated( function(){
                 });
         },
 
-        // display an error message, either locally (here) ou at the panel level
+        // display an error message, either locally (here) or at the panel level
         displayError( msg ){
             // see https://stackoverflow.com/questions/39271499/template-actual-data-context/39272483#39272483
             // function context here doesn't let Template.currentData() find a current view as we are called from inside a Promise.then()
@@ -96,12 +96,14 @@ Template.ac_input_username_sub.helpers({
 });
 
 Template.ac_input_username_sub.events({
-    // we are asked to re-check
-    'ac-check .ac-username-sub'( event, instance ){
+    // check input
+    'input input'( event, instance ){
         instance.AC.check();
     },
 
-    'input input'( event, instance ){
+    // we are asked to re-check
+    'ac-check .ac-input-username-sub'( event, instance ){
         instance.AC.check();
-    }
+        return false;
+    },
 });

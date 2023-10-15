@@ -63,12 +63,11 @@ Template.ac_twice_passwords_sub.onCreated( function(){
             }
             self.$( '.ac-twice-passwords-sub' ).trigger( 'ac-twice-data', {
                 ok: equalsOk,
-                length: pwd1.length,
                 password: equalsOk ? pwd1 : null
             });
         },
 
-        // display an error message, either locally (here) ou at the panel level
+        // display an error message, either locally (here) or at the panel level
         displayError( msg ){
             //const withError = Boolean( Template.currentData().withError !== false );
             // see https://stackoverflow.com/questions/39271499/template-actual-data-context/39272483#39272483
@@ -148,13 +147,12 @@ Template.ac_twice_passwords_sub.events({
     // we are asked to re-check
     'ac-check .ac-twice-passwords-sub'( event, instance, data ){
         instance.AC.recheck();
+        return false;
     },
 
+    // check each individual input password
     'ac-password-data .ac-twice-passwords-sub'( event, instance, data ){
-        if( data ){
-            instance.AC.check( data );
-        }
-        // do not bubble up
+        instance.AC.check( data );
         return false;
     }
 });

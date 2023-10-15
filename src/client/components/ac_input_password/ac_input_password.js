@@ -64,16 +64,17 @@ Template.ac_input_password.onCreated( function(){
                 self.AC.displayError( result.errors[0] );
             }
             // advertises of the current password characteristics
-            self.$( '.ac-input-password' ).trigger( 'ac-password-data', {
+            const data = {
                 ok: result.ok,
                 score: result.zxcvbn.score,
                 strength: AccountsUI._scores[result.zxcvbn.score],
-                password: result.password,
-                length: result.password.length
-            });
+                password: result.password
+            };
+            //console.debug( 'sending ac-password-data with', data );
+            self.$( '.ac-input-password' ).trigger( 'ac-password-data', data );
         },
 
-        // display an error message, either locally (here) ou at the panel level
+        // display an error message, either locally (here) or at the panel level
         displayError( msg ){
             // this code to be consistent with other input components which are called from inside a Promise.then()
             //  though we could use here the usual Template.currentData()
@@ -147,6 +148,7 @@ Template.ac_input_password.helpers({
 });
 
 Template.ac_input_password.events({
+    // toggle the display of the clear password
     'click .ac-eye'( event, instance ){
         const $field = instance.$( '.ac-input-password input');
         if( $field.lenth ){
@@ -163,12 +165,14 @@ Template.ac_input_password.events({
         }
     },
 
-    // we are asked to re-check
-    'ac-check .ac-input-email-sub'( event, instance ){
+    // check input
+    'input .ac-input-password .ac-input'( event, instance ){
         instance.AC.check();
     },
 
-    'input .ac-input-password .ac-input'( event, instance ){
+    // we are asked to re-check
+    'ac-check .ac-input-password'( event, instance ){
         instance.AC.check();
+        return false;
     }
 });

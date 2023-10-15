@@ -59,7 +59,7 @@ Template.ac_input_email.helpers({
                 });
         },
 
-        // display an error message, either locally (here) ou at the panel level
+        // display an error message, either locally (here) or at the panel level
         displayError( msg ){
             //const withError = Boolean( Template.currentData().withError !== false );
             // see https://stackoverflow.com/questions/39271499/template-actual-data-context/39272483#39272483
@@ -108,12 +108,14 @@ Template.ac_input_email_sub.helpers({
 });
 
 Template.ac_input_email_sub.events({
-    // we are asked to re-check
-    'ac-check .ac-input-email-sub'( event, instance ){
+    // check input
+    'input input.ac-input'( event, instance ){
         instance.AC.check();
     },
 
-    'input input.ac-input'( event, instance ){
+    // we are asked to re-check
+    'ac-check .ac-input-email-sub'( event, instance ){
         instance.AC.check();
-    }
+        return false;
+    },
 });
