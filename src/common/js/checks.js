@@ -110,18 +110,14 @@ AccountsUI = {
             // check for unicity
             if( Meteor.isClient ){
                 return Meteor.callPromise( 'AccountsUI.byEmailAddress', email )
-                    .then(( res, err ) => {
-                        if( err ){
-                            console.error( err );
-                        } else {
-                            result.exists = ( res ? true : false );
-                        }
+                    .then(( res ) => {
+                        result.exists = ( res ? true : false );
                         return result;
                     });
             }
             // server side
             const user = AccountsUI._byEmailAddress( email );
-            result.exists = ( res ? true : false );
+            result.exists = ( user ? true : false );
             return result;
         },
 
