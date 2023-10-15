@@ -249,6 +249,15 @@ export class acCompanionOptions extends Options.Base {
 
     /**
      * Getter/Setter
+     * @param {Boolean|Function} flag whether to have fieldsets
+     * @returns {boolean}
+     */
+    signinFieldset( flag ){
+        return this.base_gsBoolFn( 'signinFieldset', flag, { default: defaults.acUserLogin.signinFieldset });
+    }
+
+    /**
+     * Getter/Setter
      * @param {String|Function|Object} str the legend to be set inside of email fieldset
      * @returns {String}
      */
@@ -348,6 +357,15 @@ export class acCompanionOptions extends Options.Base {
      */
     signupEmailPlaceholder( str ){
         return this.base_gsStringObjectFn( 'signupEmailPlaceholder', str, { default: defaults.acUserLogin.signupEmailPlaceholder });
+    }
+
+    /**
+     * Getter/Setter
+     * @param {Boolean|Function} flag whether to have fieldsets
+     * @returns {boolean}
+     */
+    signupFieldset( flag ){
+        return this.base_gsBoolFn( 'signupFieldset', flag, { default: defaults.acUserLogin.signupFieldset });
     }
 
     /**

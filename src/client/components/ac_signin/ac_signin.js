@@ -58,6 +58,42 @@ Template.ac_signin.helpers({
         return AccountsUI.opts().haveEmailAddress() === AccountsUI.C.Input.NONE && AccountsUI.opts().haveUsername() !== AccountsUI.C.Input.NONE;
     },
 
+    parmsEmail(){
+        return {
+            ...this,
+            ...{
+                withFieldset: this.AC.options.signinFieldset()
+            }
+        }
+    },
+
+    parmsPassword(){
+        return {
+            ...this,
+            ...{
+                withFieldset: this.AC.options.signinFieldset()
+            }
+        }
+    },
+
+    parmsUserid(){
+        return {
+            ...this,
+            ...{
+                withFieldset: this.AC.options.signinFieldset()
+            }
+        }
+    },
+
+    parmsUsername(){
+        return {
+            ...this,
+            ...{
+                withFieldset: this.AC.options.signinFieldset()
+            }
+        }
+    },
+
     // a description before the section
     textOne(){
         return this.AC.options.signinTextOne();

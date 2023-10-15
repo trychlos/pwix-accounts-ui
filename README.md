@@ -611,6 +611,14 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     Accepted values are `true`|`false`, defaulting to `true`.
 
+- `signinFieldset`
+
+    Whether to set input fields inside a fieldset.
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+
+    Accepted values are `true`|`false`, defaulting to `false`.
+
 - `signinLegendEmail`
 - `signinLegendPassword`
 - `signinLegendUsername`
@@ -618,6 +626,14 @@ Even when providing a configuration object, as all keys are optional, this objec
     The legend to be set inside of the respective fieldsets of the signin panel.
 
     Defaults to none.
+
+- `signupFieldset`
+
+    Whether to set input fields inside a fieldset.
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+
+    Accepted values are `true`|`false`, defaulting to `false`.
 
 - `signupLegendEmail`
 - `signupLegendPassword`

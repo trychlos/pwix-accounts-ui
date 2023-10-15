@@ -17,6 +17,8 @@
     - Rename supported languages so that it is clearer they can act as fallbacks too
     - Review and (hopefully) fix the acUserLogin configuration options
     - Define 'signupTextFive' acUserLogin option
+    - Define 'signinFieldset' and 'signupFieldset' acUserLogin options
+    - Review fieldset style
 
 ### 1.4.0
 

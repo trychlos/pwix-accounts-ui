@@ -134,6 +134,8 @@ Template.ac_signup.helpers({
             AC: this.AC,
             wantsNew: true,
             withErrorMsg: true,
+            withFieldset: this.AC.options.signupFieldset(),
+            legend: this.AC.options.signupLegendEmail(),
             withMandatoryField: true,
             placeholder: this.AC.options.signupEmailPlaceholder()
         };
@@ -146,6 +148,8 @@ Template.ac_signup.helpers({
             role: 'signup',
             withMandatoryField: true,
             withErrorMsg: true,
+            withFieldset: this.AC.options.signupFieldset(),
+            legend: this.AC.options.signupLegendPassword(),
             placeholder1: this.AC.options.signupPasswdOnePlaceholder(),
             placeholder2: this.AC.options.signupPasswdTwoPlaceholder()
         };
@@ -157,6 +161,8 @@ Template.ac_signup.helpers({
             AC: this.AC,
             wantsNew: true,
             withErrorMsg: true,
+            withFieldset: this.AC.options.signupFieldset(),
+            legend: this.AC.options.signupLegendUsername(),
             withMandatoryField: true
         };
     },

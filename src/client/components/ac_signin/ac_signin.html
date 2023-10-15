@@ -7,12 +7,12 @@
             {{/if}}
 
             {{#if onlyEmailAddress}}
-                {{> ac_input_email }}
+                {{> ac_input_email (parmsEmail) }}
             {{else}}
                 {{#if onlyUsername }}
-                    {{> ac_input_username }}
+                    {{> ac_input_username (parmsUsername) }}
                 {{else}}
-                    {{> ac_input_userid }}
+                    {{> ac_input_userid (parmsUserid) }}
                 {{/if}}
             {{/if}}
 
@@ -20,7 +20,7 @@
                 <div class="ac-text ac-text-two">{{{ textTwo }}}</div>
             {{/if}}
 
-            {{> ac_input_password }}
+            {{> ac_input_password (parmsPassword) }}
 
             {{#if textThree }}
                 <div class="ac-text ac-text-three">{{{ textThree }}}</div>
