@@ -34,7 +34,7 @@ Template.ac_input_email.helpers({
 
  Template.ac_input_email_sub.onCreated( function(){
     const self = this;
-    console.log( self, Template.currentData());
+    //console.log( self, Template.currentData());
 
     self.AC = {
         errorMsg: new ReactiveVar( '' ),

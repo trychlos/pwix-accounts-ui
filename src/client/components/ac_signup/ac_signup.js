@@ -52,22 +52,18 @@ Template.ac_signup.onCreated( function(){
         //  so re-check all other fields to be sure that all errors have been considered
         checkPanel(){
             self.AC.inCheck = true;
-            let isOk = true;
             if( !self.AC.twiceOk.get()){
-                isOk = false;
                 self.$( '.ac-twice-passwords-sub' ).trigger( 'ac-check' );
             }
             // if an email is mandatory, it must be set here
             if( AccountsUI.opts().haveEmailAddress() !== AccountsUI.C.Input.NONE ){
                 if( !self.AC.emailOk.get()){
-                    isOk = false;
                     self.$( '.ac-input-email-sub' ).trigger( 'ac-check' );
                 }
             }
             // if a username is mandatory, it must be set here
             if( AccountsUI.opts().haveUsername() !== AccountsUI.C.Input.NONE ){
                 if( !self.AC.usernameOk.get()){
-                    isOk = false;
                     self.$( '.ac-input-username-sub' ).trigger( 'ac-check' );
                 }
             }
