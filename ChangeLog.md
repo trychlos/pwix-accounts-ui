@@ -12,6 +12,9 @@
     - Fix ac-signup panel check
     - Define new ac-signup-ok event
     - Fix verification email sending twice when autoConnect is true
+    - Simplify code removing acManager, acCompanion, acDisplay classes
+    - Improve error display so that the panels are stable
+    - Rename supported languages so that it is clearer they can act as fallbacks too
 
 ### 1.4.0
 

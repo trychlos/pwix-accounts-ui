@@ -1,11 +1,11 @@
 /*
- * pwix:accounts-ui/src/common/i18n/en_US.js
+ * pwix:accounts-ui/src/common/i18n/en.js
  */
 
 AccountsUI.i18n = {
     ...AccountsUI.i18n,
     ...{
-        en_US: {
+        en: {
             buttons: {
                 reset_link: '[ Lost password ? ]',
                 signin_link: '[ Sign in with my account ]',
@@ -136,5 +136,3 @@ AccountsUI.i18n = {
         }
     }
 };
-
-AccountsUI.i18n.en = AccountsUI.i18n.en_US;
