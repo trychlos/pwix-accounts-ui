@@ -12,3 +12,12 @@ Template.ac_render_div.helpers({
         return AccountsUI.Panel.template( this.AC.panel());
     }
 });
+
+Template.ac_render_div.events({
+    // intercept Enter keypress
+    'keydown .ac-render-div'( event, instance ){
+        if( event.keyCode === 13 ){
+            this.AC.target.trigger( 'ac-enter', event );
+        }
+    }
+});
