@@ -57,6 +57,7 @@ AccountsUI.i18n = {
             },
             input_username: {
                 label: 'Username:',
+                legend: 'Provide a username',
                 placeholder: 'Enter your username',
                 too_short: 'Too short username',
                 already_exists: 'Username already in use'

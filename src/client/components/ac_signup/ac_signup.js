@@ -78,11 +78,11 @@ Template.ac_signup.onCreated( function(){
             return data.ok;
         },
         haveEmailAddress(){
-            return AccountsUI.opts().haveEmailAddress() !== AccountsUI.C.Input.NONE;
+            return Template.currentData().AC.options.signupHaveEmailAddress() !== AccountsUI.C.Input.NONE;
         },
         haveUsername(){
             //console.debug( 'username', AccountsUI.opts().haveUsername());
-            return AccountsUI.opts().haveUsername() !== AccountsUI.C.Input.NONE;
+            return Template.currentData().AC.options.signupHaveUsername() !== AccountsUI.C.Input.NONE;
         },
         clearPanel(){
             self.$( 'input' )

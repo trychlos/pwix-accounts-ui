@@ -111,6 +111,13 @@ _buildStandardItems = function( source ){
 }
 
 /*
+ * a function to return the 'mandatoryFieldsBorder' package default value
+ */
+function _coloredBorders(){
+    return AccountsUI.opts().coloredBorders();
+}
+
+/*
  * a function to return the email address of the logged-in user
  */
 function _emailAddress(){
@@ -118,10 +125,17 @@ function _emailAddress(){
 }
 
 /*
- * a function to return the 'mandatoryFieldsBorder' package default value
+ * a function to return the 'haveEmailAddress' package default value
  */
-function _coloredBorders(){
-    return AccountsUI.opts().coloredBorders();
+function _haveEmailAddress(){
+    return AccountsUI.opts().haveEmailAddress();
+}
+
+/*
+ * a function to return the 'haveUsername' package default value
+ */
+function _haveUsername(){
+    return AccountsUI.opts().haveUsername();
 }
 
 /*
@@ -176,6 +190,8 @@ _.merge( defaults, {
         signinLegendPassword: '',
         signinLegendUsername: '',
         signupFieldset: false,
+        signupHaveEmailAddress: _haveEmailAddress,
+        signupHaveUsername: _haveUsername,
         signupLegendEmail: '',
         signupLegendPassword: '',
         signupLegendUsername: '',

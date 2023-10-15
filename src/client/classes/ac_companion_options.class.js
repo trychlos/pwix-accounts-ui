@@ -33,6 +33,13 @@ export class acCompanionOptions extends Options.Base {
         AccountsUI.C.Panel.VERIFYASK
     ];
 
+    // fields management
+    static Fields = [
+        AccountsUI.C.Input.NONE,
+        AccountsUI.C.Input.OPTIONAL,
+        AccountsUI.C.Input.MANDATORY
+    ];
+
     // the known render modes
     static RenderModes = [
         AccountsUI.C.Render.MODAL,
@@ -357,6 +364,24 @@ export class acCompanionOptions extends Options.Base {
      */
     signupEmailPlaceholder( str ){
         return this.base_gsStringObjectFn( 'signupEmailPlaceholder', str, { default: defaults.acUserLogin.signupEmailPlaceholder });
+    }
+
+    /**
+     * Getter/Setter
+     * @param {String|Function} value whether signup panel has an email address
+     * @returns {String}
+     */
+    signupHaveEmailAddress( value ){
+        return this.base_gsStringFn( 'signupHaveEmailAddress', value, { default: defaults.acUserLogin.signupHaveEmailAddress, ref: acCompanionOptions.Fields });
+    }
+
+    /**
+     * Getter/Setter
+     * @param {String|Function} value whether signup panel has a username
+     * @returns {String}
+     */
+    signupHaveUsername( value ){
+        return this.base_gsStringFn( 'signupHaveUsername', value, { default: defaults.acUserLogin.signupHaveUsername, ref: acCompanionOptions.Fields });
     }
 
     /**

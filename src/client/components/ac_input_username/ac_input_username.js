@@ -91,7 +91,9 @@ Template.ac_input_username_sub.helpers({
 
     // returns the keyed translated string
     text( key ){
-        return Object.keys( this ).includes( key ) ? this[key] : Template.instance().AC.i18n( key );
+        let res = Object.keys( this ).includes( key ) ? this[key] : pwixI18n.label( I18N, 'input_username.'+key );
+        console.debug( this, key, res );
+        return res;
     }
 });
 

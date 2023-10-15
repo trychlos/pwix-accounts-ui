@@ -57,6 +57,7 @@ AccountsUI.i18n = {
             },
             input_username: {
                 label: 'Nom d\'utilisateur :',
+                legend: 'Fournissez un nom d\'utilisateur',
                 placeholder: 'Saisissez votre nom d\'utilisateur',
                 already_exists: 'Le nom d\'utilisateur est déjà utilisé',
                 too_short: 'Le nom d\'utilisateur est trop court'

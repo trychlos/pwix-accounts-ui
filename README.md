@@ -627,6 +627,8 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     Defaults to none.
 
+    These legends are only considered if the `signinFieldset` is `true`.
+
 - `signupFieldset`
 
     Whether to set input fields inside a fieldset.
@@ -642,6 +644,8 @@ Even when providing a configuration object, as all keys are optional, this objec
     The legend to be set inside of the respective fieldsets of the signup panel.
 
     Defaults to none.
+
+    These legends are only considered if the `signupFieldset` is `true`.
 
 - `signupPasswordTwice`
 
@@ -664,6 +668,19 @@ Even when providing a configuration object, as all keys are optional, this objec
     A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
 
     Accepted values are `true`|`false`, defaulting to `true`.
+
+- `signupHaveEmailAddress`
+- `signupHaveUsername`
+
+    Whether the signup panel is to be configured with or without an email address (resp. a username), and whether it is optional or mandatory.
+
+    For each of these terms, accepted values are:
+
+    - `AccountsUI.C.Input.NONE`: the field is not displayed nor considered
+    - `AccountsUI.C.Input.OPTIONAL`: the input field is proposed to the user, but may be left empty
+    - `AccountsUI.C.Input.MANDATORY`: the input field must be filled by the user
+
+    Defauts to the corresponding globally configured option.
 
 - `name`
 
