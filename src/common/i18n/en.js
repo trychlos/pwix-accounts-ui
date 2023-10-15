@@ -31,7 +31,7 @@ AccountsUI.i18n = {
             features: {
                 signout: 'Sign out',
                 changepwd: 'Change my password',
-                verifyask: 'Verify my mail',
+                verifyask: 'Resend an email verification link',
                 signin: 'Sign in with my account',
                 signup: 'Sign up for a new account',
                 resetask: 'Reset my password'
@@ -64,7 +64,7 @@ AccountsUI.i18n = {
             logged: {
                 signout: 'Sign out',
                 changepwd: 'Change my password',
-                verifyask: 'Verify my mail'
+                verifyask: 'Resend an email verification link'
             },
             reset_ask: {
                 modal_title: 'Lost password ?',

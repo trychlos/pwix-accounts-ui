@@ -31,7 +31,7 @@ AccountsUI.i18n = {
             features: {
                 signout: 'Me déconnecter',
                 changepwd: 'Changer mon mot de passe',
-                verifyask: 'Verifier mon email',
+                verifyask: 'Réenvoyer un lien de vérification de mon adresse',
                 signin: 'M\'identifier avec mon compte',
                 signup: 'Créer un nouveau compte',
                 resetask: 'Réinitialiser mon mot de passe'
@@ -64,7 +64,7 @@ AccountsUI.i18n = {
             logged: {
                 signout: 'Me déconnecter',
                 changepwd: 'Changer mon mot de passe',
-                verifyask: 'Vérifier mon adresse de messagerie'
+                verifyask: 'Réenvoyer un lien de vérification de mon adresse'
             },
             reset_ask: {
                 modal_title: 'Mot de passe oublié ?',

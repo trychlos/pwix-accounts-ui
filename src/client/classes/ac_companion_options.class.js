@@ -25,7 +25,12 @@ export class acCompanionOptions extends Options.Base {
     // the known initial displays
     static Display = [
         AccountsUI.C.Display.DROPDOWNBUTTON,
-        AccountsUI.C.Display.PANEL
+        AccountsUI.C.Panel.SIGNIN,
+        AccountsUI.C.Panel.SIGNUP,
+        AccountsUI.C.Panel.RESETASK,
+        AccountsUI.C.Panel.SIGNOUT,
+        AccountsUI.C.Panel.CHANGEPWD,
+        AccountsUI.C.Panel.VERIFYASK
     ];
 
     // the known render modes
@@ -120,15 +125,6 @@ export class acCompanionOptions extends Options.Base {
 
     /**
      * Getter/Setter
-     * @param {Boolean|Function} flag whether we are following the connection status of the current user
-     * @returns {Boolean}
-     */
-    currentUser( flag ){
-        return this.base_gsBoolFn( 'currentUser', flag, { default: defaults.acUserLogin.currentUser });
-    }
-
-    /**
-     * Getter/Setter
      * @param {Boolean|Function} flag whether to display a 'Cancel' button
      * @returns {Boolean}
      */
@@ -153,15 +149,6 @@ export class acCompanionOptions extends Options.Base {
      */
     initialDisplay( mode ){
         return this.base_gsStringObjectFn( 'initialDisplay', mode, { default: defaults.acUserLogin.initialDisplay, ref: acCompanionOptions.Display });
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Function} panel the initial panel to be displayed
-     * @returns {String} the initial panel
-     */
-    initialPanel( panel ){
-        return this.base_gsStringObjectFn( 'initialPanel', panel, { default: defaults.acUserLogin.initialPanel, ref: Object.keys( AccountsUI.Panel.Refs ) });
     }
 
     /**

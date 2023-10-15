@@ -73,16 +73,15 @@ Template.ac_reset_pwd.helpers({
 
 Template.ac_reset_pwd.events({
     // message sent by the input password component
-    //  NB: happens that data arrives undefined :( see #24
     'ac-password-data .ac-reset-pwd'( event, instance, data ){
         //console.log( 'ac-password-data', data );
-        instance.AC.passwordOk.set( data ? data.ok : false );
+        instance.AC.passwordOk.set( data.ok );
     },
 
     // message sent by the twice passwords component
     'ac-twice-data .ac-reset-pwd'( event, instance, data ){
         //console.log( 'ac-twice-data', data );
-        instance.AC.twiceOk.set( data ? data.ok : false );
+        instance.AC.twiceOk.set( data.ok );
     },
 
     // Modal transforms the Enter key into a md-click on OK button

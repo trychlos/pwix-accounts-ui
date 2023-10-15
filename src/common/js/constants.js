@@ -27,8 +27,7 @@ AccountsUI.C = {
 
     // what to initially display ?
     Display: {
-        DROPDOWNBUTTON: 'AC_DISPLAY_DROPDOWNBUTTON',
-        PANEL: 'AC_DISPLAY_PANEL'
+        DROPDOWNBUTTON: 'AC_DISPLAY_DROPDOWNBUTTON'
     },
 
     // username / email address input rule

@@ -50,17 +50,14 @@ AccountsUI.fn = {
             _menuItems.dep = new Tracker.Dependency();
             _menuItems.dep.depend();
         }
-        const currentUser = opts.currentUser();
-        if( currentUser ){
-            const state = AccountsUI.Connection.state();
-            if( state !== _menuItems.state ){
-                _menuItems.state = state;
-                //_menuItems.items = _menuItemsBefore( opts ).concat( );
-                const _before = AccountsUI.fn.menuItemsBefore( opts, state );
-                const _core = _before.concat( AccountsUI.fn.menuItemsCore( opts, state ));
-                _menuItems.items = _core.concat( AccountsUI.fn.menuItemsAfter( opts, state ));
-                _menuItems.dep.changed();
-            }
+        const state = AccountsUI.Connection.state();
+        if( state !== _menuItems.state ){
+            _menuItems.state = state;
+            //_menuItems.items = _menuItemsBefore( opts ).concat( );
+            const _before = AccountsUI.fn.menuItemsBefore( opts, state );
+            const _core = _before.concat( AccountsUI.fn.menuItemsCore( opts, state ));
+            _menuItems.items = _core.concat( AccountsUI.fn.menuItemsAfter( opts, state ));
+            _menuItems.dep.changed();
         }
         //console.log( _dropdownItems );
         return _menuItems.items;

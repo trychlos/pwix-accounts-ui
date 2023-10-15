@@ -133,7 +133,6 @@ function _passwordTwice(){
 
 _.merge( defaults, {
     acUserLogin: {
-        currentUser: true,
         initialDisplay: AccountsUI.C.Display.DROPDOWNBUTTON,
         loggedButtonClass: 'dropdown-toggle',
         unloggedButtonClass: '',
@@ -146,7 +145,6 @@ _.merge( defaults, {
         loggedItemsBefore: [],
         unloggedItemsBefore: [],
         renderMode: AccountsUI.C.Render.MODAL,
-        initialPanel: AccountsUI.C.Panel.NONE,
         changePasswordTwice: _passwordTwice,
         coloredBorders: _coloredBorders,
         haveCancelButton: true,

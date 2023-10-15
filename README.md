@@ -443,12 +443,6 @@ not the expected dialogs.
 The template expects to be called with a single configuration object parameter, or maybe nothing at all if all the defaults are to be used.
 Even when providing a configuration object, as all keys are optional, this object can be just empty.
 
-- `currentUser`
-
-    Whether the component is expected to reflect the current user status.
-
-    Accepted values are `true`|`false`, defaulting to `true`.
-
 - `initialDisplay`
 
     What to initially display ?
@@ -456,7 +450,16 @@ Even when providing a configuration object, as all keys are optional, this objec
     Accepted values are:
 
     - `AccountsUI.C.Display.DROPDOWNBUTTON`: displays a button which itself displays a dropdown menu, see below for its content
-    - `AccountsUI.C.Display.PANEL`: displays a panel, see below for its content
+
+    - or a panel name among:
+        - `AccountsUI.C.Panel.SIGNIN`
+        - `AccountsUI.C.Panel.SIGNUP`
+        - `AccountsUI.C.Panel.RESETASK`
+        - `AccountsUI.C.Panel.SIGNOUT`
+        - `AccountsUI.C.Panel.CHANGEPWD`
+        - `AccountsUI.C.Panel.VERIFYASK`
+
+    Additional note: even if a Blaze template is expected to be reactive to its parameters, please be conscious that this one is only here to provide an initial value. We make sure that the behavior of the `acUserLogin` component is *not* reactive to changes to this parameter after initialization.
 
     Defaults to `AccountsUI.C.Display.DROPDOWNBUTTON`.
 
@@ -465,9 +468,7 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     The classes to be added to the button.
 
-    Only applies when:
-    - `currentUser` is `true`
-    - `initialDisplay` is `AccountsUI.C.Display.DROPDOWNBUTTON`
+    Only applies when `initialDisplay` is `AccountsUI.C.Display.DROPDOWNBUTTON`
 
     The provided value is expected to be a string, or a function which takes no argument and returns a string.
 
@@ -483,9 +484,7 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     The content to be displayed in the shown button.
 
-    Only applies when:
-    - `currentUser` is `true`
-    - `initialDisplay` is `AccountsUI.C.Display.DROPDOWNBUTTON`
+    Only applies when `initialDisplay` is `AccountsUI.C.Display.DROPDOWNBUTTON`
 
     The content is expected to be a HTML string to be inserted in place of the default value;
     this HTML string may (should ?) also embeds needed class names and other styles.
@@ -501,9 +500,7 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     Items to be displayed in replacement of the standard ones.
 
-    Only applies when:
-    - `currentUser` is `true`
-    - `initialDisplay` is `AccountsUI.C.Display.DROPDOWNBUTTON`
+    Only applies when `initialDisplay` is `AccountsUI.C.Display.DROPDOWNBUTTON`
 
     Accepted values are a single HTML string which is expected to be the `<li>...</li>` inner content,
     or an array of such strings, or a function which takes no argument and returns a single HTML string or an array.
@@ -515,9 +512,7 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     Items to be added after the standard items of the dropdown menu.
 
-    Only applies when:
-    - `currentUser` is `true`
-    - `initialDisplay` is `AccountsUI.C.Display.DROPDOWNBUTTON`
+    Only applies when `initialDisplay` is `AccountsUI.C.Display.DROPDOWNBUTTON`
 
     Accepted values are a single HTML string which is expected to be the `<li>...</li>` inner HTML,
     or an array of such strings, or a function which takes no argument and returns a single HTML string or an array.
@@ -529,9 +524,7 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     Items to be added before the standard items of the dropdown menu.
 
-    Only applies when:
-    - `currentUser` is `true`
-    - `initialDisplay` is `AccountsUI.C.Display.DROPDOWNBUTTON`
+    Only applies when `initialDisplay` is `AccountsUI.C.Display.DROPDOWNBUTTON`
 
     Accepted values are a single HTML string which is expected to be the `<li>...</li>` inner HTML,
     or an array of such strings, or a function which takes no argument and returns a single HTML string or an array.
@@ -551,32 +544,6 @@ Even when providing a configuration object, as all keys are optional, this objec
     - `AccountsUI.C.Render.DIV`
 
     Defaults to `AccountsUI.C.Render.MODAL`: when visible, the panels are rendered in a modal dialog.
-
-- `initialPanel`
-
-    Through the `acUserLogin` template, the application may also use this package to display any of the *accounts* panels, outside of
-    the normal login/logout workflow. This is accomplished by configuring the component to display a single panel.
-
-    This parameter designates the panel to be initially displayed when this `acUserLogin` template is instanciated.
-
-    Only applies when:
-    - `initialDisplay` is `AccountsUI.C.Display.PANEL`
-
-    Accepted values are:
-
-    - `AccountsUI.C.Panel.NONE`
-    - `AccountsUI.C.Panel.SIGNIN`
-    - `AccountsUI.C.Panel.SIGNUP`
-    - `AccountsUI.C.Panel.RESETASK`
-    - `AccountsUI.C.Panel.SIGNOUT`
-    - `AccountsUI.C.Panel.CHANGEPWD`
-    - `AccountsUI.C.Panel.VERIFYASK`
-
-    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
-
-    Defaults to `AccountsUI.C.Panel.NONE`.
-
-    Additional note: even if a Blaze template is expected to be reactive to its parameters, please be conscious that this one is only here to provide an initial value. We make sure that the behavior of the `acUserLogin` component is *not* reactive to changes to this parameter after initialization.
 
 - `changePasswordTwice`
 

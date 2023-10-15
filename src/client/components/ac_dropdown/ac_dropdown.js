@@ -18,36 +18,30 @@ Template.ac_dropdown.onCreated( function(){
         // compute the class of the button
         //  this depend of the provided configuration options, and maybe also of the current user connection state
         buttonClass( parentAC ){
-            const currentUser = parentAC.options.currentUser();
             let result = '';
-            if( currentUser ){
-                state = AccountsUI.Connection.state();
-                switch( state ){
-                    case AccountsUI.C.Connection.LOGGED:
-                        result = parentAC.options.loggedButtonClass();
-                        break;
-                    case AccountsUI.C.Connection.UNLOGGED:
-                        result = parentAC.options.unloggedButtonClass();
-                        break;
-                }
+            state = AccountsUI.Connection.state();
+            switch( state ){
+                case AccountsUI.C.Connection.LOGGED:
+                    result = parentAC.options.loggedButtonClass();
+                    break;
+                case AccountsUI.C.Connection.UNLOGGED:
+                    result = parentAC.options.unloggedButtonClass();
+                    break;
             }
             return result;
         },
 
         // set the content of the button
         buttonContent( parentAC ){
-            const currentUser = parentAC.options.currentUser();
             let result = '';
-            if( currentUser ){
-                state = AccountsUI.Connection.state();
-                switch( state ){
-                    case AccountsUI.C.Connection.LOGGED:
-                        result = parentAC.options.loggedButtonContent();
-                        break;
-                    case AccountsUI.C.Connection.UNLOGGED:
-                        result = parentAC.options.unloggedButtonContent();
-                        break;
-                }
+            state = AccountsUI.Connection.state();
+            switch( state ){
+                case AccountsUI.C.Connection.LOGGED:
+                    result = parentAC.options.loggedButtonContent();
+                    break;
+                case AccountsUI.C.Connection.UNLOGGED:
+                    result = parentAC.options.unloggedButtonContent();
+                    break;
             }
             return result;
         }

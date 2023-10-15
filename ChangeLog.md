@@ -15,6 +15,7 @@
     - Simplify code removing acManager, acCompanion, acDisplay classes
     - Improve error display so that the panels are stable
     - Rename supported languages so that it is clearer they can act as fallbacks too
+    - Review and (hopefully) fix the acUserLogin configuration options
 
 ### 1.4.0
 

@@ -87,8 +87,9 @@ Template.acUserLogin.onCreated( function(){
         self.AC.options.base_set( _.merge( {}, defaults.acUserLogin, Template.currentData()));
     });
 
-    // be not reactive to future changes to initialPanel
-    self.AC.panel( self.AC.options.initialPanel() || AccountsUI.C.Panel.NONE );
+    // be not reactive to future changes to initialDisplay
+    const initial = self.AC.options.initialDisplay();
+    self.AC.panel( initial === AccountsUI.C.Display.DROPDOWNBUTTON ? AccountsUI.C.Panel.NONE : initial );
 });
 
 Template.acUserLogin.onRendered( function(){
