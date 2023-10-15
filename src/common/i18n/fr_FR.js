@@ -110,7 +110,7 @@ AccountsUI.i18n = {
                 resetask: 'Réinitialisation du mot de passe'
             },
             user: {
-                changepwd_error: 'Impossible de changer le mot de passe.',
+                changepwd_error: 'Nous ne pouvons malheureusement pas changer le mot de passe. Merci de réessayer ultérieurement.',
                 changepwd_success: 'Mot de passe mis à jour avec succès',
                 resetask_credentials: 'Impossible d\'envoyer un lien de réinitialisation. Merci de vérifier l`adresse saisie',
                 resetask_success: 'Message envoyé avec succès',

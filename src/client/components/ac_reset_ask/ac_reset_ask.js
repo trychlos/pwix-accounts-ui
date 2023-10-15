@@ -23,7 +23,7 @@ Template.ac_reset_ask.onRendered( function(){
     const self = this;
  
     self.autorun(() => {
-        self.$( '.ac-reset-ask .ac-submit' ).prop( 'disabled', !self.AC.emailOk.get());
+        self.$( '.ac-reset-ask' ).closest( '.ac-content' ).find( '.ac-submit' ).prop( 'disabled', !self.AC.emailOk.get());
     });
 
     // monitor the modal events if apply
@@ -40,7 +40,8 @@ Template.ac_reset_ask.helpers({
     //  because that asking for reset a password REQUIRES an email address, whatever be the AccountsUI configuration
     parmsInputEmail(){
         return {
-            AC: this.AC
+            AC: this.AC,
+            withErrorMsg: true
         };
     },
 
@@ -56,11 +57,6 @@ Template.ac_reset_ask.helpers({
 });
 
 Template.ac_reset_ask.events({
-    // redirect to acUserLogin
-    'ac-display-error .ac-reset-ask'( event, instance, data ){
-        this.AC.target.trigger( event.type, data );
-    },
-
     // input-email status
     'ac-email-data .ac-reset-ask'( event, instance, data ){
         //console.debug( data );

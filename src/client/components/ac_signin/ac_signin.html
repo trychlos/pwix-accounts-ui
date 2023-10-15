@@ -6,7 +6,15 @@
                 <div class="ac-text ac-text-one">{{{ textOne }}}</div>
             {{/if}}
 
-            {{> ac_input_userid }}
+            {{#if onlyEmailAddress}}
+                {{> ac_input_email }}
+            {{else}}
+                {{#if onlyUsername }}
+                    {{> ac_input_username }}
+                {{else}}
+                    {{> ac_input_userid }}
+                {{/if}}
+            {{/if}}
 
             {{#if textTwo }}
                 <div class="ac-text ac-text-two">{{{ textTwo }}}</div>
@@ -19,7 +27,7 @@
             {{/if}}
 
             <div class="ac-error">
-                <p>{{ errorMsg }}</p>
+                {{{ errorMsg }}}
             </div>
 
         </form>

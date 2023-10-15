@@ -22,45 +22,64 @@ Template.ac_signup.onCreated( function(){
         emailOk: new ReactiveVar( false ),
         twiceOk: new ReactiveVar( false ),
         usernameOk: new ReactiveVar( false ),
-        checksOk: new ReactiveVar( false ),
+        inCheck: false,
 
         // check each event and its data here
         checks( event, data ){
             switch( event.type ){
                 case 'ac-email-data':
-                    self.AC.checkEmail( data );
-                    self.AC.checkPanel();
+                    if( self.AC.checkEmail( data ) && !self.AC.inCheck ){
+                        self.AC.checkPanel();
+                    }
                     break;
                 case 'ac-twice-data':
-                    self.AC.checkTwice( data );
-                    self.AC.checkPanel();
+                    if( self.AC.checkTwice( data ) && !self.AC.inCheck ){
+                        self.AC.checkPanel();
+                    }
                     break;
                 case 'ac-username-data':
-                    self.AC.checkUsername( data );
-                    self.AC.checkPanel();
+                    if( self.AC.checkUsername( data ) && !self.AC.inCheck ){
+                        self.AC.checkPanel();
+                    }
                     break;
             }
         },
         checkEmail( data ){
             self.AC.emailOk.set( data.ok );
+            return data.ok;
         },
+        // the current field is ok
+        //  so re-check all other fields to be sure that all errors have been considered
         checkPanel(){
-            let isOk = self.AC.twiceOk.get();
+            self.AC.inCheck = true;
+            let isOk = true;
+            if( !self.AC.twiceOk.get()){
+                isOk = false;
+                self.$( '.ac-twice-passwords-sub' ).trigger( 'ac-check' );
+            }
             // if an email is mandatory, it must be set here
             if( AccountsUI.opts().haveEmailAddress() !== AccountsUI.C.Input.NONE ){
-                isOk &&= self.AC.emailOk.get();
+                if( !self.AC.emailOk.get()){
+                    isOk = false;
+                    self.$( '.ac-input-email-sub' ).trigger( 'ac-check' );
+                }
             }
             // if a username is mandatory, it must be set here
             if( AccountsUI.opts().haveUsername() !== AccountsUI.C.Input.NONE ){
-                isOk &&= self.AC.usernameOk.get();
+                if( !self.AC.usernameOk.get()){
+                    isOk = false;
+                    self.$( '.ac-input-username-sub' ).trigger( 'ac-check' );
+                }
             }
-            self.AC.checksOk.set( isOk );
+            self.AC.inCheck = false;
         },
         checkTwice( data ){
             self.AC.twiceOk.set( data.ok );
+            return data.ok;
         },
         checkUsername( data ){
             self.AC.usernameOk.set( data.ok );
+            return data.ok;
         },
         haveEmailAddress(){
             return AccountsUI.opts().haveEmailAddress() !== AccountsUI.C.Input.NONE;
@@ -85,8 +104,8 @@ Template.ac_signup.onRendered( function(){
     const self = this;
 
     self.autorun(() => {
-        const ok = self.AC.checksOk.get();
-        self.$( '.ac-signup .ac-submit' ).prop( 'disabled', !ok );
+        const ok = self.AC.emailOk.get() && self.AC.usernameOk.get() && self.AC.twiceOk.get();
+        self.$( '.ac-signup' ).closest( '.ac-content' ).find( '.ac-submit' ).prop( 'disabled', !ok );
         Template.currentData().AC.target.trigger( 'ac-signup-ok', { ok: ok });
     });
 
@@ -98,7 +117,7 @@ Template.ac_signup.helpers({
     // error message
     errorMsg(){
         // even if we have no message at all, we keep at least one blank line
-        return AccountsUI.fn.errorMsg();
+        return '<p>'+( AccountsUI.fn.errorMsg() || '&nbsp;' )+'<p>';
     },
 
     // whether email address is permitted
@@ -115,16 +134,10 @@ Template.ac_signup.helpers({
     parmsEmailAddress(){
         return {
             AC: this.AC,
-            new: true,
+            wantsNew: true,
+            withErrorMsg: true,
+            withMandatoryField: true,
             placeholder: this.AC.options.signupEmailPlaceholder()
-        };
-    },
-
-    // parameters for the email address and username inputs
-    parmsUser(){
-        return {
-            AC: this.AC,
-            new: true
         };
     },
 
@@ -133,8 +146,20 @@ Template.ac_signup.helpers({
         return {
             AC: this.AC,
             role: 'signup',
+            withMandatoryField: true,
+            withErrorMsg: true,
             placeholder1: this.AC.options.signupPasswdOnePlaceholder(),
             placeholder2: this.AC.options.signupPasswdTwoPlaceholder()
+        };
+    },
+
+    // parameters for the email address and username inputs
+    parmsUsername(){
+        return {
+            AC: this.AC,
+            wantsNew: true,
+            withErrorMsg: true,
+            withMandatoryField: true
         };
     },
 
@@ -162,7 +187,7 @@ Template.ac_signup.helpers({
 Template.ac_signup.events({
     // message sent by the input email component
     'ac-email-data .ac-signup'( event, instance, data ){
-        //console.log( 'ac-email-data', data );
+        //console.log( event, data );
         if( data ){
             instance.AC.checks( event, data );
         }

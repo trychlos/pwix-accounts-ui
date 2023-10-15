@@ -19,7 +19,7 @@ _named = {};
 
 // error message
 //  defined here to be useable even in resetpwd modal
-_errorMsg = new ReactiveVar( '' );
+_errorMsg = new ReactiveVar( null );
 
 AccountsUI.fn = {
 
@@ -29,6 +29,7 @@ AccountsUI.fn = {
      * This method is provided to host error messages returned from the server (e.g. bad credentials).
      * @param {String} msg error msg
      * @returns {String} the current error message
+     * A reactive data source
      */
     errorMsg( msg ){
         if( msg !== undefined ){

@@ -54,6 +54,11 @@ Template.acUserLogin.onCreated( function(){
                         self.AC.panel( AccountsUI.C.Panel.NONE );
                     }
                 });
+                // deal with error messages
+                //$panel.closest( '.ac-content' ).on( 'ac-display-error', ( event, data ) => {
+                $panel.on( 'ac-display-error', ( event, data ) => {
+                    self.AC.target.trigger( event.type, data );
+                });
                 // intercept Enter keypressed
                 $panel.closest( '.ac-content' ).on( 'keydown', ( event ) => {
                     if( event.keyCode === 13 ){
@@ -141,8 +146,9 @@ Template.acUserLogin.events({
         instance.AC.panel( AccountsUI.C.Panel.NONE );
     },
 
-    'ac-display-error .acUserLogin'( event, instance, msg ){
-        AccountsUI.fn.errorMsg( msg );
+    'ac-display-error .acUserLogin'( event, instance, data ){
+        //console.debug( event, data );
+        AccountsUI.fn.errorMsg( data );
     },
 
     // change the rendering mode

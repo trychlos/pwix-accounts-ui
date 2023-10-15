@@ -7,7 +7,7 @@
             {{/if}}
 
             <div class="ac-old">
-                {{> ac_input_password (labelOld) }}
+                {{> ac_input_password (parmsOldPassword) }}
             </div>
 
             {{#if textTwo }}
@@ -17,7 +17,7 @@
 
             <div class="ac-border ac-mt05"></div>
 
-            {{> ac_twice_passwords (parmTwice) }}
+            {{> ac_twice_passwords (parmsTwice) }}
 
             {{#if textThree }}
                 <div class="ac-text ac-text-three">{{{ textThree }}}</div>
@@ -27,7 +27,9 @@
                 {{{ errorMsg }}}
             </div>
 
+            <!--
             {{> acMandatoryFooter }}
+            -->
 
         </form>
     </div>

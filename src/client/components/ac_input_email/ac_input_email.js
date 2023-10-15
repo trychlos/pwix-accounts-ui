@@ -6,7 +6,8 @@
  * Parms:
  *  - AC: the acUserLogin internal data structure
  *  - wantsNew: whether an existing email must be reported as an error, defaulting to false
- *  - withError: whether we want a dedicated error message here, defaulting to false
+ *  - withErrorArea: whether we want a dedicated error message area here, defaulting to false
+ *  - withErrorMsg: whether this component should send error message, defaulting to false
  *  - withFieldset: whether we want the input be inside a fieldset (which implies a legend), defaulting to false
  *  - withMandatoryField: whether we want display the mandatory indicator if applies, defaulting to false
  *  - label: the form label, defaulting to 'Email address:'
@@ -33,7 +34,7 @@ Template.ac_input_email.helpers({
 
  Template.ac_input_email_sub.onCreated( function(){
     const self = this;
-    //console.log( self, Template.currentData());
+    console.log( self, Template.currentData());
 
     self.AC = {
         errorMsg: new ReactiveVar( '' ),
@@ -62,11 +63,16 @@ Template.ac_input_email.helpers({
         displayError( msg ){
             //const withError = Boolean( Template.currentData().withError !== false );
             // see https://stackoverflow.com/questions/39271499/template-actual-data-context/39272483#39272483
-            const withError = Boolean( Blaze.getData( self.view ).withError === true );
-            if( withError ){
-                self.AC.errorMsg.set( msg );
-            } else {
-                self.$( '.ac-input-email-sub' ).trigger( 'ac-display-error', msg );
+            // function context here doesn't let Template.currentData() find a current view as we are called from inside a Promise.then()
+            const withErrorArea = Boolean( Blaze.getData( self.view ).withErrorArea === true );
+            const withErrorMsg = Boolean( Blaze.getData( self.view ).withErrorMsg === true );
+            //console.debug( 'withErrorArea', withErrorArea, 'withErrorMsg', withErrorMsg, msg );
+            if( withErrorMsg ){
+                if( withErrorArea ){
+                    self.AC.errorMsg.set( msg );
+                } else {
+                    self.$( '.ac-input-email-sub' ).trigger( 'ac-display-error', msg );
+                }
             }
         },
 
@@ -102,6 +108,11 @@ Template.ac_input_email_sub.helpers({
 });
 
 Template.ac_input_email_sub.events({
+    // we are asked to re-check
+    'ac-check .ac-input-email-sub'( event, instance ){
+        instance.AC.check();
+    },
+
     'input input.ac-input'( event, instance ){
         instance.AC.check();
     }

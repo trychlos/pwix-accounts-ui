@@ -13,11 +13,6 @@ Template.ac_verify_ask.onRendered( function(){
 });
 
 Template.ac_verify_ask.helpers({
-    // error message
-    errorMsg(){
-        return '<p>'+( AccountsUI.fn.errorMsg() || '&nbsp;' )+'</p>';
-    },
-
     // the text of the section
     textOne(){
         return this.AC.options.verifyAskTextOne();

@@ -40,16 +40,16 @@ AccountsUI.i18n = {
                 label: 'Email address:',
                 legend: 'Email address',
                 placeholder: 'Enter your email address, e.g. name@example.com',
-                already_exists: 'Email address already known',
-                empty: 'Empty or undefined email address',
-                invalid: 'Invalid email address'
+                already_exists: 'Email address already exists',
+                empty: 'Email address is empty or undefined',
+                invalid: 'Email address is invalid'
             },
             input_password: {
                 label: 'Password:',
                 placeholder: 'Enter your password',
                 strength: 'Strength',
-                too_short: 'Too short password',
-                too_weak: 'Too weak password'
+                too_short: 'Password is too short',
+                too_weak: 'Password is too weak'
             },
             input_userid: {
                 label: 'Identifier:',
@@ -101,7 +101,7 @@ AccountsUI.i18n = {
                 legend: 'Password',
                 placeholder1: 'Enter a password',
                 placeholder2: 'Re-enter the password',
-                password_different: 'Passwords are different'
+                password_different: 'New passwords are different'
             },
             unlogged: {
                 unlogged: 'Account',
@@ -110,7 +110,7 @@ AccountsUI.i18n = {
                 resetask: 'Reset my password'
             },
             user: {
-                changepwd_error: 'Unable to change the password.',
+                changepwd_error: 'We are unfortunately unable to change the password. Please retry later.',
                 changepwd_success: 'Password successfully changed',
                 resetask_credentials: 'Unable to send a reset link, please check your credentials',
                 resetask_success: 'Reset email successfully sent',

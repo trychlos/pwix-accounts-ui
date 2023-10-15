@@ -1,28 +1,38 @@
 <template name="ac_input_username">
     <div class="ac-input-username">
 
-        <fieldset>
-            <legend>{{ legend }}</legend>
+        {{#if withFieldset }}
+            <fieldset>
+                <legend>{{ text "legend" }}</legend>
+                {{> ac_input_username_sub }}
+            </fieldset>
+        {{/if}}
 
-            <div class="d-flex justify-content-start align-items-center ac-label">
-                <div class="form-label">{{ text "label" }}</div>
-                {{#if mandatoryField }}
-                    {{> acMandatoryField }}
-                {{/if}}
-                <div class="flex-grow-1"></div>
-            </div>
+    </div>
+</template>
 
-            <div>
-                <input class="form-control ac-input {{ mandatoryBorder }}" placeholder="{{ text "placeholder" }}" autocomplete="pwix:accounts-ui username" />
-            </div>
+<template name="ac_input_username_sub">
+    <div class="ac-input-username-sub">
 
-            {{#if isNew }}
-                <div class="ac-error">
-                    {{{ errorMsg }}}
-                </div>
+        <div class="d-flex justify-content-start align-items-center ac-label">
+            <div class="form-label">{{ text "label" }}</div>
+
+            {{#if withMandatoryField }}
+                {{> acMandatoryField }}
             {{/if}}
 
-        </fieldset>
+            <div class="flex-grow-1"></div>
+        </div>
+
+        <div>
+            <input class="form-control ac-input {{ mandatoryBorder }}" placeholder="{{ text "placeholder" }}" autocomplete="pwix:accounts-ui username" />
+        </div>
+
+        {{#if withErrorArea }}
+            <div class="ac-error">
+                {{{ errorMsg }}}
+            </div>
+        {{/if}}
 
     </div>
 </template>

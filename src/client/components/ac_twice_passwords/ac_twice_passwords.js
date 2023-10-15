@@ -13,7 +13,8 @@
  *  - role: 'signup|change|reset'
  *      This happens to also be the prefix of the to-be-called AccountsUI options methods
  *      Do not change!
- *  - withError: whether we want a dedicated error message here, defaulting to false
+ *  - withErrorArea: whether we want a dedicated error message area here, defaulting to false
+ *  - withErrorMsg: whether this component should send error message, defaulting to false
  *  - with Fieldset: whether to display a field set (and a legend), defaulting to false
  *  - withMandatoryBorder: whether we want display the mandatory borders on input field, defaulting to acUserLogin configured option, defaulting to globally configured option
  *  - withMandatoryField: whether we want display the mandatory indicator, defaulting to false
@@ -50,14 +51,16 @@ Template.ac_twice_passwords_sub.onCreated( function(){
         twice: new ReactiveVar( false ),
         errorMsg: new ReactiveVar( '' ),
 
-        check(){
+        check( data ){
+            let equalsOk = false;
             const pwd1 = self.$( '.ac-twice-passwords-sub .ac-newone .ac-input' ).val();
-            const pwd2 = self.AC.twice.get() ? self.$( '.ac-twice-passwords-sub .ac-newtwo .ac-input' ).val() : pwd1;
-            self.AC.displayError( '' );
-            // whether the new password 'pwd1' is ok is checked by the input password component
-            // we have to check that the two occurences 'pwd1' and 'pwd2' are the same
-            const equalsOk = pwd1 === pwd2;
-            self.AC.displayError( equalsOk ? '' : pwixI18n.label( I18N, 'twice_passwords.password_different' ) );
+            // if ac-input-password has found that the password is not valid, do not try more checks
+            if( data.ok ){
+                // check here that the two occurences 'pwd1' and 'pwd2' are the same
+                const pwd2 = self.AC.twice.get() ? self.$( '.ac-twice-passwords-sub .ac-newtwo .ac-input' ).val() : pwd1;
+                equalsOk = pwd1 === pwd2;
+                self.AC.displayError( equalsOk ? '' : pwixI18n.label( I18N, 'twice_passwords.password_different' ) );
+            }
             self.$( '.ac-twice-passwords-sub' ).trigger( 'ac-twice-data', {
                 ok: equalsOk,
                 length: pwd1.length,
@@ -69,11 +72,22 @@ Template.ac_twice_passwords_sub.onCreated( function(){
         displayError( msg ){
             //const withError = Boolean( Template.currentData().withError !== false );
             // see https://stackoverflow.com/questions/39271499/template-actual-data-context/39272483#39272483
-            const withError = Boolean( Blaze.getData( self.view ).withError === true );
-            if( withError ){
-                self.AC.errorMsg.set( msg );
-            } else {
-                self.$( '.ac-twice-passwords-sub' ).trigger( 'ac-display-error', msg );
+            const withErrorArea = Boolean( Blaze.getData( self.view ).withErrorArea === true );
+            const withErrorMsg = Boolean( Blaze.getData( self.view ).withErrorMsg === true );
+            if( withErrorMsg ){
+                if( withErrorArea ){
+                    self.AC.errorMsg.set( msg );
+                } else {
+                    self.$( '.ac-twice-passwords-sub' ).trigger( 'ac-display-error', msg );
+                }
+            }
+        },
+
+        // we are asked to re-check the inputs
+        recheck(){
+            self.$( '.ac-twice-passwords-sub .ac-newone .ac-input-password' ).trigger( 'ac-check' );
+            if( self.AC.twice.get()){
+                self.$( '.ac-twice-passwords-sub .ac-newtwo .ac-input-password' ).trigger( 'ac-check' );
             }
         }
     };
@@ -103,15 +117,16 @@ Template.ac_twice_passwords_sub.helpers({
             AC: this.AC,
             label: this.label || pwixI18n.label( I18N, 'twice_passwords.label' ),
             placeholder: this.placeholder1 || pwixI18n.label( I18N, 'twice_passwords.placeholder1' ),
-            new: true,
-            withStrength: true,
+            wantsLength: true,
+            wantsStrength: true,
+            withErrorMsg: true,
             withMandatoryBorder: mandatoryBorder,
             withMandatoryField: Boolean( this.withMandatoryField === true )
         }
     },
 
     // params to second occurrence of new password
-    //  do not set as 'new' to not have the 'strength' display
+    //  no mandatory field as we remove the input label
     parmNewTwo(){
         const mandatoryBorder = this.AC && this.AC.options
                 ? this.AC.options.coloredBorders() === AccountsUI.C.Colored.MANDATORY : AccountsUI.opts().coloredBorders() === AccountsUI.C.Colored.MANDATORY;
@@ -119,8 +134,7 @@ Template.ac_twice_passwords_sub.helpers({
             AC: this.AC,
             label: '',
             placeholder: this.placeholder2 || pwixI18n.label( I18N, 'twice_passwords.placeholder2' ),
-            withMandatoryBorder: mandatoryBorder,
-            withMandatoryField: Boolean( this.withMandatoryField === true )
+            withMandatoryBorder: mandatoryBorder
         }
     },
 
@@ -131,8 +145,15 @@ Template.ac_twice_passwords_sub.helpers({
 });
 
 Template.ac_twice_passwords_sub.events({
+    // we are asked to re-check
+    'ac-check .ac-twice-passwords-sub'( event, instance, data ){
+        instance.AC.recheck();
+    },
+
     'ac-password-data .ac-twice-passwords-sub'( event, instance, data ){
-        instance.AC.check();
+        if( data ){
+            instance.AC.check( data );
+        }
         // do not bubble up
         return false;
     }

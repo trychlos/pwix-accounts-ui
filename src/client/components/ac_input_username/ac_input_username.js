@@ -5,93 +5,88 @@
  * 
  * Parms:
  *  - AC: the acUserLogin internal data structure
- *  - new: Boolean, whether we are entering a new username, defaulting to false
+ *  - wantsNew: whether an existing username must be reported as an error, defaulting to false
+ *  - withErrorArea: whether we want a dedicated error message area here, defaulting to false
+ *  - withErrorMsg: whether this component should send error message, defaulting to false
+ *  - withMandatoryBorder: whether we want display the mandatory borders on input field, defaulting to acUserLogin configured option
+ *  - withMandatoryField: whether we want display the mandatory indicator, defaulting to false
+ *  - label: the form label, defaulting to 'Username:'
+ *  - legend: the fieldset legend, defaulting to 'Username'
+ *  - placeholder: the input placeholder, defaulting to 'Enter your password'
  */
-import { pwixI18n as i18n } from 'meteor/pwix:i18n';
+import { pwixI18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
 
 import './ac_input_username.html';
 
-Template.ac_input_username.onCreated( function(){
+Template.ac_input_username.helpers({
+    // returns the text, maybe from data context, defaulting to the translated string
+    text( key ){
+        return Object.keys( this ).includes( key ) ? this[key] : pwixI18n.label( I18N, 'input_username.'+key );
+    }
+});
+
+Template.ac_input_username_sub.onCreated( function(){
     const self = this;
-    //console.log( self );
 
     self.AC = {
-        inputField: null,
         errorMsg: new ReactiveVar( '' ),
 
         // check the current input field (only if new)
         //  let the error message empty if field is empty
         check(){
-            self.AC.errorMsg.set( '' );
-            let promise = AccountsUI._checkUsername( self.AC.inputField.val())
+            self.AC.displayError( '' );
+            const wantsNew = Boolean( Template.currentData().wantsNew === true );
+            AccountsUI._checkUsername( self.$( '.ac-input-username input' ).val() || '', { testLength: wantsNew, textExistance: wantsNew })
                 .then(( result ) => {
                     // only display error message if field is not empty
-                    if( result.errors.length && result.username.length ){
-                        self.AC.errorMsg.set( result.errors[0] );
+                    if( !result.ok && result.username.length ){
+                        self.AC.displayError( result.errors[0] );
                     }
-                    self.$( '.ac-input-username' ).trigger( 'ac-username-data', { ok: result.ok, username: result.username });
+                    self.$( '.ac-input-username-sub' ).trigger( 'ac-username-data', { ok: result.ok, username: result.username });
                 });
         },
 
-        // provides a translated label
-        i18n( key ){
-            return i18n.label( I18N, 'input_username.'+key );
-        },
-
-        // whether the username is mandatory ?
-        //  true if field is required and new account
-        mandatoryField(){
-            return Template.currentData().new && AccountsUI.opts().haveUsername() === AccountsUI.C.Input.MANDATORY;
+        // display an error message, either locally (here) ou at the panel level
+        displayError( msg ){
+            // see https://stackoverflow.com/questions/39271499/template-actual-data-context/39272483#39272483
+            // function context here doesn't let Template.currentData() find a current view as we are called from inside a Promise.then()
+            const withErrorArea = Boolean( Blaze.getData( self.view ).withErrorArea === true );
+            const withErrorMsg = Boolean( Blaze.getData( self.view ).withErrorMsg === true );
+            if( withErrorMsg ){
+                if( withErrorArea ){
+                    self.AC.errorMsg.set( msg );
+                } else {
+                    self.$( '.ac-input-username' ).trigger( 'ac-display-error', msg );
+                }
+            }
         },
 
         // reinitialize the form
         reset(){
             self.$( 'input' ).val( '' );
-            if( Template.currentData().new ){
-                self.AC.check();
-            }
+            self.AC.check();
         }
     };
 });
 
-Template.ac_input_username.onRendered( function(){
+Template.ac_input_username_sub.onRendered( function(){
     const self = this;
 
-    // get the input field
-    self.AC.inputField = self.$( '.ac-input-username input' );
-
     // initialize the form
-    if( Template.currentData().new ){
-        self.AC.check();
-    }
+    self.AC.reset();
 });
 
-Template.ac_input_username.helpers({
+Template.ac_input_username_sub.helpers({
     // an error message if new password
     errorMsg(){
-        return '<p>'+Template.instance().AC.errorMsg.get()+'</p>';
-    },
-
-    // whether we are entering a new username
-    isNew(){
-        return this.new || false;
-    },
-
-    // fieldset legend
-    legend(){
-        return this.new ? this.AC.options.signupLegendUsername() : this.AC.options.signinLegendUsername();
-    },
-
-    // whether the username is mandatory ?
-    mandatoryField(){
-        return Template.instance().AC.mandatoryField();
+        return '<p>'+( Template.instance().AC.errorMsg.get() || '' )+'</p>';
     },
 
     // whether the mandatory field must exhibit an ad-hoc colored border ?
     mandatoryBorder(){
-        return Template.instance().AC.mandatoryField() && this.AC.options.coloredBorders() === AccountsUI.C.Colored.MANDATORY ? 'ac-mandatory-border' : '';
+        return this.AC.options.coloredBorders() === AccountsUI.C.Colored.MANDATORY ? 'ac-mandatory-border' : '';
     },
 
     // returns the keyed translated string
@@ -100,10 +95,13 @@ Template.ac_input_username.helpers({
     }
 });
 
-Template.ac_input_username.events({
-    'keyup input'( event, instance ){
-        if( Template.currentData().new ){
-            instance.AC.check();
-        }
+Template.ac_input_username_sub.events({
+    // we are asked to re-check
+    'ac-check .ac-username-sub'( event, instance ){
+        instance.AC.check();
+    },
+
+    'input input'( event, instance ){
+        instance.AC.check();
     }
 });

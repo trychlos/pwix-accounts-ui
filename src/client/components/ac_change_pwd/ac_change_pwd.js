@@ -39,18 +39,18 @@ Template.ac_change_pwd.onCreated( function(){
         // only relevant if individual checks are ok
         checkPanel(){
             let isOk = self.AC.passwordOk.get() && self.AC.twiceOk.get();
-            if( isOk ){
-                isOk &&= self.AC.passwordVal && self.AC.twiceVal && self.AC.passwordVal !== self.AC.twiceVal;
-                if( self.AC.passwordVal && self.AC.passwordVal.length > 0 && self.AC.passwordVal === self.AC.twiceVal ){
-                    AccountsUI.fn.errorMsg( pwixI18n.label( I18N, 'change_pwd.pwds_are_equal' ));
-                }
+            if( isOk && ( self.AC.passwordVal && self.AC.passwordVal.length > 0 && self.AC.passwordVal === self.AC.twiceVal )){
+                isOk = false;
+                AccountsUI.fn.errorMsg( pwixI18n.label( I18N, 'change_pwd.pwds_are_equal' ));
             }
             self.AC.checksOk.set( isOk );
         },
+        // we check here only the current password
+        //  and we do not care of its validity not its strength as long as it is not empty
         checkPassword( data ){
             //console.debug( data );
             self.AC.passwordVal = data.password;
-            self.AC.passwordOk.set( data.ok );
+            self.AC.passwordOk.set( data.password.length > 0 );
         },
         checkTwice( data ){
             //console.debug( data );
@@ -64,7 +64,7 @@ Template.ac_change_pwd.onRendered( function(){
     const self = this;
 
     self.autorun(() => {
-        self.$( '.ac-change-pwd .ac-submit' ).prop( 'disabled', !self.AC.checksOk.get());
+        self.$( '.ac-change-pwd' ).closest( '.ac-content' ).find( '.ac-submit' ).prop( 'disabled', !self.AC.checksOk.get());
     });
 
     // monitor the modal events if apply
@@ -74,22 +74,25 @@ Template.ac_change_pwd.onRendered( function(){
 Template.ac_change_pwd.helpers({
     // error message
     errorMsg(){
-        return AccountsUI.fn.errorMsg();
+        return '<p>'+( AccountsUI.fn.errorMsg() || '&nbsp;' )+'</p>';
     },
 
     // params to old password
-    labelOld(){
+    parmsOldPassword(){
         return {
             label: pwixI18n.label( I18N, 'change_pwd.old_label' )
         }
     },
 
     // parameters for the password input
-    parmTwice(){
+    parmsTwice(){
         return {
             AC: this.AC,
             role: 'change',
-            label: pwixI18n.label( I18N, 'change_pwd.new_label' )
+            withErrorMsg: true,
+            label: pwixI18n.label( I18N, 'change_pwd.new_label' ),
+            placeholder1: pwixI18n.label( I18N, 'change_pwd.newone_placeholder' ),
+            placeholder2: pwixI18n.label( I18N, 'change_pwd.newtwo_placeholder' )
         };
     },
 
@@ -110,11 +113,8 @@ Template.ac_change_pwd.helpers({
 });
 
 Template.ac_change_pwd.events({
-    // message sent by the input password component
-    //  NB: happens that data arrives undefined :( see #24
-    'ac-password-data .ac-change-pwd'( event, instance, data ){
-        //console.log( 'ac-password-data', data );
-        AccountsUI.fn.errorMsg( '' );
+    // message sent by the input current password component
+    'ac-password-data .ac-change-pwd .ac-old'( event, instance, data ){
         if( data ){
             instance.AC.checks( event, data );
         }
@@ -122,8 +122,6 @@ Template.ac_change_pwd.events({
 
     // message sent by the twice passwords component
     'ac-twice-data .ac-change-pwd'( event, instance, data ){
-        //console.log( 'ac-twice-data', data );
-        AccountsUI.fn.errorMsg( '' );
         if( data ){
             instance.AC.checks( event, data );
         }

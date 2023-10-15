@@ -20,9 +20,9 @@ import './ac_input_userid.html';
 
 Template.ac_input_userid.helpers({
 
-    // returns the translated string
-    i18n( arg ){
-        return Object.keys( this ).includes( arg.hash.key ) ? this[arg.hash.key] : pwixI18n.label( I18N, 'input_userid.'+arg.hash.key );
+    // returns the text, maybe from data context, defaulting to the translated string
+    text( key ){
+        return Object.keys( this ).includes( key ) ? this[key] : pwixI18n.label( I18N, 'input_userid.'+key );
     }
 });
 

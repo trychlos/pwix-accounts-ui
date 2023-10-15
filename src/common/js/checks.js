@@ -27,7 +27,7 @@ AccountsUI = {
          * @returns {Object} the check result itself on the server side, as:
          *  - ok: true|false
          *  - exists: undefined|true|false
-         *  - reason: the first reason for the tests have been false
+         *  - reason: the first reason for the tests have been failed
          *  - email: trimmed lowercase email address
          */
         _checkEmailAddress( email, opts={} ){
@@ -129,42 +129,42 @@ AccountsUI = {
          * @summary: check that the proposed candidate password is valid
          * @locus Anywhere
          * @param {String} password the password to be checked
-         * @returns {Promise} which eventually resolves to the check result, as:
+         * @param {Object} opts:
+         *  - testLength: true|false, defaulting to true (test the length vs the globally configured option)
+         *  - testComplexity: true|false, defaulting to true (test the complexity)
+         * @returns {Object} the check result, as:
          *  - ok: true|false
-         *  - errors: [] an array of localized error messages
-         *  - warnings: [] an array of localized warning messages
-         *  - password: password,
+         *  - errors: an array of error messages
          *  - minScore: the minimal computed score depending of the required strength
          *  - zxcvbn: the zxcvbn computed result
+         *  - password: the checked password
          */
-        _checkPassword( password ){
+        _checkPassword( password, opts={} ){
             let result = {
-                ok: true,
+                ok: undefined,
                 errors: [],
-                warnings: [],
-                password: password || '',
                 minScore: -1,
-                zxcvbn: null
+                zxcvbn: null,
+                password: password || ''
             };
             // compute min score function of required complexity
             result.minScore = AccountsUI._computeMinScore();
-            // compute complexity
+            // compute complexity first, so that the UI may display it
             result.zxcvbn = zxcvbn( result.password );
             // check for minimal length
-            if( result.password.length < AccountsUI.opts().passwordLength()){
+            if( opts.testLength !== false && result.password.length < AccountsUI.opts().passwordLength()){
                 result.ok = false;
                 result.errors.push( pwixI18n.label( I18N, 'input_password.too_short' ));
-                //console.debug( 'result', result, 'minPasswordLength', AccountsUI.opts().passwordLength());
-                return Meteor.isClient ? Promise.resolve( result ) : result;
+                return result;
             }
             // check for complexity
-            if( result.zxcvbn.score < result.minScore ){
+            if( opts.testComplexity !== false && result.zxcvbn.score < result.minScore ){
                 result.ok = false;
                 result.errors.push( pwixI18n.label( I18N, 'input_password.too_weak' ));
-                return Meteor.isClient ? Promise.resolve( result ) : result;
             }
-            // return
-            return Promise.resolve( result );
+            // ok
+            result.ok = true;
+            return result;
         },
 
         /*

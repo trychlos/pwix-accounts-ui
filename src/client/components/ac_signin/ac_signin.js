@@ -5,8 +5,10 @@
  *  - AC: the acUserLogin internal data structure
  */
 
-import '../ac_input_userid/ac_input_userid.js';
+import '../ac_input_email/ac_input_email.js';
 import '../ac_input_password/ac_input_password.js';
+import '../ac_input_userid/ac_input_userid.js';
+import '../ac_input_username/ac_input_username.js';
 
 import './ac_signin.html';
 
@@ -14,7 +16,8 @@ Template.ac_signin.onCreated( function(){
     const self = this;
 
     self.AC = {
-        // checks: enable the submit button if bot fields are set
+        // checks: enable the submit button if both fields are set
+        //  this is enough to try to connect
         checks(){
             const userid = self.$( '.ac-signin .ac-input-userid .ac-input' ).val() || '';
             const passwd = self.$( '.ac-signin .ac-input-password .ac-input' ).val() || '';
@@ -42,7 +45,17 @@ Template.ac_signin.helpers({
     // error message
     //  here, the only error is when server doesn't validate the credentials
     errorMsg(){
-        return AccountsUI.fn.errorMsg();
+        return '<p>'+( AccountsUI.fn.errorMsg() || '&nbsp;' )+'</p>';
+    },
+
+    // true if we have email address and not username
+    onlyEmailAddress(){
+        return AccountsUI.opts().haveEmailAddress() !== AccountsUI.C.Input.NONE && AccountsUI.opts().haveUsername() === AccountsUI.C.Input.NONE;
+    },
+
+    // true if we have username and not email address
+    onlyEmailAddress(){
+        return AccountsUI.opts().haveEmailAddress() === AccountsUI.C.Input.NONE && AccountsUI.opts().haveUsername() !== AccountsUI.C.Input.NONE;
     },
 
     // a description before the section

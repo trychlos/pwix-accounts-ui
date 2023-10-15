@@ -7,11 +7,13 @@
  *  - AC: the acUserLogin internal data structure
  *      Is undefined when invoked from ac_reset_pwd template (via ac_twice_passwords)
  *      Take care!
+ *  - wantsLength: whether to check against the minimal length of the password, defaulting to false
+ *  - wantsComplexity: whether to check for input password strength, defaulting to false
  *  - withAutocomplete: whether to have an autocomplete attribute, defaulting to false (to be set to true for a login panel)
- *  - withError: whether we want a dedicated error message here, defaulting to false
+ *  - withErrorArea: whether we want a dedicated error message area here, defaulting to false
+ *  - withErrorMsg: whether this component should send error message, defaulting to false
  *  - withMandatoryBorder: whether we want display the mandatory borders on input field, defaulting to acUserLogin configured option
  *  - withMandatoryField: whether we want display the mandatory indicator, defaulting to false
- *  - withStrength: whether to check for input password strength, defaulting to false
  *  - label: the form label, defaulting to 'Password'
  *  - placeholder: the input placeholder, defaulting to 'Enter your password'
  *  - strength: the div label, defaulting to 'Strength:'
@@ -45,43 +47,44 @@ Template.ac_input_password.onCreated( function(){
         //  else (e.g. signin) we just advertise of the input event
         check(){
             self.AC.displayError( '' );
-            const withStrength = Template.currentData().withStrength == true;
-            AccountsUI._checkPassword( self.$( '.ac-input-password input' ).val() || '' )
-                .then(( result ) => {
-                    //console.debug( result );
-                    if( withStrength ){
-                        // css
-                        self.$( '.ac-strength-bar' ).css( self.AC.score[result.zxcvbn.score].css );
-                        let width = result.password.length ? 1+parseInt( result.zxcvbn.score ) : 0;
-                        self.$( '.ac-strength-bar' ).css({ width: width+'em' });
-                        width = 5-width;
-                        self.$( '.ac-strength-other' ).css({ width: width+'em' });
-                        // only display error message if field is not empty
-                        if( result.errors.length && result.password.length ){
-                            self.AC.displayError( result.errors[0] );
-                        }
-                    }
-                    // advertises of the current password characteristics
-                    //console.debug( result );
-                    self.$( '.ac-input-password' ).trigger( 'ac-password-data', {
-                        ok: result.ok,
-                        score: result.zxcvbn.score,
-                        strength: AccountsUI._scores[result.zxcvbn.score],
-                        password: result.password,
-                        length: result.password.length
-                    });
-                });
+            const wantsLength = Template.currentData().wantsLength == true;
+            const wantsStrength = Template.currentData().wantsStrength == true;
+            const result = AccountsUI._checkPassword( self.$( '.ac-input-password input' ).val() || '', { testLength: wantsLength, testComplexity: wantsStrength });
+            //console.debug( result );
+            if( wantsStrength ){
+                // css
+                self.$( '.ac-strength-bar' ).css( self.AC.score[result.zxcvbn.score].css );
+                let width = result.password.length ? 1+parseInt( result.zxcvbn.score ) : 0;
+                self.$( '.ac-strength-bar' ).css({ width: width+'em' });
+                width = 5-width;
+                self.$( '.ac-strength-other' ).css({ width: width+'em' });
+            }
+            // only display error message if field is not empty
+            if( !result.ok && result.password.length ){
+                self.AC.displayError( result.errors[0] );
+            }
+            // advertises of the current password characteristics
+            self.$( '.ac-input-password' ).trigger( 'ac-password-data', {
+                ok: result.ok,
+                score: result.zxcvbn.score,
+                strength: AccountsUI._scores[result.zxcvbn.score],
+                password: result.password,
+                length: result.password.length
+            });
         },
 
         // display an error message, either locally (here) ou at the panel level
         displayError( msg ){
-            //const withError = Boolean( Template.currentData().withError !== false );
-            // see https://stackoverflow.com/questions/39271499/template-actual-data-context/39272483#39272483
-            const withError = Boolean( Blaze.getData( self.view ).withError === true );
-            if( withError ){
-                self.AC.errorMsg.set( msg );
-            } else {
-                self.$( '.ac-input-password' ).trigger( 'ac-display-error', msg );
+            // this code to be consistent with other input components which are called from inside a Promise.then()
+            //  though we could use here the usual Template.currentData()
+            const withErrorArea = Boolean( Blaze.getData( self.view ).withErrorArea === true );
+            const withErrorMsg = Boolean( Blaze.getData( self.view ).withErrorMsg === true );
+            if( withErrorMsg ){
+                if( withErrorArea ){
+                    self.AC.errorMsg.set( msg );
+                } else {
+                    self.$( '.ac-input-password' ).trigger( 'ac-display-error', msg );
+                }
             }
         },
 
@@ -106,9 +109,6 @@ Template.ac_input_password.onCreated( function(){
 
 Template.ac_input_password.onRendered( function(){
     const self = this;
-
-    // get the input field
-    self.AC.inputField = self.$( '.ac-input-password input' );
 
     // initialize the form
     self.AC.check();
@@ -148,16 +148,24 @@ Template.ac_input_password.helpers({
 
 Template.ac_input_password.events({
     'click .ac-eye'( event, instance ){
-        const current = instance.AC.inputField.attr( 'type' );
-        if( current === 'password' ){
-            instance.AC.inputField.attr( 'type', 'text' );
-            $( event.currentTarget ).addClass( 'fa-regular fa-eye' ); 
-            $( event.currentTarget ).removeClass( 'fa-eye-slash' ); 
-        } else {
-            instance.AC.inputField.attr( 'type', 'password' );
-            $( event.currentTarget ).addClass( 'fa-regular fa-eye-slash' ); 
-            $( event.currentTarget ).removeClass( 'fa-eye' ); 
+        const $field = instance.$( '.ac-input-password input');
+        if( $field.lenth ){
+            const current = $field.attr( 'type' );
+            if( current === 'password' ){
+                $field.attr( 'type', 'text' );
+                $( event.currentTarget ).addClass( 'fa-regular fa-eye' ); 
+                $( event.currentTarget ).removeClass( 'fa-eye-slash' ); 
+            } else {
+                $field.attr( 'type', 'password' );
+                $( event.currentTarget ).addClass( 'fa-regular fa-eye-slash' ); 
+                $( event.currentTarget ).removeClass( 'fa-eye' ); 
+            }
         }
+    },
+
+    // we are asked to re-check
+    'ac-check .ac-input-email-sub'( event, instance ){
+        instance.AC.check();
     },
 
     'input .ac-input-password .ac-input'( event, instance ){
