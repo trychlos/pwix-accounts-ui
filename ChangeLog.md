@@ -16,6 +16,7 @@
     - Improve error display so that the panels are stable
     - Rename supported languages so that it is clearer they can act as fallbacks too
     - Review and (hopefully) fix the acUserLogin configuration options
+    - Define 'signupTextFive' acUserLogin option
 
 ### 1.4.0
 

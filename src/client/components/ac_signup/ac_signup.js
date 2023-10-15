@@ -179,6 +179,11 @@ Template.ac_signup.helpers({
     // the text at the fourth place of the section
     textFour(){
         return this.AC.options.signupTextFour();
+    },
+
+    // the text at the fifth place of the section
+    textFive(){
+        return this.AC.options.signupTextFive();
     }
 });
 

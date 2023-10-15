@@ -457,6 +457,16 @@ export class acCompanionOptions extends Options.Base {
 
     /**
      * Getter/Setter
+     * Returns the HTML content to be put in the last place of the 'signup' section, after the password
+     * @param {String|Function} label a string or a function which returns a string
+     * @returns {String}
+     */
+    signupTextFive( label ){
+        return this.base_gsStringObjectFn( 'signupTextFive', label, { default: defaults.acUserLogin.signupTextFive });
+    }
+
+    /**
+     * Getter/Setter
      * @param {String|Function|Object} str the placeholder of the input username
      * @returns {String}
      */

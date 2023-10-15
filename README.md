@@ -581,6 +581,7 @@ Even when providing a configuration object, as all keys are optional, this objec
 - `signupTextTwo`
 - `signupTextThree`
 - `signupTextFour`
+- `signupTextFive`
 - `verifyAskTextOne`
 
     Display personalization.

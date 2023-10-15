@@ -162,6 +162,7 @@ _.merge( defaults, {
         signupTextTwo: '',
         signupTextThree: '',
         signupTextFour: '',
+        signupTextFive: '',
         verifyAskTextOne: { namespace: I18N, i18n: 'verify_ask.textOne' },
         signupEmailPlaceholder: { namespace: I18N, i18n: 'input_email.placeholder' },
         signupUsernamePlaceholder: { namespace: I18N, i18n: 'input_username.placeholder' },
