@@ -95,6 +95,9 @@ Template.acUserLogin.onCreated( function(){
 Template.acUserLogin.onRendered( function(){
     const self = this;
 
+    // set the event target to this component
+    self.AC.target = self.$( '.acUserLogin#'+self.AC.id );
+
     // set the name attribute if any
     self.autorun(() => {
         const name = self.AC.options.name();
@@ -103,10 +106,6 @@ Template.acUserLogin.onRendered( function(){
             self.$( '.acUserLogin' ).attr( 'data-ac-name', name );
         }
     });
-
-    // set the event target to this component
-    //  mainly used by ac_footer to send its events here
-    self.AC.target = self.$( '.acUserLogin#'+self.AC.id );
 });
 
 Template.acUserLogin.helpers({

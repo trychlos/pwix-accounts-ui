@@ -102,7 +102,9 @@ Template.ac_signup.onRendered( function(){
     self.autorun(() => {
         const ok = self.AC.emailOk.get() && self.AC.usernameOk.get() && self.AC.twiceOk.get();
         self.$( '.ac-signup' ).closest( '.ac-content' ).find( '.ac-submit' ).prop( 'disabled', !ok );
-        Template.currentData().AC.target.trigger( 'ac-signup-ok', { ok: ok });
+        // ac-signup is rendered before acUserLogin in div context
+        const target = Template.currentData().AC.target || self.$( '.ac-signup' );
+        target.trigger( 'ac-signup-ok', { ok: ok });
     });
 
     // monitor the modal events if apply
