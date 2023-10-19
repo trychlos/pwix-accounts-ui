@@ -116,7 +116,7 @@ AccountsUI.fn = {
      * @returns {TemplateInstance} the corresponding acUserLogin instance, or null
      */
     nameGet( name ){
-        return name ? this._named[name] || null : null;
+        return name ? _named[name] || null : null;
     },
 
     /*
