@@ -8,6 +8,10 @@ import SimpleSchema from 'simpl-schema';
 import { Accounts } from 'meteor/accounts-base';
 
 // Ensuring every user has an email address and/or a username
+// validateNewUser() should be enableable/disableable from the application as it checks for a user which may not be what the application wants at that moment
+//  see for example technical accounts in izMonitor or all REST-based applis
+
+/*
 Accounts.validateNewUser(( user ) => {
     let schema = {
         _id: { type: String },
@@ -70,3 +74,4 @@ Accounts.validateNewUser(( user ) => {
     // Return true to allow user creation to proceed
     return isValid;
 });
+*/

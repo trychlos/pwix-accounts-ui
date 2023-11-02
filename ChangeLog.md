@@ -20,6 +20,7 @@
     - Define 'signinFieldset' and 'signupFieldset' acUserLogin options
     - Review fieldset style
     - Define 'signupHaveEmailAddress' and 'signupHaveUsername' acUserLogin options
+    - 
 
 ### 1.4.0
 
