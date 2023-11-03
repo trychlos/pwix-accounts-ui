@@ -25,6 +25,7 @@
     - ac_signup: display the mandatory indicators depending of the required mandatory fields
     - checkPassword(): doesn't let the caller believe the password is ok when it is empty
     - checkUsername(): honors testLength and testExistance options
+    - Improve the data content of ac-signup-ok event
 
 ### 1.4.0
 

@@ -20,8 +20,11 @@ Template.ac_signup.onCreated( function(){
 
     self.AC = {
         emailOk: new ReactiveVar( false ),
+        emailValue: null,
         twiceOk: new ReactiveVar( false ),
+        twiceValue: null,
         usernameOk: new ReactiveVar( false ),
+        usernameValue: null,
         inCheck: false,
 
         // check each event and its data here
@@ -46,6 +49,7 @@ Template.ac_signup.onCreated( function(){
         },
         checkEmail( data ){
             self.AC.emailOk.set( data.ok );
+            self.AC.emailValue = data.email;
             return data.ok;
         },
         // the current field is ok
@@ -71,10 +75,12 @@ Template.ac_signup.onCreated( function(){
         },
         checkTwice( data ){
             self.AC.twiceOk.set( data.ok );
+            self.AC.twiceValue = data.password;
             return data.ok;
         },
         checkUsername( data ){
             self.AC.usernameOk.set( data.ok );
+            self.AC.usernameValue = data.username;
             return data.ok;
         },
         haveEmailAddress(){
@@ -100,11 +106,16 @@ Template.ac_signup.onRendered( function(){
 
     self.autorun(() => {
         const ok = self.AC.emailOk.get() && self.AC.usernameOk.get() && self.AC.twiceOk.get();
-        console.debug( 'emailOk', self.AC.emailOk.get(), 'usernameOk', self.AC.usernameOk.get(), 'twiceOk', self.AC.twiceOk.get());
+        //console.debug( 'emailOk', self.AC.emailOk.get(), 'usernameOk', self.AC.usernameOk.get(), 'twiceOk', self.AC.twiceOk.get());
         self.$( '.ac-signup' ).closest( '.ac-content' ).find( '.ac-submit' ).prop( 'disabled', !ok );
         // ac-signup is rendered before acUserLogin in div context
         const target = Template.currentData().AC.target || self.$( '.ac-signup' );
-        target.trigger( 'ac-signup-ok', { ok: ok });
+        target.trigger( 'ac-signup-ok', {
+            ok: ok,
+            email: self.AC.emailValue,
+            username: self.AC.usernameValue,
+            password: self.AC.twiceValue
+        });
     });
 
     // monitor the modal events if apply
