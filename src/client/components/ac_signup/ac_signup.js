@@ -56,13 +56,13 @@ Template.ac_signup.onCreated( function(){
                 self.$( '.ac-twice-passwords-sub' ).trigger( 'ac-check' );
             }
             // if an email is mandatory, it must be set here
-            if( AccountsUI.opts().haveEmailAddress() !== AccountsUI.C.Input.NONE ){
+            if( self.AC.haveEmailAddress() !== AccountsUI.C.Input.NONE ){
                 if( !self.AC.emailOk.get()){
                     self.$( '.ac-input-email-sub' ).trigger( 'ac-check' );
                 }
             }
             // if a username is mandatory, it must be set here
-            if( AccountsUI.opts().haveUsername() !== AccountsUI.C.Input.NONE ){
+            if( self.AC.haveUsername() !== AccountsUI.C.Input.NONE ){
                 if( !self.AC.usernameOk.get()){
                     self.$( '.ac-input-username-sub' ).trigger( 'ac-check' );
                 }
@@ -81,7 +81,6 @@ Template.ac_signup.onCreated( function(){
             return Template.currentData().AC.options.signupHaveEmailAddress() !== AccountsUI.C.Input.NONE;
         },
         haveUsername(){
-            //console.debug( 'username', AccountsUI.opts().haveUsername());
             return Template.currentData().AC.options.signupHaveUsername() !== AccountsUI.C.Input.NONE;
         },
         clearPanel(){
