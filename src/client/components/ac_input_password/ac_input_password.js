@@ -151,7 +151,7 @@ Template.ac_input_password.events({
     // toggle the display of the clear password
     'click .ac-eye'( event, instance ){
         const $field = instance.$( '.ac-input-password input');
-        if( $field.lenth ){
+        if( $field.length ){
             const current = $field.attr( 'type' );
             if( current === 'password' ){
                 $field.attr( 'type', 'text' );
