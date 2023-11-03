@@ -20,7 +20,8 @@
     - Define 'signinFieldset' and 'signupFieldset' acUserLogin options
     - Review fieldset style
     - Define 'signupHaveEmailAddress' and 'signupHaveUsername' acUserLogin options
-    - 
+    - ac_input_username: fix display when fieldset if false
+    - ac_signup: fix tests for username and email address
 
 ### 1.4.0
 
