@@ -91,8 +91,8 @@ Template.ac_signup.onCreated( function(){
     };
 
     // setup initial default values so that field which is not present is always true
-    self.AC.emailOk.set( !self.AC.haveEmailAddress());
-    self.AC.usernameOk.set( !self.AC.haveUsername());
+    self.AC.emailOk.set( Template.currentData().AC.options.signupHaveEmailAddress() !== AccountsUI.C.Input.MANDATORY );
+    self.AC.usernameOk.set( Template.currentData().AC.options.signupHaveUsername() !== AccountsUI.C.Input.MANDATORY);
 });
 
 Template.ac_signup.onRendered( function(){
@@ -100,6 +100,7 @@ Template.ac_signup.onRendered( function(){
 
     self.autorun(() => {
         const ok = self.AC.emailOk.get() && self.AC.usernameOk.get() && self.AC.twiceOk.get();
+        console.debug( 'emailOk', self.AC.emailOk.get(), 'usernameOk', self.AC.usernameOk.get(), 'twiceOk', self.AC.twiceOk.get());
         self.$( '.ac-signup' ).closest( '.ac-content' ).find( '.ac-submit' ).prop( 'disabled', !ok );
         // ac-signup is rendered before acUserLogin in div context
         const target = Template.currentData().AC.target || self.$( '.ac-signup' );
@@ -135,7 +136,7 @@ Template.ac_signup.helpers({
             withErrorMsg: true,
             withFieldset: this.AC.options.signupFieldset(),
             legend: this.AC.options.signupLegendEmail(),
-            withMandatoryField: true,
+            withMandatoryField: this.AC.options.signupHaveEmailAddress() === AccountsUI.C.Input.MANDATORY,
             placeholder: this.AC.options.signupEmailPlaceholder()
         };
     },
@@ -162,7 +163,7 @@ Template.ac_signup.helpers({
             withErrorMsg: true,
             withFieldset: this.AC.options.signupFieldset(),
             legend: this.AC.options.signupLegendUsername(),
-            withMandatoryField: true
+            withMandatoryField: this.AC.options.signupHaveUsername() === AccountsUI.C.Input.MANDATORY
         };
     },
 

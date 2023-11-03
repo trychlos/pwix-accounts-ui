@@ -147,6 +147,11 @@ AccountsUI = {
             result.minScore = AccountsUI._computeMinScore();
             // compute complexity first, so that the UI may display it
             result.zxcvbn = zxcvbn( result.password );
+            // do not let the caller believe the password is ok if it is empty
+            if( !password.length ){
+                result.ok = false;
+                return result;
+            }
             // check for minimal length
             if( opts.testLength !== false && result.password.length < AccountsUI.opts().passwordLength()){
                 result.ok = false;
@@ -167,6 +172,10 @@ AccountsUI = {
          * @summary: check that the proposed candidate username is valid, and not already exists
          * @locus Anywhere
          * @param {String} username the username to be checked
+         * @param {Object} an option object with:
+         *  - mandatory: whether the username is mandatory or optional, defaulting to the package configured value
+         *  - testLength: true|false, defaulting to true (test the length vs the globally configured option)
+         *  - testExistance: true|false, defaulting to true (test the existance, positionning the flag in result object)
          * @returns {Promise} on client side which resolves to the check result,
          * @returns {Object} the check result itself on the server side, as:
          *  - ok: true|false
@@ -174,7 +183,7 @@ AccountsUI = {
          *  - warnings: [] an array of localized warning messages
          *  - username: trimmed username
          */
-        _checkUsername( username ){
+        _checkUsername( username, opts={} ){
             let result = {
                 ok: true,
                 errors: [],
@@ -183,34 +192,37 @@ AccountsUI = {
             };
             // stop there if the value is empty
             if( !result.username.length ){
-                result.ok = AccountsUI.opts().haveUsername() === AccountsUI.C.Input.OPTIONAL;
+                let mandatory = opts.mandatory || AccountsUI.opts().haveUsername();
+                result.ok = ( mandatory === AccountsUI.C.Input.OPTIONAL );
                 return Meteor.isClient ? Promise.resolve( result ) : result;
             }
             // check for minimal length
-            if( result.username.length < AccountsUI.opts().usernameLength()){
+            if( opts.testLength !== false && result.username.length < AccountsUI.opts().usernameLength()){
                 result.ok = false;
                 result.errors.push( pwixI18n.label( I18N, 'input_username.too_short' ));
                 return Meteor.isClient ? Promise.resolve( result ) : result;
             }
             // check for unicity
-            if( Meteor.isClient ){
-                return Meteor.callPromise( 'AccountsUI.byUsername', result.username )
-                    .then(( res, err ) => {
-                        if( err ){
-                            console.error( err );
-                        } else if( res ){
-                            result.ok = false;
-                            result.errors.push( pwixI18n.label( I18N, 'input_username.already_exists' ));
-                        }
-                        return result;
-                    });
-            } else {
-                const user = AccountsUI._byUsername( result.username );
-                if( user ){
-                    result.ok = false;
-                    result.errors.push( pwixI18n.label( I18N, 'input_username.already_exists' ));
+            if( opts.testExistance !== false ){
+                if( Meteor.isClient ){
+                    return Meteor.callPromise( 'AccountsUI.byUsername', result.username )
+                        .then(( res, err ) => {
+                            if( err ){
+                                console.error( err );
+                            } else if( res ){
+                                result.ok = false;
+                                result.errors.push( pwixI18n.label( I18N, 'input_username.already_exists' ));
+                            }
+                            return result;
+                        });
+                } else {
+                    const user = AccountsUI._byUsername( result.username );
+                    if( user ){
+                        result.ok = false;
+                        result.errors.push( pwixI18n.label( I18N, 'input_username.already_exists' ));
+                    }
+                    return result;
                 }
-                return result;
             }
         },
 

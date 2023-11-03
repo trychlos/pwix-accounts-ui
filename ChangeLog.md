@@ -22,6 +22,9 @@
     - Define 'signupHaveEmailAddress' and 'signupHaveUsername' acUserLogin options
     - ac_input_username: fix display when fieldset if false
     - ac_signup: fix tests for username and email address
+    - ac_signup: display the mandatory indicators depending of the required mandatory fields
+    - checkPassword(): doesn't let the caller believe the password is ok when it is empty
+    - checkUsername(): honors testLength and testExistance options
 
 ### 1.4.0
 

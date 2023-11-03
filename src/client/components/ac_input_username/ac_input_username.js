@@ -1,7 +1,7 @@
 /*
  * pwix:accounts-ui/src/client/components/ac_input_username/ac_input_username.js
  *
- * Email input field
+ * Username input field
  * 
  * Parms:
  *  - AC: the acUserLogin internal data structure
@@ -38,7 +38,10 @@ Template.ac_input_username_sub.onCreated( function(){
         check(){
             self.AC.displayError( '' );
             const wantsNew = Boolean( Template.currentData().wantsNew === true );
-            AccountsUI._checkUsername( self.$( '.ac-input-username input' ).val() || '', { testLength: wantsNew, textExistance: wantsNew })
+            AccountsUI._checkUsername( self.$( '.ac-input-username input' ).val() || '', {
+                mandatory: Template.currentData().AC.options.signupHaveUsername(),
+                textExistance: wantsNew
+            })
                 .then(( result ) => {
                     // only display error message if field is not empty
                     if( !result.ok && result.username.length ){
@@ -92,7 +95,6 @@ Template.ac_input_username_sub.helpers({
     // returns the keyed translated string
     text( key ){
         let res = Object.keys( this ).includes( key ) ? this[key] : pwixI18n.label( I18N, 'input_username.'+key );
-        console.debug( this, key, res );
         return res;
     }
 });
