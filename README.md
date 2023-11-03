@@ -682,6 +682,14 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     Defauts to the corresponding globally configured option.
 
+- `signupSubmit`
+
+    Whether the package should handle the submission of the signup form.
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+
+    Accepted values are `true`|`false`, defaulting to `true`.
+
 - `name`
 
     As a convenience for an application which would wish make use of several `acUserLogin` templates, each one may be named

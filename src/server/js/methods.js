@@ -69,7 +69,9 @@ Meteor.methods({
     // https://docs.meteor.com/api/passwords.html#Accounts-createUser
     // called on the server, this methods returns the new account id
     'AccountsUI.createUser'( options ){
-        return Accounts.createUser( options );
+        const ret = Accounts.createUser( options );
+        console.debug( 'Accounts.createUser() ret=', ret );
+        return ret;
     },
 
     // send a mail with a verification link

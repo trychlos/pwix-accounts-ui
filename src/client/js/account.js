@@ -69,7 +69,7 @@ AccountsUI.Account = {
             }
             target.trigger( event, parms );
             // send a verification mail if asked for
-            // not that createUser already does that
+            // note that createUser already does that
             if( opts.autoConnect === false && createUserOptions.email && AccountsUI.opts().sendVerificationEmail()){
                 Meteor.call( 'AccountsUI.sendVerificationEmailByEmail', createUserOptions.email, ( err, res ) => {
                     if( err ){
@@ -92,7 +92,8 @@ AccountsUI.Account = {
             });
         } else {
             Meteor.call( 'AccountsUI.createUser', createUserOptions, ( err, res ) => {
-                if( err ){
+                // doesn't handle here credentials issues as the user is not connected anyway
+                if( err && err.error !== 403 ){
                     _errorFn( err );
                 } else {
                     _successFn();

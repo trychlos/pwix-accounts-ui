@@ -458,6 +458,15 @@ export class acCompanionOptions extends Options.Base {
 
     /**
      * Getter/Setter
+     * @param {Boolean|Function} flag whether to let the package handle the form submission
+     * @returns {Boolean}
+     */
+    signupSubmit( flag ){
+        return this.base_gsBoolFn( 'signupSubmit', flag, { default: defaults.acUserLogin.signupSubmit });
+    }
+
+    /**
+     * Getter/Setter
      * Returns the HTML content to be put in the first place of the 'signup' section, before the username
      * Not considered if username is not permitted.
      * @param {String|Function} label a string or a function which returns a string

@@ -195,25 +195,27 @@ Template.acUserLogin.events({
                 managed = true;
                 break;
             case AccountsUI.C.Panel.SIGNUP:
-                let options = {};
-                if( AccountsUI.opts().haveUsername() !== AccountsUI.C.Input.NONE ){
-                    options.username = $( '.ac-signup .ac-input-username .ac-input' ).val().trim();
-                }
-                if( AccountsUI.opts().haveEmailAddress() !== AccountsUI.C.Input.NONE ){
-                    options.email = $( '.ac-signup .ac-input-email .ac-input' ).val().trim();
-                }
-                options.password = $( '.ac-signup .ac-newone .ac-input' ).val().trim();
-                const autoClose = instance.AC.options.signupAutoClose();
-                //console.debug( 'found autoClose='+autoClose );
-                const autoConnect = instance.AC.options.signupAutoConnect();
-                //console.debug( 'found autoConnect='+autoConnect );
-                AccountsUI.Account.createUser( options, {
-                    target: instance.AC.target,
-                    autoClose: autoClose,
-                    autoConnect: autoConnect
-                });
-                if( !autoClose ){
-                    $( '.ac-signup' ).trigger( 'ac-clear-panel' );
+                if( instance.AC.options.signupSubmit()){
+                    let options = {};
+                    if( instance.AC.options.signupHaveUsername() !== AccountsUI.C.Input.NONE ){
+                        options.username = $( '.ac-signup .ac-input-username .ac-input' ).val().trim();
+                    }
+                    if( instance.AC.options.signupHaveEmailAddress() !== AccountsUI.C.Input.NONE ){
+                        options.email = $( '.ac-signup .ac-input-email .ac-input' ).val().trim();
+                    }
+                    options.password = $( '.ac-signup .ac-newone .ac-input' ).val().trim();
+                    const autoClose = instance.AC.options.signupAutoClose();
+                    //console.debug( 'found autoClose='+autoClose );
+                    const autoConnect = instance.AC.options.signupAutoConnect();
+                    //console.debug( 'found autoConnect='+autoConnect );
+                    AccountsUI.Account.createUser( options, {
+                        target: instance.AC.target,
+                        autoClose: autoClose,
+                        autoConnect: autoConnect
+                    });
+                    if( !autoClose ){
+                        $( '.ac-signup' ).trigger( 'ac-clear-panel' );
+                    }
                 }
                 managed = true;
                 break;
