@@ -125,11 +125,18 @@ Template.acUserLogin.helpers({
         return Template.instance().AC.options.renderMode() === AccountsUI.C.Render.MODAL;
     },
 
-    // do not pass the raw configuration options, but provides our own data to the child templates
+    //  let pass Modal options
+    // do not pass the other raw configuration options, but provides our own data to the child templates
     parms(){
-        return {
-            AC: Template.instance().AC
-        };
+        let o = {};
+        Object.keys( this ).every(( k ) => {
+            if( k.startsWith( 'md' )){
+                o[k] = this[k];
+            }
+            return true;
+        });
+        o.AC = Template.instance().AC;
+        return o;
     }
 });
 

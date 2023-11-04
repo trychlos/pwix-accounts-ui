@@ -27,6 +27,7 @@
     - checkUsername(): honors testLength and testExistance options
     - Improve the data content of ac-signup-ok event
     - Define new signupSubmit acUserLogin configuration parameter
+    - Modal options passed to acUserLogin are also passed to modal rendering component
 
 ### 1.4.0
 

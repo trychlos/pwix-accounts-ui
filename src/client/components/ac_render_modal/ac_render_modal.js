@@ -5,6 +5,8 @@
  *  - AC: the acUserLogin internal data structure
  */
 
+import _ from 'lodash';
+
 import { Modal } from 'meteor/pwix:modal';
 
 import './ac_render_modal.html';
@@ -27,13 +29,14 @@ Template.ac_render_modal.onCreated( function(){
                 if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.MODAL ){
                     console.log( 'pwix:accounts-ui ac_render_modal run the '+panel+' modal' );
                 }
-                Modal.run({
+                // let the caller override our configuration, but take care of keeping our main class
+                let o = _.merge({
                     mdBody: AccountsUI.Panel.template( panel ),
                     mdTitle: AccountsUI.Panel.title( panel ),
-                    mdClassesContent: 'ac-content',
-                    mdFooter: 'ac_footer',
-                    ... Template.currentData()
-                });
+                    mdFooter: 'ac_footer'
+                }, Template.currentData());
+                o.mdClassesContent = ( o.mdClassesContent || '' ) + ' ac-content';
+                Modal.run( o );
             }
         }
     });
