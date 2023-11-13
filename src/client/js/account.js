@@ -69,8 +69,7 @@ AccountsUI.Account = {
             }
             target.trigger( event, parms );
             // send a verification mail if asked for
-            // note that createUser already does that
-            if( opts.autoConnect === false && createUserOptions.email && AccountsUI.opts().sendVerificationEmail()){
+            if( createUserOptions.email && AccountsUI.opts().sendVerificationEmail()){
                 Meteor.call( 'AccountsUI.sendVerificationEmailByEmail', createUserOptions.email, ( err, res ) => {
                     if( err ){
                         console.error( err );
@@ -81,6 +80,7 @@ AccountsUI.Account = {
             target.trigger( 'ac-close' );
         };
         // the main code
+        //  https://docs.meteor.com/api/passwords#Accounts-createUser
         if( opts.autoConnect !== false ){
             Accounts.createUser( createUserOptions, ( err, res ) => {
                 if( err ){
