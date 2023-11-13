@@ -28,6 +28,7 @@
     - Improve the data content of ac-signup-ok event
     - Define new signupSubmit acUserLogin configuration parameter
     - Modal options passed to acUserLogin are also passed to modal rendering component
+    - Fix and improve signup panel stylesheet
 
 ### 1.4.0
 
