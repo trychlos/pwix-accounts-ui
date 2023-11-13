@@ -81,8 +81,8 @@ Meteor.methods({
     //  - token
     //  - url
     //  - options
-    'AccountsUI.sendVerificationEmail'( id ){
-        console.debug( 'AccountsUI.sendVerificationEmail' );
+    'AccountsUI.sendVerificationEmailById'( id ){
+        console.debug( 'AccountsUI.sendVerificationEmailById' );
         return Accounts.sendVerificationEmail( id );
     },
 
@@ -91,7 +91,7 @@ Meteor.methods({
         //console.debug( u );
         if( u ){
             console.debug( 'AccountsUI.sendVerificationEmailByEmail' );
-            Accounts.sendVerificationEmail( u._id );
+            return Accounts.sendVerificationEmail( u._id );
         }
     }
 });

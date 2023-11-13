@@ -38,7 +38,12 @@ AccountsUI.Account = {
      * We try to verify emails, so send simultaneouly (in the background) an email to check that.
      * Note that the 'Accounts.createUser()' method doesn't force any security rule on the password.
      * We have to rely on AccountsUI.fn.validatePassword() for that.
-     * @param {Object}  object options as expected by Accounts.createUser()
+     * @param {Object}  object options as expected by Accounts.createUser(), i.e.
+     *  - username
+     *  - email
+     *  - password
+     *  - profile
+     *  Also cf. https://docs.meteor.com/api/passwords#Accounts-createUser
      * @param {Object} opts, object options with following keys:
      *  - target: the target of the to-be-sent events, defaulting to 'body' element
      *  - autoClose: whether to automatically close the modal on successful creation, defaulting to true
@@ -73,6 +78,8 @@ AccountsUI.Account = {
                 Meteor.call( 'AccountsUI.sendVerificationEmailByEmail', createUserOptions.email, ( err, res ) => {
                     if( err ){
                         console.error( err );
+                    } else {
+                        console.debug( 'AccountsUI.sendVerificationEmailByEmail', res );
                     }
                 });
             }
@@ -82,7 +89,7 @@ AccountsUI.Account = {
         // the main code
         //  https://docs.meteor.com/api/passwords#Accounts-createUser
         if( opts.autoConnect !== false ){
-            Accounts.createUser( createUserOptions, ( err, res ) => {
+            Accounts.createUser( createUserOptions, ( err ) => {
                 if( err ){
                     _errorFn( err );
                 } else {
@@ -198,7 +205,7 @@ AccountsUI.Account = {
      */
     verifyMail( opts={} ){
         const target = opts.target || $( 'body' );
-        Meteor.callPromise( 'AccountsUI.sendVerificationEmail', Meteor.userId())
+        Meteor.callPromise( 'AccountsUI.sendVerificationEmailById', Meteor.userId())
             .then(( result ) => {
                 if( result ){
                     Tolert.success( pwixI18n.label( I18N, 'user.verifyask_success' ));
