@@ -48,10 +48,11 @@ AccountsUI.Account = {
      *  - target: the target of the to-be-sent events, defaulting to 'body' element
      *  - autoClose: whether to automatically close the modal on successful creation, defaulting to true
      *  - autoConnect: whether to automatically login the newly created user, defaulting to true
+     *  - errFn: a function to be called in case of an error
+     *  - successFn: a function to be called in case of a success
      * 
-     * Note that Accounts.createUser() is to be called on the client side only and, not only auto-connnects the newly created user account,
-     * but also automatically sends a verification link by email.
-     * So, if we do not want this autoconnection, we have to call the server-side method, and send ourselves the verification email.
+     * Note that Accounts.createUser() auto-connnects the newly created user account when called from the client side.
+     * So, if we do not want this autoconnection, we have to call the server-side method.
      */
     createUser( createUserOptions, opts={} ){
         const target = opts.target || $( 'body' );
@@ -59,6 +60,10 @@ AccountsUI.Account = {
         const _errorFn = function( err ){
             console.error( err );
             target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.signup_error' ));
+            // call error function if any
+            if( opts.errFn ){
+                opts.errFn();
+            }
         };
         // the success handler
         const _successFn = function(){
@@ -85,6 +90,10 @@ AccountsUI.Account = {
             }
             // last close the modal
             target.trigger( 'ac-close' );
+            // call success function if any
+            if( opts.successFn ){
+                opts.successFn();
+            }
         };
         // the main code
         //  https://docs.meteor.com/api/passwords#Accounts-createUser
