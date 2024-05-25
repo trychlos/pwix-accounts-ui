@@ -45,4 +45,4 @@ function configure( api ){
 }
 
 // NPM dependencies are checked in /src/server/js/check_npms.js
-// See also https://guide.meteor.com/writing-atmosphere-packages.html#npm-dependencies
+// See also https://guide.meteor.com/writing-atmosphere-packages.html#peer-npm-dependencies

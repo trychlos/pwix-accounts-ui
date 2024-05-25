@@ -29,7 +29,8 @@
 |   67 | 2023- 9-12 | feat: honor coloredBorders parm |
 |   70 | 2023-10- 2 | validateNewUser() function should be only set on a acUserLogin option |
 |      |            | as a new account is nonetheless created from acUserLogin, it is then possible to activate/unactivate it from the component |
-|   71 |  |  |
+|   71 | 2023-12-16 | with the birth of izIAM, AccountsUI MUST be capable being OAuth/OpenID client |
+|   7é |  |  |
 
 ---
 ## Done
