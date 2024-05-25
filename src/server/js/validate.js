@@ -3,7 +3,7 @@
  */
 
 import _ from 'lodash';
-import SimpleSchema from 'simpl-schema';
+import SimpleSchema from 'meteor/aldeed:simple-schema';
 
 import { Accounts } from 'meteor/accounts-base';
 

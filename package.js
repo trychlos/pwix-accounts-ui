@@ -25,6 +25,7 @@ Package.onTest( function( api ){
 function configure( api ){
     api.versionsFrom([ '2.9.0', '3.0-rc.0' ]);
     api.use( 'accounts-password@2.3.3 || 3.0.0-rc300.2' );
+    api.use( 'aldeed:simple-schema@1.13.1' );
     api.use( 'blaze-html-templates@2.0.0 || 3.0.0-alpha300.0', 'client' );
     api.use( 'ecmascript' );
     api.use( 'less@4.0.0', 'client' );

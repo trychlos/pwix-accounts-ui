@@ -31,6 +31,8 @@
     - Fix and improve signup panel stylesheet
     - Add errFn() and successFn callback function to createUser() options
     - Get rid of deanius:promise dependency
+    - Replace simpl-schema NPM dependency with aldeed:simple-schema meteor package
+    - Meteor 3.0 ready
 
 ### 1.4.0
 
