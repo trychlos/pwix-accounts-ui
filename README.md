@@ -842,12 +842,11 @@ Starting with v 1.0.0, and in accordance with advices from [the Meteor Guide](ht
 
 Instead we check npm versions of installed packages at runtime, on server startup, in development environment.
 
-Dependencies as of v 1.4.0:
+Dependencies as of v 1.5.0:
 ```
     'email-validator': '^2.0.4',
     'lodash': '^4.17.0',
     'printf': '^0.6.1',
-    'simpl-schema': '^3.4.1',
     'zxcvbn': '^4.4.2'
 ```
 
@@ -864,4 +863,4 @@ New and updated translations are willingly accepted, and more than welcome. Just
 
 ---
 P. Wieser
-- Last updated on 2023, Oct. 11th
+- Last updated on 2024, May. 25th

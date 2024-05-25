@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.5.0-rc
+### 1.5.0
 
-    Release date: 
+    Release date: 2024- 5-25
 
     - Publish acMandatoryField component (bumping candidate version number)
     - Publish acMandatoryFooter component
@@ -140,4 +140,4 @@
 
 ---
 P. Wieser
-- Last updated on 2023, Oct. 11th
+- Last updated on 2024, May. 25th
