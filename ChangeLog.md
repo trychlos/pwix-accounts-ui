@@ -30,6 +30,7 @@
     - Modal options passed to acUserLogin are also passed to modal rendering component
     - Fix and improve signup panel stylesheet
     - Add errFn() and successFn callback function to createUser() options
+    - Get rid of deanius:promise dependency
 
 ### 1.4.0
 
