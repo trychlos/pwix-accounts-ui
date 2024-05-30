@@ -23,8 +23,7 @@ AccountsUI = {
          * @param {Object} opts:
          *  - testSyntax: true|false, defaulting to true (test the syntax, returning an error if empty or bad syntax)
          *  - testExistance: true|false, defaulting to true (test the existance, positionning the flag in result object)
-         * @returns {Promise} on client side which resolves to the check result,
-         * @returns {Object} the check result itself on the server side, as:
+         * @returns {Promise} on client side which resolves to the check result, as:
          *  - ok: true|false
          *  - exists: undefined|true|false
          *  - reason: the first reason for the tests have been failed
@@ -109,7 +108,7 @@ AccountsUI = {
             };
             // check for unicity
             if( Meteor.isClient ){
-                return Meteor.callPromise( 'AccountsUI.byEmailAddress', email )
+                return Meteor.callAsync( 'AccountsUI.byEmailAddress', email )
                     .then(( res ) => {
                         result.exists = ( res ? true : false );
                         return result;
