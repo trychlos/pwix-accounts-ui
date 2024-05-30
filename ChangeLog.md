@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Makes use of pwix:accounts-tools
 
 ### 1.5.0
 
