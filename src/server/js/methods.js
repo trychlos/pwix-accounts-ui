@@ -3,33 +3,19 @@
  */
 
 import { Accounts } from 'meteor/accounts-base';
-
-// make sure we remove all sensitive information before returning to the client
-_cleanUser = function ( user ){
-    if( user ){
-        if( user.services ){
-            delete user.services.resume;
-            if( user.services.password ){
-                delete user.services.password.bcrypt;
-            }
-        }
-        delete user.profile;
-    }
-    //console.log( user );
-    return user;
-};
+import { AccountsTools } from 'meteor/pwix:accounts-tools';
 
 AccountsUI._byEmailAddress = function( email ){
     //console.debug( email );
-    return _cleanUser( Accounts.findUserByEmail( email ));
+    return AccountsTools.cleanupUserDocument( Accounts.findUserByEmail( email ));
 };
 
 AccountsUI._byId = function( id ){
-    return _cleanUser( Meteor.users.findOne({ _id: id }));
+    return AccountsTools.cleanupUserDocument( Meteor.users.findOne({ _id: id }));
 };
 
 AccountsUI._byUsername = function( username ){
-    return _cleanUser( Accounts.findUserByUsername( username ));
+    return AccountsTools.cleanupUserDocument( Accounts.findUserByUsername( username ));
 };
 
 Meteor.methods({
@@ -50,7 +36,7 @@ Meteor.methods({
     // find the user who holds the given reset password token
     'AccountsUI.byResetToken'( token ){
         //console.debug( 'AccountsUI.byResetToken' );
-        return _cleanUser( Meteor.users.findOne({ 'services.password.reset.token': token },{ 'services.password.reset': 1 }));
+        return AccountsTools.cleanupUserDocument( Meteor.users.findOne({ 'services.password.reset.token': token },{ 'services.password.reset': 1 }));
     },
 
     // find a user by his username
@@ -62,7 +48,7 @@ Meteor.methods({
     // find the user who holds the given email verification token
     'AccountsUI.byEmailVerificationToken'( token ){
         //console.debug( 'AccountsUI.byEmailVerificationToken' );
-        return _cleanUser( Meteor.users.findOne({ 'services.email.verificationTokens': { $elemMatch: { token: token }}},{ 'services.email':1 }));
+        return AccountsTools.cleanupUserDocument( Meteor.users.findOne({ 'services.email.verificationTokens': { $elemMatch: { token: token }}},{ 'services.email':1 }));
     },
 
     // create a user without auto login
