@@ -13,7 +13,7 @@ AccountsUI = {
     ...{
         //
         // Rationale: we need as usual check functions both on client and on server side.
-        //  But server side requires synchronous results while client side works better with asynchronous code
+        //  Both server and client sides use asynchronous code
         //
 
         /*
@@ -23,13 +23,13 @@ AccountsUI = {
          * @param {Object} opts:
          *  - testSyntax: true|false, defaulting to true (test the syntax, returning an error if empty or bad syntax)
          *  - testExistance: true|false, defaulting to true (test the existance, positionning the flag in result object)
-         * @returns {Promise} on client side which resolves to the check result, as:
+         * @returns {Promise} which resolves to the check result, as:
          *  - ok: true|false
          *  - exists: undefined|true|false
          *  - reason: the first reason for the tests have been failed
          *  - email: trimmed lowercase email address
          */
-        _checkEmailAddress( email, opts={} ){
+        async _checkEmailAddress( email, opts={} ){
             let result = {
                 ok: undefined,
                 exists: undefined,
@@ -40,34 +40,20 @@ AccountsUI = {
             if( !result.email || !result.email.length ){
                 result.ok = false;
                 result.reason = AccountsUI.C.Reason.EMAIL_EMPTY;
-                return Meteor.isClient ? Promise.resolve( result ) : result;
+                return Promise.resolve( result );
             }
-            // client side
-            if( Meteor.isClient ){
-                return Promise.resolve( result )
-                    .then(( res ) => {
-                        return ( opts.testSyntax !== false ) ? this._checkEmailAddressSyntax( res.email ) : Promise.resolve( result );
-                    })
-                    .then(( res ) => {
-                        _.merge( result, res );
-                        return ( opts.testExistance !== false && res.ok !== false ) ? this._checkEmailAddressExists( result.email ) : Promise.resolve( result );
-                    })
-                    .then(( res ) => {
-                        _.merge( result, res );
-                        return Promise.resolve( result );
-                    });
-            }
-            // server side
-            let res;
-            if( opts.testSyntax !== false ){
-                res = this._checkEmailAddressSyntax( result.email );
-                _.merge( result, res );
-            }
-            if( opts.testExistance !== false && result.ok !== false ){
-                res = this._checkEmailAddressExists( result.email );
-                _.merge( result, res );
-            }
-            return result;
+            return Promise.resolve( result )
+                .then(( res ) => {
+                    return ( opts.testSyntax !== false ) ? this._checkEmailAddressSyntax( res.email ) : Promise.resolve( result );
+                })
+                .then(( res ) => {
+                    _.merge( result, res );
+                    return ( opts.testExistance !== false && res.ok !== false ) ? this._checkEmailAddressExists( result.email ) : Promise.resolve( result );
+                })
+                .then(( res ) => {
+                    _.merge( result, res );
+                    return Promise.resolve( result );
+                });
         },
 
         /*
@@ -91,18 +77,17 @@ AccountsUI = {
                 result.ok = false;
                 result.reason = AccountsUI.C.Reason.EMAIL_SYNTAX;
             }
-            return Meteor.isClient ? Promise.resolve( result ) : result;
+            return result;
         },
 
         /*
          * @summary: check whether the candidate email address exists in our system
          * @locus Anywhere
          * @param {String} email the email address to be checked
-         * @returns {Promise} on client side which resolves to the check result,
-         * @returns {Object} the check result itself on the server side, as:
+         * @returns {Promise} which resolves to the check result, as:
          *  - exists: true|false
          */
-        _checkEmailAddressExists( email ){
+        async _checkEmailAddressExists( email ){
             let result = {
                 exists: undefined
             };
@@ -115,9 +100,10 @@ AccountsUI = {
                     });
             }
             // server side
-            const user = AccountsUI._byEmailAddress( email );
-            result.exists = ( user ? true : false );
-            return result;
+            return AccountsUI._byEmailAddress( email ).then(( doc ) => {
+                result.exists = ( doc ? true : false );
+                return result;
+            });
         },
 
         /*
@@ -175,14 +161,13 @@ AccountsUI = {
          *  - mandatory: whether the username is mandatory or optional, defaulting to the package configured value
          *  - testLength: true|false, defaulting to true (test the length vs the globally configured option)
          *  - testExistance: true|false, defaulting to true (test the existance, positionning the flag in result object)
-         * @returns {Promise} on client side which resolves to the check result,
-         * @returns {Object} the check result itself on the server side, as:
+         * @returns {Promise} which resolves to the check result, as:
          *  - ok: true|false
          *  - errors: [] an array of localized error messages
          *  - warnings: [] an array of localized warning messages
          *  - username: trimmed username
          */
-        _checkUsername( username, opts={} ){
+        async _checkUsername( username, opts={} ){
             let result = {
                 ok: true,
                 errors: [],
@@ -204,7 +189,7 @@ AccountsUI = {
             // check for unicity
             if( opts.testExistance !== false ){
                 if( Meteor.isClient ){
-                    return Meteor.callPromise( 'AccountsUI.byUsername', result.username )
+                    return Meteor.callAsync( 'AccountsUI.byUsername', result.username )
                         .then(( res, err ) => {
                             if( err ){
                                 console.error( err );
@@ -215,12 +200,13 @@ AccountsUI = {
                             return result;
                         });
                 } else {
-                    const user = AccountsUI._byUsername( result.username );
-                    if( user ){
-                        result.ok = false;
-                        result.errors.push( pwixI18n.label( I18N, 'input_username.already_exists' ));
-                    }
-                    return result;
+                    return AccountsUI._byUsername( result.username ).then(( doc ) => {
+                        if( doc ){
+                            result.ok = false;
+                            result.errors.push( pwixI18n.label( I18N, 'input_username.already_exists' ));
+                        }
+                        return result;
+                    });
                 }
             }
         },
