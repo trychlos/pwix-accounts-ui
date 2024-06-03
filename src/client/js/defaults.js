@@ -198,6 +198,7 @@ _.merge( defaults, {
         signupPasswordTwice: _passwordTwice,
         signupAutoClose: true,
         signupAutoConnect: true,
+        signupClearPanel: true,
         signupSubmit: true,
         name: ''
     }

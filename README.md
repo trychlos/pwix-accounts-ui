@@ -669,6 +669,14 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     Accepted values are `true`|`false`, defaulting to `true`.
 
+- `signupClearPanel`
+
+    Whether to clear the panel after having created a new account.
+
+    A function can be provided by the application for this parm. The function will be called without argument and MUST return one of the accepted values.
+
+    Accepted values are `true`|`false`, defaulting to `true`.
+
 - `signupHaveEmailAddress`
 - `signupHaveUsername`
 

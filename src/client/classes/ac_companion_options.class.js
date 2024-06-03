@@ -359,6 +359,15 @@ export class acCompanionOptions extends Options.Base {
 
     /**
      * Getter/Setter
+     * @param {Boolean|Function} flag whether to clear the panel after hving created a new account
+     * @returns {Boolean}
+     */
+    signupClearPanel( flag ){
+        return this.base_gsBoolFn( 'signupClearPanel', flag, { default: defaults.acUserLogin.signupClearPanel });
+    }
+
+    /**
+     * Getter/Setter
      * @param {String|Function|Object} str the placeholder of the input email
      * @returns {String}
      */

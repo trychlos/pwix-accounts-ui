@@ -44,17 +44,17 @@ AccountsUI.Account = {
      *  - password
      *  - profile
      *  Also cf. https://docs.meteor.com/api/passwords#Accounts-createUser
+     *       and https://v3-docs.meteor.com/api/accounts.html#Accounts-createUser
      * @param {Object} opts, object options with following keys:
      *  - target: the target of the to-be-sent events, defaulting to 'body' element
-     *  - autoClose: whether to automatically close the modal on successful creation, defaulting to true
-     *  - autoConnect: whether to automatically login the newly created user, defaulting to true
+     *  - options: the options applied the currenly acUserLogin component
      *  - errFn: a function to be called in case of an error
      *  - successFn: a function to be called in case of a success
      * 
      * Note that Accounts.createUser() auto-connnects the newly created user account when called from the client side.
      * So, if we do not want this autoconnection, we have to call the server-side method.
      */
-    createUser( createUserOptions, opts={} ){
+    async createUser( createUserOptions, opts={} ){
         const target = opts.target || $( 'body' );
         // the error handler
         const _errorFn = function( err ){
@@ -79,25 +79,38 @@ AccountsUI.Account = {
             }
             target.trigger( event, parms );
             // send a verification mail if asked for
+            let promises = [];
             if( createUserOptions.email && AccountsUI.opts().sendVerificationEmail()){
-                Meteor.call( 'AccountsUI.sendVerificationEmailByEmail', createUserOptions.email, ( err, res ) => {
-                    if( err ){
-                        console.error( err );
+                promises.push( Meteor.callAsync( 'AccountsUI.sendVerificationEmailByEmail', createUserOptions.email ));
+            }
+            Promise.allSettled( promises )
+                .then(( res ) => {
+                    console.debug( 'AccountsUI.sendVerificationEmailByEmail', res );
+                    // autoClose is only relevant in MODAL render mode
+                    const autoClose = opts.options.signupAutoClose();
+                    const renderMode = opts.options.renderMode();
+                    if( renderMode === AccountsUI.C.Render.MODAL && autoClose ){
+                        target.trigger( 'ac-close' );
                     } else {
-                        console.debug( 'AccountsUI.sendVerificationEmailByEmail', res );
+                        // clearPanel is only relevant if we do not have closed
+                        const clearPanel = opts.options.signupClearPanel();
+                        if( clearPanel ){
+                            $( '.ac-signup' ).trigger( 'ac-clear-panel' );
+                        }
                     }
+                    // call success function if any
+                    if( opts.successFn ){
+                        opts.successFn();
+                    }
+                })
+                .catch(( err ) => {
+                    console.error( err );
                 });
-            }
-            // last close the modal
-            target.trigger( 'ac-close' );
-            // call success function if any
-            if( opts.successFn ){
-                opts.successFn();
-            }
         };
         // the main code
         //  https://docs.meteor.com/api/passwords#Accounts-createUser
-        if( opts.autoConnect !== false ){
+        const autoConnect = opts.options.signupAutoConnect();
+        if( autoConnect !== false ){
             Accounts.createUser( createUserOptions, ( err ) => {
                 if( err ){
                     _errorFn( err );
@@ -107,15 +120,17 @@ AccountsUI.Account = {
                 }
             });
         } else {
-            Meteor.call( 'AccountsUI.createUser', createUserOptions, ( err, res ) => {
-                // doesn't handle here credentials issues as the user is not connected anyway
-                if( err && err.error !== 403 ){
-                    _errorFn( err );
-                } else {
+            Meteor.callAsync( 'AccountsUI.createUser', createUserOptions )
+                .then(() => {
                     _successFn();
                     Tolert.success( pwixI18n.label( I18N, 'user.signup_noconnect', createUserOptions.email ));
-                }
-            });
+                })
+                .catch(( err ) => {
+                    // doesn't handle here credentials issues as the user is not connected anyway
+                    if( err.error !== 403 ){
+                        _errorFn( err );
+                    }
+                });
         }
     },
 

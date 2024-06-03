@@ -226,6 +226,7 @@ Template.ac_signup.events({
     // message sent from acUserLogin after having successfully created a new user
     //  clear the input fields to prepare the creation of another account
     'ac-clear-panel .ac-signup'( event, instance ){
+        //console.log( 'ac-clear-panel' );
         instance.AC.clearPanel();
         return false;
     }

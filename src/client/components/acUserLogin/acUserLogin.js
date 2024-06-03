@@ -211,18 +211,10 @@ Template.acUserLogin.events({
                         options.email = $( '.ac-signup .ac-input-email .ac-input' ).val().trim();
                     }
                     options.password = $( '.ac-signup .ac-newone .ac-input' ).val().trim();
-                    const autoClose = instance.AC.options.signupAutoClose();
-                    //console.debug( 'found autoClose='+autoClose );
-                    const autoConnect = instance.AC.options.signupAutoConnect();
-                    //console.debug( 'found autoConnect='+autoConnect );
                     AccountsUI.Account.createUser( options, {
                         target: instance.AC.target,
-                        autoClose: autoClose,
-                        autoConnect: autoConnect
+                        options: instance.AC.options
                     });
-                    if( !autoClose ){
-                        $( '.ac-signup' ).trigger( 'ac-clear-panel' );
-                    }
                 }
                 managed = true;
                 break;

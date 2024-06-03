@@ -53,6 +53,7 @@ Meteor.methods({
 
     // create a user without auto login
     // https://docs.meteor.com/api/passwords.html#Accounts-createUser
+    // and https://v3-docs.meteor.com/api/accounts.html#Accounts-createUser
     // called on the server, this methods returns the new account id
     'AccountsUI.createUser'( options ){
         const ret = Accounts.createUser( options );
