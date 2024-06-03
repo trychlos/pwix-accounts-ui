@@ -7,19 +7,29 @@
 AccountsUI.User = {
 
     /**
-     * @returns {String} the (first) mail address of the currently logged-in user
+     * @returns {Integer} the count of unverified email addresses for the currently logged-in user
      */
-    emailAddress(){
+    countUnverifiedEmails(){
         const user = Meteor.user({ fields: { 'username': 1, 'emails': 1 }});
-        const email = user ? user.emails[0].address : '';
-        return email;
+        let count = 0;
+        if( user && user.emails && user.emails.length ){
+            user.emails.every(( o ) => {
+                if( !o.verified ){
+                    count += 1;
+                }
+                return true;
+            });
+        }
+        return count;
     },
 
     /**
-     * @returns {Boolean} whether the (first) mail address is verified
+     * @returns {String} the (first) mail address of the currently logged-in user
      */
-    emailIsVerified(){
-        return Meteor.user() ? Meteor.user().emails[0].verified : false;
+    firstEmailAddress(){
+        const user = Meteor.user({ fields: { 'username': 1, 'emails': 1 }});
+        const email = user && user.emails && user.emails.length ? user.emails[0].address : '';
+        return email;
     },
 
     /**

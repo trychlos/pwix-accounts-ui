@@ -85,7 +85,7 @@ function _enableAlways(){
 }
 
 function _enableMailVerified(){
-    return !AccountsUI.User.emailIsVerified()
+    return AccountsUI.User.countUnverifiedEmails() > 0;
 }
 
 /*
@@ -118,10 +118,12 @@ function _coloredBorders(){
 }
 
 /*
- * a function to return the email address of the logged-in user
+ * a function to return the first email address of the logged-in user (if any)
  */
 function _emailAddress(){
-    return AccountsUI.User.emailAddress();
+    const email = AccountsUI.User.firstEmailAddress();
+    //console.debug( 'email', email );
+    return email;
 }
 
 /*
