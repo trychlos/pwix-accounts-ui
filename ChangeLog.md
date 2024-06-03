@@ -9,6 +9,7 @@
     - Makes use of pwix:accounts-tools
     - Define new signupClearPanel parameter (thus bumping candidate release number)
     - DIV-rendered panels now are able to automatically set the focus on the first input field (todo #74)
+    - Remove obsolete callPromise() calls
 
 ### 1.5.0
 

@@ -46,7 +46,7 @@ _verifyExpired = function(){
 Accounts.onEmailVerificationLink( function( token, done ){
     //console.log( 'onEmailVerificationLink' );
     //console.log( 'document.URL', document.URL );
-    Meteor.callPromise( 'AccountsUI.byEmailVerificationToken', token )
+    Meteor.callAsync( 'AccountsUI.byEmailVerificationToken', token )
         .then(( user ) => {
             if( user ){
                 let email = null;
@@ -138,7 +138,7 @@ Accounts.onResetPasswordLink( function( token, done ){
         });
     };
     // main code    
-    Meteor.callPromise( 'AccountsUI.byResetToken', token )
+    Meteor.callAsync( 'AccountsUI.byResetToken', token )
         .then(( user ) => {
             if( user ){
                 Modal.run({

@@ -54,8 +54,6 @@ Template.ac_input_email.helpers({
                         } else if( wantsNew && result.exists ){
                             self.AC.displayError( pwixI18n.label( I18N, 'input_email.already_exists' ));
                             result.ok = false;
-                        } else {
-                            console.log( 'unmanaged: wantsNew='+wantsNew, 'result=', result );
                         }
                     }
                     self.$( '.ac-input-email-sub' ).trigger( 'ac-email-data', { ok: result.ok, email: result.email });

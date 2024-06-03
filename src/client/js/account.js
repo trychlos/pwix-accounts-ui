@@ -85,7 +85,7 @@ AccountsUI.Account = {
             }
             Promise.allSettled( promises )
                 .then(( res ) => {
-                    console.debug( 'AccountsUI.sendVerificationEmailByEmail', res );
+                    //console.debug( 'AccountsUI.sendVerificationEmailByEmail', res );
                     // autoClose is only relevant in MODAL render mode
                     const autoClose = opts.options.signupAutoClose();
                     const renderMode = opts.options.renderMode();
@@ -229,7 +229,7 @@ AccountsUI.Account = {
      */
     verifyMail( opts={} ){
         const target = opts.target || $( 'body' );
-        Meteor.callPromise( 'AccountsUI.sendVerificationEmailById', Meteor.userId())
+        Meteor.callAsync( 'AccountsUI.sendVerificationEmailById', Meteor.userId())
             .then(( result ) => {
                 if( result ){
                     Tolert.success( pwixI18n.label( I18N, 'user.verifyask_success' ));

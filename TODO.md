@@ -30,7 +30,8 @@
 |   70 | 2023-10- 2 | validateNewUser() function should be only set on a acUserLogin option |
 |      |            | as a new account is nonetheless created from acUserLogin, it is then possible to activate/unactivate it from the component |
 |   71 | 2023-12-16 | with the birth of izIAM, AccountsUI MUST be capable being OAuth/OpenID client |
-|   75 | 2024- 6- 3 |  |
+|   75 | 2024- 6- 3 | in DIV render, all happens as if Enter on submit button would submit twice (see for example signup in startup-app-admin) |
+|   76 | 2024- 6- 3 |  |
 
 ---
 ## Done
