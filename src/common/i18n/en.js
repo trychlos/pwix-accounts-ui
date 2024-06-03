@@ -119,7 +119,7 @@ AccountsUI.i18n = {
                 resetpwd_text: 'Hi.<br />Your password has been successfully reset.<br />You are now automatically logged-in.',
                 resetpwd_error: 'Humm... Sorry, but your token has expired. I\'am unfortunately unable to reset your password.<br />You have to re-ask for a new reset link.',
                 signin_error: 'Invalid mail address and/or password. Please check your credentials. In case of doubt, please contact our administrator.',
-                signup_error: 'Unable to create this new account',
+                signup_error: 'Unable to create this new account (%s).',
                 signup_autoconnect: 'New account %s has been successfully created and logged in',
                 signup_noconnect: 'New account %s has been successfully created, not connected',
                 verify_error: 'Humm... Sorry, but it seems your token has expired.<br />You have to re-ask for a new verification link.',

@@ -59,7 +59,7 @@ AccountsUI.Account = {
         // the error handler
         const _errorFn = function( err ){
             console.error( err );
-            target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.signup_error' ));
+            target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.signup_error', err.reason || '' ));
             // call error function if any
             if( opts.errFn ){
                 opts.errFn();

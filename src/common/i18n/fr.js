@@ -119,7 +119,7 @@ AccountsUI.i18n = {
                 resetpwd_text: 'Bonjour,<br />Votre mot de passe a été réinitialisé avec succès.<br />Vous êtes automatiquement connecté au site.',
                 resetpwd_title: 'Réinitialisation du mot de passe',
                 signin_error: 'L\'adresse de messagerie et/ou le mot de passe sont invalides. Merci de bien vouloir les vérifier.\nEn cas de doute, vous pouvez vous rapprocher de notre administrateur.',
-                signup_error: 'Impossible de créer ce nouveau compte.',
+                signup_error: 'Impossible de créer ce nouveau compte (%s).',
                 signup_autoconnect: 'Le nouveau compte %s a été créé avec succès et connecté',
                 signup_noconnect: 'Le nouveau compte %s a été créé avec succès, n\'est pas connecté',
                 verify_error: 'Humm... Désolé, mais il semble que le jeton utilisé soit expiré.<br />Vous devez en redemander un nouveau.',
