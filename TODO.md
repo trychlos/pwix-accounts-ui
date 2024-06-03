@@ -30,7 +30,6 @@
 |   70 | 2023-10- 2 | validateNewUser() function should be only set on a acUserLogin option |
 |      |            | as a new account is nonetheless created from acUserLogin, it is then possible to activate/unactivate it from the component |
 |   71 | 2023-12-16 | with the birth of izIAM, AccountsUI MUST be capable being OAuth/OpenID client |
-|   73 | 2024- 6- 3 | signup: ok button should be disabled while panel is not ok |
 |   74 | 2024- 6- 3 |  |
 
 ---
@@ -170,6 +169,8 @@
 |      | 2023- 9-17 | fixed |
 |   72 | 2024- 6- 3 | signup: do not check for already existing email |
 |      | 2024- 6- 3 | fixed |
+|   73 | 2024- 6- 3 | signup: ok button should be disabled while panel is not ok |
+|      | 2024- 6- 3 | was a html error in div rendering - fixed |
 
 ---
 P. Wieser

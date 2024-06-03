@@ -106,7 +106,7 @@ Template.ac_signup.onRendered( function(){
 
     self.autorun(() => {
         const ok = self.AC.emailOk.get() && self.AC.usernameOk.get() && self.AC.twiceOk.get();
-        //console.debug( 'emailOk', self.AC.emailOk.get(), 'usernameOk', self.AC.usernameOk.get(), 'twiceOk', self.AC.twiceOk.get());
+        //console.debug( 'emailOk', self.AC.emailOk.get(), 'usernameOk', self.AC.usernameOk.get(), 'twiceOk', self.AC.twiceOk.get(), 'ok', ok );
         self.$( '.ac-signup' ).closest( '.ac-content' ).find( '.ac-submit' ).prop( 'disabled', !ok );
         // ac-signup is rendered before acUserLogin in div context
         const target = Template.currentData().AC.target || self.$( '.ac-signup' );
