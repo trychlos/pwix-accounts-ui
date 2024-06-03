@@ -12,6 +12,7 @@ import './account.js';
 import './accounts_base.js';
 import './bodyevents.js';
 import './defaults.js';
+import './dom.js';
 import './functions.js';
 import './panel.js';
 import './private.js';
