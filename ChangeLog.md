@@ -2,6 +2,12 @@
 
 ## ChangeLog
 
+### 1.6.1-rc
+
+    Release date: 
+
+    - 
+
 ### 1.6.0
 
     Release date: 2024- 6- 8
