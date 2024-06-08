@@ -29,7 +29,7 @@ function configure( api ){
     api.use( 'blaze-html-templates@2.0.0 || 3.0.0-alpha300.0', 'client' );
     api.use( 'ecmascript' );
     api.use( 'less@4.0.0', 'client' );
-    api.use( 'pwix:accounts-tools@2.1.0-rc' );
+    api.use( 'pwix:accounts-tools@2.0.0' );
     api.use( 'pwix:bootbox@1.5.5' );
     api.use( 'pwix:i18n@1.5.7' );
     api.use( 'pwix:modal@1.10.0' );

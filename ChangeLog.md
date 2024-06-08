@@ -11,6 +11,7 @@
     - DIV-rendered panels now are able to automatically set the focus on the first input field (todo #74)
     - Remove obsolete callPromise() calls
     - Replace obsolete pwix:layout v1 dependency with pwix:ui-layout v2
+    - Decrease the required accounts-tools dependency to be able to publish
 
 ### 1.5.0
 
