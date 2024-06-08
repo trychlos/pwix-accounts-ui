@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.6.2-rc
+### 1.6.2
 
-    Release date: 
+    Release date: 2024- 6- 8
 
     - Re-add breakpoints constants from pwix:ui-layout
 
