@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Remove obsoleted pwix:layout stylesheet (the new ui-layout one being automatically loaded)
 
 ### 1.6.0
 
