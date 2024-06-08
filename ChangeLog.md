@@ -7,6 +7,7 @@
     Release date: 
 
     - Remove obsoleted pwix:layout stylesheet (the new ui-layout one being automatically loaded)
+    - Upgrade pwix:modal dependency
 
 ### 1.6.0
 

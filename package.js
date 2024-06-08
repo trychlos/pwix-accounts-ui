@@ -32,7 +32,7 @@ function configure( api ){
     api.use( 'pwix:accounts-tools@2.0.0' );
     api.use( 'pwix:bootbox@1.5.5' );
     api.use( 'pwix:i18n@1.5.7' );
-    api.use( 'pwix:modal@1.10.0' );
+    api.use( 'pwix:modal@1.10.0 || 2.0.0' );
     api.use( 'pwix:options@2.1.1' );
     api.use( 'pwix:tolert@1.4.2' );
     api.use( 'pwix:ui-layout@2.0.0' );
