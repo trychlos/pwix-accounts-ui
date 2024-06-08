@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.6.0-rc
+### 1.6.0
 
-    Release date: 
+    Release date: 2024- 6- 8
 
     - Makes use of pwix:accounts-tools
     - Define new signupClearPanel parameter (thus bumping candidate release number)
@@ -151,4 +151,4 @@
 
 ---
 P. Wieser
-- Last updated on 2024, May. 25th
+- Last updated on 2024, Jun. 8th
