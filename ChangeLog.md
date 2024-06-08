@@ -10,6 +10,7 @@
     - Define new signupClearPanel parameter (thus bumping candidate release number)
     - DIV-rendered panels now are able to automatically set the focus on the first input field (todo #74)
     - Remove obsolete callPromise() calls
+    - Replace obsolete pwix:layout v1 dependency with pwix:ui-layout v2
 
 ### 1.5.0
 
