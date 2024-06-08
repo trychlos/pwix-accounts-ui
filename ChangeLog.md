@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Re-add breakpoints constants from pwix:ui-layout
 
 ### 1.6.1
 
