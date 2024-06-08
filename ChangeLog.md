@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.6.1-rc
+### 1.6.1
 
-    Release date: 
+    Release date: 2024- 6- 8
 
     - Remove obsoleted pwix:layout stylesheet (the new ui-layout one being automatically loaded)
     - Upgrade pwix:modal dependency
