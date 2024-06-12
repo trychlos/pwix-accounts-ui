@@ -4,23 +4,28 @@
 
 1. [What is it ?](#what-is-it)
 2. [How does it work ?](#how-does-it-work)
-3. [The most simple usage](#the-most-simple-usage)
-4. [Default synoptic](#default-synoptic)
-5. [Configuration](#configuration)
-    1. [Configuring *accounts*](#configuring-accounts)
-    2. [Configuring acUserLogin](#configuring-acuserlogin)
-    3. [Messages sendable to acUserLogin](#messages-sendable-to-acuserlogin)
-    4. [Messages sent by acUserLogin](#messages-sent-by-acuserlogin)
+3. [Default synoptic](#default-synoptic)
+4. [Installation](#installation)
+5. [The most simple usage](#the-most-simple-usage)
 6. [Advanced use cases](#advanced-use-cases)
-7. [What does the package provide ?](#what-does-the-package-provide)
+7. [References for advanced use cases](#references-for-advanced-use-cases)
+    1. [Standard dropdown items](#standard-dropdown-items)
+    2. [Media queries](#media-queries)
+8. [What does the package provide ?](#what-does-the-package-provide)
     1. [Exported objects](#exported-objects)
     2. [Exported constants](#exported-constants)
     3. [Exported templates](#exported-templates)
         1. [acMenuItems](#acmenuitems)
         2. [acSelect](#acselect)
-8. [References for advanced use cases](#references-for-advanced-use-cases)
-    1. [Standard dropdown items](#standard-dropdown-items)
-    2. [Media queries](#media-queries)
+9. [Configuration](#configuration)
+    1. [Configuring *accounts*](#configuring-accounts)
+    2. [Configuring acUserLogin](#configuring-acuserlogin)
+    3. [Messages sendable to acUserLogin](#messages-sendable-to-acuserlogin)
+    4. [Messages sent by acUserLogin](#messages-sent-by-acuserlogin)
+10. [NPM peer dependencies](#npm-peer-dependencies)
+11. [Translations](#translations)
+12. [Cookies and comparable technologies](#cookies-and-comparable-technologies)
+13. [Issues and help](#issues--help)
 
 ---
 
@@ -54,18 +59,6 @@ Please note that, though several `acUserLogin` templates can be instanciated by 
 Last, this `pwix:accounts-ui` package is able to fully configure the Meteor Accounts system it relies on, so that the application may fully subcontract the Meteor Accounts configuration to the package.
 
 One single configuration place for one application subsystem!
-
-## The most simple usage
-
-Just insert the template into your component `{{> acUserLogin }}` and:
-
-- a dropdown button will be displayed, the dropdown menu including the standard items which let the user log-in, or ask for reset his password, or sign up for a new account;
-
-- when logged-in, the dropdown button will display his email address, the dropdown menu including the standard items which let the user log out, change his password, or ask for receive a verification link in his mailbox if not already done.
-
-That's all, folks!
-
-Out of the box, and without any configuration, the `acUserLogin` template provides all the needed plumbing for managing the login/logout workflows, including the handling of the reset and verification links.
 
 ## Default synoptic
 
@@ -130,281 +123,117 @@ Additionnally, the master `acUserLogin` template, and all the underlying infrast
     - the sent link has a limited lifetime
     - when activated, the link redirect to a dedicated panel on the site which let the user enter his/her new credentials.
 
-## Configuring
+## Installation
 
-The package's behavior can be configured through a call to the `AccountsUI.configure()` method, with just a single javascript object argument, which itself should only contains the options you want override.
+This Meteor package is installable with the usual command:
 
-Known configuration options are:
+```sh
+    meteor add pwix:accounts-ui
+```
 
-- `haveEmailAddress`
-- `haveUsername`
+## The most simple usage
 
-    Whether the user accounts are to be configured with or without a username (resp. an email address), and whether it is optional or mandatory.
+Just insert the template into your component `{{> acUserLogin }}` and:
 
-    For each of these terms, accepted values are:
+- a dropdown button will be displayed, the dropdown menu including the standard items which let the user log-in, or ask for reset his password, or sign up for a new account;
 
-    - `AccountsUI.C.Input.NONE`: the field is not displayed nor considered
-    - `AccountsUI.C.Input.OPTIONAL`: the input field is proposed to the user, but may be left empty
-    - `AccountsUI.C.Input.MANDATORY`: the input field must be filled by the user
+- when logged-in, the dropdown button will display his email address, the dropdown menu including the standard items which let the user log out, change his password, or ask for receive a verification link in his mailbox if not already done.
 
-    At least one of these fields MUST be set as `AccountsUI.C.Input.MANDATORY`. Else, the default value will be applied.
+That's all, folks!
 
-    Defauts to:
+Out of the box, and without any configuration, the `acUserLogin` template provides all the needed plumbing for managing the login/logout workflows, including the handling of the reset and verification links.
 
-    - `haveMailAddress`: `AccountsUI.C.Input.MANDATORY`
-    - `haveUsername`: `AccountsUI.C.Input.NONE`
+## Advanced use cases
 
-    Please be conscious that some features of your application may want display an identifier for each user. It would be a security hole to let the application display a verified email address anywhere, as this would be some sort of spam magnet!
+## References for advanced use cases
 
-- `informWrongEmail`
+### Standard dropdown items
 
-    Whether to inform the user that the email address he/she has entered when asking for resetting a password is not known of our users database.
+The packages defines and makes use of these standard items.
 
-    Rationale:
+#### When logged
 
-        Meteor default is to return a [403] Something went wrong. Please check your credentials.' error message.
+| standard id | standard action |
+| ---         | ---             |
+| ac-signout-item | triggers the message 'ac-panel-signout' |
+| ac-verifyask-item | triggers the message 'ac-panel-verifyask' |
+| ac-changepwd-item | triggers the message 'ac-panel-changepwd' |
 
-        Some security guys consider that returning such error would let a malicious user to check which email addresses are registered - or not - in the accounts database, so would lead to a potential confidentiality break.
+#### When unlogged
 
-    This parameter let the application decide what to do:
+| standard id | standard action |
+| ---         | ---             |
+| ac-signin-item | triggers the message 'ac-panel-signin' |
+| ac-signup-item | triggers the message 'ac-panel-signup' |
+| ac-resetask-item | triggers the message 'ac-panel-resetask' |
 
-    - `AccountsUI.C.WrongEmail.OK`: say the user that the email has been sucessfully sent, even when this is not the case
-    - `AccountsUI.C.WrongEmail.ERROR`: say the user that something went wrong (Meteor standard behavior).
+The full list of the dropdown items may be obtained by the application via the `AccountsUI.dropdownItems()` (resp. `AccountsUI.dropdownItemsExt()`) reactive methods.
 
-    Defaults to `AccountsUI.C.WrongEmail.ERROR`.
+The activation of one of these standard items triggers the display of a panel which let the user enter
+the required informations.
 
-- `coloredBorders`
+### Media queries
 
-    Whether the borders of fields in the panels should or not be colored, and when:
+When the application chooses to hide the logged/unlogged button depending of the size of the device,
+it should apply its media query on the 'display' div class, which is a direct child of the `acUserLogin` one.
 
-    - `AccountsUI.C.Colored.NEVER`: do not use colored borders at all
-    - `AccountsUI.C.Colored.VALIDATION`: use colored borders to exhibit the validation state of the fields
-    - `AccountsUI.C.Colored.MANDATORY`: use colored borders to exhibit the mandatory character of each field
-
-    Defaults to `AccountsUI.C.Colored.NEVER`: the error messages are red-colored, but the fields themselves stay normal colored.
-
-- `onEmailVerifiedBeforeFn`
-
-    A user function to be called when an email has just been verified.
-
-    If a box is also displayed (cf. below), then this function is called before the box is displayed.
-
-    Defaults to `null`.
-
-- `onEmailVerifiedBox`
-
-    Whether we display a confirmation dialog box when an email has just been verified.
-
-    Accepted values are `true` or `false`.
-
-    Defaults to `true`.
-
-- `onEmailVerifiedBoxCb`
-
-    A user function to be called when the user acknowledges the displayed confirmation box.
-
-    Defaults to `null`.
-
-- `onEmailVerifiedBoxTitle`
-
-    The title of the confirmation box as a string.
-
-    Defaults to (localized) 'Email address verification'.
-
-- `onEmailVerifiedBoxMessage`
-
-    The content of the confirmation box as a HTML string.
-
-    Defaults to (localized) 'Hi.<br />Your email address is now said "verified".<br />Thanks.'.
-
-- `passwordLength`
-
-    The minimal required password length when setting a new password, either when creating a new account of when changing the password of an existing account.
-
-    The package doesn't hardcodes by itself a minimal 'minimal length', and so will accept even a minimal length of, say, 1 character!
-
-    Defaults to eight (8) characters.
-
-    **Please note that, for security reasons, you shouldn't set the minimal password length less than this default, unless you are absolutely sure of what you are doing.**
-
-- `passwordStrength`
-
-    The minimal required password strength when setting a new password, either when creating a new account of when changing the password of an existing account.
-
-    `pwix:accounts-ui` makes use of the [zxcvbn](https://www.npmjs.com/package/zxcvbn) package to estimate the strength of entered passwords. The estimated strength can take folloging values:
-
-    - `AccountsUI.C.Password.VERYWEAK`: too guessable, risky password (guesses < 10^3)
-    - `AccountsUI.C.Password.WEAK`: very guessable, protection from throttled online attacks (guesses < 10^6)
-    - `AccountsUI.C.Password.MEDIUM`: somewhat guessable, protection from unthrottled online attacks (guesses < 10^8)
-    - `AccountsUI.C.Password.STRONG`: safely unguessable, moderate protection from offline slow-hash scenario (guesses < 10^10)
-    - `AccountsUI.C.Password.VERYSTRONG`: very unguessable, strong protection from offline slow-hash scenario (guesses >= 10^10)
-
-    The package doesn't hardcodes by itself a minimal 'required strength', and so will accept even a minimal length of, say, `AccountsUI.C.Password.VERYWEAK`!
-
-    Defaults to `AccountsUI.C.Password.MEDIUM`.
-
-    **Please note that, for security reasons, you shouldn't set the password required strength less than this default, unless you are absolutely sure of what you are doing.**
-
-- `passwordTwice`
-
-    Whether a new password has to be entered twice.
-
-    This option applies to both:
-
-    - defining a new account
-    - changing the user's password
-    - defining a new password after a reset
-
-    Accepted values are `true` or `false`.
-
-    Defaults to `true`.
-
-- `resetPasswordTwice`
-
-    Whether to request the user to enter twice the password when resetting for an existing account.
-
-    Accepted values are `true` or `false`, defaulting to the value of the `passwordTwice` package configuration.
-
-- `resetPwdTextOne`
-- `resetPwdTextTwo`
-
-    Display personalization of the Reset password dialog box.
-
-    These options let the application provides its own content before the input fields of the corresponding panel.
-
-    Value is expected to be a HTML string, or a function which returns such a string.
-
-    Defaults to 'Hello <b>%s</b>,<br />Welcome again!<br />Let us reset your password, and enjoy.' for the first text, none for the second.
-
-- `sendVerificationEmail`
-
-    Whether to send a verification email to each newly created user.
-
-    This should be kept by the application consistent with the same parameter of `accounts-base` Meteor package.
-
-    Accepted values are `true` or `false`.
-
-    Defaults to `true`.
-
-- `usernameLength`
-
-    The minimal required username length.
-
-    The package doesn't hardcodes by itself a minimal 'minimal length'.
-
-    Defaults to four (4) characters.
-
-- `verbosity`
-
-    The verbosity level as:
-    
-    - `AccountsUI.C.Verbose.NONE`
-    
-    or an OR-ed value of integer constants:
-
-    - `AccountsUI.C.Verbose.CONFIGURE`
-
-        Trace configuration operations
-
-    - `AccountsUI.C.Verbose.DISPLAY`
-
-        Trace `acDisplay` operations
-
-    - `AccountsUI.C.Verbose.EVENT`
-
-        Trace all handled events
-
-    - `AccountsUI.C.Verbose.INSTANCIATIONS`
-
-        Trace classes instanciations
-
-    - `AccountsUI.C.Verbose.MODAL`
-
-        Trace modal changes
-
-    - `AccountsUI.C.Verbose.PANEL`
-
-        Trace panel changes
-
-    - `AccountsUI.C.Verbose.READY`
-
-        Emit a log message when the readyness status of the client changes
-
-    - `AccountsUI.C.Verbose.STARTUP`
-
-        Emit a log message at startup; the `Meteor` object is dumped at that moment
-
-    - `AccountsUI.C.Verbose.SUBMIT`
-
-        Trace submit-related events trigerring and handling.
-
-    - `AccountsUI.C.Verbose.USER`
-
-        Trace user-related events trigerring and handling.
-
-    Defaults to `AccountsUI.C.Verbose.NONE`.
-
-A function can be provided by the application for each of these parameters. The function will be called without argument and must return a suitable value.
-
-Please note that `AccountsUI.configure()` method should be called in the same terms both in client and server sides.
-
-Remind too that Meteor packages are instanciated at application level. They are so only configurable once, or, in other words, only one instance has to be or can be configured. Addtionnal calls to `AccountsUI.configure()` will just override the previous one. You have been warned: **only the application should configure a package**.
+This way, the `acUserLogin` div is kept active, and continues to receive and handle the messages.
 
 ## What does the package provide ?
 
 ### `AccountsUI`
 
-The globally exported object.
+The exported `BlazeLayout` global object provides following items:
 
-### Methods
+#### Functions
 
-- `AccountsUI.clearPanel( name )`
+##### `AccountsUI.clearPanel( name )`
 
-    A client-only method which clears the panel currently displayed by the named `acUserLogin` instance.
+A client-only method which clears the panel currently displayed by the named `acUserLogin` instance.
 
-    Parameters are:
+Parameters are:
 
-    - `name`: the name given to `acUserLogin` component when defining it
+- `name`: the name given to `acUserLogin` component when defining it
 
-- `AccountsUI.dropdownItems()`
+##### `AccountsUI.dropdownItems()`
 
-    A client-only method which returns the list of standard dropdown items, depending of the current user connection state.
+A client-only method which returns the list of standard dropdown items, depending of the current user connection state.
 
-    The returned value is an array of HTML strings '`<a>...</a>`'.
+The returned value is an array of HTML strings '`<a>...</a>`'.
 
-    A reactive data source.
+A reactive data source.
 
-- `AccountsUI.dropdownItemsExt()`
+##### `AccountsUI.dropdownItemsExt()`
 
-    A client-only method which returns the list of standard dropdown items, depending of the current user connection state.
+A client-only method which returns the list of standard dropdown items, depending of the current user connection state.
 
-    The returned value is an array of the definition objects. This is so the exact same poppulation than `AccountsUI.dropdownItems()` above, but with all item details.
+The returned value is an array of the definition objects. This is so the exact same poppulation than `AccountsUI.dropdownItems()` above, but with all item details.
 
-    A reactive data source.
+A reactive data source.
 
-- `AccountsUI.i18n.namespace()`
+##### `AccountsUI.i18n.namespace()`
 
-    This method returns the `pwix:i18n` namespace of the `pwix:accounts-ui` package.
+This method returns the `pwix:i18n` namespace of the `pwix:accounts-ui` package.
 
-    With that name, anyone is so able to provide additional translations.
+With that name, anyone is so able to provide additional translations.
 
-- `AccountsUI.namedDropdownItems( name )`
+##### `AccountsUI.namedDropdownItems( name )`
 
-    A client-only method which returns the full list of menu items to be displayed in regard with the current connection state, and the relevant `acUserLogin` configuration parameters.
+A client-only method which returns the full list of menu items to be displayed in regard with the current connection state, and the relevant `acUserLogin` configuration parameters.
 
-    The returned value is an array of HTML strings '`<a>...</a>`'.
+The returned value is an array of HTML strings '`<a>...</a>`'.
 
-    Parameters are:
+Parameters are:
 
-    - `name`: the name given to `acUserLogin` component when defining it
+- `name`: the name given to `acUserLogin` component when defining it
 
-    A reactive data source.
+A reactive data source.
 
-- `AccountsUI.ready()`
+##### `AccountsUI.ready()`
 
-    A client-only method which advertises when the package has been successfully initialized.
+A client-only method which advertises when the package has been successfully initialized.
 
-    A reactive data source.
+A reactive data source.
 
 ### Blaze components
 
@@ -808,50 +637,235 @@ via messages sent to the `<div class="acUserLogin">...</div>`.
 - `AccountsUI.C.Verbose.SUBMIT`,
 - `AccountsUI.C.Verbose.USER`
 
-## Advanced use cases
+## Configuration
 
-## References for advanced use cases
+The package's behavior can be configured through a call to the `AccountsUI.configure()` method, with just a single javascript object argument, which itself should only contains the options you want override.
 
-### Standard dropdown items
+Known configuration options are:
 
-The packages defines and makes use of these standard items.
+- `haveEmailAddress`
+- `haveUsername`
 
-#### When logged
+    Whether the user accounts are to be configured with or without a username (resp. an email address), and whether it is optional or mandatory.
 
-| standard id | standard action |
-| ---         | ---             |
-| ac-signout-item | triggers the message 'ac-panel-signout' |
-| ac-verifyask-item | triggers the message 'ac-panel-verifyask' |
-| ac-changepwd-item | triggers the message 'ac-panel-changepwd' |
+    For each of these terms, accepted values are:
 
-#### When unlogged
+    - `AccountsUI.C.Input.NONE`: the field is not displayed nor considered
+    - `AccountsUI.C.Input.OPTIONAL`: the input field is proposed to the user, but may be left empty
+    - `AccountsUI.C.Input.MANDATORY`: the input field must be filled by the user
 
-| standard id | standard action |
-| ---         | ---             |
-| ac-signin-item | triggers the message 'ac-panel-signin' |
-| ac-signup-item | triggers the message 'ac-panel-signup' |
-| ac-resetask-item | triggers the message 'ac-panel-resetask' |
+    At least one of these fields MUST be set as `AccountsUI.C.Input.MANDATORY`. Else, the default value will be applied.
 
-The full list of the dropdown items may be obtained by the application via the `AccountsUI.dropdownItems()` (resp. `AccountsUI.dropdownItemsExt()`) reactive methods.
+    Defauts to:
 
-The activation of one of these standard items triggers the display of a panel which let the user enter
-the required informations.
+    - `haveMailAddress`: `AccountsUI.C.Input.MANDATORY`
+    - `haveUsername`: `AccountsUI.C.Input.NONE`
 
-### Media queries
+    Please be conscious that some features of your application may want display an identifier for each user. It would be a security hole to let the application display a verified email address anywhere, as this would be some sort of spam magnet!
 
-When the application chooses to hide the logged/unlogged button depending of the size of the device,
-it should apply its media query on the 'display' div class, which is a direct child of the `acUserLogin` one.
+- `informWrongEmail`
 
-This way, the `acUserLogin` div is kept active, and continues to receive and handle the messages.
+    Whether to inform the user that the email address he/she has entered when asking for resetting a password is not known of our users database.
+
+    Rationale:
+
+        Meteor default is to return a [403] Something went wrong. Please check your credentials.' error message.
+
+        Some security guys consider that returning such error would let a malicious user to check which email addresses are registered - or not - in the accounts database, so would lead to a potential confidentiality break.
+
+    This parameter let the application decide what to do:
+
+    - `AccountsUI.C.WrongEmail.OK`: say the user that the email has been sucessfully sent, even when this is not the case
+    - `AccountsUI.C.WrongEmail.ERROR`: say the user that something went wrong (Meteor standard behavior).
+
+    Defaults to `AccountsUI.C.WrongEmail.ERROR`.
+
+- `coloredBorders`
+
+    Whether the borders of fields in the panels should or not be colored, and when:
+
+    - `AccountsUI.C.Colored.NEVER`: do not use colored borders at all
+    - `AccountsUI.C.Colored.VALIDATION`: use colored borders to exhibit the validation state of the fields
+    - `AccountsUI.C.Colored.MANDATORY`: use colored borders to exhibit the mandatory character of each field
+
+    Defaults to `AccountsUI.C.Colored.NEVER`: the error messages are red-colored, but the fields themselves stay normal colored.
+
+- `onEmailVerifiedBeforeFn`
+
+    A user function to be called when an email has just been verified.
+
+    If a box is also displayed (cf. below), then this function is called before the box is displayed.
+
+    Defaults to `null`.
+
+- `onEmailVerifiedBox`
+
+    Whether we display a confirmation dialog box when an email has just been verified.
+
+    Accepted values are `true` or `false`.
+
+    Defaults to `true`.
+
+- `onEmailVerifiedBoxCb`
+
+    A user function to be called when the user acknowledges the displayed confirmation box.
+
+    Defaults to `null`.
+
+- `onEmailVerifiedBoxTitle`
+
+    The title of the confirmation box as a string.
+
+    Defaults to (localized) 'Email address verification'.
+
+- `onEmailVerifiedBoxMessage`
+
+    The content of the confirmation box as a HTML string.
+
+    Defaults to (localized) 'Hi.<br />Your email address is now said "verified".<br />Thanks.'.
+
+- `passwordLength`
+
+    The minimal required password length when setting a new password, either when creating a new account of when changing the password of an existing account.
+
+    The package doesn't hardcodes by itself a minimal 'minimal length', and so will accept even a minimal length of, say, 1 character!
+
+    Defaults to eight (8) characters.
+
+    **Please note that, for security reasons, you shouldn't set the minimal password length less than this default, unless you are absolutely sure of what you are doing.**
+
+- `passwordStrength`
+
+    The minimal required password strength when setting a new password, either when creating a new account of when changing the password of an existing account.
+
+    `pwix:accounts-ui` makes use of the [zxcvbn](https://www.npmjs.com/package/zxcvbn) package to estimate the strength of entered passwords. The estimated strength can take folloging values:
+
+    - `AccountsUI.C.Password.VERYWEAK`: too guessable, risky password (guesses < 10^3)
+    - `AccountsUI.C.Password.WEAK`: very guessable, protection from throttled online attacks (guesses < 10^6)
+    - `AccountsUI.C.Password.MEDIUM`: somewhat guessable, protection from unthrottled online attacks (guesses < 10^8)
+    - `AccountsUI.C.Password.STRONG`: safely unguessable, moderate protection from offline slow-hash scenario (guesses < 10^10)
+    - `AccountsUI.C.Password.VERYSTRONG`: very unguessable, strong protection from offline slow-hash scenario (guesses >= 10^10)
+
+    The package doesn't hardcodes by itself a minimal 'required strength', and so will accept even a minimal length of, say, `AccountsUI.C.Password.VERYWEAK`!
+
+    Defaults to `AccountsUI.C.Password.MEDIUM`.
+
+    **Please note that, for security reasons, you shouldn't set the password required strength less than this default, unless you are absolutely sure of what you are doing.**
+
+- `passwordTwice`
+
+    Whether a new password has to be entered twice.
+
+    This option applies to both:
+
+    - defining a new account
+    - changing the user's password
+    - defining a new password after a reset
+
+    Accepted values are `true` or `false`.
+
+    Defaults to `true`.
+
+- `resetPasswordTwice`
+
+    Whether to request the user to enter twice the password when resetting for an existing account.
+
+    Accepted values are `true` or `false`, defaulting to the value of the `passwordTwice` package configuration.
+
+- `resetPwdTextOne`
+- `resetPwdTextTwo`
+
+    Display personalization of the Reset password dialog box.
+
+    These options let the application provides its own content before the input fields of the corresponding panel.
+
+    Value is expected to be a HTML string, or a function which returns such a string.
+
+    Defaults to 'Hello <b>%s</b>,<br />Welcome again!<br />Let us reset your password, and enjoy.' for the first text, none for the second.
+
+- `sendVerificationEmail`
+
+    Whether to send a verification email to each newly created user.
+
+    This should be kept by the application consistent with the same parameter of `accounts-base` Meteor package.
+
+    Accepted values are `true` or `false`.
+
+    Defaults to `true`.
+
+- `usernameLength`
+
+    The minimal required username length.
+
+    The package doesn't hardcodes by itself a minimal 'minimal length'.
+
+    Defaults to four (4) characters.
+
+- `verbosity`
+
+    The verbosity level as:
+
+    - `AccountsUI.C.Verbose.NONE`
+
+    or an OR-ed value of integer constants:
+
+    - `AccountsUI.C.Verbose.CONFIGURE`
+
+        Trace configuration operations
+
+    - `AccountsUI.C.Verbose.DISPLAY`
+
+        Trace `acDisplay` operations
+
+    - `AccountsUI.C.Verbose.EVENT`
+
+        Trace all handled events
+
+    - `AccountsUI.C.Verbose.INSTANCIATIONS`
+
+        Trace classes instanciations
+
+    - `AccountsUI.C.Verbose.MODAL`
+
+        Trace modal changes
+
+    - `AccountsUI.C.Verbose.PANEL`
+
+        Trace panel changes
+
+    - `AccountsUI.C.Verbose.READY`
+
+        Emit a log message when the readyness status of the client changes
+
+    - `AccountsUI.C.Verbose.STARTUP`
+
+        Emit a log message at startup; the `Meteor` object is dumped at that moment
+
+    - `AccountsUI.C.Verbose.SUBMIT`
+
+        Trace submit-related events trigerring and handling.
+
+    - `AccountsUI.C.Verbose.USER`
+
+        Trace user-related events trigerring and handling.
+
+    Defaults to `AccountsUI.C.Verbose.NONE`.
+
+A function can be provided by the application for each of these parameters. The function will be called without argument and must return a suitable value.
+
+Please note that `AccountsUI.configure()` method should be called in the same terms both in client and server sides.
+
+Remind too that Meteor packages are instanciated at application level. They are so only configurable once, or, in other words, only one instance has to be or can be configured. Addtionnal calls to `AccountsUI.configure()` will just override the previous one. You have been warned: **only the application should configure a package**.
 
 ## NPM peer dependencies
 
-Starting with v 1.0.0, and in accordance with advices from [the Meteor Guide](https://guide.meteor.com/writing-atmosphere-packages.html#peer-npm-dependencies), we no more hardcode NPM dependencies in the `Npm.depends` clause of the `package.js`. 
+Starting with v 1.0.0, and in accordance with advices from [the Meteor Guide](https://guide.meteor.com/writing-atmosphere-packages.html#peer-npm-dependencies), we no more hardcode NPM dependencies in the `Npm.depends` clause of the `package.js`.
 
 Instead we check npm versions of installed packages at runtime, on server startup, in development environment.
 
 Dependencies as of v 1.6.0:
-```
+
+```js
     'email-validator': '^2.0.4',
     'lodash': '^4.17.0',
     'printf': '^0.6.1',
@@ -859,7 +873,8 @@ Dependencies as of v 1.6.0:
 ```
 
 Each of these dependencies should be installed at application level:
-```
+
+```sh
     meteor npm install <package> --save
 ```
 
@@ -868,6 +883,14 @@ Each of these dependencies should be installed at application level:
 `pwix:accounts-ui` provides at the moment **fr** and **en** translations.
 
 New and updated translations are willingly accepted, and more than welcome. Just be kind enough to submit a PR on the [Github repository](https://github.com/trychlos/pwix-accounts-ui/pulls).
+
+## Cookies and comparable technologies
+
+None at the moment.
+
+## Issues & help
+
+In case of support or error, please report your issue request to our [Issues tracker](https://github.com/trychlos/pwix-accounts-ui/issues).
 
 ---
 P. Wieser

@@ -4,9 +4,9 @@
 
 ### 1.6.3-rc
 
-    Release date: 
+    Release date:
 
-    - 
+    - Update README
 
 ### 1.6.2
 
