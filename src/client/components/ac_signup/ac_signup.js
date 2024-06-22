@@ -1,6 +1,6 @@
 /*
  * pwix:accounts-ui/src/client/components/ac_signup/ac_signup.js
- * 
+ *
  * Parms:
  *  - AC: the acUserLogin internal data structure
  */
@@ -20,11 +20,11 @@ Template.ac_signup.onCreated( function(){
 
     self.AC = {
         emailOk: new ReactiveVar( false ),
-        emailValue: null,
+        emailValue: new ReactiveVar( null ),
         twiceOk: new ReactiveVar( false ),
-        twiceValue: null,
+        twiceValue: new ReactiveVar( null ),
         usernameOk: new ReactiveVar( false ),
-        usernameValue: null,
+        usernameValue: new ReactiveVar( null ),
         inCheck: false,
 
         // check each event and its data here
@@ -49,7 +49,7 @@ Template.ac_signup.onCreated( function(){
         },
         checkEmail( data ){
             self.AC.emailOk.set( data.ok );
-            self.AC.emailValue = data.email;
+            self.AC.emailValue.set( data.email );
             return data.ok;
         },
         // the current field is ok
@@ -75,12 +75,12 @@ Template.ac_signup.onCreated( function(){
         },
         checkTwice( data ){
             self.AC.twiceOk.set( data.ok );
-            self.AC.twiceValue = data.password;
+            self.AC.twiceValue.set( data.password );
             return data.ok;
         },
         checkUsername( data ){
             self.AC.usernameOk.set( data.ok );
-            self.AC.usernameValue = data.username;
+            self.AC.usernameValue.set( data.username );
             return data.ok;
         },
         haveEmailAddress(){
@@ -112,9 +112,9 @@ Template.ac_signup.onRendered( function(){
         const target = Template.currentData().AC.target || self.$( '.ac-signup' );
         target.trigger( 'ac-signup-ok', {
             ok: ok,
-            email: self.AC.emailValue,
-            username: self.AC.usernameValue,
-            password: self.AC.twiceValue
+            email: self.AC.emailValue.get(),
+            username: self.AC.usernameValue.get(),
+            password: self.AC.twiceValue.get()
         });
     });
 

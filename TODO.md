@@ -31,7 +31,7 @@
 |      |            | as a new account is nonetheless created from acUserLogin, it is then possible to activate/unactivate it from the component |
 |   71 | 2023-12-16 | with the birth of izIAM, AccountsUI MUST be capable being OAuth/OpenID client |
 |   75 | 2024- 6- 3 | in DIV render, all happens as if Enter on submit button would submit twice (see for example signup in startup-app-admin) |
-|   76 | 2024- 6- 3 |  |
+|   77 | 2024- 6-22 |  |
 
 ---
 ## Done
@@ -174,6 +174,8 @@
 |      | 2024- 6- 3 | was a html error in div rendering - fixed |
 |   74 | 2024- 6- 3 | ac-signup set the focus on the first field |
 |      | 2024- 6- 3 | done for all DIV-rendered panels |
+|   76 | 2024- 6-22 | happens that ac-signup-ok event is only sent when the status changes, but should be sent on each update |
+|      | 2024- 6-22 | fixed by using ReactiveVar's |
 
 ---
 P. Wieser

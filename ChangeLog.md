@@ -7,6 +7,7 @@
     Release date:
 
     - Update README
+    - Send ac-signup-ok event on each change when creating a new account (todo #76)
 
 ### 1.6.2
 
