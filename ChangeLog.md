@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.6.3-rc
+### 1.6.3
 
-    Release date:
+    Release date: 2024- 6-25
 
     - Update README
     - Send ac-signup-ok event on each change when creating a new account (todo #76)
@@ -171,4 +171,4 @@
 
 ---
 P. Wieser
-- Last updated on 2024, Jun. 8th
+- Last updated on 2024, Jun. 25th
