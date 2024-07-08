@@ -513,9 +513,9 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     For each of these terms, accepted values are:
 
-    - `AccountsUI.C.Input.NONE`: the field is not displayed nor considered
-    - `AccountsUI.C.Input.OPTIONAL`: the input field is proposed to the user, but may be left empty
-    - `AccountsUI.C.Input.MANDATORY`: the input field must be filled by the user
+    - `AccountsConf.C.Identifier.NONE`: the field is not displayed nor considered
+    - `AccountsConf.C.Identifier.OPTIONAL`: the input field is proposed to the user, but may be left empty
+    - `AccountsConf.C.Identifier.MANDATORY`: the input field must be filled by the user
 
     Defauts to the corresponding globally configured option.
 
@@ -604,10 +604,6 @@ via messages sent to the `<div class="acUserLogin">...</div>`.
 - `AccountsUI.C.Button.DROPDOWN`
 - `AccountsUI.C.Button.BUBBLE`
 
-- `AccountsUI.C.Input.NONE`
-- `AccountsUI.C.Input.OPTIONAL`
-- `AccountsUI.C.Input.MANDATORY`
-
 - `AccountsUI.C.Panel.NONE`
 - `AccountsUI.C.Panel.CHANGEPWD`
 - `AccountsUI.C.Panel.RESETASK`
@@ -642,26 +638,6 @@ via messages sent to the `<div class="acUserLogin">...</div>`.
 The package's behavior can be configured through a call to the `AccountsUI.configure()` method, with just a single javascript object argument, which itself should only contains the options you want override.
 
 Known configuration options are:
-
-- `haveEmailAddress`
-- `haveUsername`
-
-    Whether the user accounts are to be configured with or without a username (resp. an email address), and whether it is optional or mandatory.
-
-    For each of these terms, accepted values are:
-
-    - `AccountsUI.C.Input.NONE`: the field is not displayed nor considered
-    - `AccountsUI.C.Input.OPTIONAL`: the input field is proposed to the user, but may be left empty
-    - `AccountsUI.C.Input.MANDATORY`: the input field must be filled by the user
-
-    At least one of these fields MUST be set as `AccountsUI.C.Input.MANDATORY`. Else, the default value will be applied.
-
-    Defauts to:
-
-    - `haveMailAddress`: `AccountsUI.C.Input.MANDATORY`
-    - `haveUsername`: `AccountsUI.C.Input.NONE`
-
-    Please be conscious that some features of your application may want display an identifier for each user. It would be a security hole to let the application display a verified email address anywhere, as this would be some sort of spam magnet!
 
 - `informWrongEmail`
 

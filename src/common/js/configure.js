@@ -26,8 +26,6 @@ function _passwordTwice(){
 
 defaults = {
     common: {
-        haveEmailAddress: AccountsUI.C.Input.MANDATORY,
-        haveUsername: AccountsUI.C.Input.NONE,
         informWrongEmail: AccountsUI.C.WrongEmail.ERROR,
         coloredBorders: AccountsUI.C.Colored.NEVER,
         onEmailVerifiedBeforeFn: null,

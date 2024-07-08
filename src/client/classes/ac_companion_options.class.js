@@ -6,6 +6,7 @@
 
 import _ from 'lodash';
 
+import { AccountsConf } from 'meteor/pwix:accounts-conf';
 import { Options } from 'meteor/pwix:options';
 
 import '../../common/js/index.js';
@@ -35,9 +36,9 @@ export class acCompanionOptions extends Options.Base {
 
     // fields management
     static Fields = [
-        AccountsUI.C.Input.NONE,
-        AccountsUI.C.Input.OPTIONAL,
-        AccountsUI.C.Input.MANDATORY
+        AccountsConf.C.Identifier.NONE,
+        AccountsConf.C.Identifier.OPTIONAL,
+        AccountsConf.C.Identifier.MANDATORY
     ];
 
     // the known render modes

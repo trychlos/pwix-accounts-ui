@@ -6,6 +6,7 @@ import _ from 'lodash';
 import emailValidator from 'email-validator';
 import zxcvbn from 'zxcvbn';
 
+import { AccountsConf } from 'meteor/pwix:accounts-conf';
 import { pwixI18n } from 'meteor/pwix:i18n';
 
 AccountsUI = {
@@ -176,8 +177,8 @@ AccountsUI = {
             };
             // stop there if the value is empty
             if( !result.username.length ){
-                let mandatory = opts.mandatory || AccountsUI.opts().haveUsername();
-                result.ok = ( mandatory === AccountsUI.C.Input.OPTIONAL );
+                let mandatory = opts.mandatory || AccountsConf.configure().haveUsername();
+                result.ok = ( mandatory === AccountsConf.C.Identifier.OPTIONAL );
                 return Meteor.isClient ? Promise.resolve( result ) : result;
             }
             // check for minimal length

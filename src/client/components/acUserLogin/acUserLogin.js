@@ -7,6 +7,7 @@
 
 import _ from 'lodash';
 
+import { AccountsConf } from 'meteor/pwix:accounts-conf';
 import { Random } from 'meteor/random';
 import { ReactiveVar } from 'meteor/reactive-var';
 
@@ -204,10 +205,10 @@ Template.acUserLogin.events({
             case AccountsUI.C.Panel.SIGNUP:
                 if( instance.AC.options.signupSubmit()){
                     let options = {};
-                    if( instance.AC.options.signupHaveUsername() !== AccountsUI.C.Input.NONE ){
+                    if( instance.AC.options.signupHaveUsername() !== AccountsConf.C.Identifier.NONE ){
                         options.username = $( '.ac-signup .ac-input-username .ac-input' ).val().trim();
                     }
-                    if( instance.AC.options.signupHaveEmailAddress() !== AccountsUI.C.Input.NONE ){
+                    if( instance.AC.options.signupHaveEmailAddress() !== AccountsConf.C.Identifier.NONE ){
                         options.email = $( '.ac-signup .ac-input-email .ac-input' ).val().trim();
                     }
                     options.password = $( '.ac-signup .ac-newone .ac-input' ).val().trim();

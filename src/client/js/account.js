@@ -46,15 +46,25 @@ AccountsUI.Account = {
      *  Also cf. https://docs.meteor.com/api/passwords#Accounts-createUser
      *       and https://v3-docs.meteor.com/api/accounts.html#Accounts-createUser
      * @param {Object} opts, object options with following keys:
-     *  - target: the target of the to-be-sent events, defaulting to 'body' element
-     *  - options: the options applied the currenly acUserLogin component
-     *  - errFn: a function to be called in case of an error
-     *  - successFn: a function to be called in case of a success
-     * 
+     *  - target: the target of the to-be-sent events, defaulting to 'body' element (optional, see 'name')
+     *  - options: the options applied the currenly acUserLogin component (optional, see 'name')
+     *  - errFn: an optional function to be called in case of an error
+     *  - successFn: an optional function to be called in case of a success
+     *  - name: the name given to the acUserLogin instance
+     *      when set, this let the package get target and options from this same instance
+     *
      * Note that Accounts.createUser() auto-connnects the newly created user account when called from the client side.
      * So, if we do not want this autoconnection, we have to call the server-side method.
      */
     async createUser( createUserOptions, opts={} ){
+        // compute parameters when the 'name' option is passed-in
+        if( opts.name ){
+            const instance = AccountsUI.fn.nameGet( opts.name );
+            if( instance ){
+                opts.target = opts.target || instance.AC.target;
+                opts.options = opts.options || instance.AC.options;
+            }
+        }
         const target = opts.target || $( 'body' );
         // the error handler
         const _errorFn = function( err ){
@@ -185,7 +195,7 @@ AccountsUI.Account = {
      * @param {String} email the entered mail address
      * @param {Object} opts, object options with following keys:
      *  - target: the target of the to-be-sent events, defaulting to 'body' element
-     * 
+     *
      * Note: if the asked email doesn't exist in the users database, then we receive an error message
      *  [403] Something went wrong. Please check your credentials.
      * This may create a security hole which let a malicious user to validate that such email address is or not registered in our application.

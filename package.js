@@ -1,6 +1,6 @@
 Package.describe({
     name: 'pwix:accounts-ui',
-    version: '1.6.4-rc',
+    version: '1.7.0-rc',
     summary: 'A Bootstrap-based user interface for Meteor:accounts-password (or Meteor:accounts-ui reinvented)',
     git: 'https://github.com/trychlos/pwix-accounts-ui',
     documentation: 'README.md'
@@ -29,6 +29,7 @@ function configure( api ){
     api.use( 'blaze-html-templates@2.0.0 || 3.0.0-alpha300.0', 'client' );
     api.use( 'ecmascript' );
     api.use( 'less@4.0.0', 'client' );
+    api.use( 'pwix:accounts-conf@1.0.0' );
     api.use( 'pwix:accounts-tools@2.0.0' );
     api.use( 'pwix:bootbox@1.5.5' );
     api.use( 'pwix:i18n@1.5.7' );

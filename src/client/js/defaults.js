@@ -6,6 +6,7 @@
 
 import _ from 'lodash';
 
+import { AccountsConf } from 'meteor/pwix:accounts-conf';
 import { pwixI18n } from 'meteor/pwix:i18n';
 
 /* 
@@ -130,14 +131,14 @@ function _emailAddress(){
  * a function to return the 'haveEmailAddress' package default value
  */
 function _haveEmailAddress(){
-    return AccountsUI.opts().haveEmailAddress();
+    return AccountsConf.configure().haveEmailAddress();
 }
 
 /*
  * a function to return the 'haveUsername' package default value
  */
 function _haveUsername(){
-    return AccountsUI.opts().haveUsername();
+    return AccountsConf.configure().haveUsername();
 }
 
 /*

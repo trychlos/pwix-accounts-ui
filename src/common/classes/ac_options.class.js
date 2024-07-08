@@ -8,6 +8,7 @@ import _ from 'lodash';
 
 import '../js/constants.js';
 
+import { AccountsConf } from 'meteor/pwix:accounts-conf';
 import { Options } from 'meteor/pwix:options';
 
 export class acOptions extends Options.Base {
@@ -24,9 +25,9 @@ export class acOptions extends Options.Base {
 
     // fields management
     static Fields = [
-        AccountsUI.C.Input.NONE,
-        AccountsUI.C.Input.OPTIONAL,
-        AccountsUI.C.Input.MANDATORY
+        AccountsConf.C.Identifier.NONE,
+        AccountsConf.C.Identifier.OPTIONAL,
+        AccountsConf.C.Identifier.MANDATORY
     ];
 
     // inform the user of a wrong email
@@ -84,24 +85,6 @@ export class acOptions extends Options.Base {
      */
     coloredBorders( value ){
         return this.base_gsStringFn( 'coloredBorders', value, { default: defaults.common.coloredBorders, ref: acOptions.ColoredBorders });
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Function} value whether and how do we want an email address
-     * @returns {String}
-     */
-    haveEmailAddress( value ){
-        return this.base_gsStringFn( 'haveEmailAddress', value, { default: defaults.common.haveEmailAddress, ref: acOptions.Fields });
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Function} value whether and how do we want a username
-     * @returns {String}
-     */
-    haveUsername( value ){
-        return this.base_gsStringFn( 'haveUsername', value, { default: defaults.common.haveUsername, ref: acOptions.Fields });
     }
 
     /**

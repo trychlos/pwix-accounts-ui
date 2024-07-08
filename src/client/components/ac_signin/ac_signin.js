@@ -5,6 +5,8 @@
  *  - AC: the acUserLogin internal data structure
  */
 
+import { AccountsConf } from 'meteor/pwix:accounts-conf';
+
 import '../ac_input_email/ac_input_email.js';
 import '../ac_input_password/ac_input_password.js';
 import '../ac_input_userid/ac_input_userid.js';
@@ -50,12 +52,12 @@ Template.ac_signin.helpers({
 
     // true if we have email address and not username
     onlyEmailAddress(){
-        return AccountsUI.opts().haveEmailAddress() !== AccountsUI.C.Input.NONE && AccountsUI.opts().haveUsername() === AccountsUI.C.Input.NONE;
+        return AccountsConf.configure().haveEmailAddress() !== AccountsConf.C.Identifier.NONE && AccountsConf.opts().haveUsername() === AccountsConf.C.Identifier.NONE;
     },
 
     // true if we have username and not email address
     onlyEmailAddress(){
-        return AccountsUI.opts().haveEmailAddress() === AccountsUI.C.Input.NONE && AccountsUI.opts().haveUsername() !== AccountsUI.C.Input.NONE;
+        return AccountsConf.configure().haveEmailAddress() === AccountsConf.C.Identifier.NONE && AccountsConf.opts().haveUsername() !== AccountsConf.C.Identifier.NONE;
     },
 
     parmsEmail(){
