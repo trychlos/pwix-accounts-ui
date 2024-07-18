@@ -8,6 +8,7 @@
 
     - AccountsUI.Account.createUser() now accepts a 'name' parameter instead of target and options, bumping minor candidate version number
     - Use pwix:accounts-conf package to configure haveEmailAddress and haveUsername parameters
+    - Minor typos fixes on the messages
 
 ### 1.6.3
 
