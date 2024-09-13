@@ -156,7 +156,7 @@ AccountsUI.Account = {
         const target = opts.target || $( 'body' );
         Meteor.loginWithPassword( userid, password, ( err ) => {
             if( err ){
-                console.error( err );
+                //console.error( err );
                 target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.signin_error' ));
             } else {
                 const event = 'ac-user-signedin-event';
