@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.7.0-rc
+### 1.7.0
 
-    Release date:
+    Release date: 2024- 9-13
 
     - AccountsUI.Account.createUser() now accepts a 'name' parameter instead of target and options, bumping minor candidate version number
     - Use pwix:accounts-conf package to configure haveEmailAddress and haveUsername parameters
@@ -179,4 +179,4 @@
 
 ---
 P. Wieser
-- Last updated on 2024, Jun. 25th
+- Last updated on 2024, Sep. 13th
