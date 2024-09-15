@@ -2,11 +2,11 @@
 
 ## ChangeLog
 
-### 1.7.1-rc
+### 1.8.0-rc
 
     Release date: 
 
-    - 
+    - Accept aldeed:simple-schema v2.0.0, thus bumping minor candidate version number
 
 ### 1.7.0
 
