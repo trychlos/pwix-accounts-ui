@@ -45,7 +45,7 @@ Template.ac_twice_passwords.helpers({
 
 Template.ac_twice_passwords_sub.onCreated( function(){
     const self = this;
-    //console.log( self );
+    //console.debug( this );
 
     self.AC = {
         twice: new ReactiveVar( false ),
@@ -101,13 +101,6 @@ Template.ac_twice_passwords_sub.onCreated( function(){
 });
 
 Template.ac_twice_passwords_sub.helpers({
-
-    // a dedicated error message
-    //  when used, always keep the area height so that the display is kept stable
-    errorMsg(){
-        return '<p>'+( Template.instance().AC.errorMsg.get() || '&nbsp;' )+'</p>';
-    },
-
     // params to first occurrence of new password
     parmNewOne(){
         const mandatoryBorder = this.AC && this.AC.options
@@ -137,6 +130,14 @@ Template.ac_twice_passwords_sub.helpers({
         }
     },
 
+    // parameters for the ac_error_msg component
+    parmsErrorMsg(){
+        return {
+            ...this,
+            errorMsgRv: Template.instance().AC.errorMsg
+        };
+    },
+    
     // whether we must display two input fields ?
     twice(){
         return Template.instance().AC.twice.get();

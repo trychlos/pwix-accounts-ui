@@ -203,6 +203,7 @@ _.merge( defaults, {
         signupAutoConnect: true,
         signupClearPanel: true,
         signupSubmit: true,
-        name: ''
+        name: '',
+        withExternalMessager: false
     }
 });

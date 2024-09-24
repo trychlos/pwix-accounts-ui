@@ -31,9 +31,13 @@ Template.ac_reset_ask.onRendered( function(){
 });
 
 Template.ac_reset_ask.helpers({
-    // error message
-    errorMsg(){
-        return '<p>'+( AccountsUI.fn.errorMsg() || '&nbsp;' )+'</p>';
+    // parameters for the ac_error_msg component
+    parmsErrorMsg(){
+        return {
+            ...this,
+            withErrorArea: AccountsUI.fn.hasErrorArea( this ),
+            errorMsgRv: AccountsUI.fn.errorMsgRv()
+        };
     },
 
     // parameters for the email address inputs

@@ -6,7 +6,8 @@
 
     Release date: 
 
-    - 
+    - Define new 'withExternalMessager' acUserLogin data context parameter, thus bumping minor candidate version number
+    - Define new internal ac_error_msg Blaze component
 
 ### 1.8.0
 

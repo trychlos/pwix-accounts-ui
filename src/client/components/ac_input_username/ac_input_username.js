@@ -82,14 +82,17 @@ Template.ac_input_username_sub.onRendered( function(){
 });
 
 Template.ac_input_username_sub.helpers({
-    // an error message if new password
-    errorMsg(){
-        return '<p>'+( Template.instance().AC.errorMsg.get() || '' )+'</p>';
-    },
-
     // whether the mandatory field must exhibit an ad-hoc colored border ?
     mandatoryBorder(){
         return this.AC.options.coloredBorders() === AccountsUI.C.Colored.MANDATORY ? 'ac-mandatory-border' : '';
+    },
+
+    // parameters for the ac_error_msg component
+    parmsErrorMsg(){
+        return {
+            ...this,
+            errorMsgRv: Template.instance().AC.errorMsg
+        };
     },
 
     // returns the keyed translated string

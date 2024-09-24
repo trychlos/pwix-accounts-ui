@@ -28,9 +28,7 @@
                 <div class="ac-text ac-text-four">{{{ textFour }}}</div>
             {{/if}}
 
-            <div class="ac-error">
-                {{{ errorMsg }}}
-            </div>
+            {{> ac_error_msg (parmsErrorMsg) }}
 
             {{> acMandatoryFooter }}
 

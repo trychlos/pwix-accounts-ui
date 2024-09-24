@@ -18,6 +18,7 @@ import '../../../common/js/index.js';
 import '../../stylesheets/ac_accounts.less';
 
 import '../ac_dropdown/ac_dropdown.js';
+import '../ac_error_msg/ac_error_msg.js';
 import '../ac_footer/ac_footer.js';
 import '../ac_render_div/ac_render_div.js';
 import '../ac_render_modal/ac_render_modal.js';
@@ -156,7 +157,7 @@ Template.acUserLogin.events({
 
     'ac-display-error .acUserLogin'( event, instance, data ){
         //console.debug( event, data );
-        AccountsUI.fn.errorMsg( data );
+        AccountsUI.fn.errorMsg( data, { dataContext: this });
     },
 
     // change the rendering mode

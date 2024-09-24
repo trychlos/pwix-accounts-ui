@@ -34,7 +34,7 @@ Template.ac_input_email.helpers({
 
  Template.ac_input_email_sub.onCreated( function(){
     const self = this;
-    //console.log( self, Template.currentData());
+    //console.debug( this );
 
     self.AC = {
         errorMsg: new ReactiveVar( '' ),
@@ -91,15 +91,17 @@ Template.ac_input_email_sub.onRendered( function(){
 });
 
 Template.ac_input_email_sub.helpers({
-    // a dedicated error message
-    //  when used, always keep the area height so that the display is kept stable
-    errorMsg(){
-        return '<p>'+( Template.instance().AC.errorMsg.get() || '&nbsp;' )+'</p>';
-    },
-
     // whether the mandatory field must exhibit an ad-hoc colored border ?
     mandatoryBorder(){
         return this.AC.options.coloredBorders() === AccountsUI.C.Colored.MANDATORY ? 'ac-mandatory-border' : '';
+    },
+
+    // parameters for the ac_error_msg component
+    parmsErrorMsg(){
+        return {
+            ...this,
+            errorMsgRv: Template.instance().AC.errorMsg
+        };
     },
 
     // returns the text, maybe from data context, defaulting to the translated string

@@ -124,12 +124,6 @@ Template.ac_signup.onRendered( function(){
 });
 
 Template.ac_signup.helpers({
-    // error message
-    errorMsg(){
-        // even if we have no message at all, we keep at least one blank line
-        return '<p>'+( AccountsUI.fn.errorMsg() || '&nbsp;' )+'<p>';
-    },
-
     // whether email address is permitted
     haveEmailAddress(){
         return Template.instance().AC.haveEmailAddress();
@@ -150,6 +144,15 @@ Template.ac_signup.helpers({
             legend: this.AC.options.signupLegendEmail(),
             withMandatoryField: this.AC.options.signupHaveEmailAddress() === AccountsConf.C.Identifier.MANDATORY,
             placeholder: this.AC.options.signupEmailPlaceholder()
+        };
+    },
+
+    // parameters for the ac_error_msg component
+    parmsErrorMsg(){
+        return {
+            ...this,
+            withErrorArea: AccountsUI.fn.hasErrorArea( this ),
+            errorMsgRv: AccountsUI.fn.errorMsgRv()
         };
     },
 

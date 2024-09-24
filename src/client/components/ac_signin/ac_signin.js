@@ -44,12 +44,6 @@ Template.ac_signin.onRendered( function(){
 });
 
 Template.ac_signin.helpers({
-    // error message
-    //  here, the only error is when server doesn't validate the credentials
-    errorMsg(){
-        return '<p>'+( AccountsUI.fn.errorMsg() || '&nbsp;' )+'</p>';
-    },
-
     // true if we have email address and not username
     onlyEmailAddress(){
         return AccountsConf.configure().haveEmailAddress() !== AccountsConf.C.Identifier.NONE && AccountsConf.opts().haveUsername() === AccountsConf.C.Identifier.NONE;
@@ -69,6 +63,15 @@ Template.ac_signin.helpers({
         }
     },
 
+    // parameters for the ac_error_msg component
+    parmsErrorMsg(){
+        return {
+            ...this,
+            withErrorArea: AccountsUI.fn.hasErrorArea( this ),
+            errorMsgRv: AccountsUI.fn.errorMsgRv()
+        };
+    },
+    
     parmsPassword(){
         return {
             ...this,

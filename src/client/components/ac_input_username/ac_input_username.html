@@ -30,11 +30,7 @@
             <input class="form-control ac-input {{ mandatoryBorder }}" placeholder="{{ text "placeholder" }}" autocomplete="pwix:accounts-ui username" />
         </div>
 
-        {{#if withErrorArea }}
-            <div class="ac-error">
-                {{{ errorMsg }}}
-            </div>
-        {{/if}}
+        {{> ac_error_msg (parmsErrorMsg) }}
 
     </div>
 </template>

@@ -28,14 +28,67 @@ AccountsUI.fn = {
      * Panels have their own error messages (e.g. password too short or too weak).
      * This method is provided to host error messages returned from the server (e.g. bad credentials).
      * @param {String} msg error msg
+     * @param {Object} opts an optional options object with following keys:
+     *  - dataContext: the caller data context
      * @returns {String} the current error message
      * A reactive data source
      */
-    errorMsg( msg ){
+    errorMsg( msg, opts={} ){
         if( msg !== undefined ){
-            _errorMsg.set( msg );
+            if( opts.dataContext && AccountsUI.fn.hasExternalMessager( opts.dataContext )){
+                const checker = opts.dataContext.checker.get();
+                if( checker ){
+                    if( msg ){
+                        checker.messagerPush( new Package['pwix:typed-message'].TM.TypedMessage({
+                            level: Package['pwix:typed-message'].TM.MessageLevel.C.ERROR,
+                            message: msg
+                        }));
+                    } else {
+                        checker.messagerClearMine();
+                    }
+                }
+            } else {
+                _errorMsg.set( msg );
+            }
         }
         return _errorMsg.get();
+    },
+
+    /*
+     * Getter
+     * Panels have their own error messages (e.g. password too short or too weak).
+     * @returns {ReactiveVar} which contains the current error message
+     */
+    errorMsgRv(){
+        return _errorMsg;
+    },
+
+    /*
+     * @summary While panels generally want an error area to display their (warning/error) messages to the user,
+     *  it is possible that the caller rather want use an external Forms.Checker associated with a Forms.Messager
+     *  Check that all conditions are met.
+     * @param {Object} dc the caller data context
+     * @returns {Boolean} whether we accept to display a local error area in the requesting panel
+     */
+    hasErrorArea( dc ){
+        return !AccountsUI.fn.hasExternalMessager( dc );
+    },
+
+    /*
+     * @summary While panels generally want an error area to display their (warning/error) messages to the user,
+     *  it is possible that the caller rather want use an external Forms.Checker associated with a Forms.Messager
+     *  Check that all conditions are met.
+     * @param {Object} dc the caller data context
+     * @returns {Boolean} whether we can use an external messager
+     */
+    hasExternalMessager( dc={} ){
+        return Boolean(
+            dc.withExternalMessager === true &&
+            Package['pwix:forms'] &&
+            Package['pwix:typed-message'] &&
+            dc.checker &&
+            dc.checker instanceof ReactiveVar
+        );
     },
 
     /*

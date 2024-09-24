@@ -30,11 +30,7 @@
             <input type="email" class="form-control ac-input {{ mandatoryBorder }}" placeholder="{{ text "placeholder" }}" autocomplete="pwix:accounts-ui email" />
         </div>
 
-        {{#if withErrorArea }}
-            <div class="ac-error">
-                {{{ errorMsg }}}
-            </div>
-        {{/if}}
+        {{> ac_error_msg (parmsErrorMsg) }}
 
     </div>
 </template>

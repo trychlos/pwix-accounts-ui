@@ -122,12 +122,6 @@ Template.ac_input_password.helpers({
         return this.withAutocomplete === true ? 'pwix:accounts-ui password' : 'off';
     },
 
-    // a dedicated error message
-    //  when used, always keep the area height so that the display is kept stable
-    errorMsg(){
-        return '<p>'+( Template.instance().AC.errorMsg.get() || '&nbsp;' )+'</p>';
-    },
-
     // whether the mandatory field must exhibit an ad-hoc colored border ?
     mandatoryBorder(){
         let classe = '';
@@ -139,6 +133,14 @@ Template.ac_input_password.helpers({
             console.warn( 'no withMandatoryBorder in data context, and AC not provided' );
         }
         return classe;
+    },
+
+    // parameters for the ac_error_msg component
+    parmsErrorMsg(){
+        return {
+            ...this,
+            errorMsgRv: Template.instance().AC.errorMsg
+        };
     },
 
     // returns the text, maybe from data context, defaulting to the translated string

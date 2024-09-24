@@ -50,7 +50,7 @@ Template.ac_change_pwd.onCreated( function(){
                 const equalsOk = self.AC.passwordVal && self.AC.passwordVal.length > 0 && self.AC.passwordVal !== self.AC.twiceVal;
                 self.AC.equalsOk.set( equalsOk );
                 if( !equalsOk ){
-                    AccountsUI.fn.errorMsg( pwixI18n.label( I18N, 'change_pwd.pwds_are_equal' ));
+                    AccountsUI.fn.errorMsg( pwixI18n.label( I18N, 'change_pwd.pwds_are_equal' ), { dataContext: Template.currentData() });
                 }
             }
             self.AC.inCheck = false;
@@ -85,9 +85,13 @@ Template.ac_change_pwd.onRendered( function(){
 });
 
 Template.ac_change_pwd.helpers({
-    // error message
-    errorMsg(){
-        return '<p>'+( AccountsUI.fn.errorMsg() || '&nbsp;' )+'</p>';
+    // parameters for the ac_error_msg component
+    parmsErrorMsg(){
+        return {
+            ...this,
+            withErrorArea: AccountsUI.fn.hasErrorArea( this ),
+            errorMsgRv: AccountsUI.fn.errorMsgRv()
+        };
     },
 
     // params to old password

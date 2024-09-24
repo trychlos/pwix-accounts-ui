@@ -593,4 +593,13 @@ export class acCompanionOptions extends Options.Base {
     verifyAskTextOne( label ){
         return this.base_gsStringObjectFn( 'verifyAskTextOne', label, { default: defaults.acUserLogin.verifyAskTextOne });
     }
+
+    /**
+     * Getter/Setter
+     * @param {Boolean|Function} bool whether this instance will use an external Forms.Messager
+     * @returns {Boolean}
+     */
+    withExternalMessager( bool ){
+        return this.base_gsBoolFn( 'withExternalMessager', bool, { default: defaults.acUserLogin.withExternalMessager });
+    }
 }

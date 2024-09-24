@@ -539,6 +539,13 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     Defaults to none.
 
+- `withExternalMessager`
+
+    Whether the caller provides a `Forms.Messager` instance and the corresponding UI component, defaulting to `false`.
+
+    When set, **and** the packages `pwix:forms` and `pwix:typed-message` are present, **and** a `checker` ReactiveVar is present in the data context, then
+    the error messages will be sent to the provided checker, instead of being managed by this `pwix:accounts-ui` package.
+
 ### Messages sendable to acUserLogin
 
 Besides of initial configuration options, the behavior of the `acUserLogin` template may be controlled
