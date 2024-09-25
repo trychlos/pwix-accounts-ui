@@ -50,18 +50,14 @@ AccountsUI.C = {
     },
 
     // password estimated strength
+    // these constants are deprecated starting with v1.9.0
+    // please use the same from pwix:accounts-conf package
     Password: {
         VERYWEAK: 'AC_PWD_VERYWEAK',
         WEAK: 'AC_PWD_WEAK',
         MEDIUM: 'AC_PWD_MEDIUM',
         STRONG: 'AC_PWD_STRONG',
         VERYSTRONG: 'AC_PWD_VERYSTRONG'
-    },
-
-    // error reason
-    Reason: {
-        EMAIL_EMPTY: 'AC_REASON_EMAIL_EMPTY',
-        EMAIL_SYNTAX: 'AC_REASON_EMAIL_SYNTAX'
     },
 
     // rendering mode

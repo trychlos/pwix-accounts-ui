@@ -5,7 +5,7 @@
 import _ from 'lodash';
 import SimpleSchema from 'meteor/aldeed:simple-schema';
 
-import { AccountsConf } from 'meteor/pwix:accounts-conf';
+import { AccountsHub } from 'meteor/pwix:accounts-conf';
 import { Accounts } from 'meteor/accounts-base';
 
 // Ensuring every user has an email address and/or a username
@@ -19,22 +19,22 @@ Accounts.validateNewUser(( user ) => {
         createdAt: { type: Date },
         services: { type: Object, blackbox: true }
     };
-    if( AccountsUI.opts().haveEmailAddress() !== AccountsConf.C.Identifier.NONE ){
+    if( AccountsUI.opts().haveEmailAddress() !== AccountsHub.C.Identifier.NONE ){
         _.merge( schema, {
             emails: { type: Array },
             'emails.$': { type: Object },
             'emails.$.address': { type: String },
             'emails.$.verified': { type: Boolean },
         });
-        if( AccountsUI.opts().haveEmailAddress() === AccountsConf.C.Identifier.OPTIONAL ){
+        if( AccountsUI.opts().haveEmailAddress() === AccountsHub.C.Identifier.OPTIONAL ){
             schema.emails.optional = true;
         }
     }
-    if( AccountsUI.opts().haveUsername() !== AccountsConf.C.Identifier.NONE ){
+    if( AccountsUI.opts().haveUsername() !== AccountsHub.C.Identifier.NONE ){
         _.merge( schema, {
             username: { type: String }
         });
-        if( AccountsUI.opts().haveUsername() === AccountsConf.C.Identifier.OPTIONAL ){
+        if( AccountsUI.opts().haveUsername() === AccountsHub.C.Identifier.OPTIONAL ){
             schema.username.optional = true;
         }
     }
@@ -48,7 +48,7 @@ Accounts.validateNewUser(( user ) => {
     //console.log( validationContext.validationErrors());
 
     // if schema is valid, individually check the datas
-    if( isValid && AccountsUI.opts().haveEmailAddress() !== AccountsConf.C.Identifier.NONE ){
+    if( isValid && AccountsUI.opts().haveEmailAddress() !== AccountsHub.C.Identifier.NONE ){
         user.emails.every(( o ) => {
             let result = AccountsUI._checkEmailAddress( o.address );
             if( !result.ok ){
@@ -58,7 +58,7 @@ Accounts.validateNewUser(( user ) => {
             return isValid;
         });
     }
-    if( isValid && AccountsUI.opts().haveUsername() !== AccountsConf.C.Identifier.NONE ){
+    if( isValid && AccountsUI.opts().haveUsername() !== AccountsHub.C.Identifier.NONE ){
         let result = AccountsUI._checkUsername( user.username );
         if( !result.ok ){
             console.error( result.errors[0] );

@@ -513,9 +513,9 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     For each of these terms, accepted values are:
 
-    - `AccountsConf.C.Identifier.NONE`: the field is not displayed nor considered
-    - `AccountsConf.C.Identifier.OPTIONAL`: the input field is proposed to the user, but may be left empty
-    - `AccountsConf.C.Identifier.MANDATORY`: the input field must be filled by the user
+    - `AccountsHub.C.Identifier.NONE`: the field is not displayed nor considered
+    - `AccountsHub.C.Identifier.OPTIONAL`: the input field is proposed to the user, but may be left empty
+    - `AccountsHub.C.Identifier.MANDATORY`: the input field must be filled by the user
 
     Defauts to the corresponding globally configured option.
 

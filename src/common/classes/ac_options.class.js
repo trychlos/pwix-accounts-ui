@@ -8,7 +8,7 @@ import _ from 'lodash';
 
 import '../js/constants.js';
 
-import { AccountsConf } from 'meteor/pwix:accounts-conf';
+import { AccountsHub } from 'meteor/pwix:accounts-conf';
 import { Options } from 'meteor/pwix:options';
 
 export class acOptions extends Options.Base {
@@ -25,9 +25,9 @@ export class acOptions extends Options.Base {
 
     // fields management
     static Fields = [
-        AccountsConf.C.Identifier.NONE,
-        AccountsConf.C.Identifier.OPTIONAL,
-        AccountsConf.C.Identifier.MANDATORY
+        AccountsHub.C.Identifier.NONE,
+        AccountsHub.C.Identifier.OPTIONAL,
+        AccountsHub.C.Identifier.MANDATORY
     ];
 
     // inform the user of a wrong email

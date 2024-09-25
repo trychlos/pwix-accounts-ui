@@ -2,12 +2,14 @@
 
 ## ChangeLog
 
-### 1.8.1-rc
+### 2.0.0-rc
 
     Release date: 
 
-    - Define new 'withExternalMessager' acUserLogin data context parameter, thus bumping minor candidate version number
+    - Replace pwix-accounts-conf dependency with pwix:accounts-hub
+    - Define new 'withExternalMessager' acUserLogin data context parameter, thus bumping major candidate version number
     - Define new internal ac_error_msg Blaze component
+    - Check functions are moved to pwix:accounts-tools package
 
 ### 1.8.0
 

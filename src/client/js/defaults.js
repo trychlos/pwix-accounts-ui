@@ -6,7 +6,7 @@
 
 import _ from 'lodash';
 
-import { AccountsConf } from 'meteor/pwix:accounts-conf';
+import { AccountsHub } from 'meteor/pwix:accounts-hub';
 import { pwixI18n } from 'meteor/pwix:i18n';
 
 /* 
