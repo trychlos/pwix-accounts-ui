@@ -31,7 +31,13 @@
 |      |            | as a new account is nonetheless created from acUserLogin, it is then possible to activate/unactivate it from the component |
 |   71 | 2023-12-16 | with the birth of izIAM, AccountsUI MUST be capable being OAuth/OpenID client |
 |   75 | 2024- 6- 3 | in DIV render, all happens as if Enter on submit button would submit twice (see for example signup in startup-app-admin) |
-|   77 | 2024- 6-22 |  |
+|   77 | 2024- 9-26 | Honors signin/signout for other accounts entities |
+|   78 | 2024- 9-26 | Honors signup for other accounts entities |
+|   79 | 2024- 9-26 | Honors changepwd for other accounts entities |
+|   80 | 2024- 9-26 | Honors resetpwd for other accounts entities |
+|   81 | 2024- 9-26 | Honors askverify for other accounts entities |
+|   82 | 2024- 9-26 | Honors mailenroll for other accounts entities |
+|   83 | 2024- 6-22 |  |
 
 ---
 ## Done

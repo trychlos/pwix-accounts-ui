@@ -629,12 +629,6 @@ via messages sent to the `<div class="acUserLogin">...</div>`.
 - `AccountsUI.C.Panel.SIGNUP`
 - `AccountsUI.C.Panel.VERIFYASK`
 
-- `AccountsUI.C.Password.VERYWEAK`
-- `AccountsUI.C.Password.WEAK`
-- `AccountsUI.C.Password.MEDIUM`
-- `AccountsUI.C.Password.STRONG`
-- `AccountsUI.C.Password.VERYSTRONG`
-
 - `AccountsUI.C.Render.MODAL`
 - `AccountsUI.C.Render.DIV`
 

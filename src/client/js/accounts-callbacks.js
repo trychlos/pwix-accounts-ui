@@ -1,5 +1,5 @@
 /*
- * /src/client.js/accounts_base.js
+ * /src/client.js/accounts-callbacks.js
  */
 
 import { Accounts } from 'meteor/accounts-base';

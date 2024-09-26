@@ -1,5 +1,5 @@
 /*
- * pwix:accounts-ui/src/client/js/account.js
+ * pwix:accounts-ui/src/client/js/accounts-base.js
  *
  * Manages here the account interactions with the 'users' database (login, creation, logout and so out).
  */
@@ -9,7 +9,7 @@ const assert = require( 'assert' ).strict; // up to nodejs v16.x
 import { AccountsHub } from 'meteor/pwix:accounts-hub';
 import { pwixI18n } from 'meteor/pwix:i18n';
 
-AccountsUI.Account = {
+AccountsUI.Features = {
     /**
      * Change the user's password
      * @param {String} oldpwd the current password
@@ -153,25 +153,34 @@ AccountsUI.Account = {
      * @param {String} userid the entered username or mail address
      * @param {String} password the entered password
      * @param {Object} opts, object options with following keys:
-     *  - target: the target of the to-be-sent events, defaulting to 'body' element
+     *  - AC: the private acUserLogin AC data
+     * 
+     * As of v2.0.0, only manages the Meteor standard 'users' accounts collection.
      */
     loginWithPassword( userid, password, opts={} ){
-        const target = opts.target || $( 'body' );
-        Meteor.loginWithPassword( userid, password, ( err ) => {
-            if( err ){
-                //console.error( err );
-                target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.signin_error' ));
-            } else {
-                const event = 'ac-user-signedin-event';
-                const parms = Meteor.user();
-                if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
-                    console.log( 'pwix:accounts-ui triggering', event, parms );
+        const target = opts.AC.target || $( 'body' );
+        const ahName = opts.AC.options.ahName();
+        if( ahName === AccountsHub.ahOptions._defaults.name ){
+            Meteor.loginWithPassword( userid, password, ( err ) => {
+                if( err ){
+                    //console.error( err );
+                    target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.signin_error' ));
+                } else {
+                    const event = 'ac-user-signedin-event';
+                    const parms = Meteor.user();
+                    if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
+                        console.log( 'pwix:accounts-ui triggering', event, parms );
+                    }
+                    target.trigger( event, parms );
+                    // last close the modal
+                    target.trigger( 'ac-close' );
                 }
-                target.trigger( event, parms );
-                // last close the modal
-                target.trigger( 'ac-close' );
-            }
-        });
+            });
+        } else {
+            const ahInstance = AccountsHub.instances[ahName];
+            assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
+            console.warn( 'loginWithPassword() ignored' );
+        }
     },
 
     /**

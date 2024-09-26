@@ -22,7 +22,7 @@
 
     Release date: 2024- 9-13
 
-    - AccountsUI.Account.createUser() now accepts a 'name' parameter instead of target and options, bumping minor candidate version number
+    - AccountsUI.Features.createUser() now accepts a 'name' parameter instead of target and options, bumping minor candidate version number
     - Use pwix:accounts-conf package to configure haveEmailAddress and haveUsername parameters
     - Minor typos fixes on the messages
 
