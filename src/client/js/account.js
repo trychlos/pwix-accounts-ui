@@ -4,6 +4,9 @@
  * Manages here the account interactions with the 'users' database (login, creation, logout and so out).
  */
 
+const assert = require( 'assert' ).strict; // up to nodejs v16.x
+
+import { AccountsHub } from 'meteor/pwix:accounts-hub';
 import { pwixI18n } from 'meteor/pwix:i18n';
 
 AccountsUI.Account = {
@@ -194,15 +197,18 @@ AccountsUI.Account = {
      * Send a mail to let the user reset his/her password
      * @param {String} email the entered mail address
      * @param {Object} opts, object options with following keys:
-     *  - target: the target of the to-be-sent events, defaulting to 'body' element
+     *  - AC: the private acUserLogin AC data
      *
-     * Note: if the asked email doesn't exist in the users database, then we receive an error message
+     * Note: if the asked email address doesn't exist in the users database, then we receive an error message
      *  [403] Something went wrong. Please check your credentials.
      * This may create a security hole which let a malicious user to validate that such email address is or not registered in our application.
      * So it is a package configuration to send back this error to the user, or to say him that an email has been sent (event if this is not true).
      */
-    resetAsk( email, opts={} ){
-        const target = opts.target || $( 'body' );
+    async resetAsk( email, opts={} ){
+        const target = opts.AC.target || $( 'body' );
+        const ahName = opts.AC.options.ahName();
+        const ahInstance = AccountsHub.instances[ahName];
+        assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
         // the success handler
         const _resetAskSuccess = function(){
             Tolert.success( pwixI18n.label( I18N, 'user.resetask_success' ));
@@ -216,20 +222,18 @@ AccountsUI.Account = {
             target.trigger( 'ac-close' );
         };
         // the main code
-        Accounts.forgotPassword({ email: email }, ( err ) => {
-            if( err ){
-                console.error( err );
-                switch( AccountsUI.opts().informWrongEmail()){
-                    case AccountsUI.C.WrongEmail.OK:
-                        _resetAskSuccess( email, opts );
-                        break;
-                    case AccountsUI.C.WrongEmail.ERROR:
-                        target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.resetask_credentials' ));
-                }
-            } else {
-                _resetAskSuccess( email, opts );
+        const res = await Meteor.callAsync( 'AccountsUI.forgotPassword', ahName, email );
+        if( res ){
+            _resetAskSuccess( email, opts );
+        } else {
+            switch( ahInstance.opts().informWrongEmail()){
+                case AccountsHub.C.WrongEmail.OK:
+                    _resetAskSuccess( email, opts );
+                    break;
+                case AccountsHub.C.WrongEmail.ERROR:
+                    target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.resetask_credentials' ));
             }
-        });
+        }
     },
 
     /**

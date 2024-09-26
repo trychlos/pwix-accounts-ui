@@ -26,21 +26,16 @@ function _passwordTwice(){
 
 defaults = {
     common: {
-        informWrongEmail: AccountsUI.C.WrongEmail.ERROR,
         coloredBorders: AccountsUI.C.Colored.NEVER,
         onEmailVerifiedBeforeFn: null,
         onEmailVerifiedBox: true,
         onEmailVerifiedBoxCb: null,
         onEmailVerifiedBoxMessage: { namespace: I18N, i18n: 'user.verify_text' },
         onEmailVerifiedBoxTitle: { namespace: I18N, i18n: 'user.verify_title' },
-        passwordLength: 8,
-        passwordStrength: AccountsUI.C.Password.MEDIUM,
         passwordTwice: true,
         resetPasswordTwice: _passwordTwice,
         resetPwdTextOne: { namespace: I18N, i18n: 'reset_pwd.textOne' },
         resetPwdTextTwo: '',
-        sendVerificationEmail: true,
-        usernameLength: 4,
         verbosity: AccountsUI.C.Verbose.NONE
     }
 };
@@ -58,12 +53,23 @@ AccountsUI._opts = new acOptions( AccountsUI._conf );
  */
 AccountsUI.configure = function( o ){
     if( o && _.isObject( o )){
-        _.merge( AccountsUI._conf, o );
-        AccountsUI._opts.base_set( AccountsUI._conf );
-        // be verbose if asked for
-        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.CONFIGURE ){
-            //console.log( 'pwix:accounts-ui configure() with', o, 'building', AccountsUI._conf );
-            console.log( 'pwix:accounts-ui configure() with', o );
+        // check that keys exist
+        let notexist = [];
+        Object.keys( o ).forEach(( it ) => {
+            if( !Object.keys( AccountsHub._defaults ).includes( it )){
+                notexist.push( it );
+            }
+        });
+        if( notexist.length ){
+            console.warn( 'pwix:accounts-ui ignoring (re)configuration due to not existing keys', notexist );
+        } else {
+            _.merge( AccountsUI._conf, o );
+            AccountsUI._opts.base_set( AccountsUI._conf );
+            // be verbose if asked for
+            if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.CONFIGURE ){
+                //console.log( 'pwix:accounts-ui configure() with', o, 'building', AccountsUI._conf );
+                console.log( 'pwix:accounts-ui configure() with', o );
+            }
         }
     }
     //console.debug( AccountsUI._conf );

@@ -7,6 +7,8 @@
  *  - AC: the acUserLogin internal data structure
  *      Is undefined when invoked from ac_reset_pwd template (via ac_twice_passwords)
  *      Take care!
+ *  - ahName: the AccountsHub.ahClass instance name (passed from reset_ask through URL parameters)
+ *      set from ac_reset_pwd (so exclusive from AC above)
  *  - wantsLength: whether to check against the minimal length of the password, defaulting to false
  *  - wantsComplexity: whether to check for input password strength, defaulting to false
  *  - withAutocomplete: whether to have an autocomplete attribute, defaulting to false (to be set to true for a login panel)
@@ -17,8 +19,11 @@
  *  - label: the form label, defaulting to 'Password'
  *  - placeholder: the input placeholder, defaulting to 'Enter your password'
  *  - strength: the div label, defaulting to 'Strength:'
- *  */
+ */
 
+const assert = require( 'assert' ).strict; // up to nodejs v16.x
+
+import { AccountsHub } from 'meteor/pwix:accounts-hub';
 import { pwixI18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
@@ -27,17 +32,17 @@ import './ac_input_password.html';
 
 Template.ac_input_password.onCreated( function(){
     const self = this;
-    //console.log( self );
 
     self.AC = {
         errorMsg: new ReactiveVar( '' ),
+        ahInstance: null,
 
         score: [
-            { k:AccountsUI.C.Password.VERYWEAK,   css: { backgroundColor: '#ff0000' }}, // red
-            { k:AccountsUI.C.Password.WEAK,       css: { backgroundColor: '#cc3300' }},
-            { k:AccountsUI.C.Password.MEDIUM,     css: { backgroundColor: '#669900' }},
-            { k:AccountsUI.C.Password.STRONG,     css: { backgroundColor: '#33cc00' }},
-            { k:AccountsUI.C.Password.VERYSTRONG, css: { backgroundColor: '#00ff00' }}, // green
+            { k:AccountsHub.C.Password.VERYWEAK,   css: { backgroundColor: '#ff0000' }}, // red
+            { k:AccountsHub.C.Password.WEAK,       css: { backgroundColor: '#cc3300' }},
+            { k:AccountsHub.C.Password.MEDIUM,     css: { backgroundColor: '#669900' }},
+            { k:AccountsHub.C.Password.STRONG,     css: { backgroundColor: '#33cc00' }},
+            { k:AccountsHub.C.Password.VERYSTRONG, css: { backgroundColor: '#00ff00' }}, // green
         ],
         minScore: -1,
 
@@ -49,29 +54,32 @@ Template.ac_input_password.onCreated( function(){
             self.AC.displayError( '' );
             const wantsLength = Template.currentData().wantsLength == true;
             const wantsStrength = Template.currentData().wantsStrength == true;
-            const result = AccountsUI._checkPassword( self.$( '.ac-input-password input' ).val() || '', { testLength: wantsLength, testComplexity: wantsStrength });
-            //console.debug( result );
-            if( wantsStrength ){
-                // css
-                self.$( '.ac-strength-bar' ).css( self.AC.score[result.zxcvbn.score].css );
-                let width = result.password.length ? 1+parseInt( result.zxcvbn.score ) : 0;
-                self.$( '.ac-strength-bar' ).css({ width: width+'em' });
-                width = 5-width;
-                self.$( '.ac-strength-other' ).css({ width: width+'em' });
+            if( self.AC.ahInstance ){
+                self.AC.ahInstance.checkPassword( self.$( '.ac-input-password input' ).val() || '', { testLength: wantsLength, testComplexity: wantsStrength })
+                    .then(( result ) => {
+                        if( wantsStrength ){
+                            // css
+                            self.$( '.ac-strength-bar' ).css( self.AC.score[result.zxcvbn.score].css );
+                            let width = result.canonical.length ? 1+parseInt( result.zxcvbn.score ) : 0;
+                            self.$( '.ac-strength-bar' ).css({ width: width+'em' });
+                            width = 5-width;
+                            self.$( '.ac-strength-other' ).css({ width: width+'em' });
+                        }
+                        // only display error message if field is not empty
+                        if( !result.ok && result.canonical.length ){
+                            self.AC.displayError( result.errors[0] );
+                        }
+                        // advertises of the current password characteristics
+                        const data = {
+                            ok: result.ok,
+                            score: result.zxcvbn.score,
+                            strength: self.AC.score[result.zxcvbn.score].k,
+                            password: result.canonical
+                        };
+                        //console.debug( 'sending ac-password-data with', data );
+                        self.$( '.ac-input-password' ).trigger( 'ac-password-data', data );
+                    });
             }
-            // only display error message if field is not empty
-            if( !result.ok && result.password.length ){
-                self.AC.displayError( result.errors[0] );
-            }
-            // advertises of the current password characteristics
-            const data = {
-                ok: result.ok,
-                score: result.zxcvbn.score,
-                strength: AccountsUI._scores[result.zxcvbn.score],
-                password: result.password
-            };
-            //console.debug( 'sending ac-password-data with', data );
-            self.$( '.ac-input-password' ).trigger( 'ac-password-data', data );
         },
 
         // display an error message, either locally (here) or at the panel level
@@ -80,6 +88,7 @@ Template.ac_input_password.onCreated( function(){
             //  though we could use here the usual Template.currentData()
             const withErrorArea = Boolean( Blaze.getData( self.view ).withErrorArea === true );
             const withErrorMsg = Boolean( Blaze.getData( self.view ).withErrorMsg === true );
+            //console.debug( 'withErrorArea', withErrorArea, 'withErrorMsg', withErrorMsg );
             if( withErrorMsg ){
                 if( withErrorArea ){
                     self.AC.errorMsg.set( msg );
@@ -96,15 +105,22 @@ Template.ac_input_password.onCreated( function(){
         }
     };
 
-    // compute the minimal required score according to the configures minimal strength
-    let i = 0;
-    self.AC.score.every(( it ) => {
-        if( it.k === AccountsUI.opts().passwordStrength()){
-            self.AC.minScore = i;
-            return false;
+    self.autorun(() => {
+        const AC = Template.currentData().AC;
+        const ahName = AC ? AC.options.ahName() : Template.currentData().ahName;
+        if( ahName ){
+            const ahInstance = AccountsHub.instances[ahName];
+            assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
+            self.AC.ahInstance = ahInstance;
+            // compute the minimal required score according to the configured required strength
+            const requiredStrength = ahInstance.opts().passwordStrength();
+            for( let i=0 ; i<self.AC.score.length ; ++i ){
+                if( self.AC.score[i].k === requiredStrength ){
+                    self.AC.minScore = i;
+                    break;
+                }
+            }
         }
-        i += 1;
-        return true;
     });
 });
 

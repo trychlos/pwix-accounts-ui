@@ -10,6 +10,7 @@
  * 
  * Parms:
  * - user
+ * - ahName: the AccountsHub.ahClass instance name (passed from reset_ask through URL parameters)
  * - cb
  */
 
@@ -25,11 +26,10 @@ import './ac_reset_pwd.html';
 
 Template.ac_reset_pwd.onCreated( function(){
     const self = this;
-    //console.log( self );
+    //console.debug( this );
 
     self.AC = {
-        passwordOk: new ReactiveVar( true ),
-        twiceOk: new ReactiveVar( true ),
+        twiceOk: new ReactiveVar( false ),
             
         text( label ){
             const item = 'resetPwd'+label;
@@ -44,8 +44,8 @@ Template.ac_reset_pwd.onRendered( function(){
     const self = this;
 
     self.autorun(() => {
-        const btn = self.$( '.ac-reset-pwd .ac-submit' );
-        btn.prop( 'disabled', !self.AC.passwordOk.get() || !self.AC.twiceOk.get());
+        const btn = self.$( '.ac-reset-pwd' ).closest( '.modal-content' ).find( 'button[data-md-btn-id="OK"]');
+        btn.prop( 'disabled', !self.AC.twiceOk.get());
     });
 
     // make sure we are the target of the modal messages
@@ -53,9 +53,20 @@ Template.ac_reset_pwd.onRendered( function(){
 });
 
 Template.ac_reset_pwd.helpers({
+    // parameters for the ac_error_msg component
+    parmsErrorMsg(){
+        return {
+            ...this,
+            withErrorArea: AccountsUI.fn.hasErrorArea( this ),
+            errorMsgRv: AccountsUI.fn.errorMsgRv()
+        };
+    },
+
     // parameters for the password input
     parmTwice(){
         return {
+            ahName: this.ahName,
+            withErrorMsg: true,
             role: 'reset'
         };
     },
@@ -73,14 +84,13 @@ Template.ac_reset_pwd.helpers({
 
 Template.ac_reset_pwd.events({
     // message sent by the input password component
-    'ac-password-data .ac-reset-pwd'( event, instance, data ){
-        //console.log( 'ac-password-data', data );
-        instance.AC.passwordOk.set( data.ok );
+    'ac-display-error .ac-reset-pwd'( event, instance, data ){
+        AccountsUI.fn.errorMsg( data, { dataContext: this });
     },
 
     // message sent by the twice passwords component
+    //  because this later also handles the ac_input_password component events, handling this one is enough
     'ac-twice-data .ac-reset-pwd'( event, instance, data ){
-        //console.log( 'ac-twice-data', data );
         instance.AC.twiceOk.set( data.ok );
     },
 
@@ -93,7 +103,6 @@ Template.ac_reset_pwd.events({
 
     // on Submit button
     'ac-submit .ac-reset-pwd'( event, instance ){
-        //console.log( event );
         const pwd = instance.$( '.ac-newone .ac-input-password input' ).val().trim();
         this.cb( pwd );
     }

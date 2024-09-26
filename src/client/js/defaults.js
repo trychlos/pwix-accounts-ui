@@ -128,20 +128,6 @@ function _emailAddress(){
 }
 
 /*
- * a function to return the 'haveEmailAddress' package default value
- */
-function _haveEmailAddress(){
-    return AccountsConf.configure().haveEmailAddress();
-}
-
-/*
- * a function to return the 'haveUsername' package default value
- */
-function _haveUsername(){
-    return AccountsConf.configure().haveUsername();
-}
-
-/*
  * a function to return the 'passwordTwice' package default value
  */
 function _passwordTwice(){
@@ -193,8 +179,8 @@ _.merge( defaults, {
         signinLegendPassword: '',
         signinLegendUsername: '',
         signupFieldset: false,
-        signupHaveEmailAddress: _haveEmailAddress,
-        signupHaveUsername: _haveUsername,
+        signupHaveEmailAddress: AccountsHub.C.Identifier.MANDATORY,
+        signupHaveUsername: AccountsHub.C.Identifier.NONE,
         signupLegendEmail: '',
         signupLegendPassword: '',
         signupLegendUsername: '',
@@ -204,6 +190,7 @@ _.merge( defaults, {
         signupClearPanel: true,
         signupSubmit: true,
         name: '',
+        ahName: 'users',
         withExternalMessager: false
     }
 });

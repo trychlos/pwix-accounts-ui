@@ -10,6 +10,8 @@
  *  - AC: the acUserLogin internal data structure
  *      Is undefined when invoked from ac_reset_pwd template
  *      Take care!
+ *  - ahName: the AccountsHub.ahClass instance name (passed from reset_ask through URL parameters)
+ *      set from ac_reset_pwd (so exclusive from AC above)
  *  - role: 'signup|change|reset'
  *      This happens to also be the prefix of the to-be-called AccountsUI options methods
  *      Do not change!
@@ -73,6 +75,7 @@ Template.ac_twice_passwords_sub.onCreated( function(){
             // see https://stackoverflow.com/questions/39271499/template-actual-data-context/39272483#39272483
             const withErrorArea = Boolean( Blaze.getData( self.view ).withErrorArea === true );
             const withErrorMsg = Boolean( Blaze.getData( self.view ).withErrorMsg === true );
+            //console.debug( 'withErrorArea', withErrorArea, 'withErrorMsg', withErrorMsg );
             if( withErrorMsg ){
                 if( withErrorArea ){
                     self.AC.errorMsg.set( msg );
@@ -107,6 +110,7 @@ Template.ac_twice_passwords_sub.helpers({
                 ? this.AC.options.coloredBorders() === AccountsUI.C.Colored.MANDATORY : AccountsUI.opts().coloredBorders() === AccountsUI.C.Colored.MANDATORY;
         return {
             AC: this.AC,
+            ahName: this.ahName,
             label: this.label || pwixI18n.label( I18N, 'twice_passwords.label' ),
             placeholder: this.placeholder1 || pwixI18n.label( I18N, 'twice_passwords.placeholder1' ),
             wantsLength: true,
@@ -124,6 +128,7 @@ Template.ac_twice_passwords_sub.helpers({
                 ? this.AC.options.coloredBorders() === AccountsUI.C.Colored.MANDATORY : AccountsUI.opts().coloredBorders() === AccountsUI.C.Colored.MANDATORY;
         return {
             AC: this.AC,
+            ahName: this.ahName,
             label: '',
             placeholder: this.placeholder2 || pwixI18n.label( I18N, 'twice_passwords.placeholder2' ),
             withMandatoryBorder: mandatoryBorder

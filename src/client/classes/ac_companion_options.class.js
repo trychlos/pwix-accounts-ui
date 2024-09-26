@@ -84,6 +84,16 @@ export class acCompanionOptions extends Options.Base {
 
     /**
      * Getter/Setter
+     * Returns name of the AccountsHub.ahClass instance associated to this acUserLogin component instance
+     * @param {String|Function} value a string or a function which returns a string
+     * @returns {String}
+     */
+    ahName( value ){
+        return this.base_gsStringObjectFn( 'ahName', value, { default: defaults.acUserLogin.ahName });
+    }
+
+    /**
+     * Getter/Setter
      * @param {Boolean|Function} single whether this instance uses two password input fields when changing a user's password
      * @returns {Boolean}
      */

@@ -18,7 +18,7 @@ _menuItems = {
 _named = {};
 
 // error message
-//  defined here to be useable even in resetpwd modal
+//  defined here to be useable even in reset_pwd modal
 _errorMsg = new ReactiveVar( null );
 
 AccountsUI.fn = {

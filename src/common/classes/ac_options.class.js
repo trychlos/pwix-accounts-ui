@@ -8,7 +8,7 @@ import _ from 'lodash';
 
 import '../js/constants.js';
 
-import { AccountsHub } from 'meteor/pwix:accounts-conf';
+import { AccountsHub } from 'meteor/pwix:accounts-hub';
 import { Options } from 'meteor/pwix:options';
 
 export class acOptions extends Options.Base {
@@ -28,21 +28,6 @@ export class acOptions extends Options.Base {
         AccountsHub.C.Identifier.NONE,
         AccountsHub.C.Identifier.OPTIONAL,
         AccountsHub.C.Identifier.MANDATORY
-    ];
-
-    // inform the user of a wrong email
-    static WrongEmail = [
-        AccountsUI.C.WrongEmail.OK,
-        AccountsUI.C.WrongEmail.ERROR
-    ];
-
-    // password strength
-    static Strength = [
-        AccountsUI.C.Password.VERYWEAK,
-        AccountsUI.C.Password.WEAK,
-        AccountsUI.C.Password.MEDIUM,
-        AccountsUI.C.Password.STRONG,
-        AccountsUI.C.Password.VERYSTRONG
     ];
 
     // private data
@@ -85,15 +70,6 @@ export class acOptions extends Options.Base {
      */
     coloredBorders( value ){
         return this.base_gsStringFn( 'coloredBorders', value, { default: defaults.common.coloredBorders, ref: acOptions.ColoredBorders });
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Function} value how to inform the user of a bad email address when asking for resetting a password
-     * @returns {String}
-     */
-    informWrongEmail( value ){
-        return this.base_gsStringFn( 'informWrongEmail', value, { default: defaults.common.informWrongEmail, ref: acOptions.WrongEmail });
     }
 
     /**
@@ -143,26 +119,6 @@ export class acOptions extends Options.Base {
 
     /**
      * Getter/Setter
-     * @param {Integer|Function} value required password length
-     *  must be greater or equal to zero
-     *  default to DEF_PASSWORD_LENGTH
-     * @returns {Integer}
-     */
-    passwordLength( value ){
-        return this.base_gsIntegerFn( 'passwordLength', value, { check: ( val ) => { return val >= 0 }, default: defaults.common.passwordLength });
-    }
-
-    /**
-     * Getter/Setter
-     * @param {String|Function} value required password strength
-     * @returns {String}
-     */
-    passwordStrength( value ){
-        return this.base_gsStringFn( 'passwordStrength', value, { default: defaults.common.passwordStrength, ref: acOptions.Strength });
-    }
-
-    /**
-     * Getter/Setter
      * @param {Boolean|Function} twice whether we want use two password input fields when changing a user's password.
      *  This global value acts as the default value for all panels which want a new password.
      * @returns {Boolean}
@@ -196,24 +152,6 @@ export class acOptions extends Options.Base {
      */
     resetPwdTextTwo( value ){
         return this.base_gsStringObjectFn( 'resetPwdTextTwo', value, { default: defaults.common.resetPwdTextTwo });
-    }
-
-    /**
-     * Getter/Setter
-     * @param {Boolean|Function} flag whether we want an email verification be sent on user creation
-     * @returns {Boolean}
-     */
-    sendVerificationEmail( flag ){
-        return this.base_gsBoolFn( 'sendVerificationEmail', flag, { default: defaults.common.sendVerificationEmail });
-    }
-
-    /**
-     * Getter/Setter
-     * @param {Integer|Function} value required username length
-     * @returns {Integer}
-     */
-    usernameLength( value ){
-        return this.base_gsIntegerFn( 'usernameLength', value, { check: ( val ) => { return val >= 0 }, default: defaults.common.usernameLength });
     }
 
     /**

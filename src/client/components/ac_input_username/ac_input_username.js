@@ -14,6 +14,8 @@
  *  - legend: the fieldset legend, defaulting to 'Username'
  *  - placeholder: the input placeholder, defaulting to 'Enter your password'
  */
+
+import { AccountsHub } from 'meteor/pwix:accounts-hub';
 import { pwixI18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
@@ -32,23 +34,26 @@ Template.ac_input_username_sub.onCreated( function(){
 
     self.AC = {
         errorMsg: new ReactiveVar( '' ),
+        ahInstance: null,
 
         // check the current input field (only if new)
         //  let the error message empty if field is empty
         check(){
             self.AC.displayError( '' );
             const wantsNew = Boolean( Template.currentData().wantsNew === true );
-            AccountsUI._checkUsername( self.$( '.ac-input-username input' ).val() || '', {
-                mandatory: Template.currentData().AC.options.signupHaveUsername(),
-                textExistance: wantsNew
-            })
+            if( self.AC.ahInstance ){
+                self.AC.ahInstance.checkUsername( self.$( '.ac-input-username input' ).val() || '', {
+                    testEmpty: Template.currentData().AC.options.signupHaveUsername(),
+                    textExists: wantsNew
+                })
                 .then(( result ) => {
                     // only display error message if field is not empty
-                    if( !result.ok && result.username.length ){
+                    if( !result.ok && result.canonical.length ){
                         self.AC.displayError( result.errors[0] );
                     }
                     self.$( '.ac-input-username-sub' ).trigger( 'ac-username-data', { ok: result.ok, username: result.username });
                 });
+            }
         },
 
         // display an error message, either locally (here) or at the panel level
@@ -72,6 +77,18 @@ Template.ac_input_username_sub.onCreated( function(){
             self.AC.check();
         }
     };
+
+    self.autorun(() => {
+        const AC = Template.currentData().AC;
+        if( AC ){
+            const ahName = AC.options.ahName();
+            if( ahName ){
+                const ahInstance = AccountsHub.instances[ahName];
+                assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
+                self.AC.ahInstance = ahInstance;
+            }
+        }
+    });
 });
 
 Template.ac_input_username_sub.onRendered( function(){

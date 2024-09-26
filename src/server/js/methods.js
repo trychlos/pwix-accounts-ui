@@ -2,57 +2,28 @@
  * pwix:accounts-ui/src/server/js/methods.js
  */
 
+const assert = require( 'assert' ).strict; // up to nodejs v16.x
+
 import { Accounts } from 'meteor/accounts-base';
-import { AccountsTools } from 'meteor/pwix:accounts-tools';
-
-AccountsUI._byEmailAddress = async function( email ){
-    return Accounts.findUserByEmail( email )
-        .then(( doc ) => { return AccountsTools.cleanupUserDocument( doc ); });
-};
-
-AccountsUI._byId = async function( id ){
-    return Meteor.users.findOneAsync({ _id: id })
-        .then(( doc ) => { return AccountsTools.cleanupUserDocument( doc ); });
-};
-
-AccountsUI._byUsername = async function( username ){
-    return Accounts.findUserByUsername( username )
-        .then(( doc ) => { return AccountsTools.cleanupUserDocument( doc ); });
-};
+import { AccountsHub } from 'meteor/pwix:accounts-hub';
 
 Meteor.methods({
     // All AccountsUI.byXxxx methods return a user object without the crypted password nor the profile
 
-    // find a user by his email address
-    async 'AccountsUI.byEmailAddress'( email ){
-        //console.debug( 'AccountsUI.byEmailAddress', email );
-        return AccountsUI._byEmailAddress( email );
-    },
-
-    // find a user by his internal (mongo) identifier
-    async 'AccountsUI.byId'( id ){
-        //console.debug( 'AccountsUI.byId' );
-        return AccountsUI._byId( id );
-    },
-
     // find the user who holds the given reset password token
-    async 'AccountsUI.byResetToken'( token ){
+    async 'AccountsUI.byResetToken'( ahName, token ){
         //console.debug( 'AccountsUI.byResetToken' );
-        return Meteor.users.findOneAsync({ 'services.password.reset.token': token },{ 'services.password.reset': 1 })
-            .then(( doc ) => { return AccountsTools.cleanupUserDocument( doc ); });
-    },
-
-    // find a user by his username
-    async 'AccountsUI.byUsername'( username ){
-        //console.debug( 'AccountsUI.byUsername' );
-        return AccountsUI._byUsername( username );
+        const ahInstance = AccountsHub.instances[ahName];
+        assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
+        return ahInstance.collection().findOneAsync({ 'services.password.reset.token': token },{ 'services.password.reset': 1 })
+            .then(( doc ) => { return AccountsHub.s.cleanupUserDocument( doc ); });
     },
 
     // find the user who holds the given email verification token
     async 'AccountsUI.byEmailVerificationToken'( token ){
         //console.debug( 'AccountsUI.byEmailVerificationToken' );
         return Meteor.users.findOneAsync({ 'services.email.verificationTokens': { $elemMatch: { token: token }}},{ 'services.email':1 })
-            .then(( doc ) => { return AccountsTools.cleanupUserDocument( doc ); });
+            .then(( doc ) => { return AccountsHub.s.cleanupUserDocument( doc ); });
     },
 
     // create a user without auto login
@@ -67,7 +38,27 @@ Meteor.methods({
             });
     },
 
-    // send a mail with a verification link
+    // ask to send a reset password email
+    // see https://github.com/meteor/meteor/blob/devel/packages/accounts-password/password_server.js#L363
+    // see https://github.com/meteor/meteor/blob/devel/packages/accounts-password/password_server.js#L529
+    // do not send extra data when using the standard 'users' collection
+    // return true|false
+    async 'AccountsUI.forgotPassword'( ahName, email ){
+        const ahInstance = AccountsHub.instances[ahName];
+        assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
+        let res = null;
+        const user = await ahInstance.byEmailAddress( email );
+        if( user ){
+            if( ahName === AccountsHub.ahOptions._defaults.name ){
+                res = await Accounts.sendResetPasswordEmail( user._id, email );
+            } else {
+                res = await Accounts.sendResetPasswordEmail( user._id, email, undefined, { ahName: ahName });
+            }
+        }
+        return Boolean( res );
+    },
+
+    // send an email with a verification link
     //  the returned object has:
     //  - email
     //  - user { _id, services.email, emails }

@@ -6,6 +6,5 @@ import './global.js';
 import './constants.js';
 import './i18n.js';
 //
-import './checks.js';
 import './configure.js';
 import './startup.js';

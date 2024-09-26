@@ -37,6 +37,8 @@ It aims to provide a full replacement for Meteor [accounts-ui](https://atmospher
 
 However, `pwix:accounts-ui` is fully configurable and is able to provide different user interfaces to adapt to different contexts.
 
+Note that starting with v 2.0.0, `pwix:accounts-ui` takes advantage of `pwix:accounts-hub` package to provide a way to manage several accounts entities. All the public API so accepts now a new `ahInstance` parameter which name the addressed account entity. This parameter defaults to the `users` default standard Meteor accounts collection.
+
 ## How does it work ?
 
 The main `pwix:accounts-ui` user interface is the `acUserLogin` template.
@@ -87,6 +89,11 @@ This template organizes itself to show a modal (or a div, see later) adapted to 
     - have (or not) a 'Sign-in' link
     - have (or not) a 'Sign-up' link
 
+![signout](/maintainer/png/signout_fr_384.png)
+
+- when the user is logged in, and after he/she has clicked the 'Change password' button
+    - display a modal (resp. a div) to let him/she change his/her credentials
+
 ![resetpwd](/maintainer/png/resetpwd_fr_384.png)
 
 - when the user is logged in
@@ -101,11 +108,6 @@ This template organizes itself to show a modal (or a div, see later) adapted to 
 
 - when the user is logged in, and after he/she has clicked the 'Sign out' button
     - display a popup to ask for confirmation
-
-![signout](/maintainer/png/signout_fr_384.png)
-
-- when the user is logged in, and after he/she has clicked the 'Change password' button
-    - display a modal (resp. a div) to let him/she change his/her credentials
 
 ![changepwd](/maintainer/png/changepwd_fr_384.png)
 
@@ -183,7 +185,7 @@ This way, the `acUserLogin` div is kept active, and continues to receive and han
 
 ### `AccountsUI`
 
-The exported `BlazeLayout` global object provides following items:
+The exported global object provides following items:
 
 #### Functions
 
@@ -546,6 +548,12 @@ Even when providing a configuration object, as all keys are optional, this objec
     When set, **and** the packages `pwix:forms` and `pwix:typed-message` are present, **and** a `checker` ReactiveVar is present in the data context, then
     the error messages will be sent to the provided checker, instead of being managed by this `pwix:accounts-ui` package.
 
+- `ahName`
+
+    The name of an `AccountsHub.ahClass` instance which itself defines an account entity.
+
+    Defaults to `users`, the standard default Meteor accounts collection.
+
 ### Messages sendable to acUserLogin
 
 Besides of initial configuration options, the behavior of the `acUserLogin` template may be controlled
@@ -646,23 +654,6 @@ The package's behavior can be configured through a call to the `AccountsUI.confi
 
 Known configuration options are:
 
-- `informWrongEmail`
-
-    Whether to inform the user that the email address he/she has entered when asking for resetting a password is not known of our users database.
-
-    Rationale:
-
-        Meteor default is to return a [403] Something went wrong. Please check your credentials.' error message.
-
-        Some security guys consider that returning such error would let a malicious user to check which email addresses are registered - or not - in the accounts database, so would lead to a potential confidentiality break.
-
-    This parameter let the application decide what to do:
-
-    - `AccountsUI.C.WrongEmail.OK`: say the user that the email has been sucessfully sent, even when this is not the case
-    - `AccountsUI.C.WrongEmail.ERROR`: say the user that something went wrong (Meteor standard behavior).
-
-    Defaults to `AccountsUI.C.WrongEmail.ERROR`.
-
 - `coloredBorders`
 
     Whether the borders of fields in the panels should or not be colored, and when:
@@ -707,34 +698,6 @@ Known configuration options are:
 
     Defaults to (localized) 'Hi.<br />Your email address is now said "verified".<br />Thanks.'.
 
-- `passwordLength`
-
-    The minimal required password length when setting a new password, either when creating a new account of when changing the password of an existing account.
-
-    The package doesn't hardcodes by itself a minimal 'minimal length', and so will accept even a minimal length of, say, 1 character!
-
-    Defaults to eight (8) characters.
-
-    **Please note that, for security reasons, you shouldn't set the minimal password length less than this default, unless you are absolutely sure of what you are doing.**
-
-- `passwordStrength`
-
-    The minimal required password strength when setting a new password, either when creating a new account of when changing the password of an existing account.
-
-    `pwix:accounts-ui` makes use of the [zxcvbn](https://www.npmjs.com/package/zxcvbn) package to estimate the strength of entered passwords. The estimated strength can take folloging values:
-
-    - `AccountsUI.C.Password.VERYWEAK`: too guessable, risky password (guesses < 10^3)
-    - `AccountsUI.C.Password.WEAK`: very guessable, protection from throttled online attacks (guesses < 10^6)
-    - `AccountsUI.C.Password.MEDIUM`: somewhat guessable, protection from unthrottled online attacks (guesses < 10^8)
-    - `AccountsUI.C.Password.STRONG`: safely unguessable, moderate protection from offline slow-hash scenario (guesses < 10^10)
-    - `AccountsUI.C.Password.VERYSTRONG`: very unguessable, strong protection from offline slow-hash scenario (guesses >= 10^10)
-
-    The package doesn't hardcodes by itself a minimal 'required strength', and so will accept even a minimal length of, say, `AccountsUI.C.Password.VERYWEAK`!
-
-    Defaults to `AccountsUI.C.Password.MEDIUM`.
-
-    **Please note that, for security reasons, you shouldn't set the password required strength less than this default, unless you are absolutely sure of what you are doing.**
-
 - `passwordTwice`
 
     Whether a new password has to be entered twice.
@@ -765,24 +728,6 @@ Known configuration options are:
     Value is expected to be a HTML string, or a function which returns such a string.
 
     Defaults to 'Hello <b>%s</b>,<br />Welcome again!<br />Let us reset your password, and enjoy.' for the first text, none for the second.
-
-- `sendVerificationEmail`
-
-    Whether to send a verification email to each newly created user.
-
-    This should be kept by the application consistent with the same parameter of `accounts-base` Meteor package.
-
-    Accepted values are `true` or `false`.
-
-    Defaults to `true`.
-
-- `usernameLength`
-
-    The minimal required username length.
-
-    The package doesn't hardcodes by itself a minimal 'minimal length'.
-
-    Defaults to four (4) characters.
 
 - `verbosity`
 

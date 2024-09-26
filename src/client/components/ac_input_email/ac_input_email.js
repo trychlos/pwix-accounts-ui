@@ -15,6 +15,9 @@
  *  - legend: the fieldset legend, defaulting to legend translated from 'Email address'
  */
 
+const assert = require( 'assert' ).strict; // up to nodejs v16.x
+
+import { AccountsHub } from 'meteor/pwix:accounts-hub';
 import { pwixI18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
@@ -38,26 +41,24 @@ Template.ac_input_email.helpers({
 
     self.AC = {
         errorMsg: new ReactiveVar( '' ),
+        ahInstance: null,
 
         // check the current input field
         //  let the error message empty if field is empty
         check(){
             self.AC.displayError( '' );
             const wantsNew = Boolean( Template.currentData().wantsNew === true );
-            AccountsUI._checkEmailAddress( self.$( '.ac-input-email-sub input' ).val(), { testExistance: wantsNew })
-                .then(( result ) => {
-                    //console.debug( result );
-                    // only display an error message if field is not empty
-                    if( result.email.length ){
-                        if( !result.ok ){
-                            self.AC.displayError( pwixI18n.label( I18N, 'input_email.invalid' ));
-                        } else if( wantsNew && result.exists ){
-                            self.AC.displayError( pwixI18n.label( I18N, 'input_email.already_exists' ));
-                            result.ok = false;
+            if( self.AC.ahInstance ){
+                self.AC.ahInstance.checkEmailAddress( self.$( '.ac-input-email-sub input' ).val(), { testExists: wantsNew })
+                    .then(( result ) => {
+                        //console.debug( result );
+                        // only display an error message if field is not empty
+                        if( result.canonical.length && !result.ok ){
+                            self.AC.displayError( result.errors[0] );
                         }
-                    }
-                    self.$( '.ac-input-email-sub' ).trigger( 'ac-email-data', { ok: result.ok, email: result.email });
-                });
+                        self.$( '.ac-input-email-sub' ).trigger( 'ac-email-data', { ok: result.ok, email: result.email });
+                    });
+            }
         },
 
         // display an error message, either locally (here) or at the panel level
@@ -83,6 +84,18 @@ Template.ac_input_email.helpers({
             self.AC.check();
         }
     };
+
+    self.autorun(() => {
+        const AC = Template.currentData().AC;
+        if( AC ){
+            const ahName = AC.options.ahName();
+            if( ahName ){
+                const ahInstance = AccountsHub.instances[ahName];
+                assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
+                self.AC.ahInstance = ahInstance;
+            }
+        }
+    });
 });
 
 Template.ac_input_email_sub.onRendered( function(){

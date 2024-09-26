@@ -188,7 +188,7 @@ Template.acUserLogin.events({
             case AccountsUI.C.Panel.RESETASK:
                 //console.log( 'element', $( '.ac-reset-ask' ));
                 mail = $( '.ac-reset-ask .ac-input-email .ac-input' ).val().trim();
-                AccountsUI.Account.resetAsk( mail, { target: instance.AC.target });
+                AccountsUI.Account.resetAsk( mail, { AC: instance.AC });
                 managed = true;
                 break;
             case AccountsUI.C.Panel.SIGNIN:

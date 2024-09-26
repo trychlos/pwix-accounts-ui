@@ -49,17 +49,6 @@ AccountsUI.C = {
         VERIFYASK: 'AC_PANEL_VERIFYASK'
     },
 
-    // password estimated strength
-    // these constants are deprecated starting with v1.9.0
-    // please use the same from pwix:accounts-conf package
-    Password: {
-        VERYWEAK: 'AC_PWD_VERYWEAK',
-        WEAK: 'AC_PWD_WEAK',
-        MEDIUM: 'AC_PWD_MEDIUM',
-        STRONG: 'AC_PWD_STRONG',
-        VERYSTRONG: 'AC_PWD_VERYSTRONG'
-    },
-
     // rendering mode
     Render: {
         MODAL: 'AC_RENDER_MODAL',
@@ -79,12 +68,6 @@ AccountsUI.C = {
         USER:           0x01 <<  7,
         SUBMIT:         0x01 <<  8,
         MODAL:          0x01 <<  9
-    },
-
-    // what to do when email cannot be sent
-    WrongEmail: {
-        OK: 'AccountsUI.C.WrongEmail.OK',
-        ERROR: 'AccountsUI.C.WrongEmail.ERROR'
     }
 };
 
