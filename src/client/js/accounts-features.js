@@ -15,24 +15,31 @@ AccountsUI.Features = {
      * @param {String} oldpwd the current password
      * @param {String} newpwd the new password to be set
      * @param {Object} opts, object options with following keys:
-     *  - target: the target of the to-be-sent events, defaulting to 'body' element
+     *  - AC: the private acUserLogin AC data
      */
     changePwd( oldpwd, newpwd, opts={} ){
-        const target = opts.target || $( 'body' );
-        Accounts.changePassword( oldpwd, newpwd, ( err ) => {
-            if( err ){
-                console.error( err );
-                target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.changepwd_error' ));
-            } else {
-                Tolert.success( pwixI18n.label( I18N, 'user.changepwd_success' ));
-                const event = 'ac-user-changedpwd-event';
-                const parms = Meteor.user();
-                if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
-                    console.log( 'pwix:accounts-ui triggering', event, parms );
+        const target = opts.AC.target || $( 'body' );
+        const ahName = opts.AC.options.ahName();
+        if( ahName === AccountsHub.ahOptions._defaults.name ){
+            Accounts.changePassword( oldpwd, newpwd, ( err ) => {
+                if( err ){
+                    console.error( err );
+                    target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.changepwd_error' ));
+                } else {
+                    Tolert.success( pwixI18n.label( I18N, 'user.changepwd_success' ));
+                    const event = 'ac-user-changedpwd-event';
+                    const parms = Meteor.user();
+                    if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
+                        console.log( 'pwix:accounts-ui triggering', event, parms );
+                    }
+                    target.trigger( event, parms );
                 }
-                target.trigger( event, parms );
-            }
-        });
+            });
+        } else {
+            const ahInstance = AccountsHub.instances[ahName];
+            assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
+            console.warn( 'onChangePwd() ignored', ahInstance );
+        }
     },
 
     /**
@@ -49,8 +56,7 @@ AccountsUI.Features = {
      *  Also cf. https://docs.meteor.com/api/passwords#Accounts-createUser
      *       and https://v3-docs.meteor.com/api/accounts.html#Accounts-createUser
      * @param {Object} opts, object options with following keys:
-     *  - target: the target of the to-be-sent events, defaulting to 'body' element (optional, see 'name')
-     *  - options: the options applied the currenly acUserLogin component (optional, see 'name')
+     *  - AC: the private acUserLogin AC data
      *  - errFn: an optional function to be called in case of an error
      *  - successFn: an optional function to be called in case of a success
      *  - name: the name given to the acUserLogin instance
@@ -61,14 +67,17 @@ AccountsUI.Features = {
      */
     async createUser( createUserOptions, opts={} ){
         // compute parameters when the 'name' option is passed-in
+        let target = opts.AC.target;
+        let options = opts.AC.options;
         if( opts.name ){
             const instance = AccountsUI.fn.nameGet( opts.name );
             if( instance ){
-                opts.target = opts.target || instance.AC.target;
-                opts.options = opts.options || instance.AC.options;
+                target = target || instance.AC.target;
+                options = options || instance.AC.options;
             }
         }
-        const target = opts.target || $( 'body' );
+        target = target || $( 'body' );
+        const ahName = options.ahName();
         // the error handler
         const _errorFn = function( err ){
             console.error( err );
@@ -100,13 +109,13 @@ AccountsUI.Features = {
                 .then(( res ) => {
                     //console.debug( 'AccountsUI.sendVerificationEmailByEmail', res );
                     // autoClose is only relevant in MODAL render mode
-                    const autoClose = opts.options.signupAutoClose();
-                    const renderMode = opts.options.renderMode();
+                    const autoClose = options.signupAutoClose();
+                    const renderMode = options.renderMode();
                     if( renderMode === AccountsUI.C.Render.MODAL && autoClose ){
                         target.trigger( 'ac-close' );
                     } else {
                         // clearPanel is only relevant if we do not have closed
-                        const clearPanel = opts.options.signupClearPanel();
+                        const clearPanel = options.signupClearPanel();
                         if( clearPanel ){
                             $( '.ac-signup' ).trigger( 'ac-clear-panel' );
                         }
@@ -121,29 +130,35 @@ AccountsUI.Features = {
                 });
         };
         // the main code
-        //  https://docs.meteor.com/api/passwords#Accounts-createUser
-        const autoConnect = opts.options.signupAutoConnect();
-        if( autoConnect !== false ){
-            Accounts.createUser( createUserOptions, ( err ) => {
-                if( err ){
-                    _errorFn( err );
-                } else {
-                    _successFn();
-                    Tolert.success( pwixI18n.label( I18N, 'user.signup_autoconnect', createUserOptions.email ));
-                }
-            });
-        } else {
-            Meteor.callAsync( 'AccountsUI.createUser', createUserOptions )
-                .then(() => {
-                    _successFn();
-                    Tolert.success( pwixI18n.label( I18N, 'user.signup_noconnect', createUserOptions.email ));
-                })
-                .catch(( err ) => {
-                    // doesn't handle here credentials issues as the user is not connected anyway
-                    if( err.error !== 403 ){
+        if( ahName === AccountsHub.ahOptions._defaults.name ){
+            //  https://docs.meteor.com/api/passwords#Accounts-createUser
+            const autoConnect = options.signupAutoConnect();
+            if( autoConnect !== false ){
+                Accounts.createUser( createUserOptions, ( err ) => {
+                    if( err ){
                         _errorFn( err );
+                    } else {
+                        _successFn();
+                        Tolert.success( pwixI18n.label( I18N, 'user.signup_autoconnect', createUserOptions.email ));
                     }
                 });
+            } else {
+                Meteor.callAsync( 'AccountsUI.createUser', createUserOptions )
+                    .then(() => {
+                        _successFn();
+                        Tolert.success( pwixI18n.label( I18N, 'user.signup_noconnect', createUserOptions.email ));
+                    })
+                    .catch(( err ) => {
+                        // doesn't handle here credentials issues as the user is not connected anyway
+                        if( err.error !== 403 ){
+                            _errorFn( err );
+                        }
+                    });
+            }
+        } else {
+            const ahInstance = AccountsHub.instances[ahName];
+            assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
+            console.warn( 'onSignup() ignored', ahInstance );
         }
     },
 
@@ -179,27 +194,34 @@ AccountsUI.Features = {
         } else {
             const ahInstance = AccountsHub.instances[ahName];
             assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
-            console.warn( 'loginWithPassword() ignored' );
+            console.warn( 'onSignin() ignored', ahInstance );
         }
     },
 
     /**
      * Logout
      * @param {Object} opts, object options with following keys:
-     *  - target: the target of the to-be-sent events, defaulting to 'body' element
+     *  - AC: the private acUserLogin AC data
      */
     logout( opts={} ){
-        const target = opts.target || $( 'body' );
-        const user = { ...Meteor.user() };
-        Meteor.logout();
-        const event = 'ac-user-signedout-event';
-        const parms = user;
-        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
-            console.log( 'pwix:accounts-ui triggering', event, parms );
+        const target = opts.AC.target || $( 'body' );
+        const ahName = opts.AC.options.ahName();
+        if( ahName === AccountsHub.ahOptions._defaults.name ){
+            const user = { ...Meteor.user() };
+            Meteor.logout();
+            const event = 'ac-user-signedout-event';
+            const parms = user;
+            if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
+                console.log( 'pwix:accounts-ui triggering', event, parms );
+            }
+            target.trigger( event, parms );
+            // last close the modal
+            target.trigger( 'ac-close' );
+        } else {
+            const ahInstance = AccountsHub.instances[ahName];
+            assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
+            console.warn( 'onSignout() ignored', ahInstance );
         }
-        target.trigger( event, parms );
-        // last close the modal
-        target.trigger( 'ac-close' );
     },
 
     /**
@@ -231,42 +253,53 @@ AccountsUI.Features = {
             target.trigger( 'ac-close' );
         };
         // the main code
-        const res = await Meteor.callAsync( 'AccountsUI.forgotPassword', ahName, email );
-        if( res ){
-            _resetAskSuccess( email, opts );
-        } else {
-            switch( ahInstance.opts().informWrongEmail()){
-                case AccountsHub.C.WrongEmail.OK:
-                    _resetAskSuccess( email, opts );
-                    break;
-                case AccountsHub.C.WrongEmail.ERROR:
-                    target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.resetask_credentials' ));
+        if( ahName === AccountsHub.ahOptions._defaults.name ){
+            const res = await Meteor.callAsync( 'AccountsUI.forgotPassword', ahName, email );
+            if( res ){
+                _resetAskSuccess( email, opts );
+            } else {
+                switch( ahInstance.opts().informWrongEmail()){
+                    case AccountsHub.C.WrongEmail.OK:
+                        _resetAskSuccess( email, opts );
+                        break;
+                    case AccountsHub.C.WrongEmail.ERROR:
+                        target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.resetask_credentials' ));
+                }
             }
+        } else {
+            console.warn( 'onResetAsk() ignored', ahInstance );
         }
     },
 
     /**
      * Re-send a mail to let us verify the user's email
      * @param {Object} opts, object options with following keys:
-     *  - target: the target of the to-be-sent events, defaulting to 'body' element
+     *  - AC: the private acUserLogin AC data
      */
     verifyMail( opts={} ){
-        const target = opts.target || $( 'body' );
-        Meteor.callAsync( 'AccountsUI.sendVerificationEmailById', Meteor.userId())
-            .then(( result ) => {
-                if( result ){
-                    Tolert.success( pwixI18n.label( I18N, 'user.verifyask_success' ));
-                    const event = 'ac-user-verifyasked-event';
-                    const parms = { ...Meteor.user() };
-                    if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
-                        console.log( 'pwix:accounts-ui triggering', event, parms );
+        const target = opts.AC.target || $( 'body' );
+        const ahName = opts.AC.options.ahName();
+        if( ahName === AccountsHub.ahOptions._defaults.name ){
+            Meteor.callAsync( 'AccountsUI.sendVerificationEmailById', Meteor.userId())
+                .then(( result ) => {
+                    if( result ){
+                        Tolert.success( pwixI18n.label( I18N, 'user.verifyask_success' ));
+                        const event = 'ac-user-verifyasked-event';
+                        const parms = { ...Meteor.user() };
+                        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
+                            console.log( 'pwix:accounts-ui triggering', event, parms );
+                        }
+                        target.trigger( event, parms );
+                        // last close the modal
+                        target.trigger( 'ac-close' );
+                    } else {
+                        Tolert.error( pwixI18n.label( I18N, 'user.verifyask_error' ));
                     }
-                    target.trigger( event, parms );
-                    // last close the modal
-                    target.trigger( 'ac-close' );
-                } else {
-                    Tolert.error( pwixI18n.label( I18N, 'user.verifyask_error' ));
-                }
-            });
+                });
+        } else {
+            const ahInstance = AccountsHub.instances[ahName];
+            assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
+            console.warn( 'onVerifyAsk() ignored', ahInstance );
+        }
     }
 };

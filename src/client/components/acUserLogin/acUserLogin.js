@@ -182,7 +182,7 @@ Template.acUserLogin.events({
                 //console.debug( this );
                 const pwd1 = $( '.ac-change-pwd .ac-old .ac-input' ).val().trim();
                 const pwd2 = $( '.ac-change-pwd .ac-newone .ac-input' ).val().trim();
-                AccountsUI.Features.changePwd( pwd1, pwd2, { target: instance.AC.target });
+                AccountsUI.Features.changePwd( pwd1, pwd2, { AC: instance.AC });
                 managed = true;
                 break;
             case AccountsUI.C.Panel.RESETASK:
@@ -200,7 +200,7 @@ Template.acUserLogin.events({
                 managed = true;
                 break;
             case AccountsUI.C.Panel.SIGNOUT:
-                AccountsUI.Features.logout({ target: instance.AC.target });
+                AccountsUI.Features.logout({ AC: instance.AC });
                 managed = true;
                 break;
             case AccountsUI.C.Panel.SIGNUP:
@@ -213,15 +213,12 @@ Template.acUserLogin.events({
                         options.email = $( '.ac-signup .ac-input-email .ac-input' ).val().trim();
                     }
                     options.password = $( '.ac-signup .ac-newone .ac-input' ).val().trim();
-                    AccountsUI.Features.createUser( options, {
-                        target: instance.AC.target,
-                        options: instance.AC.options
-                    });
+                    AccountsUI.Features.createUser( options, { AC: instance.AC });
                 }
                 managed = true;
                 break;
             case AccountsUI.C.Panel.VERIFYASK:
-                AccountsUI.Features.verifyMail({ target: instance.AC.target });
+                AccountsUI.Features.verifyMail({ AC: instance.AC });
                 managed = true;
                 break;
         }
