@@ -5,6 +5,8 @@
  *  - AC: the acUserLogin internal data structure
  */
 
+const assert = require( 'assert' ).strict; // up to nodejs v16.x
+
 import { AccountsHub } from 'meteor/pwix:accounts-hub';
 
 import '../ac_input_email/ac_input_email.js';
@@ -46,12 +48,18 @@ Template.ac_signin.onRendered( function(){
 Template.ac_signin.helpers({
     // true if we have email address and not username
     onlyEmailAddress(){
-        return AccountsConf.configure().haveEmailAddress() !== AccountsHub.C.Identifier.NONE && AccountsConf.opts().haveUsername() === AccountsHub.C.Identifier.NONE;
+        const ahName = this.AC.options.ahName();
+        const ahInstance = AccountsHub.instances[ahName];
+        assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
+        return ahInstance.opts().haveEmailAddress() !== AccountsHub.C.Identifier.NONE && ahInstance.opts().haveUsername() === AccountsHub.C.Identifier.NONE;
     },
 
     // true if we have username and not email address
     onlyEmailAddress(){
-        return AccountsConf.configure().haveEmailAddress() === AccountsHub.C.Identifier.NONE && AccountsConf.opts().haveUsername() !== AccountsHub.C.Identifier.NONE;
+        const ahName = this.AC.options.ahName();
+        const ahInstance = AccountsHub.instances[ahName];
+        assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
+        return ahInstance.opts().haveEmailAddress() === AccountsHub.C.Identifier.NONE && ahInstance.opts().haveUsername() !== AccountsHub.C.Identifier.NONE;
     },
 
     parmsEmail(){

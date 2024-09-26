@@ -554,6 +554,8 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     Defaults to `users`, the standard default Meteor accounts collection.
 
+    Please note that, as of v 2.0.0, most of the features of this package are only available for the Meteor standard 'users' accounts collection.
+
 ### Messages sendable to acUserLogin
 
 Besides of initial configuration options, the behavior of the `acUserLogin` template may be controlled
