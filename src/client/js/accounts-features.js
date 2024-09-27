@@ -56,7 +56,7 @@ AccountsUI.Features = {
      *  Also cf. https://docs.meteor.com/api/passwords#Accounts-createUser
      *       and https://v3-docs.meteor.com/api/accounts.html#Accounts-createUser
      * @param {Object} opts, object options with following keys:
-     *  - AC: the private acUserLogin AC data
+     *  - AC: the private acUserLogin AC data, may not be set when called from outside (say. AccountsManager ?)
      *  - errFn: an optional function to be called in case of an error
      *  - successFn: an optional function to be called in case of a success
      *  - name: the name given to the acUserLogin instance
@@ -67,8 +67,8 @@ AccountsUI.Features = {
      */
     async createUser( createUserOptions, opts={} ){
         // compute parameters when the 'name' option is passed-in
-        let target = opts.AC.target;
-        let options = opts.AC.options;
+        let target = opts.AC?.target;
+        let options = opts.AC?.options;
         if( opts.name ){
             const instance = AccountsUI.fn.nameGet( opts.name );
             if( instance ){
@@ -102,7 +102,7 @@ AccountsUI.Features = {
             target.trigger( event, parms );
             // send a verification mail if asked for
             let promises = [];
-            if( createUserOptions.email && AccountsUI.opts().sendVerificationEmail()){
+            if( createUserOptions.email && AccountsHub.instances.users.opts().sendVerificationEmail()){
                 promises.push( Meteor.callAsync( 'AccountsUI.sendVerificationEmailByEmail', createUserOptions.email ));
             }
             Promise.allSettled( promises )

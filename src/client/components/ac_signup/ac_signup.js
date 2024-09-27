@@ -90,10 +90,17 @@ Template.ac_signup.onCreated( function(){
         haveUsername(){
             return Template.currentData().AC.options.signupHaveUsername() !== AccountsHub.C.Identifier.NONE;
         },
+        // no tonly we have to clear all the fields, but also our internal datas
         clearPanel(){
             self.$( 'input' )
                 .val( '' )
                 .first().focus();
+            self.AC.emailOk.set( false );
+            self.AC.emailValue.set( null );
+            self.AC.twiceOk.set( false );
+            self.AC.twiceValue.set( null );
+            self.AC.usernameOk.set( false );
+            self.AC.usernameValue.set( null );
         }
     };
 
