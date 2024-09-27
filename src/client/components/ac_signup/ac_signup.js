@@ -211,13 +211,13 @@ Template.ac_signup.helpers({
 Template.ac_signup.events({
     // message sent by the input email component
     'ac-email-data .ac-signup'( event, instance, data ){
-        //console.log( event, data );
+        //console.log( event.type, data );
         instance.AC.checks( event, data );
     },
 
     // message sent by the twice passwords component
     'ac-twice-data .ac-signup'( event, instance, data ){
-        //console.log( 'ac-twice-data', data );
+        //console.log( event.type, data );
         instance.AC.checks( event, data );
     },
 

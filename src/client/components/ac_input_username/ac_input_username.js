@@ -51,7 +51,7 @@ Template.ac_input_username_sub.onCreated( function(){
                     if( !result.ok && result.canonical.length ){
                         self.AC.displayError( result.errors[0] );
                     }
-                    self.$( '.ac-input-username-sub' ).trigger( 'ac-username-data', { ok: result.ok, username: result.username });
+                    self.$( '.ac-input-username-sub' ).trigger( 'ac-username-data', { ok: result.ok, username: result.canonical });
                 });
             }
         },

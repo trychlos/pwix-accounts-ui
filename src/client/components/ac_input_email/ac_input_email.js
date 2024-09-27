@@ -56,7 +56,7 @@ Template.ac_input_email.helpers({
                         if( result.canonical.length && !result.ok ){
                             self.AC.displayError( result.errors[0] );
                         }
-                        self.$( '.ac-input-email-sub' ).trigger( 'ac-email-data', { ok: result.ok, email: result.email });
+                        self.$( '.ac-input-email-sub' ).trigger( 'ac-email-data', { ok: result.ok, email: result.canonical });
                     });
             }
         },

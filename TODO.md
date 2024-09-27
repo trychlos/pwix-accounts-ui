@@ -11,25 +11,15 @@
 |   Id | Date       | Description and comment(s) |
 | ---: | :---       | :---                       |
 |    2 | 2023- 1-20 | provides a button with a configurable label 'login with Zimbra' |
-|    3 | 2023- 1-20 | provides a button to connect to the future chosen identity manager |
 |    8 | 2023- 1-21 | develop a small SPA application to provide tests for the package |
 |      | 2023- 9-18 | better try to define a test suite to make sure all entered fields are rightly written in database |
 |   13 | 2023- 1-21 | feat: be able to handle all Meteor Accounts configuration |
 |   14 | 2023- 1-21 | feat: provide enrollment (see for example accounts-ui) |
-|   26 | 2023- 1-25 | feat: let the user change his email address |
-|      | 2023- 1-29 | implies to define a new dropdown item and a new panel |
-|   27 | 2023- 1-25 | feat: let the user change his username |
-|      | 2023- 1-29 | implies to define a new dropdown item and a new panel |
-|   28 | 2023- 1-25 | feat: have a profile dialog with all change options |
-|      | 2023- 1-29 | implies to define a new dropdown item and a new panel |
-|   29 | 2023- 1-26 | feat: manage several email addresses per user |
-|      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
 |   63 | 2023- 9- 9 | in izDate, many errors with textOne, textTwo textThree, textFour, legend and mandatoryBorder when trying to create a new account |
 |   65 | 2023- 9-12 | feat: have a onUserCreated parm with nothing, dialog box or user function (but is it relevant client side) |
 |   67 | 2023- 9-12 | feat: honor coloredBorders parm |
 |   70 | 2023-10- 2 | validateNewUser() function should be only set on a acUserLogin option |
 |      |            | as a new account is nonetheless created from acUserLogin, it is then possible to activate/unactivate it from the component |
-|   71 | 2023-12-16 | with the birth of izIAM, AccountsUI MUST be capable being OAuth/OpenID client |
 |   75 | 2024- 6- 3 | in DIV render, all happens as if Enter on submit button would submit twice (see for example signup in startup-app-admin) |
 |   77 | 2024- 9-26 | Honors signin/signout for other accounts entities |
 |   78 | 2024- 9-26 | Honors signup for other accounts entities |
@@ -49,6 +39,8 @@
 |      | 2023- 1-21 | rather build each panel dynamically from configuration options |
 |      | 2023- 1-25 | or not !?? |
 |      | 2023- 2-19 | This use case is supposed to be solved by the acUserLogin philosophy - so obsolete this item |
+|    3 | 2023- 1-20 | provides a button to connect to the future chosen identity manager |
+|      | 2024- 9-27 | see pwix:accounts-iziam |
 |    4 | 2023- 1-20 | honor haveEmailAddress, haveUsername |
 |      | 2023- 1-25 | signup: done |
 |      | 2023- 1-25 | signin: done |
@@ -100,6 +92,18 @@
 |      |            | so 'length' result property is renamed ac-length |
 |   25 | 2023- 1-25 | reset_ask make sure we take an email address |
 |      | 2023- 1-26 | done |
+|   26 | 2023- 1-25 | feat: let the user change his email address |
+|      | 2023- 1-29 | implies to define a new dropdown item and a new panel |
+|      | 2024- 9-27 | this is pwix:accounts-manager role |
+|   27 | 2023- 1-25 | feat: let the user change his username |
+|      | 2023- 1-29 | implies to define a new dropdown item and a new panel |
+|      | 2024- 9-27 | this is pwix:accounts-manager role |
+|   28 | 2023- 1-25 | feat: have a profile dialog with all change options |
+|      | 2023- 1-29 | implies to define a new dropdown item and a new panel |
+|      | 2024- 9-27 | this is pwix:accounts-manager role |
+|   29 | 2023- 1-26 | feat: manage several email addresses per user |
+|      | 2023- 1-27 | even if the package itself should be capable, this is actually an application decision to manage that |
+|      | 2024- 9-27 | this is pwix:accounts-manager role |
 |   30 | 2023- 1-26 | send ac-user-resetpwd message from Accounts.onResetPasswordLink() function |
 |      | 2023- 1-27 | done in v0.90.1 |
 |   31 | 2023- 1-27 | send ac-user-verifymail message from Accounts.onEmailVerificationLink() function |
@@ -174,6 +178,8 @@
 |      | 2023- 9-17 | was a bug from code refactoring! fixed |
 |   69 | 2023- 9-17 | signup panel doesn't get the focus |
 |      | 2023- 9-17 | fixed |
+|   71 | 2023-12-16 | with the birth of izIAM, AccountsUI MUST be capable being OAuth/OpenID client |
+|      | 2024- 9-27 | see pwix:iziam-oidc |
 |   72 | 2024- 6- 3 | signup: do not check for already existing email |
 |      | 2024- 6- 3 | fixed |
 |   73 | 2024- 6- 3 | signup: ok button should be disabled while panel is not ok |

@@ -6,10 +6,10 @@
 
     Release date: 
 
-    - Replace pwix-accounts-conf and pwix-accounts-tools dependencies with pwix:accounts-hub
-    - Define new 'withExternalMessager' acUserLogin data context parameter, thus bumping major candidate version number
+    - Replace pwix-accounts-conf and pwix-accounts-tools dependencies with pwix:accounts-hub, thus bumping major candidate version number
+    - Define new 'withExternalMessager' acUserLogin data context parameter
     - Define new internal ac_error_msg Blaze component
-    - Check functions are moved to pwix:accounts-tools package
+    - Check functions are moved to pwix:accounts-hub package
     - Move 'informWrongEmail' and 'sendVerificationEmail' configuration parameters to AccountsHub.ahClass
 
 ### 1.8.0
