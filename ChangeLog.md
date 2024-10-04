@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 2.0.0-rc
+### 2.0.0
 
-    Release date: 
+    Release date: 2024-10- 4
 
     - Replace pwix-accounts-conf and pwix-accounts-tools dependencies with pwix:accounts-hub, thus bumping major candidate version number
     - Define new 'withExternalMessager' acUserLogin data context parameter
@@ -196,4 +196,4 @@
 
 ---
 P. Wieser
-- Last updated on 2024, Sep. 20th
+- Last updated on 2024, Oct. 4th
