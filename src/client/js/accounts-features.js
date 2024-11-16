@@ -131,7 +131,7 @@ AccountsUI.Features = {
         };
         // the main code
         if( ahName === AccountsHub.ahOptions._defaults.name ){
-            //  https://docs.meteor.com/api/passwords#Accounts-createUser
+            // https://docs.meteor.com/api/passwords#Accounts-createUser
             const autoConnect = options.signupAutoConnect();
             if( autoConnect !== false ){
                 Accounts.createUser( createUserOptions, ( err ) => {

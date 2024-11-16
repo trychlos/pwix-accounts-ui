@@ -27,7 +27,7 @@
 |   80 | 2024- 9-26 | Honors resetpwd for other accounts entities |
 |   81 | 2024- 9-26 | Honors askverify for other accounts entities |
 |   82 | 2024- 9-26 | Honors mailenroll for other accounts entities |
-|   83 | 2024- 6-22 |  |
+|   83 |  |  |
 
 ---
 ## Done
