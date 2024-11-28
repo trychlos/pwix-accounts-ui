@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Improve error message when user is not allowed
 
 ### 2.0.0
 
