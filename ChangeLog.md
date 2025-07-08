@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 2.0.1-rc
+### 2.0.1
 
-    Release date: 
+    Release date: 2025- 7- 8
 
     - Improve error message when user is not allowed
 
@@ -202,4 +202,4 @@
 
 ---
 P. Wieser
-- Last updated on 2024, Oct. 4th
+- Last updated on 2025, Jul. 8th
