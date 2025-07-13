@@ -36,7 +36,7 @@ AccountsUI.Features = {
                 }
             });
         } else {
-            const ahInstance = AccountsHub.instances[ahName];
+            const ahInstance = AccountsHub.getInstance( ahName );
             assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
             console.warn( 'onChangePwd() ignored', ahInstance );
         }
@@ -102,8 +102,11 @@ AccountsUI.Features = {
             target.trigger( event, parms );
             // send a verification mail if asked for
             let promises = [];
-            if( createUserOptions.email && AccountsHub.instances.users.opts().sendVerificationEmail()){
-                promises.push( Meteor.callAsync( 'AccountsUI.sendVerificationEmailByEmail', createUserOptions.email ));
+            if( createUserOptions.email ){
+                const instance = AccountsHub.getInstance( 'users' );
+                if( instance && instance.opts().sendVerificationEmail()){
+                    promises.push( Meteor.callAsync( 'AccountsUI.sendVerificationEmailByEmail', createUserOptions.email ));
+                }
             }
             Promise.allSettled( promises )
                 .then(( res ) => {
@@ -156,7 +159,7 @@ AccountsUI.Features = {
                     });
             }
         } else {
-            const ahInstance = AccountsHub.instances[ahName];
+            const ahInstance = AccountsHub.getInstance( ahName );
             assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
             console.warn( 'onSignup() ignored', ahInstance );
         }
@@ -192,7 +195,7 @@ AccountsUI.Features = {
                 }
             });
         } else {
-            const ahInstance = AccountsHub.instances[ahName];
+            const ahInstance = AccountsHub.getInstance( ahName );
             assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
             console.warn( 'onSignin() ignored', ahInstance );
         }
@@ -218,7 +221,7 @@ AccountsUI.Features = {
             // last close the modal
             target.trigger( 'ac-close' );
         } else {
-            const ahInstance = AccountsHub.instances[ahName];
+            const ahInstance = AccountsHub.getInstance( ahName );
             assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
             console.warn( 'onSignout() ignored', ahInstance );
         }
@@ -238,7 +241,7 @@ AccountsUI.Features = {
     async resetAsk( email, opts={} ){
         const target = opts.AC.target || $( 'body' );
         const ahName = opts.AC.options.ahName();
-        const ahInstance = AccountsHub.instances[ahName];
+        const ahInstance = AccountsHub.getInstance( ahName );
         assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
         // the success handler
         const _resetAskSuccess = function(){
@@ -297,7 +300,7 @@ AccountsUI.Features = {
                     }
                 });
         } else {
-            const ahInstance = AccountsHub.instances[ahName];
+            const ahInstance = AccountsHub.getInstance( ahName );
             assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
             console.warn( 'onVerifyAsk() ignored', ahInstance );
         }

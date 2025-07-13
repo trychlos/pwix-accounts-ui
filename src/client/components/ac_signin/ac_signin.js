@@ -49,7 +49,7 @@ Template.ac_signin.helpers({
     // true if we have email address and not username
     onlyEmailAddress(){
         const ahName = this.AC.options.ahName();
-        const ahInstance = AccountsHub.instances[ahName];
+        const ahInstance = AccountsHub.getInstance( ahName );
         assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
         return ahInstance.opts().haveEmailAddress() !== AccountsHub.C.Identifier.NONE && ahInstance.opts().haveUsername() === AccountsHub.C.Identifier.NONE;
     },
@@ -57,7 +57,7 @@ Template.ac_signin.helpers({
     // true if we have username and not email address
     onlyEmailAddress(){
         const ahName = this.AC.options.ahName();
-        const ahInstance = AccountsHub.instances[ahName];
+        const ahInstance = AccountsHub.getInstance( ahName );
         assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
         return ahInstance.opts().haveEmailAddress() === AccountsHub.C.Identifier.NONE && ahInstance.opts().haveUsername() !== AccountsHub.C.Identifier.NONE;
     },

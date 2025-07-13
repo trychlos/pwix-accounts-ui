@@ -13,7 +13,7 @@ Meteor.methods({
     // find the user who holds the given reset password token
     async 'AccountsUI.byResetToken'( ahName, token ){
         //console.debug( 'AccountsUI.byResetToken' );
-        const ahInstance = AccountsHub.instances[ahName];
+        const ahInstance = AccountsHub.getInstance( ahName );
         assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
         return ahInstance.collection().findOneAsync({ 'services.password.reset.token': token },{ 'services.password.reset': 1 })
             .then(( doc ) => { return AccountsHub.s.cleanupUserDocument( doc ); });
@@ -44,7 +44,7 @@ Meteor.methods({
     // do not send extra data when using the standard 'users' collection
     // return true|false
     async 'AccountsUI.forgotPassword'( ahName, email ){
-        const ahInstance = AccountsHub.instances[ahName];
+        const ahInstance = AccountsHub.getInstance( ahName );
         assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
         let res = null;
         const user = await ahInstance.byEmailAddress( email );

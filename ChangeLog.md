@@ -2,11 +2,11 @@
 
 ## ChangeLog
 
-### 2.0.2-rc
+### 2.1.0-rc
 
     Release date: 
 
-    - 
+    - Update to new AccountsHub.getInstance() reactive function, thus bumping minor candidate version number
 
 ### 2.0.1
 

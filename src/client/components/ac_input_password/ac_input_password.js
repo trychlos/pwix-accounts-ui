@@ -109,7 +109,7 @@ Template.ac_input_password.onCreated( function(){
         const AC = Template.currentData().AC;
         const ahName = AC ? AC.options.ahName() : Template.currentData().ahName;
         if( ahName ){
-            const ahInstance = AccountsHub.instances[ahName];
+            const ahInstance = AccountsHub.getInstance( ahName );
             assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
             self.AC.ahInstance = ahInstance;
             // compute the minimal required score according to the configured required strength

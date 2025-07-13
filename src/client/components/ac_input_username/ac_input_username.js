@@ -83,7 +83,7 @@ Template.ac_input_username_sub.onCreated( function(){
         if( AC ){
             const ahName = AC.options.ahName();
             if( ahName ){
-                const ahInstance = AccountsHub.instances[ahName];
+                const ahInstance = AccountsHub.getInstance( ahName );
                 assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
                 self.AC.ahInstance = ahInstance;
             }
