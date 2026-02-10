@@ -7,6 +7,7 @@
     Release date: 
 
     - Update to new AccountsHub.getInstance() reactive function, thus bumping minor candidate version number
+    - Update to pwix:ui-layout v2.1.0
 
 ### 2.0.1
 
