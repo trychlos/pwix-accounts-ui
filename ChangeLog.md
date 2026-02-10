@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 2.1.0-rc
+### 2.1.0
 
-    Release date: 
+    Release date: 2026- 2-10
 
     - Update to new AccountsHub.getInstance() reactive function, thus bumping minor candidate version number
     - Update to pwix:ui-layout v2.1.0
@@ -209,4 +209,4 @@
 
 ---
 P. Wieser
-- Last updated on 2025, Jul. 8th
+- Last updated on 2026, Feb. 10th
