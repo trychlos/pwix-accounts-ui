@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Adapt to new pwix:ui-layout
 
 ### 2.1.0
 
