@@ -54,21 +54,21 @@ AccountsUI._opts = new acOptions( AccountsUI._conf );
 AccountsUI.configure = function( o ){
     if( o && _.isObject( o )){
         // check that keys exist
-        let notexist = [];
+        let built_conf = {};
         Object.keys( o ).forEach(( it ) => {
-            if( !Object.keys( AccountsHub._defaults ).includes( it )){
-                notexist.push( it );
+            if( Object.keys( defaults.common ).includes( it )){
+                built_conf[it] = o[it];
+            } else {
+                console.warn( 'pwix:accounts-ui configure() ignore unmanaged key \''+it+'\'' );
             }
         });
-        if( notexist.length ){
-            console.warn( 'pwix:accounts-ui ignoring (re)configuration due to not existing keys', notexist );
-        } else {
-            _.merge( AccountsUI._conf, o );
+        if( Object.keys( built_conf ).length ){
+            _.merge( AccountsUI._conf, built_conf );
             AccountsUI._opts.base_set( AccountsUI._conf );
             // be verbose if asked for
             if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.CONFIGURE ){
                 //console.log( 'pwix:accounts-ui configure() with', o, 'building', AccountsUI._conf );
-                console.log( 'pwix:accounts-ui configure() with', o );
+                console.log( 'pwix:accounts-ui configure() with', built_conf );
             }
         }
     }

@@ -7,6 +7,7 @@
     Release date: 
 
     - Adapt to new pwix:ui-layout
+    - configure() now warns for unmanaged keys
 
 ### 2.1.0
 
