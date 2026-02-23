@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 2.1.1-rc.0
+### 2.1.1
 
-    Release date: 
+    Release date: 2026- 2-23
 
     - Adapt to new pwix:ui-layout
     - configure() now warns for unmanaged keys
@@ -216,4 +216,4 @@
 
 ---
 P. Wieser
-- Last updated on 2026, Feb. 10th
+- Last updated on 2026, Feb. 23rd
