@@ -12,7 +12,6 @@ import './accounts-callbacks.js';
 import './accounts-features.js';
 import './bodyevents.js';
 import './defaults.js';
-import './dom.js';
 import './functions.js';
 import './panel.js';
 import './private.js';

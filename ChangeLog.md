@@ -7,6 +7,7 @@
     Release date: 
 
     - Use pwix:logger universal logger, thus bumping minor candidate version number
+    - Replace the AccountsUI.Dom object with a dependency on pwix:ui-utils
 
 ### 2.1.1
 

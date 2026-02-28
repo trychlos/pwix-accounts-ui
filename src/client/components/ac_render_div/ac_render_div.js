@@ -5,13 +5,15 @@
  *  - AC: the acUserLogin internal data structure
  */
 
+import { UIUtils } from 'meteor/pwix:ui-utils';
+
 import './ac_render_div.html';
 
 Template.ac_render_div.onRendered( function(){
     const self = this;
 
     // wait for the DOM be rendered to set the focus on the first input field
-    AccountsUI.DOM.waitFor( 'input' ).then(( elt ) => { self.$( elt ).focus(); });
+    UIUtils.DOM.waitFor( 'input' ).then(( elt ) => { self.$( elt ).focus(); });
 });
 
 Template.ac_render_div.helpers({
