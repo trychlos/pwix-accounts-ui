@@ -2,11 +2,11 @@
 
 ## ChangeLog
 
-### 2.1.2-rc.0
+### 2.2.0-rc.0
 
     Release date: 
 
-    - 
+    - Use pwix:logger universal logger, thus bumping minor candidate version number
 
 ### 2.1.1
 

@@ -112,7 +112,6 @@ AccountsUI.fn = {
             _menuItems.items = _core.concat( AccountsUI.fn.menuItemsAfter( opts, state ));
             _menuItems.dep.changed();
         }
-        //console.log( _dropdownItems );
         return _menuItems.items;
     },
 

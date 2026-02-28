@@ -5,7 +5,10 @@
  * But there is no reason to wait until that while initialization time is safe too...
  */
 
+import { Logger } from 'meteor/pwix:logger';
 import { Tracker } from 'meteor/tracker';
+
+const logger = Logger.get();
 
 _ready = {
     dep: new Tracker.Dependency(),
@@ -32,7 +35,5 @@ _set_ready();
 
 // trace readyness changes
 Tracker.autorun(() => {
-    if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.READY ){
-        console.log( 'AccountsUI.ready()', AccountsUI.ready());
-    }
+    logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.READY }, 'AccountsUI.ready()', AccountsUI.ready());
 });

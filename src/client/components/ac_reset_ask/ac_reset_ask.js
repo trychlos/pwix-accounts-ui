@@ -64,7 +64,6 @@ Template.ac_reset_ask.helpers({
 Template.ac_reset_ask.events({
     // input-email status
     'ac-email-data .ac-reset-ask'( event, instance, data ){
-        //console.debug( data );
         instance.AC.emailOk.set( data.ok );
     }
 });

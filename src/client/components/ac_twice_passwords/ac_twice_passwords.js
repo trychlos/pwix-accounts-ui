@@ -47,7 +47,6 @@ Template.ac_twice_passwords.helpers({
 
 Template.ac_twice_passwords_sub.onCreated( function(){
     const self = this;
-    //console.debug( this );
 
     self.AC = {
         twice: new ReactiveVar( false ),
@@ -75,7 +74,6 @@ Template.ac_twice_passwords_sub.onCreated( function(){
             // see https://stackoverflow.com/questions/39271499/template-actual-data-context/39272483#39272483
             const withErrorArea = Boolean( Blaze.getData( self.view ).withErrorArea === true );
             const withErrorMsg = Boolean( Blaze.getData( self.view ).withErrorMsg === true );
-            //console.debug( 'msg', msg, 'withErrorArea', withErrorArea, 'withErrorMsg', withErrorMsg );
             if( withErrorMsg ){
                 if( withErrorArea ){
                     self.AC.errorMsg.set( msg );

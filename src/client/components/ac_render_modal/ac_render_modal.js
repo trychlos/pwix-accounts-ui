@@ -7,9 +7,12 @@
 
 import _ from 'lodash';
 
+import { Logger } from 'meteor/pwix:logger';
 import { Modal } from 'meteor/pwix:modal';
 
 import './ac_render_modal.html';
+
+const logger = Logger.get();
 
 Template.ac_render_modal.onCreated( function(){
     const self = this;
@@ -26,9 +29,7 @@ Template.ac_render_modal.onCreated( function(){
         if( parentAC && parentAC.options.renderMode() === AccountsUI.C.Render.MODAL ){
             const panel = parentAC.panel();
             if( panel && panel !== AccountsUI.C.Panel.NONE && Modal.count() === 0 ){
-                if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.MODAL ){
-                    console.log( 'pwix:accounts-ui ac_render_modal run the '+panel+' modal' );
-                }
+                logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.MODAL }, 'ac_render_modal run the '+panel+' modal' );
                 // let the caller override our configuration, but take care of keeping our main class
                 let o = _.merge({
                     mdBody: AccountsUI.Panel.template( panel ),

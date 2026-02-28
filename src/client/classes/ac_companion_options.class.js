@@ -7,9 +7,12 @@
 import _ from 'lodash';
 
 import { AccountsHub } from 'meteor/pwix:accounts-hub';
+import { Logger } from 'meteor/pwix:logger';
 import { Options } from 'meteor/pwix:options';
 
 import '../../common/js/index.js';
+
+const logger = Logger.get();
 
 export class acCompanionOptions extends Options.Base {
 
@@ -75,9 +78,7 @@ export class acCompanionOptions extends Options.Base {
         super();
         const self = this;
 
-        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.INSTANCIATIONS ){
-            console.log( 'pwix:accounts-ui instanciating acCompanionOptions' );
-        }
+        logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.INSTANCIATIONS }, 'instanciating acCompanionOptions' );
 
         return this;
     }

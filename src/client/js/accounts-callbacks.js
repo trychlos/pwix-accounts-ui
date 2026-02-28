@@ -3,8 +3,8 @@
  */
 
 import { Accounts } from 'meteor/accounts-base';
-import { AccountsHub } from 'meteor/pwix:accounts-hub';
 import { Bootbox } from 'meteor/pwix:bootbox';
+import { Logger } from 'meteor/pwix:logger';
 import { Modal } from 'meteor/pwix:modal';
 import { pwixI18n } from 'meteor/pwix:i18n';
 
@@ -12,6 +12,8 @@ import '../../common/js/index.js';
 
 import '../components/ac_footer/ac_footer.js';
 import '../components/ac_reset_pwd/ac_reset_pwd.js';
+
+const logger = Logger.get();
 
 //  when the user clicks on the two below links, the function is executed between
 //  the packages configurations and Meteor.startup()
@@ -44,8 +46,6 @@ _verifyExpired = function(){
 }
 
 Accounts.onEmailVerificationLink( function( token, done ){
-    //console.log( 'onEmailVerificationLink' );
-    //console.log( 'document.URL', document.URL );
     Meteor.callAsync( 'AccountsUI.byEmailVerificationToken', token )
         .then(( user ) => {
             if( user ){
@@ -58,7 +58,7 @@ Accounts.onEmailVerificationLink( function( token, done ){
                 });
                 Accounts.verifyEmail( token, ( err ) => {
                     if( err ){
-                        console.error( err );
+                        logger.error( err );
                         _verifyExpired();
                     } else {
                         const fn = AccountsUI.opts().onEmailVerifiedBeforeFn();
@@ -74,9 +74,7 @@ Accounts.onEmailVerificationLink( function( token, done ){
                         }
                         const event = 'ac-user-verifieddone-event';
                         const parms = { email: email };
-                        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
-                            console.log( 'pwix:accounts-ui triggering', event, parms );
-                        }
+                        logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.USER }, 'onEmailVerificationLink() triggering', event, parms );
                         $( 'body' ).trigger( event, parms );
                         done();
                     }
@@ -176,7 +174,7 @@ Accounts.onResetPasswordLink( function( token, done ){
                         const passwd = $( '.ac-reset-pwd .ac-newone .ac-input-password input' ).val().trim();
                         Accounts.resetPassword( token, passwd, ( err ) => {
                             if( err ){
-                                console.error( err );
+                                logger.error( err );
                                 _resetExpired();
                             } else {
                                 Bootbox.alert({
@@ -185,9 +183,7 @@ Accounts.onResetPasswordLink( function( token, done ){
                                 });
                                 const event = 'ac-user-resetdone-event';
                                 const parms = { email: user.services.password.reset.email };
-                                if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
-                                    console.log( 'pwix:accounts-ui triggering', event, parms );
-                                }
+                                logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.USER }, 'onResetPasswordLink() triggering', event, parms );
                                 $( 'body' ).trigger( event, parms );
                                 done();
                             }

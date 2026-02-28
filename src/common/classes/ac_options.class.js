@@ -9,7 +9,10 @@ import _ from 'lodash';
 import '../js/constants.js';
 
 import { AccountsHub } from 'meteor/pwix:accounts-hub';
+import { Logger } from 'meteor/pwix:logger';
 import { Options } from 'meteor/pwix:options';
+
+const logger = Logger.get();
 
 export class acOptions extends Options.Base {
 
@@ -56,9 +59,7 @@ export class acOptions extends Options.Base {
         super( options );
         const self = this;
 
-        if( AccountsUI.opts() && AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.INSTANCIATIONS ){
-            console.log( 'pwix:accounts-ui instanciating acOptions' );
-        }
+        logger.verbose({ verbosity: options.verbosity, against: AccountsUI.C.Verbose.INSTANCIATIONS }, 'instanciating acOptions' );
 
         return this;
     }

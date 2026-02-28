@@ -2,8 +2,10 @@
  * pwix:accounts-ui/src/common/js/startup.js
  */
 
+import { Logger } from 'meteor/pwix:logger';
+
+const logger = Logger.get();
+
 Meteor.startup( function(){
-    if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.STARTUP ){
-        console.log( 'pwix:accounts-ui AccountsUI', AccountsUI );
-    }
+    logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.STARTUP }, 'AccountsUI', AccountsUI );
 });

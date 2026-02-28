@@ -7,11 +7,15 @@
  * Parms:
  *  - AC: the acUserLogin internal data structure
  */
+
+import { Logger } from 'meteor/pwix:logger';
 import { Modal } from 'meteor/pwix:modal';
 import { pwixI18n } from 'meteor/pwix:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import './ac_footer.html';
+
+const logger = Logger.get();
 
 Template.ac_footer.onCreated( function(){
     const self = this;
@@ -25,7 +29,6 @@ Template.ac_footer.onCreated( function(){
         const parentAC = Template.currentData().AC
         const haveCancelButton = parentAC.options.haveCancelButton();
         const haveOKButton = parentAC.options.haveOKButton();
-        //console.debug( 'haveCancelButton', haveCancelButton );
         let _buttons = [];
         AccountsUI.Panel.buttons( parentAC.panel()).every(( btn ) => {
             if( btn.class.includes( 'ac-cancel' )){
@@ -62,7 +65,6 @@ Template.ac_footer.helpers({
 
     // whether to display this link
     haveLink( link ){
-        //console.debug( link );
         const ret = link.have && ( this.AC ? this.AC.options[link.have]() : link.have );
         return ret;
     },
@@ -81,23 +83,18 @@ Template.ac_footer.events({
 
     'click .ac-link'( event, instance ){
         const panel = instance.$( event.currentTarget ).find( 'a' ).attr( 'data-ac-target' );
-        //console.debug( panel );
         this.AC.panel( panel );
     },
 
     'click .ac-cancel'( event, instance ){
-        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.MODAL ){
-            console.log( 'pwix:accounts-ui ac_footer closing modal' );
-        }
         if( this.AC.options.renderMode() === AccountsUI.C.Render.MODAL ){
+            logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.MODAL }, 'ac_footer closing modal' );
             Modal.close();
         }
     },
 
     'click .ac-submit'( event, instance ){
-        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.SUBMIT ){
-            console.log( 'pwix:accounts-ui ac_footer triggering', 'ac-submit' );
-        }
+        logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.SUBMIT }, 'ac_footer triggering', 'ac-submit' );
         this.AC.target.trigger( 'ac-submit' );
     }
 });

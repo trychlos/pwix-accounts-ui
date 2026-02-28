@@ -24,11 +24,14 @@
 const assert = require( 'assert' ).strict; // up to nodejs v16.x
 
 import { AccountsHub } from 'meteor/pwix:accounts-hub';
+import { Logger } from 'meteor/pwix:logger';
 import { pwixI18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
 
 import './ac_input_password.html';
+
+const logger = Logger.get();
 
 Template.ac_input_password.onCreated( function(){
     const self = this;
@@ -76,7 +79,6 @@ Template.ac_input_password.onCreated( function(){
                             strength: self.AC.score[result.zxcvbn.score].k,
                             password: result.canonical
                         };
-                        //console.debug( 'sending ac-password-data with', data );
                         self.$( '.ac-input-password' ).trigger( 'ac-password-data', data );
                     });
             }
@@ -88,7 +90,6 @@ Template.ac_input_password.onCreated( function(){
             //  though we could use here the usual Template.currentData()
             const withErrorArea = Boolean( Blaze.getData( self.view ).withErrorArea === true );
             const withErrorMsg = Boolean( Blaze.getData( self.view ).withErrorMsg === true );
-            //console.debug( 'withErrorArea', withErrorArea, 'withErrorMsg', withErrorMsg );
             if( withErrorMsg ){
                 if( withErrorArea ){
                     self.AC.errorMsg.set( msg );
@@ -146,7 +147,7 @@ Template.ac_input_password.helpers({
         } else if( this.AC && this.AC.options ){
             classe = this.AC.options.coloredBorders() === AccountsUI.C.Colored.MANDATORY ? 'ac-mandatory-border' : '';
         } else {
-            console.warn( 'no withMandatoryBorder in data context, and AC not provided' );
+            logger.warn( 'no withMandatoryBorder in data context, and AC not provided' );
         }
         return classe;
     },

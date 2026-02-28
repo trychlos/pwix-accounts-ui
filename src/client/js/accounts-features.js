@@ -7,7 +7,10 @@
 const assert = require( 'assert' ).strict; // up to nodejs v16.x
 
 import { AccountsHub } from 'meteor/pwix:accounts-hub';
+import { Logger } from 'meteor/pwix:logger';
 import { pwixI18n } from 'meteor/pwix:i18n';
+
+const logger = Logger.get();
 
 AccountsUI.Features = {
     /**
@@ -23,22 +26,20 @@ AccountsUI.Features = {
         if( ahName === AccountsHub.ahOptions._defaults.name ){
             Accounts.changePassword( oldpwd, newpwd, ( err ) => {
                 if( err ){
-                    console.error( err );
+                    logger.error( err );
                     target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.changepwd_error' ));
                 } else {
                     Tolert.success( pwixI18n.label( I18N, 'user.changepwd_success' ));
                     const event = 'ac-user-changedpwd-event';
                     const parms = Meteor.user();
-                    if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
-                        console.log( 'pwix:accounts-ui triggering', event, parms );
-                    }
+                    logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.USER }, 'changePwd() triggering', event, parms );
                     target.trigger( event, parms );
                 }
             });
         } else {
             const ahInstance = AccountsHub.getInstance( ahName );
             assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
-            console.warn( 'onChangePwd() ignored', ahInstance );
+            logger.warn( 'changePwd() ignored', ahInstance );
         }
     },
 
@@ -80,7 +81,7 @@ AccountsUI.Features = {
         const ahName = options.ahName();
         // the error handler
         const _errorFn = function( err ){
-            console.error( err );
+            logger.error( err );
             target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.signup_error', err.reason || '' ));
             // call error function if any
             if( opts.errFn ){
@@ -96,9 +97,7 @@ AccountsUI.Features = {
                 opts: { ...opts }
             };
             const event = 'ac-user-created-event';
-            if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
-                console.log( 'pwix:accounts-ui triggering', event, parms );
-            }
+            logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.USER }, '_successFn() triggering', event, parms );
             target.trigger( event, parms );
             // send a verification mail if asked for
             let promises = [];
@@ -110,7 +109,6 @@ AccountsUI.Features = {
             }
             Promise.allSettled( promises )
                 .then(( res ) => {
-                    //console.debug( 'AccountsUI.sendVerificationEmailByEmail', res );
                     // autoClose is only relevant in MODAL render mode
                     const autoClose = options.signupAutoClose();
                     const renderMode = options.renderMode();
@@ -129,7 +127,7 @@ AccountsUI.Features = {
                     }
                 })
                 .catch(( err ) => {
-                    console.error( err );
+                    logger.error( err );
                 });
         };
         // the main code
@@ -161,7 +159,7 @@ AccountsUI.Features = {
         } else {
             const ahInstance = AccountsHub.getInstance( ahName );
             assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
-            console.warn( 'onSignup() ignored', ahInstance );
+            logger.warn( 'createUser() ignoring', ahInstance );
         }
     },
 
@@ -181,14 +179,11 @@ AccountsUI.Features = {
         if( ahName === AccountsHub.ahOptions._defaults.name ){
             Meteor.loginWithPassword( userid, password, ( err ) => {
                 if( err ){
-                    //console.error( err );
                     target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.signin_error' ));
                 } else {
                     const event = 'ac-user-signedin-event';
                     const parms = Meteor.user();
-                    if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
-                        console.log( 'pwix:accounts-ui triggering', event, parms );
-                    }
+                    logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.USER }, 'loginWithPassword() triggering', event, parms );
                     target.trigger( event, parms );
                     // last close the modal
                     target.trigger( 'ac-close' );
@@ -197,7 +192,7 @@ AccountsUI.Features = {
         } else {
             const ahInstance = AccountsHub.getInstance( ahName );
             assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
-            console.warn( 'onSignin() ignored', ahInstance );
+            logger.warn( 'loginWithPassword() ignoring', ahInstance );
         }
     },
 
@@ -214,16 +209,14 @@ AccountsUI.Features = {
             Meteor.logout();
             const event = 'ac-user-signedout-event';
             const parms = user;
-            if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
-                console.log( 'pwix:accounts-ui triggering', event, parms );
-            }
+            logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.USER }, 'logout() triggering', event, parms );
             target.trigger( event, parms );
             // last close the modal
             target.trigger( 'ac-close' );
         } else {
             const ahInstance = AccountsHub.getInstance( ahName );
             assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
-            console.warn( 'onSignout() ignored', ahInstance );
+            logger.warn( 'logout() ignoring', ahInstance );
         }
     },
 
@@ -248,9 +241,7 @@ AccountsUI.Features = {
             Tolert.success( pwixI18n.label( I18N, 'user.resetask_success' ));
             const event = 'ac-user-resetasked-event';
             const parms = { email: email };
-            if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
-                console.log( 'pwix:accounts-ui triggering', event, parms );
-            }
+            logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.USER }, 'resetAsk() triggering', event, parms );
             target.trigger( event, parms );
             // last close the modal
             target.trigger( 'ac-close' );
@@ -270,7 +261,7 @@ AccountsUI.Features = {
                 }
             }
         } else {
-            console.warn( 'onResetAsk() ignored', ahInstance );
+            logger.warn( 'resetAsk() ignoring', ahInstance );
         }
     },
 
@@ -289,9 +280,7 @@ AccountsUI.Features = {
                         Tolert.success( pwixI18n.label( I18N, 'user.verifyask_success' ));
                         const event = 'ac-user-verifyasked-event';
                         const parms = { ...Meteor.user() };
-                        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.USER ){
-                            console.log( 'pwix:accounts-ui triggering', event, parms );
-                        }
+                        logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.USER }, 'verifyMail() triggering', event, parms );
                         target.trigger( event, parms );
                         // last close the modal
                         target.trigger( 'ac-close' );
@@ -302,7 +291,7 @@ AccountsUI.Features = {
         } else {
             const ahInstance = AccountsHub.getInstance( ahName );
             assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
-            console.warn( 'onVerifyAsk() ignored', ahInstance );
+            logger.warn( 'verifyMail() ignoring', ahInstance );
         }
     }
 };

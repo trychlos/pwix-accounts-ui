@@ -37,7 +37,6 @@ Template.ac_input_email.helpers({
 
  Template.ac_input_email_sub.onCreated( function(){
     const self = this;
-    //console.debug( this );
 
     self.AC = {
         errorMsg: new ReactiveVar( '' ),
@@ -51,7 +50,6 @@ Template.ac_input_email.helpers({
             if( self.AC.ahInstance ){
                 self.AC.ahInstance.checkEmailAddress( self.$( '.ac-input-email-sub input' ).val(), { testExists: wantsNew })
                     .then(( result ) => {
-                        //console.debug( result );
                         // only display an error message if field is not empty
                         if( result.canonical.length && !result.ok ){
                             self.AC.displayError( result.errors[0] );
@@ -68,7 +66,6 @@ Template.ac_input_email.helpers({
             // function context here doesn't let Template.currentData() find a current view as we are called from inside a Promise.then()
             const withErrorArea = Boolean( Blaze.getData( self.view ).withErrorArea === true );
             const withErrorMsg = Boolean( Blaze.getData( self.view ).withErrorMsg === true );
-            //console.debug( 'withErrorArea', withErrorArea, 'withErrorMsg', withErrorMsg, msg );
             if( withErrorMsg ){
                 if( withErrorArea ){
                     self.AC.errorMsg.set( msg );

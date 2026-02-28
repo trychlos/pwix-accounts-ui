@@ -65,7 +65,6 @@ Template.ac_change_pwd.onCreated( function(){
 
         },
         checkTwice( data ){
-            //console.debug( data );
             self.AC.twiceVal = data.password;
             self.AC.twiceOk.set( data.ok );
             return data.ok;

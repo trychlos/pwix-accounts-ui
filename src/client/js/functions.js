@@ -62,7 +62,6 @@ AccountsUI = {
                 _dropdownItems.items = _buildStandardItems( AccountsUI.dropdownItemsExt());
                 _dropdownItems.dep.changed();
             }
-            //console.log( _dropdownItems );
             return _dropdownItems.items;
         },
 
@@ -85,7 +84,6 @@ AccountsUI = {
                 _dropdownItemsExt.items = _stdMenuItems[state];
                 _dropdownItemsExt.dep.changed();
             }
-            //console.log( _dropdownItems );
             return _dropdownItemsExt.items;
         },
 
@@ -110,7 +108,6 @@ AccountsUI = {
                     _namedItems.dep.changed();
                 }
             }
-            //console.log( _dropdownItems );
             return _namedItems.items;
         }
     }

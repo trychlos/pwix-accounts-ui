@@ -2,6 +2,10 @@
  * pwix:accounts-ui/src/client/js/bodyevents.js
  */
 
+import { Logger } from 'meteor/pwix:logger';
+
+const logger = Logger.get();
+
 // the tracked events
 _refs = [
     // a request to display a panel
@@ -37,9 +41,7 @@ _refs = [
 // install a general events handler
 _refs.every(( name ) => {
     $( document ).on( name, ( event ) => {
-        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.EVENT ){
-            console.log( 'pwix:accounts-ui body event:', event.type );
-        }
+        logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.EVENT }, 'body event:', event.type );
     });
     return true;
 });

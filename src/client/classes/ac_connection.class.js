@@ -4,7 +4,10 @@
  * This class manages the current connection state of the logged-in user as a singleton.
  */
 
+import { Logger } from 'meteor/pwix:logger';
 import { Tracker } from 'meteor/tracker';
+
+const logger = Logger.get();
 
 export class acConnection {
 
@@ -59,13 +62,11 @@ export class acConnection {
      */
     constructor(){
         if( acConnection.Singleton ){
-            console.log( 'pwix:accounts-ui returning already instanciated acConnection' );
+            logger.info( 'returning already instanciated acConnection' );
             return acConnection.Singleton;
         }
 
-        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.INSTANCIATIONS ){
-            console.log( 'pwix:accounts-ui instanciating acConnection' );
-        }
+        logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.INSTANCIATIONS }, 'instanciating acConnection' );
 
         Tracker.autorun(() => {
             this._stateSet( Meteor.userId() ? AccountsUI.C.Connection.LOGGED : AccountsUI.C.Connection.UNLOGGED );

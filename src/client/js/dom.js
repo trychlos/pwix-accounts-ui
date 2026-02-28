@@ -9,7 +9,6 @@ AccountsUI.DOM = {
     //  only initialize jQuery plugins when the DOM element is available
     //  returns a Promise which will resolve when the selector will be DOM-ready
     waitFor( selector ){
-        //console.debug( 'waitFor', selector );
         return new Promise(( resolve ) => {
             if( document.querySelector( selector )){
                 return resolve( document.querySelector( selector ));

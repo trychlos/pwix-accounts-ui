@@ -6,7 +6,11 @@
 
 import _ from 'lodash';
 
+import { Logger } from 'meteor/pwix:logger';
+
 import { acOptions } from '../classes/ac_options.class.js';
+
+const logger = Logger.get();
 
 /**
  * @summarry Runtime configuration getter
@@ -41,7 +45,6 @@ defaults = {
 };
 
 _.merge( AccountsUI._conf, defaults.common );
-//console.debug( AccountsUI );
 AccountsUI._opts = new acOptions( AccountsUI._conf );
 
 /**
@@ -59,20 +62,15 @@ AccountsUI.configure = function( o ){
             if( Object.keys( defaults.common ).includes( it )){
                 built_conf[it] = o[it];
             } else {
-                console.warn( 'pwix:accounts-ui configure() ignore unmanaged key \''+it+'\'' );
+                logger.warn( 'pconfigure() ignore unmanaged key \''+it+'\'' );
             }
         });
         if( Object.keys( built_conf ).length ){
             _.merge( AccountsUI._conf, built_conf );
             AccountsUI._opts.base_set( AccountsUI._conf );
-            // be verbose if asked for
-            if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.CONFIGURE ){
-                //console.log( 'pwix:accounts-ui configure() with', o, 'building', AccountsUI._conf );
-                console.log( 'pwix:accounts-ui configure() with', built_conf );
-            }
+            logger.verbose({ verbosity: AccountsUI._conf.verbosity, against: AccountsUI.C.Verbose.CONFIGURE }, 'configure() with', built_conf );
         }
     }
-    //console.debug( AccountsUI._conf );
     // also acts as a getter
     return AccountsUI._conf;
 };

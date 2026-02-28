@@ -8,6 +8,7 @@
 import _ from 'lodash';
 
 import { AccountsHub } from 'meteor/pwix:accounts-hub';
+import { Logger } from 'meteor/pwix:logger';
 import { Random } from 'meteor/random';
 import { ReactiveVar } from 'meteor/reactive-var';
 
@@ -34,6 +35,8 @@ import '../acMandatoryField/acMandatoryField.js';
 import '../acMandatoryFooter/acMandatoryFooter.js';
 
 import './acUserLogin.html';
+
+const logger = Logger.get();
 
 Template.acUserLogin.onCreated( function(){
     const self = this;
@@ -80,9 +83,7 @@ Template.acUserLogin.onCreated( function(){
         }
     };
 
-    if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.INSTANCIATIONS ){
-        console.log( 'pwix:accounts-ui instanciating acUserLogin id='+self.AC.managerId );
-    }
+    logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.INSTANCIATIONS }, 'instanciating acUserLogin id='+self.AC.managerId );
 
     // register the configuration options
     self.autorun(() => {
@@ -147,7 +148,7 @@ Template.acUserLogin.events({
     // handler here the message which want change the displayed panel (or open a new one)
     'ac-panel-changepwd-event/ac-panel-resetask-event/ac-panel-signin-event/ac-panel-signout-event/ac-panel-signup-event/ac-panel-verifyask-event .acUserLogin'( event, instance, data ){
         let panel = AccountsUI.Panel.fromEvent( event.type );
-        console.debug( event.type, '->', panel );
+        logger.debug( event.type, '->', panel );
         instance.AC.panel( panel );
     },
 
@@ -156,7 +157,6 @@ Template.acUserLogin.events({
     },
 
     'ac-display-error .acUserLogin'( event, instance, data ){
-        //console.debug( event, data );
         AccountsUI.fn.errorMsg( data, { dataContext: this });
     },
 
@@ -170,23 +170,19 @@ Template.acUserLogin.events({
 
     // handle form submission
     'ac-submit .acUserLogin'( event, instance ){
-        if( AccountsUI.opts().verbosity() & AccountsUI.C.Verbose.SUBMIT ){
-            console.log( 'pwix:accounts-ui acUserLogin handling', event.type );
-        }
+        logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.SUBMIT }, 'acUserLogin handling', event.type );
         let mail = null;
         let password = null;
         let managed = false;
         const panel = instance.AC.panel();
         switch( panel ){
             case AccountsUI.C.Panel.CHANGEPWD:
-                //console.debug( this );
                 const pwd1 = $( '.ac-change-pwd .ac-old .ac-input' ).val().trim();
                 const pwd2 = $( '.ac-change-pwd .ac-newone .ac-input' ).val().trim();
                 AccountsUI.Features.changePwd( pwd1, pwd2, { AC: instance.AC });
                 managed = true;
                 break;
             case AccountsUI.C.Panel.RESETASK:
-                //console.log( 'element', $( '.ac-reset-ask' ));
                 mail = $( '.ac-reset-ask .ac-input-email .ac-input' ).val().trim();
                 AccountsUI.Features.resetAsk( mail, { AC: instance.AC });
                 managed = true;
@@ -195,7 +191,6 @@ Template.acUserLogin.events({
                 // 'mail' here may be either an email address or a username
                 mail = $( '.ac-signin .ac-input-userid .ac-input' ).val().trim();
                 password = $( '.ac-signin .ac-input-password .ac-input' ).val().trim();
-                //console.log( 'mail',mail,'password', pwd );
                 AccountsUI.Features.loginWithPassword( mail, password, { AC: instance.AC });
                 managed = true;
                 break;
@@ -230,7 +225,6 @@ Template.acUserLogin.events({
     //  when rendering as modal, panels bind the event to AC.target
     // data here is the original 'keydown' event
     'ac-enter .acUserLogin'( event, instance, data ){
-        //console.debug( 'Enter' );
         instance.$( '.acUserLogin' ).trigger( 'ac-submit' );
     }
 });

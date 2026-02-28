@@ -17,7 +17,6 @@ import './ac_signup.html';
 
 Template.ac_signup.onCreated( function(){
     const self = this;
-    //console.debug( 'onCreated', this, Template.currentData());
 
     self.AC = {
         emailOk: new ReactiveVar( false ),
@@ -114,7 +113,6 @@ Template.ac_signup.onRendered( function(){
 
     self.autorun(() => {
         const ok = self.AC.emailOk.get() && self.AC.usernameOk.get() && self.AC.twiceOk.get();
-        //console.debug( 'emailOk', self.AC.emailOk.get(), 'usernameOk', self.AC.usernameOk.get(), 'twiceOk', self.AC.twiceOk.get(), 'ok', ok );
         self.$( '.ac-signup' ).closest( '.ac-content' ).find( '.ac-submit' ).prop( 'disabled', !ok );
         // ac-signup is rendered before acUserLogin in div context
         const target = Template.currentData().AC.target || self.$( '.ac-signup' );
@@ -218,26 +216,22 @@ Template.ac_signup.helpers({
 Template.ac_signup.events({
     // message sent by the input email component
     'ac-email-data .ac-signup'( event, instance, data ){
-        //console.log( event.type, data );
         instance.AC.checks( event, data );
     },
 
     // message sent by the twice passwords component
     'ac-twice-data .ac-signup'( event, instance, data ){
-        //console.log( event.type, data );
         instance.AC.checks( event, data );
     },
 
     // message sent by the input username component
     'ac-username-data .ac-signup'( event, instance, data ){
-        //console.log( 'ac-username-data', data );
         instance.AC.checks( event, data );
     },
 
     // message sent from acUserLogin after having successfully created a new user
     //  clear the input fields to prepare the creation of another account
     'ac-clear-panel .ac-signup'( event, instance ){
-        //console.log( 'ac-clear-panel' );
         instance.AC.clearPanel();
         return false;
     }

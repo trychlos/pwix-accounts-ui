@@ -6,13 +6,15 @@ const assert = require( 'assert' ).strict; // up to nodejs v16.x
 
 import { Accounts } from 'meteor/accounts-base';
 import { AccountsHub } from 'meteor/pwix:accounts-hub';
+import { Logger } from 'meteor/pwix:logger';
+
+const logger = Logger.get();
 
 Meteor.methods({
     // All AccountsUI.byXxxx methods return a user object without the crypted password nor the profile
 
     // find the user who holds the given reset password token
     async 'AccountsUI.byResetToken'( ahName, token ){
-        //console.debug( 'AccountsUI.byResetToken' );
         const ahInstance = AccountsHub.getInstance( ahName );
         assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
         return ahInstance.collection().findOneAsync({ 'services.password.reset.token': token },{ 'services.password.reset': 1 })
@@ -21,7 +23,6 @@ Meteor.methods({
 
     // find the user who holds the given email verification token
     async 'AccountsUI.byEmailVerificationToken'( token ){
-        //console.debug( 'AccountsUI.byEmailVerificationToken' );
         return Meteor.users.findOneAsync({ 'services.email.verificationTokens': { $elemMatch: { token: token }}},{ 'services.email':1 })
             .then(( doc ) => { return AccountsHub.s.cleanupUserDocument( doc ); });
     },
@@ -33,7 +34,7 @@ Meteor.methods({
     async 'AccountsUI.createUser'( options ){
         return Accounts.createUser( options )
             .then(( ret ) => {
-                console.debug( 'AccountsUI.createUser() ret=', ret );
+                logger.debug( 'AccountsUI.createUser() ret=', ret );
                 return ret;
             });
     },
@@ -68,7 +69,7 @@ Meteor.methods({
     async 'AccountsUI.sendVerificationEmailById'( id ){
         return Accounts.sendVerificationEmail( id )
             .then(( ret ) => {
-                console.debug( 'AccountsUI.sendVerificationEmailById() ret=', ret );
+                logger.debug( 'AccountsUI.sendVerificationEmailById() ret=', ret );
                 return ret;
             });
     },
@@ -79,7 +80,7 @@ Meteor.methods({
                 if( doc ){
                     return Accounts.sendVerificationEmail( doc._id );
                 } else {
-                    console.error( 'no user found by email', email );
+                    logger.error( 'no user found by email', email );
                 }
             });
     }

@@ -26,7 +26,6 @@ import './ac_reset_pwd.html';
 
 Template.ac_reset_pwd.onCreated( function(){
     const self = this;
-    //console.debug( this );
 
     self.AC = {
         twiceOk: new ReactiveVar( false ),

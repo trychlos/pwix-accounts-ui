@@ -123,7 +123,6 @@ function _coloredBorders(){
  */
 function _emailAddress(){
     const email = AccountsUI.User.firstEmailAddress();
-    //console.debug( 'email', email );
     return email;
 }
 

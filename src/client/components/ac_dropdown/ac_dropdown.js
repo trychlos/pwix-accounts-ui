@@ -58,12 +58,11 @@ Template.ac_dropdown.onRendered( function(){
     //  visual effect is for example to have several user icons :(
     //  second try has been to empty() the button element just before returning the content: this doesn't work either
     //  as the content terminates empty! the remove() is rightly applied, but not replaced with the new content
-    //  even if a console.log() shows that is correctly returned
+    //  even if logs show that is correctly returned
     // I think/believe that the mix of DOM updates, Blaze reactivity and jQuery accesses may not work very well
     //  when dealing with HTML content and more generally with triple-braces helpers
     //  This solution, as a one-line jQuery which doesn't use Blaze helpers, works well.
     self.autorun(() => {
-        //console.log( 'btnContent autorun' );
         btn.html( self.AC.buttonContent( Template.currentData().AC ));
     });
 });
