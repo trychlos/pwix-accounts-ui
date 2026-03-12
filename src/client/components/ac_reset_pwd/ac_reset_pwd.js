@@ -48,7 +48,7 @@ Template.ac_reset_pwd.onRendered( function(){
     });
 
     // make sure we are the target of the modal messages
-    Modal.set({ target: self.$( '.ac-reset-pwd' )});
+    Modal.topmost().set({ target: self.$( '.ac-reset-pwd' )});
 });
 
 Template.ac_reset_pwd.helpers({

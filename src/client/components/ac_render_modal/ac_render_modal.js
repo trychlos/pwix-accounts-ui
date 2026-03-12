@@ -48,7 +48,7 @@ Template.ac_render_modal.onCreated( function(){
             const panel = parentAC.panel();
             if( !panel || panel === AccountsUI.C.Panel.NONE ){
                 if( Modal.count() > 0 ){
-                    Modal.close();
+                    Modal.topmost().close();
                 }
             }
         }
@@ -59,7 +59,7 @@ Template.ac_render_modal.onCreated( function(){
         if( parentAC && parentAC.options.renderMode() === AccountsUI.C.Render.MODAL ){
             const panel = parentAC.panel();
             if( panel && panel !== AccountsUI.C.Panel.NONE && Modal.count() > 0 ){
-                Modal.set({
+                Modal.topmost().set({
                     title: AccountsUI.Panel.title( panel ),
                     body: AccountsUI.Panel.template( panel )
                 });

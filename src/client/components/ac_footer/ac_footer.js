@@ -89,7 +89,7 @@ Template.ac_footer.events({
     'click .ac-cancel'( event, instance ){
         if( this.AC.options.renderMode() === AccountsUI.C.Render.MODAL ){
             logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.MODAL }, 'ac_footer closing modal' );
-            Modal.close();
+            Modal.topmost().close();
         }
     },
 
