@@ -52,9 +52,11 @@ Template.acUserLogin.onCreated( function(){
         // monitor the modal events (when apply)
         //  called from the panels.onRendered() function
         monitorModalEvents( $panel ){
+            //logger.debug( 'monitorModalEvents', $panel );
             if( self.AC.options.renderMode() === AccountsUI.C.Render.MODAL ){
                 // reset the current panel when the modal closes
                 $panel.closest( '.md-modal' ).on( 'md-close', ( event ) => {
+                    //logger.debug( event );
                     if( Modal.count() && self.AC.panel() !== AccountsUI.C.Panel.NONE ){
                         self.AC.panel( AccountsUI.C.Panel.NONE );
                     }
@@ -93,6 +95,11 @@ Template.acUserLogin.onCreated( function(){
     // be not reactive to future changes to initialDisplay
     const initial = self.AC.options.initialDisplay();
     self.AC.panel( initial === AccountsUI.C.Display.DROPDOWNBUTTON ? AccountsUI.C.Panel.NONE : initial );
+
+    // track the panel
+    self.autorun(() => {
+        //logger.debug( 'panel', self.AC.panel());
+    });
 });
 
 Template.acUserLogin.onRendered( function(){
