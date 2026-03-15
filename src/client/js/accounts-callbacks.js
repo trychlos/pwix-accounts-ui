@@ -46,7 +46,7 @@ _verifyExpired = function(){
 }
 
 Accounts.onEmailVerificationLink( function( token, done ){
-    Meteor.callAsync( 'AccountsUI.byEmailVerificationToken', token )
+    Meteor.callAsync( 'pwix.AccountsUI.m.byEmailVerificationToken', token )
         .then(( user ) => {
             if( user ){
                 let email = null;
@@ -161,7 +161,7 @@ Accounts.onResetPasswordLink( function( token, done ){
         });
     };
     // main code    
-    Meteor.callAsync( 'AccountsUI.byResetToken', parms.ahName, token )
+    Meteor.callAsync( 'pwix.AccountsUI.m.byResetToken', parms.ahName, token )
         .then(( user ) => {
             if( user ){
                 Modal.run({

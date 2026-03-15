@@ -104,7 +104,7 @@ AccountsUI.Features = {
             if( createUserOptions.email ){
                 const instance = AccountsHub.getInstance( 'users' );
                 if( instance && instance.opts().sendVerificationEmail()){
-                    promises.push( Meteor.callAsync( 'AccountsUI.sendVerificationEmailByEmail', createUserOptions.email ));
+                    promises.push( Meteor.callAsync( 'pwix.AccountsUI.m.sendVerificationEmailByEmail', createUserOptions.email ));
                 }
             }
             Promise.allSettled( promises )
@@ -144,7 +144,7 @@ AccountsUI.Features = {
                     }
                 });
             } else {
-                Meteor.callAsync( 'AccountsUI.createUser', createUserOptions )
+                Meteor.callAsync( 'pwix.AccountsUI.m.createUser', createUserOptions )
                     .then(() => {
                         _successFn();
                         Tolert.success( pwixI18n.label( I18N, 'user.signup_noconnect', createUserOptions.email ));
@@ -248,7 +248,7 @@ AccountsUI.Features = {
         };
         // the main code
         if( ahName === AccountsHub.ahOptions._defaults.name ){
-            const res = await Meteor.callAsync( 'AccountsUI.forgotPassword', ahName, email );
+            const res = await Meteor.callAsync( 'pwix.AccountsUI.m.forgotPassword', ahName, email );
             if( res ){
                 _resetAskSuccess( email, opts );
             } else {
@@ -274,7 +274,7 @@ AccountsUI.Features = {
         const target = opts.AC.target || $( 'body' );
         const ahName = opts.AC.options.ahName();
         if( ahName === AccountsHub.ahOptions._defaults.name ){
-            Meteor.callAsync( 'AccountsUI.sendVerificationEmailById', Meteor.userId())
+            Meteor.callAsync( 'pwix.AccountsUI.m.sendVerificationEmailById', Meteor.userId())
                 .then(( result ) => {
                     if( result ){
                         Tolert.success( pwixI18n.label( I18N, 'user.verifyask_success' ));
