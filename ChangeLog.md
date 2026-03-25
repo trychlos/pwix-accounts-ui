@@ -10,6 +10,7 @@
     - Replace the AccountsUI.Dom object with a dependency on pwix:ui-utils
     - Update to pwix:modal v2.5
     - Make sure methods and publications are prefixed with a full namespace
+    - Replace aldeed:simple-schema dependency with npm simpl-schema
 
 ### 2.1.1
 

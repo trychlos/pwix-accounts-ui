@@ -3,7 +3,7 @@
  */
 
 import _ from 'lodash';
-import SimpleSchema from 'meteor/aldeed:simple-schema';
+import SimpleSchema from 'simpl-schema';
 
 import { AccountsHub } from 'meteor/pwix:accounts-hub';
 import { Accounts } from 'meteor/accounts-base';
