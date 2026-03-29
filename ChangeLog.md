@@ -10,7 +10,6 @@
     - Replace the AccountsUI.Dom object with a dependency on pwix:ui-utils
     - Update to pwix:modal v2.5
     - Make sure methods and publications are prefixed with a full namespace
-    - Replace aldeed:simple-schema dependency with npm simpl-schema
 
 ### 2.1.1
 
@@ -23,7 +22,7 @@
 
     Release date: 2026- 2-10
 
-    - Update to new AccountsHub.getInstance() reactive function, thus bumping minor candidate version number
+    - Update to new AccountsCore.getInstance() reactive function, thus bumping minor candidate version number
     - Update to pwix:ui-layout v2.1.0
 
 ### 2.0.1
@@ -36,11 +35,11 @@
 
     Release date: 2024-10- 4
 
-    - Replace pwix-accounts-conf and pwix-accounts-tools dependencies with pwix:accounts-hub, thus bumping major candidate version number
+    - Replace pwix-accounts-conf and pwix-accounts-tools dependencies with pwix:accounts-core, thus bumping major candidate version number
     - Define new 'withExternalMessager' acUserLogin data context parameter
     - Define new internal ac_error_msg Blaze component
-    - Check functions are moved to pwix:accounts-hub package
-    - Move 'informWrongEmail' and 'sendVerificationEmail' configuration parameters to AccountsHub.ahClass
+    - Check functions are moved to pwix:accounts-core package
+    - Move 'informWrongEmail' and 'sendVerificationEmail' configuration parameters to AccountsCore.ahClass
     - Fix the re-use of ac_signup panel to get again a disabled validation
 
 ### 1.8.0
@@ -117,7 +116,7 @@
     - Fix and improve signup panel stylesheet
     - Add errFn() and successFn callback function to createUser() options
     - Get rid of deanius:promise dependency
-    - Replace simpl-schema NPM dependency with aldeed:simple-schema meteor package
+    - Replace meteor/aldeed:simple-schema NPM dependency with aldeed:simple-schema meteor package
     - Meteor 3.0 ready
 
 ### 1.4.0
