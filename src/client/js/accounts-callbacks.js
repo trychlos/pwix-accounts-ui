@@ -161,7 +161,7 @@ Accounts.onResetPasswordLink( function( token, done ){
         });
     };
     // main code    
-    Meteor.callAsync( 'pwix.AccountsUI.m.byResetToken', parms.ahName, token )
+    Meteor.callAsync( 'pwix.AccountsUI.m.byResetToken', parms.acName, token )
         .then(( user ) => {
             if( user ){
                 Modal.run({
@@ -169,7 +169,7 @@ Accounts.onResetPasswordLink( function( token, done ){
                     mdButtons: [ Modal.C.Button.CANCEL, { id: Modal.C.Button.OK, dismiss: true }],
                     mdTitle: pwixI18n.label( I18N, 'reset_pwd.modal_title' ),
                     user: user,
-                    ahName: parms.ahName,
+                    acName: parms.acName,
                     cb: () => {
                         const passwd = $( '.ac-reset-pwd .ac-newone .ac-input-password input' ).val().trim();
                         Accounts.resetPassword( token, passwd, ( err ) => {

@@ -37,7 +37,7 @@ It aims to provide a full replacement for Meteor [accounts-ui](https://atmospher
 
 However, `pwix:accounts-ui` is fully configurable and is able to provide different user interfaces to adapt to different contexts.
 
-Note that starting with v 2.0.0, `pwix:accounts-ui` takes advantage of `pwix:accounts-hub` package to provide a way to manage several accounts entities. All the public API so accepts now a new `ahInstance` parameter which name the addressed account entity. This parameter defaults to the `users` default standard Meteor accounts collection.
+Note that starting with v 2.0.0, `pwix:accounts-ui` takes advantage of `pwix:accounts-core` package to provide a way to manage several accounts entities. All the public API so accepts now a new `acInstance` parameter which name the addressed account entity. This parameter defaults to the `users` default standard Meteor accounts collection.
 
 ## How does it work ?
 
@@ -515,9 +515,9 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     For each of these terms, accepted values are:
 
-    - `AccountsHub.C.Identifier.NONE`: the field is not displayed nor considered
-    - `AccountsHub.C.Identifier.OPTIONAL`: the input field is proposed to the user, but may be left empty
-    - `AccountsHub.C.Identifier.MANDATORY`: the input field must be filled by the user
+    - `AccountsCore.C.Identifier.NONE`: the field is not displayed nor considered
+    - `AccountsCore.C.Identifier.OPTIONAL`: the input field is proposed to the user, but may be left empty
+    - `AccountsCore.C.Identifier.MANDATORY`: the input field must be filled by the user
 
     Defauts to the corresponding globally configured option.
 
@@ -548,9 +548,9 @@ Even when providing a configuration object, as all keys are optional, this objec
     When set, **and** the packages `pwix:forms` and `pwix:typed-message` are present, **and** a `checker` ReactiveVar is present in the data context, then
     the error messages will be sent to the provided checker, instead of being managed by this `pwix:accounts-ui` package.
 
-- `ahName`
+- `acName`
 
-    The name of an `AccountsHub.ahClass` instance which itself defines an account entity.
+    The name of an `AccountsCore.acAccount` instance which itself defines an account entity.
 
     Defaults to `users`, the standard default Meteor accounts collection.
 

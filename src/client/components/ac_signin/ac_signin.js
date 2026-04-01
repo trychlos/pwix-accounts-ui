@@ -7,7 +7,7 @@
 
 const assert = require( 'assert' ).strict; // up to nodejs v16.x
 
-import { AccountsHub } from 'meteor/pwix:accounts-hub';
+import { AccountsCore } from 'meteor/pwix:accounts-core';
 
 import '../ac_input_email/ac_input_email.js';
 import '../ac_input_password/ac_input_password.js';
@@ -48,18 +48,18 @@ Template.ac_signin.onRendered( function(){
 Template.ac_signin.helpers({
     // true if we have email address and not username
     onlyEmailAddress(){
-        const ahName = this.AC.options.ahName();
-        const ahInstance = AccountsHub.getInstance( ahName );
-        assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
-        return ahInstance.opts().haveEmailAddress() !== AccountsHub.C.Identifier.NONE && ahInstance.opts().haveUsername() === AccountsHub.C.Identifier.NONE;
+        const acName = this.AC.options.acName();
+        const acInstance = AccountsCore.getInstance( acName );
+        assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+        return acInstance.opts().haveEmailAddress() !== AccountsCore.C.Identifier.NONE && acInstance.opts().haveUsername() === AccountsCore.C.Identifier.NONE;
     },
 
     // true if we have username and not email address
     onlyEmailAddress(){
-        const ahName = this.AC.options.ahName();
-        const ahInstance = AccountsHub.getInstance( ahName );
-        assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
-        return ahInstance.opts().haveEmailAddress() === AccountsHub.C.Identifier.NONE && ahInstance.opts().haveUsername() !== AccountsHub.C.Identifier.NONE;
+        const acName = this.AC.options.acName();
+        const acInstance = AccountsCore.getInstance( acName );
+        assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+        return acInstance.opts().haveEmailAddress() === AccountsCore.C.Identifier.NONE && acInstance.opts().haveUsername() !== AccountsCore.C.Identifier.NONE;
     },
 
     parmsEmail(){

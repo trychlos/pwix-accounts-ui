@@ -6,7 +6,7 @@
 
 import _ from 'lodash';
 
-import { AccountsHub } from 'meteor/pwix:accounts-hub';
+import { AccountsCore } from 'meteor/pwix:accounts-core';
 import { Logger } from 'meteor/pwix:logger';
 import { Options } from 'meteor/pwix:options';
 
@@ -39,9 +39,9 @@ export class acCompanionOptions extends Options.Base {
 
     // fields management
     static Fields = [
-        AccountsHub.C.Identifier.NONE,
-        AccountsHub.C.Identifier.OPTIONAL,
-        AccountsHub.C.Identifier.MANDATORY
+        AccountsCore.C.Identifier.NONE,
+        AccountsCore.C.Identifier.OPTIONAL,
+        AccountsCore.C.Identifier.MANDATORY
     ];
 
     // the known render modes
@@ -85,12 +85,12 @@ export class acCompanionOptions extends Options.Base {
 
     /**
      * Getter/Setter
-     * Returns name of the AccountsHub.ahClass instance associated to this acUserLogin component instance
+     * Returns name of the AccountsCore.acAccount instance associated to this acUserLogin component instance
      * @param {String|Function} value a string or a function which returns a string
      * @returns {String}
      */
-    ahName( value ){
-        return this.base_gsStringObjectFn( 'ahName', value, { default: defaults.acUserLogin.ahName });
+    acName( value ){
+        return this.base_gsStringObjectFn( 'acName', value, { default: defaults.acUserLogin.acName });
     }
 
     /**

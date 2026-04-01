@@ -15,7 +15,7 @@
  *  - placeholder: the input placeholder, defaulting to 'Enter your password'
  */
 
-import { AccountsHub } from 'meteor/pwix:accounts-hub';
+import { AccountsCore } from 'meteor/pwix:accounts-core';
 import { pwixI18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
@@ -34,15 +34,15 @@ Template.ac_input_username_sub.onCreated( function(){
 
     self.AC = {
         errorMsg: new ReactiveVar( '' ),
-        ahInstance: null,
+        acInstance: null,
 
         // check the current input field (only if new)
         //  let the error message empty if field is empty
         check(){
             self.AC.displayError( '' );
             const wantsNew = Boolean( Template.currentData().wantsNew === true );
-            if( self.AC.ahInstance ){
-                self.AC.ahInstance.checkUsername( self.$( '.ac-input-username input' ).val() || '', {
+            if( self.AC.acInstance ){
+                self.AC.acInstance.checkUsername( self.$( '.ac-input-username input' ).val() || '', {
                     testEmpty: Template.currentData().AC.options.signupHaveUsername(),
                     textExists: wantsNew
                 })
@@ -81,11 +81,11 @@ Template.ac_input_username_sub.onCreated( function(){
     self.autorun(() => {
         const AC = Template.currentData().AC;
         if( AC ){
-            const ahName = AC.options.ahName();
-            if( ahName ){
-                const ahInstance = AccountsHub.getInstance( ahName );
-                assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
-                self.AC.ahInstance = ahInstance;
+            const acName = AC.options.acName();
+            if( acName ){
+                const acInstance = AccountsCore.getInstance( acName );
+                assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+                self.AC.acInstance = acInstance;
             }
         }
     });

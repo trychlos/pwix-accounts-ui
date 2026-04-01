@@ -10,7 +10,7 @@
  * 
  * Parms:
  * - user
- * - ahName: the AccountsHub.ahClass instance name (passed from reset_ask through URL parameters)
+ * - acName: the AccountsCore.acAccount instance name (passed from reset_ask through URL parameters)
  * - cb
  */
 
@@ -64,7 +64,7 @@ Template.ac_reset_pwd.helpers({
     // parameters for the password input
     parmTwice(){
         return {
-            ahName: this.ahName,
+            acName: this.acName,
             withErrorMsg: true,
             role: 'reset'
         };

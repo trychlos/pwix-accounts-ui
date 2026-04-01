@@ -17,7 +17,7 @@
 
 const assert = require( 'assert' ).strict; // up to nodejs v16.x
 
-import { AccountsHub } from 'meteor/pwix:accounts-hub';
+import { AccountsCore } from 'meteor/pwix:accounts-core';
 import { pwixI18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
@@ -40,15 +40,15 @@ Template.ac_input_email.helpers({
 
     self.AC = {
         errorMsg: new ReactiveVar( '' ),
-        ahInstance: null,
+        acInstance: null,
 
         // check the current input field
         //  let the error message empty if field is empty
         check(){
             self.AC.displayError( '' );
             const wantsNew = Boolean( Template.currentData().wantsNew === true );
-            if( self.AC.ahInstance ){
-                self.AC.ahInstance.checkEmailAddress( self.$( '.ac-input-email-sub input' ).val(), { testExists: wantsNew })
+            if( self.AC.acInstance ){
+                self.AC.acInstance.checkEmailAddress( self.$( '.ac-input-email-sub input' ).val(), { testExists: wantsNew })
                     .then(( result ) => {
                         // only display an error message if field is not empty
                         if( result.canonical.length && !result.ok ){
@@ -85,11 +85,11 @@ Template.ac_input_email.helpers({
     self.autorun(() => {
         const AC = Template.currentData().AC;
         if( AC ){
-            const ahName = AC.options.ahName();
-            if( ahName ){
-                const ahInstance = AccountsHub.getInstance( ahName );
-                assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
-                self.AC.ahInstance = ahInstance;
+            const acName = AC.options.acName();
+            if( acName ){
+                const acInstance = AccountsCore.getInstance( acName );
+                assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+                self.AC.acInstance = acInstance;
             }
         }
     });

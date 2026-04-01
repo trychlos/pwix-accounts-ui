@@ -10,6 +10,7 @@
     - Replace the AccountsUI.Dom object with a dependency on pwix:ui-utils
     - Update to pwix:modal v2.5
     - Make sure methods and publications are prefixed with a full namespace
+    - Rename pwix:accounts-hub dependency to pwix:accounts-core, upgrading it to 2.0.0-rc.0
 
 ### 2.1.1
 
@@ -39,7 +40,7 @@
     - Define new 'withExternalMessager' acUserLogin data context parameter
     - Define new internal ac_error_msg Blaze component
     - Check functions are moved to pwix:accounts-core package
-    - Move 'informWrongEmail' and 'sendVerificationEmail' configuration parameters to AccountsCore.ahClass
+    - Move 'informWrongEmail' and 'sendVerificationEmail' configuration parameters to AccountsCore.acAccount
     - Fix the re-use of ac_signup panel to get again a disabled validation
 
 ### 1.8.0

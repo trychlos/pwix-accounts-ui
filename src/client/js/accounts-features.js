@@ -6,7 +6,7 @@
 
 const assert = require( 'assert' ).strict; // up to nodejs v16.x
 
-import { AccountsHub } from 'meteor/pwix:accounts-hub';
+import { AccountsCore } from 'meteor/pwix:accounts-core';
 import { Logger } from 'meteor/pwix:logger';
 import { pwixI18n } from 'meteor/pwix:i18n';
 
@@ -22,8 +22,8 @@ AccountsUI.Features = {
      */
     changePwd( oldpwd, newpwd, opts={} ){
         const target = opts.AC.target || $( 'body' );
-        const ahName = opts.AC.options.ahName();
-        if( ahName === AccountsHub.ahOptions._defaults.name ){
+        const acName = opts.AC.options.acName();
+        if( acName === AccountsCore.ahOptions._defaults.name ){
             Accounts.changePassword( oldpwd, newpwd, ( err ) => {
                 if( err ){
                     logger.error( err );
@@ -37,9 +37,9 @@ AccountsUI.Features = {
                 }
             });
         } else {
-            const ahInstance = AccountsHub.getInstance( ahName );
-            assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
-            logger.warn( 'changePwd() ignored', ahInstance );
+            const acInstance = AccountsCore.getInstance( acName );
+            assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+            logger.warn( 'changePwd() ignored', acInstance );
         }
     },
 
@@ -78,7 +78,7 @@ AccountsUI.Features = {
             }
         }
         target = target || $( 'body' );
-        const ahName = options.ahName();
+        const acName = options.acName();
         // the error handler
         const _errorFn = function( err ){
             logger.error( err );
@@ -102,7 +102,7 @@ AccountsUI.Features = {
             // send a verification mail if asked for
             let promises = [];
             if( createUserOptions.email ){
-                const instance = AccountsHub.getInstance( 'users' );
+                const instance = AccountsCore.getInstance( 'users' );
                 if( instance && instance.opts().sendVerificationEmail()){
                     promises.push( Meteor.callAsync( 'pwix.AccountsUI.m.sendVerificationEmailByEmail', createUserOptions.email ));
                 }
@@ -131,7 +131,7 @@ AccountsUI.Features = {
                 });
         };
         // the main code
-        if( ahName === AccountsHub.ahOptions._defaults.name ){
+        if( acName === AccountsCore.ahOptions._defaults.name ){
             // https://docs.meteor.com/api/passwords#Accounts-createUser
             const autoConnect = options.signupAutoConnect();
             if( autoConnect !== false ){
@@ -157,9 +157,9 @@ AccountsUI.Features = {
                     });
             }
         } else {
-            const ahInstance = AccountsHub.getInstance( ahName );
-            assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
-            logger.warn( 'createUser() ignoring', ahInstance );
+            const acInstance = AccountsCore.getInstance( acName );
+            assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+            logger.warn( 'createUser() ignoring', acInstance );
         }
     },
 
@@ -175,24 +175,29 @@ AccountsUI.Features = {
      */
     loginWithPassword( userid, password, opts={} ){
         const target = opts.AC.target || $( 'body' );
-        const ahName = opts.AC.options.ahName();
-        if( ahName === AccountsHub.ahOptions._defaults.name ){
-            Meteor.loginWithPassword( userid, password, ( err ) => {
-                if( err ){
-                    target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.signin_error' ));
-                } else {
-                    const event = 'ac-user-signedin-event';
-                    const parms = Meteor.user();
-                    logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.USER }, 'loginWithPassword() triggering', event, parms );
-                    target.trigger( event, parms );
-                    // last close the modal
-                    target.trigger( 'ac-close' );
-                }
-            });
+        const acName = opts.AC.options.acName();
+        if( acName === AccountsCore.ahOptions._defaults.name ){
+            logger.debug( 'userid', userid, 'password', password );
+            try {
+                Meteor.loginWithPassword( userid, password, ( err ) => {
+                    if( err ){
+                        target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.signin_error' ));
+                    } else {
+                        const event = 'ac-user-signedin-event';
+                        const parms = Meteor.user();
+                        logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.USER }, 'loginWithPassword() triggering', event, parms );
+                        target.trigger( event, parms );
+                        // last close the modal
+                        target.trigger( 'ac-close' );
+                    }
+                });
+            } catch( e ){
+                logger.warning( 'here', e );
+            }
         } else {
-            const ahInstance = AccountsHub.getInstance( ahName );
-            assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
-            logger.warn( 'loginWithPassword() ignoring', ahInstance );
+            const acInstance = AccountsCore.getInstance( acName );
+            assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+            logger.warn( 'loginWithPassword() ignoring', acInstance );
         }
     },
 
@@ -203,8 +208,8 @@ AccountsUI.Features = {
      */
     logout( opts={} ){
         const target = opts.AC.target || $( 'body' );
-        const ahName = opts.AC.options.ahName();
-        if( ahName === AccountsHub.ahOptions._defaults.name ){
+        const acName = opts.AC.options.acName();
+        if( acName === AccountsCore.ahOptions._defaults.name ){
             const user = { ...Meteor.user() };
             Meteor.logout();
             const event = 'ac-user-signedout-event';
@@ -214,9 +219,9 @@ AccountsUI.Features = {
             // last close the modal
             target.trigger( 'ac-close' );
         } else {
-            const ahInstance = AccountsHub.getInstance( ahName );
-            assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
-            logger.warn( 'logout() ignoring', ahInstance );
+            const acInstance = AccountsCore.getInstance( acName );
+            assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+            logger.warn( 'logout() ignoring', acInstance );
         }
     },
 
@@ -233,9 +238,9 @@ AccountsUI.Features = {
      */
     async resetAsk( email, opts={} ){
         const target = opts.AC.target || $( 'body' );
-        const ahName = opts.AC.options.ahName();
-        const ahInstance = AccountsHub.getInstance( ahName );
-        assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
+        const acName = opts.AC.options.acName();
+        const acInstance = AccountsCore.getInstance( acName );
+        assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
         // the success handler
         const _resetAskSuccess = function(){
             Tolert.success( pwixI18n.label( I18N, 'user.resetask_success' ));
@@ -247,21 +252,21 @@ AccountsUI.Features = {
             target.trigger( 'ac-close' );
         };
         // the main code
-        if( ahName === AccountsHub.ahOptions._defaults.name ){
-            const res = await Meteor.callAsync( 'pwix.AccountsUI.m.forgotPassword', ahName, email );
+        if( acName === AccountsCore.ahOptions._defaults.name ){
+            const res = await Meteor.callAsync( 'pwix.AccountsUI.m.forgotPassword', acName, email );
             if( res ){
                 _resetAskSuccess( email, opts );
             } else {
-                switch( ahInstance.opts().informWrongEmail()){
-                    case AccountsHub.C.WrongEmail.OK:
+                switch( acInstance.opts().informWrongEmail()){
+                    case AccountsCore.C.WrongEmail.OK:
                         _resetAskSuccess( email, opts );
                         break;
-                    case AccountsHub.C.WrongEmail.ERROR:
+                    case AccountsCore.C.WrongEmail.ERROR:
                         target.trigger( 'ac-display-error', pwixI18n.label( I18N, 'user.resetask_credentials' ));
                 }
             }
         } else {
-            logger.warn( 'resetAsk() ignoring', ahInstance );
+            logger.warn( 'resetAsk() ignoring', acInstance );
         }
     },
 
@@ -272,8 +277,8 @@ AccountsUI.Features = {
      */
     verifyMail( opts={} ){
         const target = opts.AC.target || $( 'body' );
-        const ahName = opts.AC.options.ahName();
-        if( ahName === AccountsHub.ahOptions._defaults.name ){
+        const acName = opts.AC.options.acName();
+        if( acName === AccountsCore.ahOptions._defaults.name ){
             Meteor.callAsync( 'pwix.AccountsUI.m.sendVerificationEmailById', Meteor.userId())
                 .then(( result ) => {
                     if( result ){
@@ -289,9 +294,9 @@ AccountsUI.Features = {
                     }
                 });
         } else {
-            const ahInstance = AccountsHub.getInstance( ahName );
-            assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
-            logger.warn( 'verifyMail() ignoring', ahInstance );
+            const acInstance = AccountsCore.getInstance( acName );
+            assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+            logger.warn( 'verifyMail() ignoring', acInstance );
         }
     }
 };

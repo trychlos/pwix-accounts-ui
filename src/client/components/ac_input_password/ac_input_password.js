@@ -7,7 +7,7 @@
  *  - AC: the acUserLogin internal data structure
  *      Is undefined when invoked from ac_reset_pwd template (via ac_twice_passwords)
  *      Take care!
- *  - ahName: the AccountsHub.ahClass instance name (passed from reset_ask through URL parameters)
+ *  - acName: the AccountsCore.acAccount instance name (passed from reset_ask through URL parameters)
  *      set from ac_reset_pwd (so exclusive from AC above)
  *  - wantsLength: whether to check against the minimal length of the password, defaulting to false
  *  - wantsComplexity: whether to check for input password strength, defaulting to false
@@ -23,7 +23,7 @@
 
 const assert = require( 'assert' ).strict; // up to nodejs v16.x
 
-import { AccountsHub } from 'meteor/pwix:accounts-hub';
+import { AccountsCore } from 'meteor/pwix:accounts-core';
 import { Logger } from 'meteor/pwix:logger';
 import { pwixI18n } from 'meteor/pwix:i18n';
 
@@ -38,14 +38,14 @@ Template.ac_input_password.onCreated( function(){
 
     self.AC = {
         errorMsg: new ReactiveVar( '' ),
-        ahInstance: null,
+        acInstance: null,
 
         score: [
-            { k:AccountsHub.C.Password.VERYWEAK,   css: { backgroundColor: '#ff0000' }}, // red
-            { k:AccountsHub.C.Password.WEAK,       css: { backgroundColor: '#cc3300' }},
-            { k:AccountsHub.C.Password.MEDIUM,     css: { backgroundColor: '#669900' }},
-            { k:AccountsHub.C.Password.STRONG,     css: { backgroundColor: '#33cc00' }},
-            { k:AccountsHub.C.Password.VERYSTRONG, css: { backgroundColor: '#00ff00' }}, // green
+            { k:AccountsCore.C.Password.VERYWEAK,   css: { backgroundColor: '#ff0000' }}, // red
+            { k:AccountsCore.C.Password.WEAK,       css: { backgroundColor: '#cc3300' }},
+            { k:AccountsCore.C.Password.MEDIUM,     css: { backgroundColor: '#669900' }},
+            { k:AccountsCore.C.Password.STRONG,     css: { backgroundColor: '#33cc00' }},
+            { k:AccountsCore.C.Password.VERYSTRONG, css: { backgroundColor: '#00ff00' }}, // green
         ],
         minScore: -1,
 
@@ -57,8 +57,8 @@ Template.ac_input_password.onCreated( function(){
             self.AC.displayError( '' );
             const wantsLength = Template.currentData().wantsLength == true;
             const wantsStrength = Template.currentData().wantsStrength == true;
-            if( self.AC.ahInstance ){
-                self.AC.ahInstance.checkPassword( self.$( '.ac-input-password input' ).val() || '', { testLength: wantsLength, testComplexity: wantsStrength })
+            if( self.AC.acInstance ){
+                self.AC.acInstance.checkPassword( self.$( '.ac-input-password input' ).val() || '', { testLength: wantsLength, testComplexity: wantsStrength })
                     .then(( result ) => {
                         if( wantsStrength ){
                             // css
@@ -108,13 +108,13 @@ Template.ac_input_password.onCreated( function(){
 
     self.autorun(() => {
         const AC = Template.currentData().AC;
-        const ahName = AC ? AC.options.ahName() : Template.currentData().ahName;
-        if( ahName ){
-            const ahInstance = AccountsHub.getInstance( ahName );
-            assert( ahInstance && ahInstance instanceof AccountsHub.ahClass, 'expects an instance of AccountsHub.ahClass, got '+ahInstance );
-            self.AC.ahInstance = ahInstance;
+        const acName = AC ? AC.options.acName() : Template.currentData().acName;
+        if( acName ){
+            const acInstance = AccountsCore.getInstance( acName );
+            assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+            self.AC.acInstance = acInstance;
             // compute the minimal required score according to the configured required strength
-            const requiredStrength = ahInstance.opts().passwordStrength();
+            const requiredStrength = acInstance.opts().passwordStrength();
             for( let i=0 ; i<self.AC.score.length ; ++i ){
                 if( self.AC.score[i].k === requiredStrength ){
                     self.AC.minScore = i;

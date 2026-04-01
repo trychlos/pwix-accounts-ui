@@ -5,7 +5,7 @@
  *  - AC: the acUserLogin internal data structure
  */
 
-import { AccountsHub } from 'meteor/pwix:accounts-hub';
+import { AccountsCore } from 'meteor/pwix:accounts-core';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import '../ac_input_email/ac_input_email.js';

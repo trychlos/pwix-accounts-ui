@@ -6,7 +6,7 @@
 
 import _ from 'lodash';
 
-import { AccountsHub } from 'meteor/pwix:accounts-hub';
+import { AccountsCore } from 'meteor/pwix:accounts-core';
 import { pwixI18n } from 'meteor/pwix:i18n';
 
 /* 
@@ -178,8 +178,8 @@ _.merge( defaults, {
         signinLegendPassword: '',
         signinLegendUsername: '',
         signupFieldset: false,
-        signupHaveEmailAddress: AccountsHub.C.Identifier.MANDATORY,
-        signupHaveUsername: AccountsHub.C.Identifier.NONE,
+        signupHaveEmailAddress: AccountsCore.C.Identifier.MANDATORY,
+        signupHaveUsername: AccountsCore.C.Identifier.NONE,
         signupLegendEmail: '',
         signupLegendPassword: '',
         signupLegendUsername: '',
@@ -189,7 +189,7 @@ _.merge( defaults, {
         signupClearPanel: true,
         signupSubmit: true,
         name: '',
-        ahName: 'users',
+        acName: 'users',
         withExternalMessager: false
     }
 });

@@ -5,7 +5,7 @@
  *  - AC: the acUserLogin internal data structure
  */
 
-import { AccountsHub } from 'meteor/pwix:accounts-hub';
+import { AccountsCore } from 'meteor/pwix:accounts-core';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import '../ac_input_email/ac_input_email.js';
@@ -60,13 +60,13 @@ Template.ac_signup.onCreated( function(){
                 self.$( '.ac-twice-passwords-sub' ).trigger( 'ac-check' );
             }
             // if an email is mandatory, it must be set here
-            if( self.AC.haveEmailAddress() !== AccountsHub.C.Identifier.NONE ){
+            if( self.AC.haveEmailAddress() !== AccountsCore.C.Identifier.NONE ){
                 if( !self.AC.emailOk.get()){
                     self.$( '.ac-input-email-sub' ).trigger( 'ac-check' );
                 }
             }
             // if a username is mandatory, it must be set here
-            if( self.AC.haveUsername() !== AccountsHub.C.Identifier.NONE ){
+            if( self.AC.haveUsername() !== AccountsCore.C.Identifier.NONE ){
                 if( !self.AC.usernameOk.get()){
                     self.$( '.ac-input-username-sub' ).trigger( 'ac-check' );
                 }
@@ -84,10 +84,10 @@ Template.ac_signup.onCreated( function(){
             return data.ok;
         },
         haveEmailAddress(){
-            return Template.currentData().AC.options.signupHaveEmailAddress() !== AccountsHub.C.Identifier.NONE;
+            return Template.currentData().AC.options.signupHaveEmailAddress() !== AccountsCore.C.Identifier.NONE;
         },
         haveUsername(){
-            return Template.currentData().AC.options.signupHaveUsername() !== AccountsHub.C.Identifier.NONE;
+            return Template.currentData().AC.options.signupHaveUsername() !== AccountsCore.C.Identifier.NONE;
         },
         // no tonly we have to clear all the fields, but also our internal datas
         clearPanel(){
@@ -104,8 +104,8 @@ Template.ac_signup.onCreated( function(){
     };
 
     // setup initial default values so that field which is not present is always true
-    self.AC.emailOk.set( Template.currentData().AC.options.signupHaveEmailAddress() !== AccountsHub.C.Identifier.MANDATORY );
-    self.AC.usernameOk.set( Template.currentData().AC.options.signupHaveUsername() !== AccountsHub.C.Identifier.MANDATORY);
+    self.AC.emailOk.set( Template.currentData().AC.options.signupHaveEmailAddress() !== AccountsCore.C.Identifier.MANDATORY );
+    self.AC.usernameOk.set( Template.currentData().AC.options.signupHaveUsername() !== AccountsCore.C.Identifier.MANDATORY);
 });
 
 Template.ac_signup.onRendered( function(){
@@ -147,7 +147,7 @@ Template.ac_signup.helpers({
             withErrorMsg: true,
             withFieldset: this.AC.options.signupFieldset(),
             legend: this.AC.options.signupLegendEmail(),
-            withMandatoryField: this.AC.options.signupHaveEmailAddress() === AccountsHub.C.Identifier.MANDATORY,
+            withMandatoryField: this.AC.options.signupHaveEmailAddress() === AccountsCore.C.Identifier.MANDATORY,
             placeholder: this.AC.options.signupEmailPlaceholder()
         };
     },
@@ -183,7 +183,7 @@ Template.ac_signup.helpers({
             withErrorMsg: true,
             withFieldset: this.AC.options.signupFieldset(),
             legend: this.AC.options.signupLegendUsername(),
-            withMandatoryField: this.AC.options.signupHaveUsername() === AccountsHub.C.Identifier.MANDATORY
+            withMandatoryField: this.AC.options.signupHaveUsername() === AccountsCore.C.Identifier.MANDATORY
         };
     },
 

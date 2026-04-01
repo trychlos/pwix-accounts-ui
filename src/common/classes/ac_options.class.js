@@ -8,7 +8,7 @@ import _ from 'lodash';
 
 import '../js/constants.js';
 
-import { AccountsHub } from 'meteor/pwix:accounts-hub';
+import { AccountsCore } from 'meteor/pwix:accounts-core';
 import { Logger } from 'meteor/pwix:logger';
 import { Options } from 'meteor/pwix:options';
 
@@ -28,9 +28,9 @@ export class acOptions extends Options.Base {
 
     // fields management
     static Fields = [
-        AccountsHub.C.Identifier.NONE,
-        AccountsHub.C.Identifier.OPTIONAL,
-        AccountsHub.C.Identifier.MANDATORY
+        AccountsCore.C.Identifier.NONE,
+        AccountsCore.C.Identifier.OPTIONAL,
+        AccountsCore.C.Identifier.MANDATORY
     ];
 
     // private data
