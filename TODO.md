@@ -27,7 +27,6 @@
 |   80 | 2024- 9-26 | Honors resetpwd for other accounts entities |
 |   81 | 2024- 9-26 | Honors askverify for other accounts entities |
 |   82 | 2024- 9-26 | Honors mailenroll for other accounts entities |
-|   83 | 2026- 2-12 | Move exported assets to /resources directory |
 |   84 |  |  |
 
 ---
@@ -189,6 +188,8 @@
 |      | 2024- 6- 3 | done for all DIV-rendered panels |
 |   76 | 2024- 6-22 | happens that ac-signup-ok event is only sent when the status changes, but should be sent on each update |
 |      | 2024- 6-22 | fixed by using ReactiveVar's |
+|   83 | 2026- 2-12 | Move exported assets to /resources directory |
+|      | 2026- 4- 1 | done |
 
 ---
 P. Wieser

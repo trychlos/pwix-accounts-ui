@@ -43,7 +43,7 @@ function configure( api ){
     api.addFiles( 'src/client/components/acMandatoryFooter/acMandatoryFooter.js', 'client' );
     api.addFiles( 'src/client/components/acMenuItems/acMenuItems.js', 'client' );
     api.addFiles( 'src/client/components/acUserLogin/acUserLogin.js', 'client' );
-    api.addAssets( 'src/client/svg/asterisk.svg', 'client' );
+    api.addAssets( 'resources/svg/asterisk.svg', 'client' );
 }
 
 // NPM dependencies are checked in /src/server/js/check_npms.js
