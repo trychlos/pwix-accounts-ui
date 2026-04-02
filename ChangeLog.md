@@ -12,6 +12,7 @@
     - Make sure methods and publications are prefixed with a full namespace
     - Rename pwix:accounts-hub dependency to pwix:accounts-core, upgrading it to 2.0.0-rc.0
     - Move exported assets to /resources directory (todo #83)
+    - Add weak dependencies pwix:forms and pwix:typed-message
 
 ### 2.1.1
 

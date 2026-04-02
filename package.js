@@ -35,6 +35,7 @@ function configure( api ){
     api.use( 'pwix:modal@2.5.0-rc' );
     api.use( 'pwix:options@2.1.1' );
     api.use( 'pwix:tolert@1.4.2' );
+    api.use( 'pwix:typed-message@1.4.0', { weak: true });
     api.use( 'pwix:ui-layout@2.1.0' );
     api.use( 'pwix:ui-utils@1.5.0' );
     api.use( 'random', 'client' );
