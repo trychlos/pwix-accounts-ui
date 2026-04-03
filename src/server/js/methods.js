@@ -6,6 +6,7 @@ const assert = require( 'assert' ).strict; // up to nodejs v16.x
 
 import { Accounts } from 'meteor/accounts-base';
 import { AccountsCore } from 'meteor/pwix:accounts-core';
+import { check, Match } from 'meteor/check';
 import { Logger } from 'meteor/pwix:logger';
 
 const logger = Logger.get();
@@ -15,16 +16,21 @@ Meteor.methods({
 
     // find the user who holds the given reset password token
     async 'pwix.AccountsUI.m.byResetToken'( acName, token ){
+        check( acName, Match.NonEmptyString );
+        check( token, Match.NonEmptyString );
         const acInstance = AccountsCore.getInstance( acName );
-        assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
-        const doc = await acInstance.collection().findOneAsync({ 'services.password.reset.token': token },{ 'services.password.reset': 1 });
-        return AccountsCore.s.cleanupUserDocument( doc );
+        check( acInstance, AccountsCore.Account );
+        const userDoc = await acInstance.collection().findOneAsync({ 'services.password.reset.token': token },{ 'services.password.reset': 1 });
+        return await AccountsCore.Transforms.cleanupUserDocument( acInstance, userDoc );
     },
 
     // find the user who holds the given email verification token
     async 'pwix.AccountsUI.m.byEmailVerificationToken'( token ){
-        const doc = await Meteor.users.findOneAsync({ 'services.email.verificationTokens': { $elemMatch: { token: token }}},{ 'services.email':1 });
-        return AccountsCore.s.cleanupUserDocument( doc );
+        check( token, Match.NonEmptyString );
+        const userDoc = await Meteor.users.findOneAsync({ 'services.email.verificationTokens': { $elemMatch: { token: token }}},{ 'services.email': 1 });
+        const acInstance = AccountsCore.getInstance( 'users' );
+        check( acInstance, AccountsCore.Account );
+        return await AccountsCore.Transforms.cleanupUserDocument( acInstance, userDoc );
     },
 
     // create a user without auto login
@@ -43,15 +49,17 @@ Meteor.methods({
     // do not send extra data when using the standard 'users' collection
     // return true|false
     async 'pwix.AccountsUI.m.forgotPassword'( acName, email ){
+        check( acName, Match.NonEmptyString );
+        check( email, Match.NonEmptyString );
         const acInstance = AccountsCore.getInstance( acName );
-        assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+        check( acInstance, AccountsCore.Account );
         let res = null;
-        const user = await AccountsCore.byEmailAddress( acInstance, email );
-        if( user ){
-            if( acName === AccountsCore.ahOptions._defaults.name ){
-                res = await Accounts.sendResetPasswordEmail( user._id, email );
+        const userDoc = await acInstance.byEmailAddress( email );
+        if( userDoc ){
+            if( acName === AccountsCore.Options._defaults.name ){
+                res = await Accounts.sendResetPasswordEmail( userDoc._id, email );
             } else {
-                res = await Accounts.sendResetPasswordEmail( user._id, email, undefined, { acName: acName });
+                res = await Accounts.sendResetPasswordEmail( userDoc._id, email, undefined, { acName: acName });
             }
         }
         return Boolean( res );
@@ -71,9 +79,9 @@ Meteor.methods({
     },
 
     async 'pwix.AccountsUI.m.sendVerificationEmailByEmail'( email ){
-        const doc = await Accounts.findUserByEmail( email );
-        if( doc ){
-            return Accounts.sendVerificationEmail( doc._id );
+        const userDoc = await Accounts.findUserByEmail( email );
+        if( userDoc ){
+            return Accounts.sendVerificationEmail( userDoc._id );
         } else {
             logger.error( 'no user found by email', email );
         }

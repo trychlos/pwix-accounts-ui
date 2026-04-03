@@ -89,7 +89,7 @@ Template.ac_signup.onCreated( function(){
         haveUsername(){
             return Template.currentData().AC.options.signupHaveUsername() !== AccountsCore.C.Identifier.NONE;
         },
-        // no tonly we have to clear all the fields, but also our internal datas
+        // not only we have to clear all the fields, but also our internal datas
         clearPanel(){
             self.$( 'input' )
                 .val( '' )

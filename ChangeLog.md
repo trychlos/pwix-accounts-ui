@@ -42,7 +42,7 @@
     - Define new 'withExternalMessager' acUserLogin data context parameter
     - Define new internal ac_error_msg Blaze component
     - Check functions are moved to pwix:accounts-core package
-    - Move 'informWrongEmail' and 'sendVerificationEmail' configuration parameters to AccountsCore.acAccount
+    - Move 'informWrongEmail' and 'sendVerificationEmail' configuration parameters to AccountsCore.Account
     - Fix the re-use of ac_signup panel to get again a disabled validation
 
 ### 1.8.0

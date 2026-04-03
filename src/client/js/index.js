@@ -8,8 +8,8 @@ import { acConnection } from '../classes/ac_connection.class.js';
 
 AccountsUI.Connection = new acConnection();
 
-import './accounts-callbacks.js';
 import './accounts-features.js';
+import './accounts-links.js';
 import './bodyevents.js';
 import './defaults.js';
 import './functions.js';

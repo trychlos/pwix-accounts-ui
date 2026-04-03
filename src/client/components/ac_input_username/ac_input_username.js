@@ -84,7 +84,7 @@ Template.ac_input_username_sub.onCreated( function(){
             const acName = AC.options.acName();
             if( acName ){
                 const acInstance = AccountsCore.getInstance( acName );
-                assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+                assert( acInstance && acInstance instanceof AccountsCore.Account, 'expects an instance of AccountsCore.Account, got '+acInstance );
                 self.AC.acInstance = acInstance;
             }
         }

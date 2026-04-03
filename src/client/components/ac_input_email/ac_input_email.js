@@ -18,11 +18,14 @@
 const assert = require( 'assert' ).strict; // up to nodejs v16.x
 
 import { AccountsCore } from 'meteor/pwix:accounts-core';
+import { Logger } from 'meteor/pwix:logger';
 import { pwixI18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
 
 import './ac_input_email.html';
+
+const logger = Logger.get();
 
 Template.ac_input_email.helpers({
     // returns the text, maybe from data context, defaulting to the translated string
@@ -88,7 +91,7 @@ Template.ac_input_email.helpers({
             const acName = AC.options.acName();
             if( acName ){
                 const acInstance = AccountsCore.getInstance( acName );
-                assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+                assert( acInstance && acInstance instanceof AccountsCore.Account, 'expects an instance of AccountsCore.Account, got '+acInstance );
                 self.AC.acInstance = acInstance;
             }
         }

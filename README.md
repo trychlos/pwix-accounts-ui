@@ -550,7 +550,7 @@ Even when providing a configuration object, as all keys are optional, this objec
 
 - `acName`
 
-    The name of an `AccountsCore.acAccount` instance which itself defines an account entity.
+    The name of an `AccountsCore.Account` instance which itself defines an account entity.
 
     Defaults to `users`, the standard default Meteor accounts collection.
 

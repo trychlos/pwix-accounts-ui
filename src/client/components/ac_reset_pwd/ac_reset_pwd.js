@@ -10,7 +10,7 @@
  * 
  * Parms:
  * - user
- * - acName: the AccountsCore.acAccount instance name (passed from reset_ask through URL parameters)
+ * - acName: the AccountsCore.Account instance name (passed from reset_ask through URL parameters)
  * - cb
  */
 

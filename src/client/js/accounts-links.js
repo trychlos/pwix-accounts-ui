@@ -1,5 +1,5 @@
 /*
- * /src/client.js/accounts-callbacks.js
+ * /src/client.js/accounts-links.js
  */
 
 import { Accounts } from 'meteor/accounts-base';
@@ -47,10 +47,11 @@ _verifyExpired = function(){
 
 Accounts.onEmailVerificationLink( function( token, done ){
     Meteor.callAsync( 'pwix.AccountsUI.m.byEmailVerificationToken', token )
-        .then(( user ) => {
-            if( user ){
+        .then(( userDoc ) => {
+            logger.debug( 'got userDoc', userDoc );
+            if( userDoc ){
                 let email = null;
-                user.services.email.verificationTokens.every(( it ) => {
+                userDoc.services.email.verificationTokens.every(( it ) => {
                     if( it.token === token ){
                         email = it.address;
                     }

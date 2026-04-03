@@ -10,7 +10,7 @@
  *  - AC: the acUserLogin internal data structure
  *      Is undefined when invoked from ac_reset_pwd template
  *      Take care!
- *  - acName: the AccountsCore.acAccount instance name (passed from reset_ask through URL parameters)
+ *  - acName: the AccountsCore.Account instance name (passed from reset_ask through URL parameters)
  *      set from ac_reset_pwd (so exclusive from AC above)
  *  - role: 'signup|change|reset'
  *      This happens to also be the prefix of the to-be-called AccountsUI options methods

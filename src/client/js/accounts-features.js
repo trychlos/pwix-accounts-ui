@@ -23,7 +23,7 @@ AccountsUI.Features = {
     changePwd( oldpwd, newpwd, opts={} ){
         const target = opts.AC.target || $( 'body' );
         const acName = opts.AC.options.acName();
-        if( acName === AccountsCore.ahOptions._defaults.name ){
+        if( acName === AccountsCore.Options._defaults.name ){
             Accounts.changePassword( oldpwd, newpwd, ( err ) => {
                 if( err ){
                     logger.error( err );
@@ -38,7 +38,7 @@ AccountsUI.Features = {
             });
         } else {
             const acInstance = AccountsCore.getInstance( acName );
-            assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+            assert( acInstance && acInstance instanceof AccountsCore.Account, 'expects an instance of AccountsCore.Account, got '+acInstance );
             logger.warn( 'changePwd() ignored', acInstance );
         }
     },
@@ -102,8 +102,7 @@ AccountsUI.Features = {
             // send a verification mail if asked for
             let promises = [];
             if( createUserOptions.email ){
-                const instance = AccountsCore.getInstance( 'users' );
-                if( instance && instance.opts().sendVerificationEmail()){
+                if( AccountsCore.Config.get( 'sendVerificationEmail' )){
                     promises.push( Meteor.callAsync( 'pwix.AccountsUI.m.sendVerificationEmailByEmail', createUserOptions.email ));
                 }
             }
@@ -131,7 +130,7 @@ AccountsUI.Features = {
                 });
         };
         // the main code
-        if( acName === AccountsCore.ahOptions._defaults.name ){
+        if( acName === AccountsCore.Options._defaults.name ){
             // https://docs.meteor.com/api/passwords#Accounts-createUser
             const autoConnect = options.signupAutoConnect();
             if( autoConnect !== false ){
@@ -158,7 +157,7 @@ AccountsUI.Features = {
             }
         } else {
             const acInstance = AccountsCore.getInstance( acName );
-            assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+            assert( acInstance && acInstance instanceof AccountsCore.Account, 'expects an instance of AccountsCore.Account, got '+acInstance );
             logger.warn( 'createUser() ignoring', acInstance );
         }
     },
@@ -176,7 +175,7 @@ AccountsUI.Features = {
     loginWithPassword( userid, password, opts={} ){
         const target = opts.AC.target || $( 'body' );
         const acName = opts.AC.options.acName();
-        if( acName === AccountsCore.ahOptions._defaults.name ){
+        if( acName === AccountsCore.Options._defaults.name ){
             logger.debug( 'userid', userid, 'password', password );
             try {
                 Meteor.loginWithPassword( userid, password, ( err ) => {
@@ -196,7 +195,7 @@ AccountsUI.Features = {
             }
         } else {
             const acInstance = AccountsCore.getInstance( acName );
-            assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+            assert( acInstance && acInstance instanceof AccountsCore.Account, 'expects an instance of AccountsCore.Account, got '+acInstance );
             logger.warn( 'loginWithPassword() ignoring', acInstance );
         }
     },
@@ -209,7 +208,7 @@ AccountsUI.Features = {
     logout( opts={} ){
         const target = opts.AC.target || $( 'body' );
         const acName = opts.AC.options.acName();
-        if( acName === AccountsCore.ahOptions._defaults.name ){
+        if( acName === AccountsCore.Options._defaults.name ){
             const user = { ...Meteor.user() };
             Meteor.logout();
             const event = 'ac-user-signedout-event';
@@ -220,7 +219,7 @@ AccountsUI.Features = {
             target.trigger( 'ac-close' );
         } else {
             const acInstance = AccountsCore.getInstance( acName );
-            assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+            assert( acInstance && acInstance instanceof AccountsCore.Account, 'expects an instance of AccountsCore.Account, got '+acInstance );
             logger.warn( 'logout() ignoring', acInstance );
         }
     },
@@ -240,7 +239,7 @@ AccountsUI.Features = {
         const target = opts.AC.target || $( 'body' );
         const acName = opts.AC.options.acName();
         const acInstance = AccountsCore.getInstance( acName );
-        assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+        assert( acInstance && acInstance instanceof AccountsCore.Account, 'expects an instance of AccountsCore.Account, got '+acInstance );
         // the success handler
         const _resetAskSuccess = function(){
             Tolert.success( pwixI18n.label( I18N, 'user.resetask_success' ));
@@ -252,7 +251,7 @@ AccountsUI.Features = {
             target.trigger( 'ac-close' );
         };
         // the main code
-        if( acName === AccountsCore.ahOptions._defaults.name ){
+        if( acName === AccountsCore.Options._defaults.name ){
             const res = await Meteor.callAsync( 'pwix.AccountsUI.m.forgotPassword', acName, email );
             if( res ){
                 _resetAskSuccess( email, opts );
@@ -278,7 +277,7 @@ AccountsUI.Features = {
     verifyMail( opts={} ){
         const target = opts.AC.target || $( 'body' );
         const acName = opts.AC.options.acName();
-        if( acName === AccountsCore.ahOptions._defaults.name ){
+        if( acName === AccountsCore.Options._defaults.name ){
             Meteor.callAsync( 'pwix.AccountsUI.m.sendVerificationEmailById', Meteor.userId())
                 .then(( result ) => {
                     if( result ){
@@ -295,7 +294,7 @@ AccountsUI.Features = {
                 });
         } else {
             const acInstance = AccountsCore.getInstance( acName );
-            assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+            assert( acInstance && acInstance instanceof AccountsCore.Account, 'expects an instance of AccountsCore.Account, got '+acInstance );
             logger.warn( 'verifyMail() ignoring', acInstance );
         }
     }

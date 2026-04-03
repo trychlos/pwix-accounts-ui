@@ -4,8 +4,11 @@
 
 import _ from 'lodash';
 
+import { Logger } from 'meteor/pwix:logger';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Tracker } from 'meteor/tracker';
+
+const logger = Logger.get();
 
 // menuItems() dependency tracker
 _menuItems = {
@@ -33,23 +36,23 @@ AccountsUI.fn = {
      * @returns {String} the current error message
      * A reactive data source
      */
-    errorMsg( msg, opts={} ){
-        if( msg !== undefined ){
-            if( opts.dataContext && AccountsUI.fn.hasExternalMessager( opts.dataContext )){
-                const checker = opts.dataContext.checker.get();
-                if( checker ){
-                    if( msg ){
-                        checker.messagerPush( new Package['pwix:typed-message'].TM.TypedMessage({
-                            level: Package['pwix:typed-message'].TM.MessageLevel.C.ERROR,
-                            message: msg
-                        }));
-                    } else {
-                        checker.messagerClearMine();
-                    }
+    async errorMsg( msg, opts={} ){
+        //logger.warning( 'msg', msg, 'checker', opts.dataContext?.checker?.get() );
+        if( opts.dataContext && AccountsUI.fn.hasExternalMessager( opts.dataContext )){
+            const checker = opts.dataContext.checker.get();
+            if( checker ){
+                if( msg ){
+                    await checker.messagerPush( new Package['pwix:typed-message'].TM.TypedMessage({
+                        level: Package['pwix:typed-message'].TM.MessageLevel.C.ERROR,
+                        message: msg
+                    }));
+                } else {
+                    await checker.messagerClearMine();
                 }
-            } else {
-                _errorMsg.set( msg );
+                //await checker.recomputeState();
             }
+        } else {
+            _errorMsg.set( msg );
         }
         return _errorMsg.get();
     },

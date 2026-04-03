@@ -7,7 +7,7 @@
  *  - AC: the acUserLogin internal data structure
  *      Is undefined when invoked from ac_reset_pwd template (via ac_twice_passwords)
  *      Take care!
- *  - acName: the AccountsCore.acAccount instance name (passed from reset_ask through URL parameters)
+ *  - acName: the AccountsCore.Account instance name (passed from reset_ask through URL parameters)
  *      set from ac_reset_pwd (so exclusive from AC above)
  *  - wantsLength: whether to check against the minimal length of the password, defaulting to false
  *  - wantsComplexity: whether to check for input password strength, defaulting to false
@@ -111,7 +111,7 @@ Template.ac_input_password.onCreated( function(){
         const acName = AC ? AC.options.acName() : Template.currentData().acName;
         if( acName ){
             const acInstance = AccountsCore.getInstance( acName );
-            assert( acInstance && acInstance instanceof AccountsCore.acAccount, 'expects an instance of AccountsCore.acAccount, got '+acInstance );
+            assert( acInstance && acInstance instanceof AccountsCore.Account, 'expects an instance of AccountsCore.Account, got '+acInstance );
             self.AC.acInstance = acInstance;
             // compute the minimal required score according to the configured required strength
             const requiredStrength = acInstance.opts().passwordStrength();

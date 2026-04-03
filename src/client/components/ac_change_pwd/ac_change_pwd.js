@@ -25,22 +25,22 @@ Template.ac_change_pwd.onCreated( function(){
 
         // not only each field must be individually ok
         //  but we also make sure the old and new passwords are different
-        checks( event, data ){
+        async checks( event, data ){
             switch( event.type ){
                 case 'ac-password-data':
                     if( self.AC.checkPassword( data ) && !self.AC.inCheck ){
-                        self.AC.checkPanel();
+                        await self.AC.checkPanel();
                     }
                     break;
                 case 'ac-twice-data':
                     if( self.AC.checkTwice( data ) && !self.AC.inCheck ){
-                        self.AC.checkPanel();
+                        await self.AC.checkPanel();
                     }
                     break;
             }
         },
         // only relevant if individual checks are ok
-        checkPanel(){
+        async checkPanel(){
             self.AC.inCheck = true;
             if( !self.AC.passwordOk.get()){
                 self.$( '.ac-change-pwd .ac-old .ac-input-password' ).trigger( 'ac-check' );
@@ -50,7 +50,7 @@ Template.ac_change_pwd.onCreated( function(){
                 const equalsOk = self.AC.passwordVal && self.AC.passwordVal.length > 0 && self.AC.passwordVal !== self.AC.twiceVal;
                 self.AC.equalsOk.set( equalsOk );
                 if( !equalsOk ){
-                    AccountsUI.fn.errorMsg( pwixI18n.label( I18N, 'change_pwd.pwds_are_equal' ), { dataContext: Template.currentData() });
+                    await AccountsUI.fn.errorMsg( pwixI18n.label( I18N, 'change_pwd.pwds_are_equal' ), { dataContext: Template.currentData() });
                 }
             }
             self.AC.inCheck = false;

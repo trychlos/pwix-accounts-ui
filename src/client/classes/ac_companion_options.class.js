@@ -85,7 +85,7 @@ export class acCompanionOptions extends Options.Base {
 
     /**
      * Getter/Setter
-     * Returns name of the AccountsCore.acAccount instance associated to this acUserLogin component instance
+     * Returns name of the AccountsCore.Account instance associated to this acUserLogin component instance
      * @param {String|Function} value a string or a function which returns a string
      * @returns {String}
      */
