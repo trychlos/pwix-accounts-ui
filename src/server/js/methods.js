@@ -14,6 +14,15 @@ const logger = Logger.get();
 Meteor.methods({
     // All AccountsUI.byXxxx methods return a user object without the crypted password nor the profile
 
+    // find the user who holds the given email verification token
+    async 'pwix.AccountsUI.m.byEmailVerificationToken'( token ){
+        check( token, Match.NonEmptyString );
+        const userDoc = await Meteor.users.findOneAsync({ 'services.email.verificationTokens': { $elemMatch: { token: token }}},{ 'services.email': 1 });
+        const acInstance = AccountsCore.getInstance( 'users' );
+        check( acInstance, AccountsCore.Account );
+        return await AccountsCore.Transforms.cleanupUserDocument( acInstance, userDoc );
+    },
+
     // find the user who holds the given reset password token
     async 'pwix.AccountsUI.m.byResetToken'( acName, token ){
         check( acName, Match.NonEmptyString );
@@ -21,15 +30,6 @@ Meteor.methods({
         const acInstance = AccountsCore.getInstance( acName );
         check( acInstance, AccountsCore.Account );
         const userDoc = await acInstance.collection().findOneAsync({ 'services.password.reset.token': token },{ 'services.password.reset': 1 });
-        return await AccountsCore.Transforms.cleanupUserDocument( acInstance, userDoc );
-    },
-
-    // find the user who holds the given email verification token
-    async 'pwix.AccountsUI.m.byEmailVerificationToken'( token ){
-        check( token, Match.NonEmptyString );
-        const userDoc = await Meteor.users.findOneAsync({ 'services.email.verificationTokens': { $elemMatch: { token: token }}},{ 'services.email': 1 });
-        const acInstance = AccountsCore.getInstance( 'users' );
-        check( acInstance, AccountsCore.Account );
         return await AccountsCore.Transforms.cleanupUserDocument( acInstance, userDoc );
     },
 
@@ -46,7 +46,6 @@ Meteor.methods({
     // ask to send a reset password email
     // see https://github.com/meteor/meteor/blob/devel/packages/accounts-password/password_server.js#L363
     // see https://github.com/meteor/meteor/blob/devel/packages/accounts-password/password_server.js#L529
-    // do not send extra data when using the standard 'users' collection
     // return true|false
     async 'pwix.AccountsUI.m.forgotPassword'( acName, email ){
         check( acName, Match.NonEmptyString );
@@ -56,11 +55,7 @@ Meteor.methods({
         let res = null;
         const userDoc = await acInstance.byEmailAddress( email );
         if( userDoc ){
-            if( acName === AccountsCore.Options._defaults.name ){
-                res = await Accounts.sendResetPasswordEmail( userDoc._id, email );
-            } else {
-                res = await Accounts.sendResetPasswordEmail( userDoc._id, email, undefined, { acName: acName });
-            }
+            res = await Accounts.sendResetPasswordEmail( userDoc._id, email, undefined, { acName: acName });
         }
         return Boolean( res );
     },

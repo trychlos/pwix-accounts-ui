@@ -152,7 +152,7 @@ Template.acUserLogin.helpers({
 
 Template.acUserLogin.events({
 
-    // handler here the message which want change the displayed panel (or open a new one)
+    // handler here the events which want change the displayed panel (or open a new one)
     'ac-panel-changepwd-event/ac-panel-resetask-event/ac-panel-signin-event/ac-panel-signout-event/ac-panel-signup-event/ac-panel-verifyask-event .acUserLogin'( event, instance, data ){
         let panel = AccountsUI.Panel.fromEvent( event.type );
         logger.debug( event.type, '->', panel );

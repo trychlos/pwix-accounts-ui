@@ -15,6 +15,7 @@
     - Add weak dependencies pwix:forms and pwix:typed-message
     - Fix handling of Accounts URLs on..Link even after application startup
     - Make sure dropdown menu items are reactive to status changes
+    - Close the modal after successful password change and validate reset password link
 
 ### 2.1.1
 

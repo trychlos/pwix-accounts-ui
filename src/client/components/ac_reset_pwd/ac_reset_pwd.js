@@ -16,6 +16,7 @@
 
 import printf from 'printf';
 
+import { Logger } from 'meteor/pwix:logger';
 import { Modal } from 'meteor/pwix:modal';
 
 import '../../../common/js/index.js';
@@ -23,6 +24,8 @@ import '../../../common/js/index.js';
 import '../ac_twice_passwords/ac_twice_passwords.js';
 
 import './ac_reset_pwd.html';
+
+const logger = Logger.get();
 
 Template.ac_reset_pwd.onCreated( function(){
     const self = this;
@@ -34,7 +37,7 @@ Template.ac_reset_pwd.onCreated( function(){
             const item = 'resetPwd'+label;
             const string = AccountsUI.opts()[item]();
             const user = self.data.user;
-            return printf( string, user ? user.services.password.reset.email : '' );
+            return printf( string, user ? user.services?.password?.reset?.email : '' );
         }
     };
 });

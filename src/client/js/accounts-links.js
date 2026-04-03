@@ -56,7 +56,7 @@ _handleEnrollmentToken = function( token, done = () => {} ){
 //      });
 //
 // Note 1: it happens that resetting the password of the user A automatically logs-in this user A,
-//  even if a user B was previsouly connected :()
+//  even if a user B was previsouly connected :(
 //  As this function is called just before Meteor.startup() is run, the connextion of user B seems
 //  to be temporarily suspended. If user A completes the form, then it automatically logs in.
 //  Else, user B is re-connected.
@@ -98,13 +98,13 @@ _handleResetPasswordToken = async function( token, done = () => {} ){
     };
     // main code    
     Meteor.callAsync( 'pwix.AccountsUI.m.byResetToken', parms.acName, token )
-        .then(( user ) => {
-            if( user ){
+        .then(( userDoc ) => {
+            if( userDoc ){
                 Modal.run({
                     mdBody: 'ac_reset_pwd',
                     mdButtons: [ Modal.C.Button.CANCEL, { id: Modal.C.Button.OK, dismiss: true }],
                     mdTitle: pwixI18n.label( I18N, 'reset_pwd.modal_title' ),
-                    user: user,
+                    user: userDoc,
                     acName: parms.acName,
                     cb: () => {
                         const passwd = $( '.ac-reset-pwd .ac-newone .ac-input-password input' ).val().trim();
@@ -118,7 +118,7 @@ _handleResetPasswordToken = async function( token, done = () => {} ){
                                     message: pwixI18n.label( I18N, 'user.resetpwd_text' )
                                 });
                                 const event = 'ac-user-resetdone-event';
-                                const parms = { email: user.services.password.reset.email };
+                                const parms = { email: userDoc.services.password.reset.email };
                                 logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.USER }, 'onResetPasswordLink() triggering', event, parms );
                                 $( 'body' ).trigger( event, parms );
                             }
@@ -234,11 +234,16 @@ const _consumeReservedHash = async function(){
         return;
     }
     await matched.fn( matched.token );
-    // optional: clear the hash yourself after consuming it
-    if( window.location.hash ){
-        history.replaceState( null, document.title, window.location.pathname + window.location.search );
-    }
+    _cleanupUrl();
 };
+
+const _cleanupUrl = function(){
+    Meteor.defer(() => {
+        const cleanUrl = window.location.origin + window.location.pathname;
+        history.replaceState( null, document.title, cleanUrl );
+        logger.debug( 'URL cleaned:', cleanUrl );
+    });
+}
 
 // handle initial load after your package is loaded
 Meteor.startup( async () => {

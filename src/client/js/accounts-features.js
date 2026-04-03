@@ -34,6 +34,11 @@ AccountsUI.Features = {
                     const parms = Meteor.user();
                     logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.USER }, 'changePwd() triggering', event, parms );
                     target.trigger( event, parms );
+                    // close the modal on success
+                    const renderMode = opts.AC.options.renderMode();
+                    if( renderMode === AccountsUI.C.Render.MODAL ){
+                        target.trigger( 'ac-close' );
+                    }
                 }
             });
         } else {
