@@ -15,76 +15,12 @@ import '../components/ac_reset_pwd/ac_reset_pwd.js';
 
 const logger = Logger.get();
 
-//  when the user clicks on the two below links, the function is executed between
-//  the packages configurations and Meteor.startup()
+// https://docs.meteor.com/api/accounts.html#Accounts-onEnrollmentLink
 
-// https://docs.meteor.com/api/passwords.html#Accounts-onEmailVerificationLink
-//
-//      "services" : {
-//          "email" : {
-//              "verificationTokens" : [
-//                  {
-//                      "token" : "znEz5ibBf1uLLvOSpMjjm92Sah7j8iXPWemFdllaexU",
-//                      "address" : "xxxx@xxx.xx",
-//                      "when" : ISODate("2022-10-23T15:14:42.242Z")
-//                  }, {
-//                      "token" : "276Oy_MRKwTI0e8cQTIYPZ7wepEX1dD460qsLz9TWaX",
-//                      "address" : "xxxx@xxx.xx",
-//                      "when" : ISODate("2022-10-23T15:14:45.953Z")
-//                  }
-//              ]
-//          }
-//      }
-//
-// URL is of the form 'http://localhost:3000/#/verify-email/8R7RpL6ysRSAIO6Us6kA4uTITzb3xl1wzbNqyDIlAph'
-
-_verifyExpired = function(){
-    Bootbox.alert({
-        title: pwixI18n.label( I18N, 'user.verify_title' ),
-        message: pwixI18n.label( I18N, 'user.verify_error' )
-    });
-}
-
-Accounts.onEmailVerificationLink( function( token, done ){
-    Meteor.callAsync( 'pwix.AccountsUI.m.byEmailVerificationToken', token )
-        .then(( userDoc ) => {
-            logger.debug( 'got userDoc', userDoc );
-            if( userDoc ){
-                let email = null;
-                userDoc.services.email.verificationTokens.every(( it ) => {
-                    if( it.token === token ){
-                        email = it.address;
-                    }
-                    return email === null;
-                });
-                Accounts.verifyEmail( token, ( err ) => {
-                    if( err ){
-                        logger.error( err );
-                        _verifyExpired();
-                    } else {
-                        const fn = AccountsUI.opts().onEmailVerifiedBeforeFn();
-                        if( fn ){
-                            fn();
-                        }
-                        if( AccountsUI.opts().onEmailVerifiedBox()){
-                            Bootbox.alert({
-                                title: AccountsUI.opts().onEmailVerifiedBoxTitle(),
-                                message: AccountsUI.opts().onEmailVerifiedBoxMessage(),
-                                cb: AccountsUI.opts().onEmailVerifiedBoxCb()
-                            });
-                        }
-                        const event = 'ac-user-verifieddone-event';
-                        const parms = { email: email };
-                        logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.USER }, 'onEmailVerificationLink() triggering', event, parms );
-                        $( 'body' ).trigger( event, parms );
-                        done();
-                    }
-                });
-            } else {
-                _verifyExpired();
-            }
-        });
-});
+_handleEnrollmentToken = function( token, done = () => {} ){
+    logger.debug( 'in _handleEnrollmentToken()', token );
+    done();
+};
 
 // https://docs.meteor.com/api/passwords.html#Accounts-onResetPasswordLink
 //
@@ -150,8 +86,7 @@ Accounts.onEmailVerificationLink( function( token, done ){
 //     "errorType": "Meteor.Error"
 // }
 
-
-Accounts.onResetPasswordLink( function( token, done ){
+_handleResetPasswordToken = function( token, done = () => {} ){
     const json = '{"' + location.search.substring( 1 ).replace( /&/g, '","' ).replace( /=/g, '":"' ) + '"}';
     const parms = JSON.parse( json, function( key, value ){ return key === '' ? value : decodeURIComponent( value ); });
     // error handling
@@ -186,7 +121,6 @@ Accounts.onResetPasswordLink( function( token, done ){
                                 const parms = { email: user.services.password.reset.email };
                                 logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.USER }, 'onResetPasswordLink() triggering', event, parms );
                                 $( 'body' ).trigger( event, parms );
-                                done();
                             }
                         });
                     }
@@ -194,5 +128,132 @@ Accounts.onResetPasswordLink( function( token, done ){
             } else {
                 _resetExpired();
             }
+            done();
         });
+};
+
+//  when the user clicks on the two below links, the function is executed between
+//  the packages configurations and Meteor.startup()
+
+// https://docs.meteor.com/api/passwords.html#Accounts-onEmailVerificationLink
+//
+//      "services" : {
+//          "email" : {
+//              "verificationTokens" : [
+//                  {
+//                      "token" : "znEz5ibBf1uLLvOSpMjjm92Sah7j8iXPWemFdllaexU",
+//                      "address" : "xxxx@xxx.xx",
+//                      "when" : ISODate("2022-10-23T15:14:42.242Z")
+//                  }, {
+//                      "token" : "276Oy_MRKwTI0e8cQTIYPZ7wepEX1dD460qsLz9TWaX",
+//                      "address" : "xxxx@xxx.xx",
+//                      "when" : ISODate("2022-10-23T15:14:45.953Z")
+//                  }
+//              ]
+//          }
+//      }
+//
+// URL is of the form 'http://localhost:3000/#/verify-email/8R7RpL6ysRSAIO6Us6kA4uTITzb3xl1wzbNqyDIlAph'
+
+_verifyExpired = function(){
+    Bootbox.alert({
+        title: pwixI18n.label( I18N, 'user.verify_title' ),
+        message: pwixI18n.label( I18N, 'user.verify_error' )
+    });
+};
+
+_handleVerifyEmailToken = function( token, done = () => {} ){
+    Meteor.callAsync( 'pwix.AccountsUI.m.byEmailVerificationToken', token )
+        .then(( userDoc ) => {
+            logger.debug( 'got userDoc', userDoc );
+            if( userDoc ){
+                let email = null;
+                userDoc.services.email.verificationTokens.every(( it ) => {
+                    if( it.token === token ){
+                        email = it.address;
+                    }
+                    return email === null;
+                });
+                Accounts.verifyEmail( token, ( err ) => {
+                    if( err ){
+                        logger.error( err );
+                        _verifyExpired();
+                    } else {
+                        const fn = AccountsUI.opts().onEmailVerifiedBeforeFn();
+                        if( fn ){
+                            fn();
+                        }
+                        if( AccountsUI.opts().onEmailVerifiedBox()){
+                            Bootbox.alert({
+                                title: AccountsUI.opts().onEmailVerifiedBoxTitle(),
+                                message: AccountsUI.opts().onEmailVerifiedBoxMessage(),
+                                cb: AccountsUI.opts().onEmailVerifiedBoxCb()
+                            });
+                        }
+                        const event = 'ac-user-verifieddone-event';
+                        const parms = { email: email };
+                        logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.USER }, 'onEmailVerificationLink() triggering', event, parms );
+                        $( 'body' ).trigger( event, parms );
+                    }
+                });
+            } else {
+                _verifyExpired();
+            }
+            done();
+        });
+};
+
+// install an event handler to intercept hash changes
+// Rationale: copy/pasting an email verification link (for example) doesn't trigger the Meteor callback as it should without refreshing (F5) the page
+// Accrding to ChatGPT, seems that Meteor only handles these on SPA application startup
+// So this handler
+// It supposes that standard URLs have not been changed server-side (https://docs.meteor.com/api/accounts.html#email-link-callbacks-and-url-customization)
+
+const _urls = {
+    'enroll-account': _handleEnrollmentToken,
+    'reset-password': _handleResetPasswordToken,
+    'verify-email': _handleVerifyEmailToken
+};
+
+const _matchReservedHash = function(){
+    const hash = window.location.hash || '';
+    for( const it of Object.keys( _urls )){
+        const regex = new RegExp( '^#\/'+it+'\/([^?]+)' );
+        const m = hash.match( regex );
+        if( m ){
+            return { kind: it, token: m[1] };
+        }
+    }
+    return null;
+};
+
+const _consumeReservedHash = function(){
+    const matched = _matchReservedHash();
+    if( !matched ){
+        return;
+    }
+    logger.debug( 'matched', matched );
+    if( matched.kind === 'enroll-account' ){
+        _handleEnrollmentToken( matched.token );
+    }
+    if( matched.kind === 'reset-password' ){
+        _handleResetPasswordToken( matched.token );
+    }
+    if( matched.kind === 'verify-email' ){
+        _handleVerifyEmailToken( matched.token );
+    }
+    // optional: clear the hash yourself after consuming it
+    if( window.location.hash ){
+        history.replaceState( null, document.title, window.location.pathname + window.location.search );
+    }
+};
+
+// handle initial load after your package is loaded
+Meteor.startup(() => {
+    _consumeReservedHash();
+});
+
+// handle paste/navigation into an already-running SPA
+window.addEventListener( 'hashchange', () => {
+    _consumeReservedHash();
 });
