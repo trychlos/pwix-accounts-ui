@@ -10,7 +10,7 @@
  *  - acName: the AccountsCore.Account instance name (passed from reset_ask through URL parameters)
  *      set from ac_reset_pwd (so exclusive from AC above)
  *  - wantsLength: whether to check against the minimal length of the password, defaulting to false
- *  - wantsComplexity: whether to check for input password strength, defaulting to false
+ *  - wantsStrength: whether to check for input password strength, defaulting to false
  *  - withAutocomplete: whether to have an autocomplete attribute, defaulting to false (to be set to true for a login panel)
  *  - withErrorArea: whether we want a dedicated error message area here, defaulting to false
  *  - withErrorMsg: whether this component should send error message, defaulting to false
@@ -55,8 +55,8 @@ Template.ac_input_password.onCreated( function(){
         //  else (e.g. signin) we just advertise of the input event
         check(){
             self.AC.displayError( '' );
-            const wantsLength = Template.currentData().wantsLength == true;
-            const wantsStrength = Template.currentData().wantsStrength == true;
+            const wantsLength = Template.currentData().wantsLength === true;
+            const wantsStrength = Template.currentData().wantsStrength === true;
             if( self.AC.acInstance ){
                 self.AC.acInstance.checkPassword( self.$( '.ac-input-password input' ).val() || '', { testLength: wantsLength, testComplexity: wantsStrength })
                     .then(( result ) => {
@@ -163,6 +163,11 @@ Template.ac_input_password.helpers({
     // returns the text, maybe from data context, defaulting to the translated string
     text( key ){
         return Object.keys( this ).includes( key ) ? this[key] : pwixI18n.label( I18N, 'input_password.'+key );
+    },
+
+    // whether we want display an indicator of the password strength, defaulting to false
+    withStrength(){
+        return this.wantsStrength === true;
     }
 });
 
