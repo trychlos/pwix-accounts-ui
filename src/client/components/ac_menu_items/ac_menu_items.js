@@ -14,6 +14,23 @@ import './ac_menu_items.html';
 
 const logger = Logger.get();
 
+Template.ac_menu_items.onCreated( function(){
+    const self = this;
+
+    self.AC = {
+        buildMenus( dataContext ){
+            const menu = self.$( '.ac-menu-items' );
+            const ddItems = AccountsUI.fn.menuItems( dataContext.AC.options );
+            let html = '';
+            ddItems.every(( it ) => {
+                html += '<li>'+it+'</li>\n';
+                return true;
+            });
+            menu.html( html );
+        }
+    };
+});
+
 Template.ac_menu_items.onRendered( function(){
     const self = this;
 
@@ -29,19 +46,30 @@ Template.ac_menu_items.onRendered( function(){
     //  when dealing with HTML content and more generally with triple-braces helpers
     //  This solution, as a one-line jQuery which doesn't use Blaze helpers, works well.
     self.autorun(() => {
-        const menu = self.$( '.ac-menu-items' );
-        const ddItems = AccountsUI.fn.menuItems( Template.currentData().AC.options );
-        let html = '';
-        ddItems.every(( it ) => {
-            html += '<li>'+it+'</li>\n';
-            return true;
-        });
-        menu.html( html );
+        self.AC.buildMenus( Template.currentData());
+    });
+
+    // have the menu items be enabled/disabled when the user email address becomes verified
+    // because of the way the menu is built we rely on special class added to items which are sensitive to that
+    self.autorun(() => {
+        const user = Meteor.user({ fields: { 'username': 1, 'usernames': 1, 'emails': 1 }});
+        let hasUnverified = false;
+        for( const it of ( user?.emails || [] )){
+            if( !it.verified ){
+                hasUnverified = true;
+                break;
+            }
+        }
+        if( hasUnverified ){
+            self.$( '.ac-menu-items' ).find( 'a.if-has-unverified' ).removeClass( 'disabled' );
+        } else {
+            self.$( '.ac-menu-items' ).find( 'a.if-has-unverified' ).removeClass( 'disabled' );
+            self.$( '.ac-menu-items' ).find( 'a.if-has-unverified' ).addClass( 'disabled' );
+        }
     });
 });
 
 Template.ac_menu_items.events({
-
     'click .ac-dropdown-item'( event, instance ){
         const msg = $( event.currentTarget ).attr( 'data-ac-event' );
         if( msg ){

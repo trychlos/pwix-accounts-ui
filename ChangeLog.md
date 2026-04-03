@@ -13,6 +13,8 @@
     - Rename pwix:accounts-hub dependency to pwix:accounts-core, upgrading it to 2.0.0-rc.0
     - Move exported assets to /resources directory (todo #83)
     - Add weak dependencies pwix:forms and pwix:typed-message
+    - Fix handling of Accounts URLs on..Link even after application startup
+    - Make sure dropdown menu items are reactive to status changes
 
 ### 2.1.1
 

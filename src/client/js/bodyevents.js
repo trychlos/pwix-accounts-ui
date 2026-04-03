@@ -39,9 +39,8 @@ _refs = [
 ];
 
 // install a general events handler
-_refs.every(( name ) => {
+for( const name of _refs ){
     $( document ).on( name, ( event ) => {
-        logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.EVENT }, 'body event:', event.type );
+        logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.EVENT }, 'document event:', event.type );
     });
-    return true;
-});
+}

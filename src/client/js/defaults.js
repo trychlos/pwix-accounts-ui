@@ -7,7 +7,12 @@
 import _ from 'lodash';
 
 import { AccountsCore } from 'meteor/pwix:accounts-core';
+import { Logger } from 'meteor/pwix:logger';
 import { pwixI18n } from 'meteor/pwix:i18n';
+import { ReactiveVar } from 'meteor/reactive-var';
+import { Tracker } from 'meteor/tracker';
+
+const logger = Logger.get();
 
 /* 
  *  HTML attributs
@@ -30,7 +35,6 @@ _stdMenuItems[AccountsUI.C.Connection.LOGGED] = [
         aclass: 'ac-signout',
         faicon: 'fa-right-from-bracket',
         labelkey: 'signout',
-        enablefn: _enableAlways,
         panel: AccountsUI.C.Panel.SIGNOUT
     },
     {
@@ -38,15 +42,13 @@ _stdMenuItems[AccountsUI.C.Connection.LOGGED] = [
         aclass: 'ac-changepwd',
         faicon: 'fa-passport',
         labelkey: 'changepwd',
-        enablefn: _enableAlways,
         panel: AccountsUI.C.Panel.CHANGEPWD
     },
     {
         id: 'ac-verifyask-item',
-        aclass: 'ac-verifyask',
+        aclass: 'ac-verifyask if-has-unverified',
         faicon: 'fa-envelope-circle-check',
         labelkey: 'verifyask',
-        enablefn: _enableMailVerified,
         panel: AccountsUI.C.Panel.VERIFYASK
     }
 ];
@@ -57,7 +59,6 @@ _stdMenuItems[AccountsUI.C.Connection.UNLOGGED] = [
         aclass: 'ac-signin',
         faicon: 'fa-user',
         labelkey: 'signin',
-        enablefn: _enableAlways,
         panel: AccountsUI.C.Panel.SIGNIN
     },
     {
@@ -65,7 +66,6 @@ _stdMenuItems[AccountsUI.C.Connection.UNLOGGED] = [
         aclass: 'ac-signup',
         faicon: 'fa-user-plus',
         labelkey: 'signup',
-        enablefn: _enableAlways,
         panel: AccountsUI.C.Panel.SIGNUP
     },
     {
@@ -73,21 +73,9 @@ _stdMenuItems[AccountsUI.C.Connection.UNLOGGED] = [
         aclass: 'ac-resetask',
         faicon: 'fa-lock-open',
         labelkey: 'resetask',
-        enablefn: _enableAlways,
         panel: AccountsUI.C.Panel.RESETASK
     },
 ];
-
-/*
- * whether to enable the items
- */
-function _enableAlways(){
-    return true;
-}
-
-function _enableMailVerified(){
-    return AccountsUI.User.countUnverifiedEmails() > 0;
-}
 
 /*
  * @param {Array} the stdMenuItems[AccountsUI.C.Connection.LOGGED] (resp AccountsUI.C.Connection.UNLOGGED) source array
@@ -97,9 +85,6 @@ _buildStandardItems = function( source ){
     let result = [];
     source.every(( it ) => {
         let html = '<a class="dropdown-item d-flex align-items-center justify-content-start ac-dropdown-item '+it.aclass;
-        if( it.enablefn && !it.enablefn()){
-            html += ' disabled';
-        }
         html += '" href="#" data-ac-event="'+AccountsUI.Panel.toEvent( it.panel )+'" data-ac-panel="'+it.panel+'"';
         html += '>';
         html += '<span class="fa-solid fa-fw '+it.faicon+'"></span>';
@@ -120,10 +105,21 @@ function _coloredBorders(){
 
 /*
  * a function to return the first email address of the logged-in user (if any)
+ *  Starting with v2.2, we actually use the preferred label
  */
+_preferredLabel = new ReactiveVar( '' );
+
+Tracker.autorun(() => {
+    const acInstance = AccountsCore.getInstance( 'users' );
+    if( acInstance && Meteor.userId()){
+        acInstance.preferredLabel( Meteor.userId()).then(( res ) => _preferredLabel.set( res.label ));
+        return;
+    }
+    _preferredLabel.set( '' );
+});
+
 function _emailAddress(){
-    const email = AccountsUI.User.firstEmailAddress();
-    return email;
+    return _preferredLabel.get();
 }
 
 /*

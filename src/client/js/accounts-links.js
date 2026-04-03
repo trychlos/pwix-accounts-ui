@@ -86,7 +86,7 @@ _handleEnrollmentToken = function( token, done = () => {} ){
 //     "errorType": "Meteor.Error"
 // }
 
-_handleResetPasswordToken = function( token, done = () => {} ){
+_handleResetPasswordToken = async function( token, done = () => {} ){
     const json = '{"' + location.search.substring( 1 ).replace( /&/g, '","' ).replace( /=/g, '":"' ) + '"}';
     const parms = JSON.parse( json, function( key, value ){ return key === '' ? value : decodeURIComponent( value ); });
     // error handling
@@ -162,10 +162,9 @@ _verifyExpired = function(){
     });
 };
 
-_handleVerifyEmailToken = function( token, done = () => {} ){
+_handleVerifyEmailToken = async function( token, done = () => {} ){
     Meteor.callAsync( 'pwix.AccountsUI.m.byEmailVerificationToken', token )
         .then(( userDoc ) => {
-            logger.debug( 'got userDoc', userDoc );
             if( userDoc ){
                 let email = null;
                 userDoc.services.email.verificationTokens.every(( it ) => {
@@ -208,6 +207,8 @@ _handleVerifyEmailToken = function( token, done = () => {} ){
 // Accrding to ChatGPT, seems that Meteor only handles these on SPA application startup
 // So this handler
 // It supposes that standard URLs have not been changed server-side (https://docs.meteor.com/api/accounts.html#email-link-callbacks-and-url-customization)
+// This is confirmed by https://github.com/meteor/meteor/blob/devel/packages/accounts-base/accounts_client.js#L903
+//  which says that handlers are only run by Meteor client at startup (not before, and not after)
 
 const _urls = {
     'enroll-account': _handleEnrollmentToken,
@@ -221,27 +222,18 @@ const _matchReservedHash = function(){
         const regex = new RegExp( '^#\/'+it+'\/([^?]+)' );
         const m = hash.match( regex );
         if( m ){
-            return { kind: it, token: m[1] };
+            return { kind: it, token: m[1], fn: _urls[it] };
         }
     }
     return null;
 };
 
-const _consumeReservedHash = function(){
+const _consumeReservedHash = async function(){
     const matched = _matchReservedHash();
     if( !matched ){
         return;
     }
-    logger.debug( 'matched', matched );
-    if( matched.kind === 'enroll-account' ){
-        _handleEnrollmentToken( matched.token );
-    }
-    if( matched.kind === 'reset-password' ){
-        _handleResetPasswordToken( matched.token );
-    }
-    if( matched.kind === 'verify-email' ){
-        _handleVerifyEmailToken( matched.token );
-    }
+    await matched.fn( matched.token );
     // optional: clear the hash yourself after consuming it
     if( window.location.hash ){
         history.replaceState( null, document.title, window.location.pathname + window.location.search );
@@ -249,11 +241,11 @@ const _consumeReservedHash = function(){
 };
 
 // handle initial load after your package is loaded
-Meteor.startup(() => {
-    _consumeReservedHash();
+Meteor.startup( async () => {
+    await _consumeReservedHash();
 });
 
 // handle paste/navigation into an already-running SPA
-window.addEventListener( 'hashchange', () => {
-    _consumeReservedHash();
+window.addEventListener( 'hashchange', async () => {
+    await _consumeReservedHash();
 });

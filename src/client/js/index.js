@@ -16,4 +16,3 @@ import './functions.js';
 import './panel.js';
 import './private.js';
 import './ready.js';
-import './user.js';

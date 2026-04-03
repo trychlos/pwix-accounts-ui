@@ -176,7 +176,6 @@ AccountsUI.Features = {
         const target = opts.AC.target || $( 'body' );
         const acName = opts.AC.options.acName();
         if( acName === AccountsCore.Options._defaults.name ){
-            logger.debug( 'userid', userid, 'password', password );
             try {
                 Meteor.loginWithPassword( userid, password, ( err ) => {
                     if( err ){
