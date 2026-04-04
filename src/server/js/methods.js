@@ -69,7 +69,7 @@ Meteor.methods({
     //  - options
     async 'pwix.AccountsUI.m.sendVerificationEmailById'( id ){
         const ret = await Accounts.sendVerificationEmail( id );
-        logger.debug( 'pwix.AccountsUI.m.sendVerificationEmailById() ret=', ret );
+        //logger.debug( 'pwix.AccountsUI.m.sendVerificationEmailById() ret=', ret );
         return ret;
     },
 

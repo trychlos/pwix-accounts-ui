@@ -4,6 +4,7 @@
 
 import { Accounts } from 'meteor/accounts-base';
 import { Bootbox } from 'meteor/pwix:bootbox';
+import { check, Match } from 'meteor/check';
 import { Logger } from 'meteor/pwix:logger';
 import { Modal } from 'meteor/pwix:modal';
 import { pwixI18n } from 'meteor/pwix:i18n';
@@ -155,52 +156,61 @@ _handleResetPasswordToken = async function( token, done = () => {} ){
 //
 // URL is of the form 'http://localhost:3000/#/verify-email/8R7RpL6ysRSAIO6Us6kA4uTITzb3xl1wzbNqyDIlAph'
 
-_verifyExpired = function(){
+_handleVerifyEmailToken = async function( token, done = () => {} ){
+    Meteor.callAsync( 'pwix.AccountsUI.m.byEmailVerificationToken', token )
+        .then(( userDoc ) => {
+            let email = null;
+            if( userDoc ){
+                for( const it of ( userDoc.services.email.verificationTokens || [] )){
+                    if( it.token === token ){
+                        email = it.address;
+                        break;
+                    }
+                }
+            }
+            if( email ){
+                Accounts.verifyEmail( token, ( err ) => {
+                    if( err ){
+                        logger.error( err );
+                        email = null;
+                    } else {
+                        _handleVerifyEmailToken_success( email );
+                    }
+                });
+            }
+            if( !email ){
+                _handleVerifyEmailToken_error();
+            }
+            done();
+        });
+};
+
+_handleVerifyEmailToken_error = function(){
     Bootbox.alert({
         title: pwixI18n.label( I18N, 'user.verify_title' ),
         message: pwixI18n.label( I18N, 'user.verify_error' )
     });
 };
 
-_handleVerifyEmailToken = async function( token, done = () => {} ){
-    Meteor.callAsync( 'pwix.AccountsUI.m.byEmailVerificationToken', token )
-        .then(( userDoc ) => {
-            if( userDoc ){
-                let email = null;
-                userDoc.services.email.verificationTokens.every(( it ) => {
-                    if( it.token === token ){
-                        email = it.address;
-                    }
-                    return email === null;
-                });
-                Accounts.verifyEmail( token, ( err ) => {
-                    if( err ){
-                        logger.error( err );
-                        _verifyExpired();
-                    } else {
-                        const fn = AccountsUI.opts().onEmailVerifiedBeforeFn();
-                        if( fn ){
-                            fn();
-                        }
-                        if( AccountsUI.opts().onEmailVerifiedBox()){
-                            Bootbox.alert({
-                                title: AccountsUI.opts().onEmailVerifiedBoxTitle(),
-                                message: AccountsUI.opts().onEmailVerifiedBoxMessage(),
-                                cb: AccountsUI.opts().onEmailVerifiedBoxCb()
-                            });
-                        }
-                        const event = 'ac-user-verifieddone-event';
-                        const parms = { email: email };
-                        logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.USER }, 'onEmailVerificationLink() triggering', event, parms );
-                        $( 'body' ).trigger( event, parms );
-                    }
-                });
-            } else {
-                _verifyExpired();
-            }
-            done();
+// handling success of email verification
+_handleVerifyEmailToken_success = function( email ){
+    check( email, Match.NonEmptyString );
+    const fn = AccountsUI.opts().onEmailVerifiedBeforeFn();
+    if( fn ){
+        fn();
+    }
+    if( AccountsUI.opts().onEmailVerifiedBox()){
+        Bootbox.alert({
+            title: AccountsUI.opts().onEmailVerifiedBoxTitle(),
+            message: AccountsUI.opts().onEmailVerifiedBoxMessage(),
+            cb: AccountsUI.opts().onEmailVerifiedBoxCb()
         });
-};
+    }
+    const event = 'ac-user-verifieddone-event';
+    const parms = { email };
+    logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.USER }, 'onEmailVerificationLink() triggering', event, parms );
+    $( 'body' ).trigger( event, parms );
+}
 
 // install an event handler to intercept hash changes
 // Rationale: copy/pasting an email verification link (for example) doesn't trigger the Meteor callback as it should without refreshing (F5) the page
@@ -241,7 +251,7 @@ const _cleanupUrl = function(){
     Meteor.defer(() => {
         const cleanUrl = window.location.origin + window.location.pathname;
         history.replaceState( null, document.title, cleanUrl );
-        logger.debug( 'URL cleaned:', cleanUrl );
+        //logger.debug( 'URL cleaned:', cleanUrl );
     });
 }
 
