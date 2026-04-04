@@ -48,25 +48,6 @@ Template.ac_menu_items.onRendered( function(){
     self.autorun(() => {
         self.AC.buildMenus( Template.currentData());
     });
-
-    // have the menu items be enabled/disabled when the user email address becomes verified
-    // because of the way the menu is built we rely on special class added to items which are sensitive to that
-    self.autorun(() => {
-        const user = Meteor.user({ fields: { 'username': 1, 'usernames': 1, 'emails': 1 }});
-        let hasUnverified = false;
-        for( const it of ( user?.emails || [] )){
-            if( !it.verified ){
-                hasUnverified = true;
-                break;
-            }
-        }
-        if( hasUnverified ){
-            self.$( '.ac-menu-items' ).find( 'a.if-has-unverified' ).removeClass( 'disabled' );
-        } else {
-            self.$( '.ac-menu-items' ).find( 'a.if-has-unverified' ).removeClass( 'disabled' );
-            self.$( '.ac-menu-items' ).find( 'a.if-has-unverified' ).addClass( 'disabled' );
-        }
-    });
 });
 
 Template.ac_menu_items.events({

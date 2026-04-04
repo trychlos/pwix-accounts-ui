@@ -9,8 +9,6 @@ import _ from 'lodash';
 import { AccountsCore } from 'meteor/pwix:accounts-core';
 import { Logger } from 'meteor/pwix:logger';
 import { pwixI18n } from 'meteor/pwix:i18n';
-import { ReactiveVar } from 'meteor/reactive-var';
-import { Tracker } from 'meteor/tracker';
 
 const logger = Logger.get();
 
@@ -81,10 +79,15 @@ _stdMenuItems[AccountsUI.C.Connection.UNLOGGED] = [
  * @param {Array} the stdMenuItems[AccountsUI.C.Connection.LOGGED] (resp AccountsUI.C.Connection.UNLOGGED) source array
  * @returns {Array} an array of items as the <li>...</li> inner HTML strings
  */
-_buildStandardItems = function( source ){
+_buildStandardItems = function( source, unverified ){
     let result = [];
     source.every(( it ) => {
         let html = '<a class="dropdown-item d-flex align-items-center justify-content-start ac-dropdown-item '+it.aclass;
+        if( it.aclass.match( /if-has-unverified/ )){
+            if( unverified <= 0 ){
+                html += ' disabled';
+            }
+        }
         html += '" href="#" data-ac-event="'+AccountsUI.Panel.toEvent( it.panel )+'" data-ac-panel="'+it.panel+'"';
         html += '>';
         html += '<span class="fa-solid fa-fw '+it.faicon+'"></span>';
@@ -105,21 +108,10 @@ function _coloredBorders(){
 
 /*
  * a function to return the first email address of the logged-in user (if any)
- *  Starting with v2.2, we actually use the preferred label
+ *  Starting with v2.2, we actually use the preferred label from the current connection
  */
-_preferredLabel = new ReactiveVar( '' );
-
-Tracker.autorun(() => {
-    const acInstance = AccountsCore.getInstance( 'users' );
-    if( acInstance && Meteor.userId()){
-        acInstance.preferredLabel( Meteor.userId()).then(( res ) => _preferredLabel.set( res.label ));
-        return;
-    }
-    _preferredLabel.set( '' );
-});
-
 function _emailAddress(){
-    return _preferredLabel.get();
+    return AccountsUI.Connection.preferredLabel();
 }
 
 /*

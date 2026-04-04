@@ -1,7 +1,7 @@
 /*
  * pwix:accounts-ui/src/common/classes/ac_options.class.js
  *
- * This class manages the global configuration options.
+ * This class manages the package configuration options.
  */
 
 import _ from 'lodash';

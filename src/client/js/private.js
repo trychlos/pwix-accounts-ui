@@ -14,6 +14,7 @@ const logger = Logger.get();
 _menuItems = {
     dep: null,
     state: null,
+    unverified: -1,
     items: []
 };
 
@@ -107,12 +108,14 @@ AccountsUI.fn = {
             _menuItems.dep.depend();
         }
         const state = AccountsUI.Connection.state();
-        if( state !== _menuItems.state ){
+        const unverified = AccountsUI.Connection.unverifiedCount();
+        if( state !== _menuItems.state || unverified !== _menuItems.unverified ){
             _menuItems.state = state;
+            _menuItems.unverified = unverified;
             //_menuItems.items = _menuItemsBefore( opts ).concat( );
-            const _before = AccountsUI.fn.menuItemsBefore( opts, state );
-            const _core = _before.concat( AccountsUI.fn.menuItemsCore( opts, state ));
-            _menuItems.items = _core.concat( AccountsUI.fn.menuItemsAfter( opts, state ));
+            const _before = AccountsUI.fn.menuItemsBefore( opts, state, unverified );
+            const _core = _before.concat( AccountsUI.fn.menuItemsCore( opts, state, unverified ));
+            _menuItems.items = _core.concat( AccountsUI.fn.menuItemsAfter( opts, state, unverified ));
             _menuItems.dep.changed();
         }
         return _menuItems.items;
@@ -121,7 +124,7 @@ AccountsUI.fn = {
     /*
      * @returns {Array} an array of items as the <li>...</li> inner HTML strings
      */
-    menuItemsAfter( opts, state ){
+    menuItemsAfter( opts, state, unverified ){
         switch( state ){
             case AccountsUI.C.Connection.LOGGED:
                 return opts.loggedItemsAfter();
@@ -134,7 +137,7 @@ AccountsUI.fn = {
     /*
      * @returns {Array} an array of items as the <li>...</li> inner HTML strings
      */
-    menuItemsBefore( opts, state ){
+    menuItemsBefore( opts, state, unverified ){
         switch( state ){
             case AccountsUI.C.Connection.LOGGED:
                 return opts.loggedItemsBefore();
@@ -147,19 +150,19 @@ AccountsUI.fn = {
     /*
      * @returns {Array} an array of items as the <li>...</li> inner HTML strings
      */
-    menuItemsCore( opts, state ){
+    menuItemsCore( opts, state, unverified ){
         let res = [];
         switch( state ){
             case AccountsUI.C.Connection.LOGGED:
                 res = opts.loggedItems();
                 if( res === DEF_CONTENT || _.isEqual( res, [ DEF_CONTENT ] )){
-                    res = _buildStandardItems( _stdMenuItems[state] );
+                    res = _buildStandardItems( _stdMenuItems[state], unverified );
                 }
                 break;
             case AccountsUI.C.Connection.UNLOGGED:
                 res = opts.unloggedItems();
                 if( res === DEF_CONTENT || _.isEqual( res, [ DEF_CONTENT ] )){
-                    res = _buildStandardItems( _stdMenuItems[state] );
+                    res = _buildStandardItems( _stdMenuItems[state], unverified );
                 }
                 break;
         }
