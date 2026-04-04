@@ -95,7 +95,10 @@ AccountsUI.i18n = {
                 textOne: 'Vous êtes sur le point de vous déconnecter du site.<br />Etes-vous sûr ?',
             },
             signup: {
-                modal_title: 'Créer un nouveau compte'
+                email_missing: 'Une adresse de messagerie doit être spécifiée',
+                modal_title: 'Créer un nouveau compte',
+                password_missing: 'Un mot de passe doit être spécifié',
+                username_missing: 'Un nom d\'utilisateur doit être spécifié'
             },
             twice_passwords: {
                 label: 'Mot de passe :',

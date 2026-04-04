@@ -43,6 +43,7 @@ AccountsUI.fn = {
             const checker = opts.dataContext.checker.get();
             if( checker ){
                 if( msg ){
+                    //logger.debug( msg );
                     await checker.messagerPush( new Package['pwix:typed-message'].TM.TypedMessage({
                         level: Package['pwix:typed-message'].TM.MessageLevel.C.ERROR,
                         message: msg
@@ -50,7 +51,6 @@ AccountsUI.fn = {
                 } else {
                     await checker.messagerClearMine();
                 }
-                //await checker.recomputeState();
             }
         } else {
             _errorMsg.set( msg );

@@ -51,8 +51,6 @@ Template.ac_input_password.onCreated( function(){
 
         // check the strength of the password with https://www.npmjs.com/package/zxcvbn
         //  is only called for a new password
-        // on a new account (which must be specified in data context), we advertise the caller with full data
-        //  else (e.g. signin) we just advertise of the input event
         check(){
             self.AC.displayError( '' );
             const wantsLength = Template.currentData().wantsLength === true;
@@ -60,6 +58,7 @@ Template.ac_input_password.onCreated( function(){
             if( self.AC.acInstance ){
                 self.AC.acInstance.checkPassword( self.$( '.ac-input-password input' ).val() || '', { testLength: wantsLength, testComplexity: wantsStrength })
                     .then(( result ) => {
+                        //logger.debug( 'result', result );
                         if( wantsStrength ){
                             // css
                             self.$( '.ac-strength-bar' ).css( self.AC.score[result.zxcvbn.score].css );
@@ -68,8 +67,7 @@ Template.ac_input_password.onCreated( function(){
                             width = 5-width;
                             self.$( '.ac-strength-other' ).css({ width: width+'em' });
                         }
-                        // only display error message if field is not empty
-                        if( !result.ok && result.canonical.length ){
+                        if( !result.ok ){
                             self.AC.displayError( result.errors[0] );
                         }
                         // advertises of the current password characteristics
@@ -90,6 +88,7 @@ Template.ac_input_password.onCreated( function(){
             //  though we could use here the usual Template.currentData()
             const withErrorArea = Boolean( Blaze.getData( self.view ).withErrorArea === true );
             const withErrorMsg = Boolean( Blaze.getData( self.view ).withErrorMsg === true );
+            //logger.debug( 'withErrorArea', withErrorArea, 'withErrorMsg', withErrorMsg, msg );
             if( withErrorMsg ){
                 if( withErrorArea ){
                     self.AC.errorMsg.set( msg );

@@ -47,8 +47,7 @@ Template.ac_input_username_sub.onCreated( function(){
                     textExists: wantsNew
                 })
                 .then(( result ) => {
-                    // only display error message if field is not empty
-                    if( !result.ok && result.canonical.length ){
+                    if( !result.ok ){
                         self.AC.displayError( result.errors[0] );
                     }
                     self.$( '.ac-input-username-sub' ).trigger( 'ac-username-data', { ok: result.ok, username: result.canonical });

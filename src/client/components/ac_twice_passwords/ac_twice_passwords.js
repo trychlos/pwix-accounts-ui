@@ -26,6 +26,7 @@
  *  - placeholder2: String, defaulting to 'Renter your password'
  */
 
+import { Logger } from 'meteor/pwix:logger';
 import { pwixI18n } from 'meteor/pwix:i18n';
 
 import '../../../common/js/index.js';
@@ -33,6 +34,8 @@ import '../../../common/js/index.js';
 import '../ac_input_password/ac_input_password.html';
 
 import './ac_twice_passwords.html';
+
+const logger = Logger.get();
 
 Template.ac_twice_passwords.helpers({
     // returns the text, maybe from data context, defaulting to the translated string
@@ -53,6 +56,7 @@ Template.ac_twice_passwords_sub.onCreated( function(){
         errorMsg: new ReactiveVar( '' ),
 
         check( data ){
+            //logger.debug( 'check()', data );
             let equalsOk = false;
             const pwd1 = self.$( '.ac-twice-passwords-sub .ac-newone .ac-input' ).val();
             // if ac-input-password has found that the password is not valid, do not try more checks
@@ -120,7 +124,7 @@ Template.ac_twice_passwords_sub.helpers({
     },
 
     // params to second occurrence of new password
-    //  no mandatory field as we remove the input label
+    //  not a mandatory field as we remove the input label
     parmNewTwo(){
         const mandatoryBorder = this.AC && this.AC.options
                 ? this.AC.options.coloredBorders() === AccountsUI.C.Colored.MANDATORY : AccountsUI.opts().coloredBorders() === AccountsUI.C.Colored.MANDATORY;
@@ -129,6 +133,7 @@ Template.ac_twice_passwords_sub.helpers({
             acName: this.acName,
             label: '',
             placeholder: this.placeholder2 || pwixI18n.label( I18N, 'twice_passwords.placeholder2' ),
+            withErrorMsg: true,
             withMandatoryBorder: mandatoryBorder
         }
     },

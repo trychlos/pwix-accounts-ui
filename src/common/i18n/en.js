@@ -95,7 +95,10 @@ AccountsUI.i18n = {
                 textOne: 'You are about to log out from the site.<br />Are you sure ?',
             },
             signup: {
-                modal_title: 'Sign up for a new account'
+                email_missing: 'An email address is mandatory',
+                modal_title: 'Sign up for a new account',
+                password_missing: 'A password is mandatory',
+                username_missing: 'A username is mandatory'
             },
             twice_passwords: {
                 label: 'Password:',

@@ -18,6 +18,7 @@
     - Close the modal after successful password change and validate reset password link
     - Display back an indicator of the strength of new passwords
     - Fix the reactivity of the 'Re-send email verification link' menu item
+    - Improve signup cross checks
 
 ### 2.1.1
 

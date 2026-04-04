@@ -6,6 +6,8 @@
  */
 
 import { AccountsCore } from 'meteor/pwix:accounts-core';
+import { Logger } from 'meteor/pwix:logger';
+import { pwixI18n } from 'meteor/pwix:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import '../ac_input_email/ac_input_email.js';
@@ -14,6 +16,8 @@ import '../ac_input_username/ac_input_username.js';
 import '../ac_twice_passwords/ac_twice_passwords.js';
 
 import './ac_signup.html';
+
+const logger = Logger.get();
 
 Template.ac_signup.onCreated( function(){
     const self = this;
@@ -29,6 +33,7 @@ Template.ac_signup.onCreated( function(){
 
         // check each event and its data here
         checks( event, data ){
+            //logger.debug( 'checks()', event.type, data );
             switch( event.type ){
                 case 'ac-email-data':
                     if( self.AC.checkEmail( data ) && !self.AC.inCheck ){
@@ -47,48 +52,76 @@ Template.ac_signup.onCreated( function(){
                     break;
             }
         },
+
         checkEmail( data ){
             self.AC.emailOk.set( data.ok );
             self.AC.emailValue.set( data.email );
             return data.ok;
         },
+
         // the current field is ok
         //  so re-check all other fields to be sure that all errors have been considered
         checkPanel(){
             self.AC.inCheck = true;
+            let wants = 1;
+            let has = 0;
             if( !self.AC.twiceOk.get()){
                 self.$( '.ac-twice-passwords-sub' ).trigger( 'ac-check' );
+            } else {
+                has += 1;
             }
-            // if an email is mandatory, it must be set here
-            if( self.AC.haveEmailAddress() !== AccountsCore.C.Identifier.NONE ){
+            // if an email is wanted, it must be set here
+            if( self.AC.haveEmailAddress()){
+                wants += 1;
                 if( !self.AC.emailOk.get()){
                     self.$( '.ac-input-email-sub' ).trigger( 'ac-check' );
+                } else {
+                    has += 1;
                 }
             }
-            // if a username is mandatory, it must be set here
-            if( self.AC.haveUsername() !== AccountsCore.C.Identifier.NONE ){
+            // if a username is wanted, it must be set here
+            if( self.AC.haveUsername()){
+                wants += 1;
                 if( !self.AC.usernameOk.get()){
                     self.$( '.ac-input-username-sub' ).trigger( 'ac-check' );
+                } else {
+                    has += 1;
+                }
+            }
+            if( has > 0 && has !== wants ){
+                if( self.AC.haveEmailAddress() && !self.AC.emailOk.get()){
+                    self.$( '.ac-signup' ).trigger( 'ac-display-error', pwixI18n.label( I18N, 'signup.email_missing' ));
+
+                } else if( self.AC.haveUsername() && !self.AC.usernameOk.get()){
+                    self.$( '.ac-signup' ).trigger( 'ac-display-error', pwixI18n.label( I18N, 'signup.username_missing' ));
+
+                } else if( !self.AC.twiceOk.get()){
+                    self.$( '.ac-signup' ).trigger( 'ac-display-error', pwixI18n.label( I18N, 'signup.password_missing' ));
                 }
             }
             self.AC.inCheck = false;
         },
+
         checkTwice( data ){
             self.AC.twiceOk.set( data.ok );
             self.AC.twiceValue.set( data.password );
             return data.ok;
         },
+
         checkUsername( data ){
             self.AC.usernameOk.set( data.ok );
             self.AC.usernameValue.set( data.username );
             return data.ok;
         },
+
         haveEmailAddress(){
             return Template.currentData().AC.options.signupHaveEmailAddress() !== AccountsCore.C.Identifier.NONE;
         },
+
         haveUsername(){
             return Template.currentData().AC.options.signupHaveUsername() !== AccountsCore.C.Identifier.NONE;
         },
+
         // not only we have to clear all the fields, but also our internal datas
         clearPanel(){
             self.$( 'input' )
