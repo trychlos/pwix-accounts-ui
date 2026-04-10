@@ -139,6 +139,11 @@ Template.ac_signup.onCreated( function(){
     // setup initial default values so that field which is not present is always true
     self.AC.emailOk.set( Template.currentData().AC.options.signupHaveEmailAddress() !== AccountsCore.C.Identifier.MANDATORY );
     self.AC.usernameOk.set( Template.currentData().AC.options.signupHaveUsername() !== AccountsCore.C.Identifier.MANDATORY);
+
+    // track the status of sub-components
+    self.autorun(() => {
+        //logger.debug( 'emailOk', self.AC.emailOk.get(), 'twiceOk', self.AC.twiceOk.get(), 'usernameOk', self.AC.usernameOk.get());
+    });
 });
 
 Template.ac_signup.onRendered( function(){
@@ -159,6 +164,9 @@ Template.ac_signup.onRendered( function(){
 
     // monitor the modal events if apply
     Template.currentData().AC.monitorModalEvents( self.$( '.ac-signup' ));
+
+    // at first render, re-check panel
+    self.AC.checkPanel();
 });
 
 Template.ac_signup.helpers({

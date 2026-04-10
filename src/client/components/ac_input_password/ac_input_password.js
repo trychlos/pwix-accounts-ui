@@ -125,10 +125,8 @@ Template.ac_input_password.onCreated( function(){
 });
 
 Template.ac_input_password.onRendered( function(){
-    const self = this;
-
-    // initialize the form
-    self.AC.check();
+    // initialize the form, so that is is checked (though empty) and send the input-password status event
+    this.AC.reset();
 });
 
 Template.ac_input_password.helpers({
