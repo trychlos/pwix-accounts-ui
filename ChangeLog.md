@@ -10,15 +10,16 @@
     - Replace the AccountsUI.Dom object with a dependency on pwix:ui-utils
     - Update to pwix:modal v2.5
     - Make sure methods and publications are prefixed with a full namespace
-    - Rename pwix:accounts-hub dependency to pwix:accounts-core, upgrading it to 2.0.0-rc.0
+    - Rename pwix:accounts-hub dependency to pwix:accounts-core v2.0
     - Move exported assets to /resources directory (todo #83)
-    - Add weak dependencies pwix:forms and pwix:typed-message
+    - Add missing weak dependencies pwix:forms and pwix:typed-message
     - Fix handling of Accounts URLs on..Link even after application startup
     - Make sure dropdown menu items are reactive to status changes
     - Close the modal after successful password change and validate reset password link
-    - Display back an indicator of the strength of new passwords
+    - Display back an indicator of the strength of new password
     - Fix the reactivity of the 'Re-send email verification link' menu item
     - Improve signup cross checks
+    - Features.createUser() now relies on AccountsCore.createAccount() common function
 
 ### 2.1.1
 

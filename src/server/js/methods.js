@@ -33,16 +33,6 @@ Meteor.methods({
         return await AccountsCore.Transforms.cleanupUserDocument( acInstance, userDoc );
     },
 
-    // create a user without auto login
-    // https://docs.meteor.com/api/passwords.html#Accounts-createUser
-    // and https://v3-docs.meteor.com/api/accounts.html#Accounts-createUser
-    // called on the server, this methods returns the new account id
-    async 'pwix.AccountsUI.m.createUser'( options ){
-        const ret = await Accounts.createUser( options );
-        logger.debug( 'pwix.AccountsUI.m.createUser() ret=', ret );
-        return ret;
-    },
-
     // ask to send a reset password email
     // see https://github.com/meteor/meteor/blob/devel/packages/accounts-password/password_server.js#L363
     // see https://github.com/meteor/meteor/blob/devel/packages/accounts-password/password_server.js#L529

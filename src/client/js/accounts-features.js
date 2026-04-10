@@ -52,8 +52,11 @@ AccountsUI.Features = {
      * Create a new user with a (mail,password) couple
      * Change the connection state to 'LOGGED' if OK, or send an 'ac-error' message to the target
      * We try to verify emails, so send simultaneouly (in the background) an email to check that.
-     * Note that the 'Accounts.createUser()' method doesn't force any security rule on the password.
-     * We have to rely on AccountsUI.fn.validatePassword() for that.
+     * Note 1:
+     *  Neither 'Accounts.createUser()' nor 'AccountsCore.createAccount()' functions don't force any security rule on the password.
+     *  We have to rely on AccountsUI.fn.validatePassword() for that.
+     * Note 2:
+     *  Starting with v2.2, we only rely on AccountsCore.createAccount()
      * @param {Object}  object options as expected by Accounts.createUser(), i.e.
      *  - username
      *  - email
@@ -75,6 +78,7 @@ AccountsUI.Features = {
         // compute parameters when the 'name' option is passed-in
         let target = opts.AC?.target;
         let options = opts.AC?.options;
+        // the acUserLogin instance is it named in 'opts' ?
         if( opts.name ){
             const instance = AccountsUI.fn.nameGet( opts.name );
             if( instance ){
@@ -83,7 +87,6 @@ AccountsUI.Features = {
             }
         }
         target = target || $( 'body' );
-        const acName = options.acName();
         // the error handler
         const _errorFn = function( err ){
             logger.error( err );
@@ -135,35 +138,34 @@ AccountsUI.Features = {
                 });
         };
         // the main code
+        const acName = options.acName();
+        let res;
+        let success_msg;
         if( acName === AccountsCore.Options._defaults.name ){
             // https://docs.meteor.com/api/passwords#Accounts-createUser
+            res = await AccountsCore.createAccount( acName, createUserOptions, Meteor.userId());
             const autoConnect = options.signupAutoConnect();
             if( autoConnect !== false ){
-                Accounts.createUser( createUserOptions, ( err ) => {
-                    if( err ){
-                        _errorFn( err );
-                    } else {
-                        _successFn();
-                        Tolert.success( pwixI18n.label( I18N, 'user.signup_autoconnect', createUserOptions.email ));
-                    }
-                });
-            } else {
-                Meteor.callAsync( 'pwix.AccountsUI.m.createUser', createUserOptions )
-                    .then(() => {
-                        _successFn();
-                        Tolert.success( pwixI18n.label( I18N, 'user.signup_noconnect', createUserOptions.email ));
-                    })
-                    .catch(( err ) => {
-                        // doesn't handle here credentials issues as the user is not connected anyway
-                        if( err.error !== 403 ){
-                            _errorFn( err );
-                        }
-                    });
+                if( res._id && createUserOptions.password ){
+                    Meteor.loginWithPassword( res._id, createUserOptions.password );
+                    success_msg = 'user.signup_autoconnect';
+                }
             }
         } else {
-            const acInstance = AccountsCore.getInstance( acName );
-            assert( acInstance && acInstance instanceof AccountsCore.Account, 'expects an instance of AccountsCore.Account, got '+acInstance );
-            logger.warn( 'createUser() ignoring', acInstance );
+            res = await AccountsCore.createAccount( acName, createUserOptions, Meteor.userId());
+        }
+        if( !success_msg ){
+            success_msg = 'user.signup_noconnect';
+        }
+        //logger.debug( 'res', res );
+        // advertise of the result
+        if( res._id ){
+            _successFn();
+            Tolert.success( pwixI18n.label( I18N, success_msg, createUserOptions.email ));
+        } else if( res.reason ){
+            _errorFn( res.reason );
+        } else if( res.reason_i18n ){
+            _errorFn( pwixI18n.label( I18N, res.reason_i18n ));
         }
     },
 
