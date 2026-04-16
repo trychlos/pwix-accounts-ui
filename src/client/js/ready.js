@@ -31,6 +31,7 @@ function _set_ready(){
     _ready.dep.changed();
 }
 
+// this is the last file imported on client-side - so we are 'ready' here
 _set_ready();
 
 // trace readyness changes

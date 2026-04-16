@@ -18,12 +18,6 @@ _dropdownItemsExt = {
     items: []
 };
 
-_namedItems = {
-    dep: null,
-    state: null,
-    items: []
-};
-
 AccountsUI = {
     ...AccountsUI,
     ...{
@@ -89,26 +83,15 @@ AccountsUI = {
 
         /**
          * @locus Client
-         * @param {String} name the acUserLogin name
-         * @returns {Array} the list of dropdown items to be displayed regarding the
-         *  current user connection state and the acUserLogin configuration.
-         *  A reactive data source.
+         * @summary Register callbacks on rebuilt menu items hook
+         * @param {Function} fn A function which will be called each type the dropdown menu items is to be rebuilt.
+         *  Prototype must be `async fn( menuItems<Array>, opts<acCompanionOptions>, state<>, unverified<Integer> ): <Array>`
+         *  The function is expected to return the modified array.
          */
-        namedDropdownItems( name ){
-            if( !_namedItems.dep ){
-                _namedItems.dep = new Tracker.Dependency();
-                _namedItems.dep.depend();
+        onRebuildMenuItems( fn ){
+            if( fn && _.isFunction( fn )){
+                AccountsUI.fn._rebuildMenuItemsFns.push( fn );
             }
-            const instance = AccountsUI.fn.nameGet( name );
-            if( instance ){
-                const state = AccountsUI.Connection.state();
-                if( state !== _namedItems.state ){
-                    _menuItemsExt.state = state;
-                    _namedItems.items = AccountsUI.fn.menuItems( instance.AC.options );
-                    _namedItems.dep.changed();
-                }
-            }
-            return _namedItems.items;
         }
     }
 };

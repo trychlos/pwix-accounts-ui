@@ -20,13 +20,13 @@ Template.ac_menu_items.onCreated( function(){
     self.AC = {
         buildMenus( dataContext ){
             const menu = self.$( '.ac-menu-items' );
-            const ddItems = AccountsUI.fn.menuItems( dataContext.AC.options );
-            let html = '';
-            ddItems.every(( it ) => {
-                html += '<li>'+it+'</li>\n';
-                return true;
+            AccountsUI.fn.menuItems( dataContext.AC.options ).then(( items ) => {
+                let html = '';
+                for( const it of items ){
+                    html += '<li>'+it+'</li>\n';
+                }
+                menu.html( html );
             });
-            menu.html( html );
         }
     };
 });

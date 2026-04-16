@@ -219,17 +219,13 @@ This method returns the `pwix:i18n` namespace of the `pwix:accounts-ui` package.
 
 With that name, anyone is so able to provide additional translations.
 
-##### `AccountsUI.namedDropdownItems( name )`
+##### `AccountsUI.onRebuildMenuItems( fn )`
 
-A client-only method which returns the full list of menu items to be displayed in regard with the current connection state, and the relevant `acUserLogin` configuration parameters.
+Registers a `fn` function which is called each time the dropdown menu items have to be rebuilt, i.e. on connection state or count on unverified email address changes.
 
-The returned value is an array of HTML strings '`<a>...</a>`'.
+The function must be `async fn( menuItems<Array>, opts<acCompanionOption>, state<LOGGED|UNLOGGED>, unverified<Integer>): Array`.
 
-Parameters are:
-
-- `name`: the name given to `acUserLogin` component when defining it
-
-A reactive data source.
+The functions are called when the menu items is ready to be displayed. It is expected they return the (maybe changed) menu items array.
 
 ##### `AccountsUI.ready()`
 

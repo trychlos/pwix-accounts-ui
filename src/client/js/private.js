@@ -27,6 +27,16 @@ _errorMsg = new ReactiveVar( null );
 
 AccountsUI.fn = {
 
+    // registered callbacks
+    _rebuildMenuItemsFns: [],
+
+    async _rebuildMenuItems( items, opts, state, unverified ){
+        for( const fn of AccountsUI.fn._rebuildMenuItemsFns ){
+            items = await fn( items, opts, state, unverified );
+        }
+        return items;
+    },
+
     /*
      * Getter/Setter
      * Panels have their own error messages (e.g. password too short or too weak).
@@ -102,20 +112,22 @@ AccountsUI.fn = {
      *  current user connection state.
      *  A reactive data source.
      */
-    menuItems( opts ){
+    async menuItems( opts ){
         if( !_menuItems.dep ){
             _menuItems.dep = new Tracker.Dependency();
             _menuItems.dep.depend();
         }
         const state = AccountsUI.Connection.state();
+        // the count of unverified email address(es) for the current account (if any)
         const unverified = AccountsUI.Connection.unverifiedCount();
+        //logger.debug( 'menuItems() previous', _menuItems.state, _menuItems.unverified, 'current', state, unverified );
         if( state !== _menuItems.state || unverified !== _menuItems.unverified ){
             _menuItems.state = state;
             _menuItems.unverified = unverified;
-            //_menuItems.items = _menuItemsBefore( opts ).concat( );
             const _before = AccountsUI.fn.menuItemsBefore( opts, state, unverified );
             const _core = _before.concat( AccountsUI.fn.menuItemsCore( opts, state, unverified ));
             _menuItems.items = _core.concat( AccountsUI.fn.menuItemsAfter( opts, state, unverified ));
+            _menuItems.items = await AccountsUI.fn._rebuildMenuItems( _menuItems.items, opts, state, unverified );
             _menuItems.dep.changed();
         }
         return _menuItems.items;

@@ -72,7 +72,7 @@ _stdMenuItems[AccountsUI.C.Connection.UNLOGGED] = [
         faicon: 'fa-lock-open',
         labelkey: 'resetask',
         panel: AccountsUI.C.Panel.RESETASK
-    },
+    }
 ];
 
 /*

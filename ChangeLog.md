@@ -2,11 +2,12 @@
 
 ## ChangeLog
 
-### 2.2.1-rc.0
+### 2.3.0-rc.0
 
     Release date: 
 
-    - 
+    - Define a new 'onRebuildMenuItems()' hook called each time connection status or unverified email address count change
+        Replace and obsoletes namedDropdownItems()
 
 ### 2.2.0
 
