@@ -169,8 +169,6 @@ The packages defines and makes use of these standard items.
 | ac-signup-item | triggers the message 'ac-panel-signup' |
 | ac-resetask-item | triggers the message 'ac-panel-resetask' |
 
-The full list of the dropdown items may be obtained by the application via the `AccountsUI.dropdownItems()` (resp. `AccountsUI.dropdownItemsExt()`) reactive methods.
-
 The activation of one of these standard items triggers the display of a panel which let the user enter
 the required informations.
 
@@ -196,22 +194,6 @@ A client-only method which clears the panel currently displayed by the named `ac
 Parameters are:
 
 - `name`: the name given to `acUserLogin` component when defining it
-
-##### `AccountsUI.dropdownItems()`
-
-A client-only method which returns the list of standard dropdown items, depending of the current user connection state.
-
-The returned value is an array of HTML strings '`<a>...</a>`'.
-
-A reactive data source.
-
-##### `AccountsUI.dropdownItemsExt()`
-
-A client-only method which returns the list of standard dropdown items, depending of the current user connection state.
-
-The returned value is an array of the definition objects. This is so the exact same poppulation than `AccountsUI.dropdownItems()` above, but with all item details.
-
-A reactive data source.
 
 ##### `AccountsUI.i18n.namespace()`
 

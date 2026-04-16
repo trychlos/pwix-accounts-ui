@@ -8,6 +8,7 @@
 
     - Define a new 'onRebuildMenuItems()' hook called each time connection status or unverified email address count change
         Replace and obsoletes namedDropdownItems()
+    - Obsolete dropdownItems() and dropdownItemsExt() unused functions
 
 ### 2.2.0
 
