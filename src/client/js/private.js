@@ -10,14 +10,6 @@ import { Tracker } from 'meteor/tracker';
 
 const logger = Logger.get();
 
-// menuItems() dependency tracker
-_menuItems = {
-    dep: null,
-    state: null,
-    unverified: -1,
-    items: []
-};
-
 // keep here a list of all instanciated named acUserLogin objects
 _named = {};
 
@@ -27,12 +19,21 @@ _errorMsg = new ReactiveVar( null );
 
 AccountsUI.fn = {
 
-    // registered callbacks
+    /*
+     * @summary Manage menu items callbacks
+     *  The array is incremented from AccountsUI.onRebuildMenuItems() public API
+     *  Is called each time the menu is rebuilt
+     * 
+     * @param {Array} the current dropdown items array
+     * @param {acCompanionOption} opts the current acUserLogin options
+     * 
+     * @returns {Array} the new dropdown items array
+     */
     _rebuildMenuItemsFns: [],
 
-    async _rebuildMenuItems( items, opts, state, unverified ){
+    async _rebuildMenuItems( items, opts ){
         for( const fn of AccountsUI.fn._rebuildMenuItemsFns ){
-            items = await fn( items, opts, state, unverified );
+            items = await fn( items, opts );
         }
         return items;
     },
@@ -112,31 +113,44 @@ AccountsUI.fn = {
      *  current user connection state.
      *  A reactive data source.
      */
+    _menuItems: null,
+
+    _resetMenuItems(){
+        // first make sure we erase the previous content
+        AccountsUI.fn._menuItems = null;
+        // only then re-instanciate
+        AccountsUI.fn._menuItems = {
+            dep: new Tracker.Dependency(),
+            status: null,
+            items: []
+        }
+    },
+
     async menuItems( opts ){
-        if( !_menuItems.dep ){
-            _menuItems.dep = new Tracker.Dependency();
-            _menuItems.dep.depend();
+        if( !AccountsUI.fn._menuItems ){
+            AccountsUI.fn._resetMenuItems();
         }
-        const state = AccountsUI.Connection.state();
-        // the count of unverified email address(es) for the current account (if any)
-        const unverified = AccountsUI.Connection.unverifiedCount();
-        //logger.debug( 'menuItems() previous', _menuItems.state, _menuItems.unverified, 'current', state, unverified );
-        if( state !== _menuItems.state || unverified !== _menuItems.unverified ){
-            _menuItems.state = state;
-            _menuItems.unverified = unverified;
-            const _before = AccountsUI.fn.menuItemsBefore( opts, state, unverified );
-            const _core = _before.concat( AccountsUI.fn.menuItemsCore( opts, state, unverified ));
-            _menuItems.items = _core.concat( AccountsUI.fn.menuItemsAfter( opts, state, unverified ));
-            _menuItems.items = await AccountsUI.fn._rebuildMenuItems( _menuItems.items, opts, state, unverified );
-            _menuItems.dep.changed();
+        // depend
+        AccountsUI.fn._menuItems.dep.depend();
+        // do we have changed something ?
+        const status = AccountsUI.Connection.stringify();
+        // if yes, rebuild
+        if( status !== AccountsUI.fn._menuItems.status ){
+            AccountsUI.fn._menuItems.status = status;
+            const _before = AccountsUI.fn.menuItemsBefore( opts );
+            const _core = _before.concat( AccountsUI.fn.menuItemsCore( opts ));
+            AccountsUI.fn._menuItems.items = _core.concat( AccountsUI.fn.menuItemsAfter( opts ));
+            AccountsUI.fn._menuItems.items = await AccountsUI.fn._rebuildMenuItems( AccountsUI.fn._menuItems.items, opts );
+            AccountsUI.fn._menuItems.dep.changed();
         }
-        return _menuItems.items;
+        return AccountsUI.fn._menuItems.items;
     },
 
     /*
      * @returns {Array} an array of items as the <li>...</li> inner HTML strings
      */
-    menuItemsAfter( opts, state, unverified ){
+    menuItemsAfter( opts ){
+        const state = AccountsUI.Connection.state();
         switch( state ){
             case AccountsUI.C.Connection.LOGGED:
                 return opts.loggedItemsAfter();
@@ -149,7 +163,8 @@ AccountsUI.fn = {
     /*
      * @returns {Array} an array of items as the <li>...</li> inner HTML strings
      */
-    menuItemsBefore( opts, state, unverified ){
+    menuItemsBefore( opts ){
+        const state = AccountsUI.Connection.state();
         switch( state ){
             case AccountsUI.C.Connection.LOGGED:
                 return opts.loggedItemsBefore();
@@ -162,8 +177,10 @@ AccountsUI.fn = {
     /*
      * @returns {Array} an array of items as the <li>...</li> inner HTML strings
      */
-    menuItemsCore( opts, state, unverified ){
+    menuItemsCore( opts ){
         let res = [];
+        const state = AccountsUI.Connection.state();
+        const unverified = AccountsUI.Connection.unverifiedCount();
         switch( state ){
             case AccountsUI.C.Connection.LOGGED:
                 res = opts.loggedItems();
@@ -208,3 +225,6 @@ AccountsUI.fn = {
         }
     }
 };
+
+// on evaluation time, do not keep any previous state
+AccountsUI.fn._resetMenuItems();

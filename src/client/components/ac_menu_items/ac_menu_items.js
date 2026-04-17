@@ -62,5 +62,6 @@ Template.ac_menu_items.events({
             // whatever be the chosen render mode, this event will pass through acUserLogin before bubbling up
             $( event.currentTarget ).trigger( msg, parms );
         }
+        // let the event bubble up so that external apps can too get their items event
     }
 });

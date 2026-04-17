@@ -25,6 +25,9 @@ export class acConnection {
     // private data
     //
 
+    // the 'users' acInstance
+    _instance = new ReactiveVar( null );
+
     // maintains the preferred label
     _label = new ReactiveVar( '' );
 
@@ -35,6 +38,9 @@ export class acConnection {
     //  is expected to be exactly consistant with Meteor.user() but adds a (very) thin conceptualization level
     //  a reactive data source
     _unverified = new ReactiveVar( -1 );
+
+    // the user document
+    _userdoc = new ReactiveVar( null );
 
     // private methods
     //
@@ -55,37 +61,58 @@ export class acConnection {
             return acConnection.Singleton;
         }
 
+        const self = this;
+
         logger.verbose({ verbosity: AccountsUI.opts().verbosity(), against: AccountsUI.C.Verbose.INSTANCIATIONS }, 'instanciating acConnection' );
+
+        // reactively store the acAccount instance
+        //  while the 'users' instance is not available we will refuse to consider any connection
+        Tracker.autorun(() => {
+            self._instance.set( AccountsCore.getInstance( 'users' ));
+        });
 
         // track logged/unlogged connection state
         Tracker.autorun(() => {
-            this._state.set( Meteor.userId() ? AccountsUI.C.Connection.LOGGED : AccountsUI.C.Connection.UNLOGGED );
+            let state = AccountsUI.C.Connection.UNLOGGED;
+            if( self._instance.get() && Meteor.userId()){
+                state = AccountsUI.C.Connection.LOGGED;
+            }
+            self._state.set( state );
         });
 
-        // track count of unverified email addresses
+        // reactively store a user document
         Tracker.autorun(() => {
-            const user = Meteor.user({ fields: { 'emails': 1 }});
-            let count = -1;
-            if( user ){
-                count = 0;
-                for( const it of ( user?.emails || [] )){
-                    if( !it.verified ){
-                        count += 1;
+            const userId = Meteor.userId();
+            const acInstance = self._instance.get();
+            if( userId && acInstance ){
+                acInstance.byId( userId ).then(( userDoc ) => { self._userdoc.set( userDoc ); });
+            } else {
+                self._userdoc.set( null );
+            }
+        });
+
+        // keep some informations about the newly got user document
+        //  only reactive on userDoc as acInstance is itself a prerequisite
+        Tracker.autorun(() => {
+            const userDoc = self._userdoc.get();
+            if( userDoc ){
+                Tracker.nonreactive(() => {
+                    // count unverified email address(es)
+                    let count = 0;
+                    for( const it of ( userDoc.emails || [] )){
+                        if( !it.verified ){
+                            count += 1;
+                        }
                     }
-                }
+                    self._unverified.set( count );
+                    // get the preferred label
+                    const acInstance = self._instance.get();
+                    acInstance.preferredLabel( userDoc ).then(( res ) => { self._label.set( res.label ); });
+                });
+            } else {
+                self._unverified.set( -1 );
+                self._label.set( null );
             }
-            //logger.debug( user?.emails[0].address, count );
-            this._unverified.set( count );
-        });
-
-        // track the preferred label
-        Tracker.autorun(() => {
-            const acInstance = AccountsCore.getInstance( 'users' );
-            if( acInstance && Meteor.userId()){
-                acInstance.preferredLabel( Meteor.userId()).then(( res ) => this._label.set( res.label ));
-                return;
-            }
-            this._label.set( '' );
         });
 
         acConnection.Singleton = this;
@@ -108,6 +135,23 @@ export class acConnection {
      */
     state(){
         return this._state.get();
+    }
+
+    /**
+     * Getter
+     * @returns {String} a string version of the whole status of the connection
+     */
+    stringify(){
+        return JSON.stringify({ state: this.state(), unverified: this.unverifiedCount(), label: this.preferredLabel() });
+    }
+
+    /**
+     * Getter
+     * @returns {Object} the current user document, or null
+     * A reactive data source
+     */
+    userDoc(){
+        return this._userdoc.get();
     }
 
     /**

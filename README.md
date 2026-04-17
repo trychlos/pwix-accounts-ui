@@ -185,6 +185,18 @@ This way, the `acUserLogin` div is kept active, and continues to receive and han
 
 The exported global object provides following items:
 
+#### Classes
+
+##### `acCompanionOption`
+
+The class which manages the `acUserLogin` options.
+
+##### `acConnection`
+
+A singleton class which describes the current status of the connection, and hosts some informations about the connected user if any.
+
+The singleton is attached to the global as `AccountsUI.Connection`.
+
 #### Functions
 
 ##### `AccountsUI.clearPanel( name )`
@@ -205,9 +217,11 @@ With that name, anyone is so able to provide additional translations.
 
 Registers a `fn` function which is called each time the dropdown menu items have to be rebuilt, i.e. on connection state or count on unverified email address changes.
 
-The function must be `async fn( menuItems<Array>, opts<acCompanionOption>, state<LOGGED|UNLOGGED>, unverified<Integer>): Array`.
+The function must be `async fn( menuItems<Array>, opts<acCompanionOption> ): Array`.
 
-The functions are called when the menu items is ready to be displayed. It is expected they return the (maybe changed) menu items array.
+Remind that at any time you can take advantage of the `AccountsUI.Connection` object.
+
+The functions are called when the menu items are ready to be displayed. It is expected they return the (maybe changed) menu items array.
 
 ##### `AccountsUI.ready()`
 
