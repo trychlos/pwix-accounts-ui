@@ -106,7 +106,6 @@ Template.ac_change_pwd.helpers({
         return {
             AC: this.AC,
             role: 'change',
-            withErrorMsg: true,
             label: pwixI18n.label( I18N, 'change_pwd.new_label' ),
             placeholder1: pwixI18n.label( I18N, 'change_pwd.newone_placeholder' ),
             placeholder2: pwixI18n.label( I18N, 'change_pwd.newtwo_placeholder' )

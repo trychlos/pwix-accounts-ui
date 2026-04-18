@@ -13,10 +13,6 @@ const logger = Logger.get();
 // keep here a list of all instanciated named acUserLogin objects
 _named = {};
 
-// error message
-//  defined here to be useable even in reset_pwd modal
-_errorMsg = new ReactiveVar( null );
-
 AccountsUI.fn = {
 
     /*
@@ -48,13 +44,17 @@ AccountsUI.fn = {
      * @returns {String} the current error message
      * A reactive data source
      */
+
+    // the error message internally used - not used when acUserLogin is defined to be used with an external messager
+    //  defined here to be useable even in reset_pwd modal (which doesn't depend of acUserLogin)
+    _errorMsg: new ReactiveVar( null ),
+
     async errorMsg( msg, opts={} ){
         //logger.warning( 'msg', msg, 'checker', opts.dataContext?.checker?.get() );
         if( opts.dataContext && AccountsUI.fn.hasExternalMessager( opts.dataContext )){
             const checker = opts.dataContext.checker.get();
             if( checker ){
                 if( msg ){
-                    //logger.debug( msg );
                     await checker.messagerPush( new Package['pwix:typed-message'].TM.TypedMessage({
                         level: Package['pwix:typed-message'].TM.MessageLevel.C.ERROR,
                         message: msg
@@ -64,9 +64,9 @@ AccountsUI.fn = {
                 }
             }
         } else {
-            _errorMsg.set( msg );
+            AccountsUI.fn._errorMsg.set( msg );
         }
-        return _errorMsg.get();
+        return AccountsUI.fn._errorMsg.get();
     },
 
     /*
@@ -75,7 +75,7 @@ AccountsUI.fn = {
      * @returns {ReactiveVar} which contains the current error message
      */
     errorMsgRv(){
-        return _errorMsg;
+        return AccountsUI.fn._errorMsg;
     },
 
     /*

@@ -3,7 +3,7 @@
  *
  * Email/Username input field
  * 
- * This form targets the entering of existing user
+ * This form targets the entering of an existing user
  * We do not check either the username or the email address or the password validities before trying to connect.
  * 
  * Parms:

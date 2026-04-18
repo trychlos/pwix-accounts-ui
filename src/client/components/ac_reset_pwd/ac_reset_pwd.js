@@ -68,7 +68,6 @@ Template.ac_reset_pwd.helpers({
     parmTwice(){
         return {
             acName: this.acName,
-            withErrorMsg: true,
             role: 'reset'
         };
     },

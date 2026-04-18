@@ -16,7 +16,6 @@
  *      This happens to also be the prefix of the to-be-called AccountsUI options methods
  *      Do not change!
  *  - withErrorArea: whether we want a dedicated error message area here, defaulting to false
- *  - withErrorMsg: whether this component should send error message, defaulting to false
  *  - with Fieldset: whether to display a field set (and a legend), defaulting to false
  *  - withMandatoryBorder: whether we want display the mandatory borders on input field, defaulting to acUserLogin configured option, defaulting to globally configured option
  *  - withMandatoryField: whether we want display the mandatory indicator, defaulting to false
@@ -74,16 +73,11 @@ Template.ac_twice_passwords_sub.onCreated( function(){
 
         // display an error message, either locally (here) or at the panel level
         displayError( msg ){
-            //const withError = Boolean( Template.currentData().withError !== false );
-            // see https://stackoverflow.com/questions/39271499/template-actual-data-context/39272483#39272483
             const withErrorArea = Boolean( Blaze.getData( self.view ).withErrorArea === true );
-            const withErrorMsg = Boolean( Blaze.getData( self.view ).withErrorMsg === true );
-            if( withErrorMsg ){
-                if( withErrorArea ){
-                    self.AC.errorMsg.set( msg );
-                } else {
-                    self.$( '.ac-twice-passwords-sub' ).trigger( 'ac-display-error', msg );
-                }
+            if( withErrorArea ){
+                self.AC.errorMsg.set( msg );
+            } else {
+                self.$( '.ac-twice-passwords-sub' ).trigger( 'ac-display-error', msg );
             }
         },
 
@@ -117,7 +111,6 @@ Template.ac_twice_passwords_sub.helpers({
             placeholder: this.placeholder1 || pwixI18n.label( I18N, 'twice_passwords.placeholder1' ),
             wantsLength: true,
             wantsStrength: true,
-            withErrorMsg: true,
             withMandatoryBorder: mandatoryBorder,
             withMandatoryField: Boolean( this.withMandatoryField === true )
         }
@@ -133,7 +126,6 @@ Template.ac_twice_passwords_sub.helpers({
             acName: this.acName,
             label: '',
             placeholder: this.placeholder2 || pwixI18n.label( I18N, 'twice_passwords.placeholder2' ),
-            withErrorMsg: true,
             withMandatoryBorder: mandatoryBorder
         }
     },

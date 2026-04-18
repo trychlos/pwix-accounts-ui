@@ -180,6 +180,7 @@ AccountsUI.Features = {
      * As of v2.0.0, only manages the Meteor standard 'users' accounts collection.
      */
     loginWithPassword( userid, password, opts={} ){
+        logger.debug( arguments );
         const target = opts.AC.target || $( 'body' );
         const acName = opts.AC.options.acName();
         if( acName === AccountsCore.Options._defaults.name ){

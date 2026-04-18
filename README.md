@@ -452,6 +452,18 @@ Even when providing a configuration object, as all keys are optional, this objec
 
     These legends are only considered if the `signinFieldset` is `true`.
 
+- `signinSubmitFn`
+
+    The function to be called when signing-in a user, defaulting to `AccountsUI.fn.loginWithPassword()`.
+
+    When set, the function is expected to have prototype like `async fn( identifier<String>, password<String>, AC<Object> ): <void>`, and log-in the user if successful.
+
+- `signinTitle`
+
+    The title to be displayed on top of the signin panel, defaulting to (localized) 'Signin with my account'.
+
+    This can be provided as a string, or a function which returns such a string.
+
 - `signupFieldset`
 
     Whether to set input fields inside a fieldset.

@@ -88,7 +88,11 @@ AccountsUI.i18n = {
                 title: 'Users selection'
             },
             signin: {
-                modal_title: 'Sign in with my account'
+                email_missing: 'An email address is mandatory',
+                modal_title: 'Sign in with my account',
+                password_missing: 'A password is mandatory',
+                userid_missing: 'A userid is mandatory',
+                username_missing: 'A username is mandatory'
             },
             signout: {
                 modal_title: 'Sign out',

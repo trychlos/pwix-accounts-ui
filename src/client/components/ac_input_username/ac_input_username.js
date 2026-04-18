@@ -7,7 +7,6 @@
  *  - AC: the acUserLogin internal data structure
  *  - wantsNew: whether an existing username must be reported as an error, defaulting to false
  *  - withErrorArea: whether we want a dedicated error message area here, defaulting to false
- *  - withErrorMsg: whether this component should send error message, defaulting to false
  *  - withMandatoryBorder: whether we want display the mandatory borders on input field, defaulting to acUserLogin configured option
  *  - withMandatoryField: whether we want display the mandatory indicator, defaulting to false
  *  - label: the form label, defaulting to 'Username:'
@@ -57,16 +56,11 @@ Template.ac_input_username_sub.onCreated( function(){
 
         // display an error message, either locally (here) or at the panel level
         displayError( msg ){
-            // see https://stackoverflow.com/questions/39271499/template-actual-data-context/39272483#39272483
-            // function context here doesn't let Template.currentData() find a current view as we are called from inside a Promise.then()
             const withErrorArea = Boolean( Blaze.getData( self.view ).withErrorArea === true );
-            const withErrorMsg = Boolean( Blaze.getData( self.view ).withErrorMsg === true );
-            if( withErrorMsg ){
-                if( withErrorArea ){
-                    self.AC.errorMsg.set( msg );
-                } else {
-                    self.$( '.ac-input-username' ).trigger( 'ac-display-error', msg );
-                }
+            if( withErrorArea ){
+                self.AC.errorMsg.set( msg );
+            } else {
+                self.$( '.ac-input-username' ).trigger( 'ac-display-error', msg );
             }
         },
 

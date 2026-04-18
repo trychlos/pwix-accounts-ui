@@ -313,6 +313,15 @@ export class acCompanionOptions extends Options.Base {
 
     /**
      * Getter/Setter
+     * @param {Function} fn the function to be called when signing-in
+     * @returns {Function}
+     */
+    signinSubmitFn( fn ){
+        return this.base_gsFn( 'signinSubmitFn', fn, { default: null });
+    }
+
+    /**
+     * Getter/Setter
      * Returns the HTML content to be put in the first place of the 'signin' section, before the mail
      * @param {String|Function} label a string or a function which returns a string
      * @returns {String}
@@ -339,6 +348,16 @@ export class acCompanionOptions extends Options.Base {
      */
     signinTextThree( label ){
         return this.base_gsStringObjectFn( 'signinTextThree', label, { default: defaults.acUserLogin.signinTextThree });
+    }
+
+    /**
+     * Getter/Setter
+     * Returns the title to be placed on top of the SIGNIN panel
+     * @param {String|Function} value a string or a function which returns a string
+     * @returns {String}
+     */
+    signinTitle( value ){
+        return this.base_gsStringFn( 'signinTitle', value, { default: null });
     }
 
     /**

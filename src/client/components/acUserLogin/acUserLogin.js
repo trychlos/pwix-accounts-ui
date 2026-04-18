@@ -64,7 +64,9 @@ Template.acUserLogin.onCreated( function(){
                 // deal with error messages
                 //$panel.closest( '.ac-content' ).on( 'ac-display-error', ( event, data ) => {
                 $panel.on( 'ac-display-error', ( event, data ) => {
-                    self.AC.target.trigger( event.type, data );
+                    if( self.AC.target ){
+                        self.AC.target.trigger( event.type, data );
+                    }
                 });
                 // intercept Enter keypressed
                 $panel.closest( '.ac-content' ).on( 'keydown', ( event ) => {
@@ -107,6 +109,7 @@ Template.acUserLogin.onRendered( function(){
 
     // set the event target to this component
     self.AC.target = self.$( '.acUserLogin#'+self.AC.id );
+    //logger.debug( 'AC.target', self.AC.target );
 
     // set the name attribute if any
     self.autorun(() => {
@@ -164,6 +167,7 @@ Template.acUserLogin.events({
     },
 
     'ac-display-error .acUserLogin'( event, instance, data ){
+        //logger.debug( data );
         AccountsUI.fn.errorMsg( data, { dataContext: this });
     },
 
@@ -196,9 +200,11 @@ Template.acUserLogin.events({
                 break;
             case AccountsUI.C.Panel.SIGNIN:
                 // 'mail' here may be either an email address or a username
-                mail = $( '.ac-signin .ac-input-userid .ac-input' ).val().trim();
+                mail = $( '.ac-signin .ac-input-email .ac-input' ).val() || $( '.ac-signin .ac-input-username .ac-input' ).val() || $( '.ac-signin .ac-input-userid .ac-input' ).val();
+                mail = mail.trim();
                 password = $( '.ac-signin .ac-input-password .ac-input' ).val().trim();
-                AccountsUI.Features.loginWithPassword( mail, password, { AC: instance.AC });
+                const fn = instance.AC.options.signinSubmitFn() || AccountsUI.Features.loginWithPassword;
+                fn( mail, password, { AC: instance.AC });
                 managed = true;
                 break;
             case AccountsUI.C.Panel.SIGNOUT:

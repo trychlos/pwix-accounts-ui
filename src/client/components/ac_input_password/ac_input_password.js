@@ -13,7 +13,6 @@
  *  - wantsStrength: whether to check for input password strength, defaulting to false
  *  - withAutocomplete: whether to have an autocomplete attribute, defaulting to false (to be set to true for a login panel)
  *  - withErrorArea: whether we want a dedicated error message area here, defaulting to false
- *  - withErrorMsg: whether this component should send error message, defaulting to false
  *  - withMandatoryBorder: whether we want display the mandatory borders on input field, defaulting to acUserLogin configured option
  *  - withMandatoryField: whether we want display the mandatory indicator, defaulting to false
  *  - label: the form label, defaulting to 'Password'
@@ -84,17 +83,11 @@ Template.ac_input_password.onCreated( function(){
 
         // display an error message, either locally (here) or at the panel level
         displayError( msg ){
-            // this code to be consistent with other input components which are called from inside a Promise.then()
-            //  though we could use here the usual Template.currentData()
             const withErrorArea = Boolean( Blaze.getData( self.view ).withErrorArea === true );
-            const withErrorMsg = Boolean( Blaze.getData( self.view ).withErrorMsg === true );
-            //logger.debug( 'withErrorArea', withErrorArea, 'withErrorMsg', withErrorMsg, msg );
-            if( withErrorMsg ){
-                if( withErrorArea ){
-                    self.AC.errorMsg.set( msg );
-                } else {
-                    self.$( '.ac-input-password' ).trigger( 'ac-display-error', msg );
-                }
+            if( withErrorArea ){
+                self.AC.errorMsg.set( msg );
+            } else {
+                self.$( '.ac-input-password' ).trigger( 'ac-display-error', msg );
             }
         },
 

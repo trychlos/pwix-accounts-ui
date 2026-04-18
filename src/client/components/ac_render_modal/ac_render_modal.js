@@ -33,7 +33,6 @@ Template.ac_render_modal.onCreated( function(){
                 // let the caller override our configuration, but take care of keeping our main class
                 let o = _.merge({
                     mdBody: AccountsUI.Panel.template( panel ),
-                    mdTitle: AccountsUI.Panel.title( panel ),
                     mdFooter: 'ac_footer',
                     AC: parentAC,
                 }, Template.currentData());
@@ -59,9 +58,15 @@ Template.ac_render_modal.onCreated( function(){
     self.autorun(() => {
         if( parentAC && parentAC.options.renderMode() === AccountsUI.C.Render.MODAL ){
             const panel = parentAC.panel();
+            let title;
+            if( panel === AccountsUI.C.Panel.SIGNIN ){
+                title = parentAC.options.signinTitle() || AccountsUI.Panel.title( panel );
+            } else {
+                title = AccountsUI.Panel.title( panel );
+            }
             if( panel && panel !== AccountsUI.C.Panel.NONE && Modal.count() > 0 ){
                 Modal.topmost().set({
-                    title: AccountsUI.Panel.title( panel ),
+                    title: title,
                     body: AccountsUI.Panel.template( panel )
                 });
             }

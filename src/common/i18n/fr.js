@@ -88,7 +88,11 @@ AccountsUI.i18n = {
                 title: 'Sélection des utilisateurs'
             },
             signin: {
-                modal_title: 'M\'identifier avec mon compte'
+                email_missing: 'Une adresse de messagerie doit être spécifiée',
+                modal_title: 'M\'identifier avec mon compte',
+                password_missing: 'Un mot de passe doit être spécifié',
+                userid_missing: 'Un identifiant d\'utilisateur doit être spécifié',
+                username_missing: 'Un nom d\'utilisateur doit être spécifié'
             },
             signout: {
                 modal_title: 'Se déconnecter',

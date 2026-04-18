@@ -45,8 +45,7 @@ Template.ac_reset_ask.helpers({
     //  because that asking for reset a password REQUIRES an email address, whatever be the AccountsUI configuration
     parmsInputEmail(){
         return {
-            AC: this.AC,
-            withErrorMsg: true
+            AC: this.AC
         };
     },
 

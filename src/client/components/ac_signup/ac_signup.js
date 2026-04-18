@@ -63,8 +63,8 @@ Template.ac_signup.onCreated( function(){
         //  so re-check all other fields to be sure that all errors have been considered
         checkPanel(){
             self.AC.inCheck = true;
-            let wants = 1;
-            let has = 0;
+            let wants = 1;  // we want at least one password
+            let has = 0;    // and don't have any at the moment
             if( !self.AC.twiceOk.get()){
                 self.$( '.ac-twice-passwords-sub' ).trigger( 'ac-check' );
             } else {
@@ -185,7 +185,6 @@ Template.ac_signup.helpers({
         return {
             AC: this.AC,
             wantsNew: true,
-            withErrorMsg: true,
             withFieldset: this.AC.options.signupFieldset(),
             legend: this.AC.options.signupLegendEmail(),
             withMandatoryField: this.AC.options.signupHaveEmailAddress() === AccountsCore.C.Identifier.MANDATORY,
@@ -208,7 +207,6 @@ Template.ac_signup.helpers({
             AC: this.AC,
             role: 'signup',
             withMandatoryField: true,
-            withErrorMsg: true,
             withFieldset: this.AC.options.signupFieldset(),
             legend: this.AC.options.signupLegendPassword(),
             placeholder1: this.AC.options.signupPasswdOnePlaceholder(),
@@ -221,7 +219,6 @@ Template.ac_signup.helpers({
         return {
             AC: this.AC,
             wantsNew: true,
-            withErrorMsg: true,
             withFieldset: this.AC.options.signupFieldset(),
             legend: this.AC.options.signupLegendUsername(),
             withMandatoryField: this.AC.options.signupHaveUsername() === AccountsCore.C.Identifier.MANDATORY
