@@ -34,7 +34,8 @@ Template.ac_render_modal.onCreated( function(){
                 let o = _.merge({
                     mdBody: AccountsUI.Panel.template( panel ),
                     mdTitle: AccountsUI.Panel.title( panel ),
-                    mdFooter: 'ac_footer'
+                    mdFooter: 'ac_footer',
+                    AC: parentAC,
                 }, Template.currentData());
                 o.mdClassesContent = ( o.mdClassesContent || '' ) + ' ac-content';
                 Modal.run( o );

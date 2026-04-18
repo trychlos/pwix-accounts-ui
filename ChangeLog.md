@@ -10,6 +10,7 @@
         Replace and obsoletes namedDropdownItems()
     - Obsolete dropdownItems() and dropdownItemsExt() unused functions
     - menuItems() private function refactoring to better handle the reactivity
+    - Make sure rendered modal data context holds the parent AC object
 
 ### 2.2.0
 
