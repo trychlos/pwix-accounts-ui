@@ -10,7 +10,6 @@
 
 |   Id | Date       | Description and comment(s) |
 | ---: | :---       | :---                       |
-|    2 | 2023- 1-20 | provides a button with a configurable label 'login with Zimbra' |
 |    8 | 2023- 1-21 | develop a small SPA application to provide tests for the package |
 |      | 2023- 9-18 | better try to define a test suite to make sure all entered fields are rightly written in database |
 |   13 | 2023- 1-21 | feat: be able to handle all Meteor Accounts configuration |
@@ -39,6 +38,8 @@
 |      | 2023- 1-21 | rather build each panel dynamically from configuration options |
 |      | 2023- 1-25 | or not !?? |
 |      | 2023- 2-19 | This use case is supposed to be solved by the acUserLogin philosophy - so obsolete this item |
+|    2 | 2023- 1-20 | provides a button with a configurable label 'login with Zimbra' |
+|      | 2026- 4-18 | done view pwix:accounts-zimbra package |
 |    3 | 2023- 1-20 | provides a button to connect to the future chosen identity manager |
 |      | 2024- 9-27 | see pwix:accounts-iziam |
 |    4 | 2023- 1-20 | honor haveEmailAddress, haveUsername |
