@@ -285,7 +285,7 @@ AccountsUI.Features = {
         const target = opts.AC.target || $( 'body' );
         const acName = opts.AC.options.acName();
         if( acName === AccountsCore.Options._defaults.name ){
-            Meteor.callAsync( 'pwix.AccountsUI.m.sendVerificationEmailById', Meteor.userId())
+            Meteor.callAsync( 'pwix.AccountsCore.m.sendVerificationEmail', Meteor.userId())
                 .then(( result ) => {
                     if( result ){
                         Tolert.success( pwixI18n.label( I18N, 'user.verifyask_success' ));

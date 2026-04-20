@@ -50,23 +50,10 @@ Meteor.methods({
         return Boolean( res );
     },
 
-    // send an email with a verification link
-    //  the returned object has:
-    //  - email
-    //  - user { _id, services.email, emails }
-    //  - token
-    //  - url
-    //  - options
-    async 'pwix.AccountsUI.m.sendVerificationEmailById'( id ){
-        const ret = await Accounts.sendVerificationEmail( id );
-        //logger.debug( 'pwix.AccountsUI.m.sendVerificationEmailById() ret=', ret );
-        return ret;
-    },
-
     async 'pwix.AccountsUI.m.sendVerificationEmailByEmail'( email ){
         const userDoc = await Accounts.findUserByEmail( email );
         if( userDoc ){
-            return Accounts.sendVerificationEmail( userDoc._id );
+            return await Accounts.sendVerificationEmail( userDoc._id );
         } else {
             logger.error( 'no user found by email', email );
         }

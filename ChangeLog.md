@@ -12,6 +12,7 @@
     - menuItems() private function refactoring to better handle the reactivity
     - Make sure rendered modal data context holds the parent AC object
     - Define new 'signinSubmitFn()' and 'signinTitle' acUserLogin configuration options (used by pwix:accounts-zimbra)
+    - Obsolete 'pwix.AccountsUI.m.sendVerificationEmailById()' method in favor of 'pwix.AccountsCore.m.sendVerificationEmail()'
 
 ### 2.2.0
 
