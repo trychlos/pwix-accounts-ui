@@ -13,6 +13,7 @@
     - Make sure rendered modal data context holds the parent AC object
     - Define new 'signinSubmitFn()' and 'signinTitle' acUserLogin configuration options (used by pwix:accounts-zimbra)
     - Obsolete 'pwix.AccountsUI.m.sendVerificationEmailById()' method in favor of 'pwix.AccountsCore.m.sendVerificationEmail()'
+    - Using a 'reset password' link now automatically set the email address as verified
 
 ### 2.2.0
 

@@ -24,13 +24,33 @@ Meteor.methods({
     },
 
     // find the user who holds the given reset password token
+    //  as soon as the token has been found, and even if it is no more valid of if the user cancels his password reset, then the email can be considered as verified
     async 'pwix.AccountsUI.m.byResetToken'( acName, token ){
         check( acName, Match.NonEmptyString );
         check( token, Match.NonEmptyString );
         const acInstance = AccountsCore.getInstance( acName );
         check( acInstance, AccountsCore.Account );
-        const userDoc = await acInstance.collection().findOneAsync({ 'services.password.reset.token': token },{ 'services.password.reset': 1 });
-        return await AccountsCore.Transforms.cleanupUserDocument( acInstance, userDoc );
+        let userDoc = await acInstance.collection().findOneAsync({ 'services.password.reset.token': token },{ 'services.password.reset': 1 });
+        // if the user is found, then the email can be considered as verified
+        if( userDoc ){
+            const email = userDoc.services.password.reset.email;
+            // shouldn't we rather call applyReadTransforms() ?
+            //userDoc = await AccountsCore.s.applyReadTransforms( 'pwix.AccountsUI.m.byResetToken', acInstance, userDoc );
+            userDoc = await AccountsCore.Transforms.cleanupUserDocument( acInstance, userDoc );
+            if( email ){
+                for( const it of ( userDoc.emails || [] )){
+                    if( it.address === email ){
+                        if( !it.verified ){
+                            it.verified = true;
+                            const res = await AccountsCore.s.updateByQuery( acInstance, { _id: userDoc._id }, userDoc );
+                            //logger.debug( 'set email verified', email, res );
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        return userDoc;
     },
 
     // ask to send a reset password email
