@@ -30,7 +30,7 @@ AccountsUI = {
         /**
          * @locus Client
          * @summary Register callbacks on rebuilt menu items hook
-         * @param {Function} fn A function which will be called each type the dropdown menu items is to be rebuilt.
+         * @param {Function} fn A function which will be called each time the dropdown menu items is to be rebuilt.
          *  Prototype must be `async fn( menuItems<Array>, opts<acCompanionOptions>, state<>, unverified<Integer> ): <Array>`
          *  The function is expected to return the modified array.
          */
