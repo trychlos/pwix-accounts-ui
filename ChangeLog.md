@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Remove log line which exhibited the password
 
 ### 2.3.0
 
