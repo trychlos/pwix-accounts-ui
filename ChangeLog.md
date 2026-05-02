@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 2.3.1-rc.0
+### 2.3.1
 
-    Release date: 
+    Release date: 2026- 5- 2
 
     - Remove log line which exhibited the password
 
@@ -254,4 +254,4 @@
 
 ---
 P. Wieser
-- Last updated on 2026, Apr. 23rd
+- Last updated on 2026, May. 2nd
