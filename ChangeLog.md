@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Add missing pwix:ui-bootstrap5 dependency
 
 ### 2.3.1
 
