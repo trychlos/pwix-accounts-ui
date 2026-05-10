@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 2.3.2-rc.0
+### 2.3.2
 
-    Release date: 
+    Release date: 2026- 5-10
 
     - Add missing pwix:ui-bootstrap5 dependency
 
@@ -260,4 +260,4 @@
 
 ---
 P. Wieser
-- Last updated on 2026, May. 2nd
+- Last updated on 2026, May. 10th
